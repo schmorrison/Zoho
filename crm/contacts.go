@@ -17,96 +17,153 @@ func (a *API) Contacts() *ContactsModule {
 
 func (C *ContactsModule) GetMyRecords(o GetRecordsOptions) (Contacts, error) {
 	v, err := C.api.getMyRecords(C.module, o)
+	if v == nil {
+		return Contacts{}, err
+	}
 	return v.(Contacts), err
 }
 
 func (C *ContactsModule) GetRecords(o GetRecordsOptions) (Contacts, error) {
 	v, err := C.api.getRecords(C.module, o)
+	if v == nil {
+		return Contacts{}, err
+	}
 	return v.(Contacts), err
 }
 
 func (C *ContactsModule) GetRecordsByID(o GetRecordsByIdOptions) (Contacts, error) {
 	v, err := C.api.getRecordById(C.module, o)
+	if v == nil {
+		return Contacts{}, err
+	}
 	return v.(Contacts), err
 }
 
 func (C *ContactsModule) GetDeletedRecordIds(o GetDeletedRecordIdsOptions) (Contacts, error) {
 	v, err := C.api.getDeletedRecordIds(C.module, o)
+	if v == nil {
+		return Contacts{}, err
+	}
 	return v.(Contacts), err
 }
 
 func (C *ContactsModule) InsertRecords(o InsertRecordsOptions) (Contacts, error) {
 	v, err := C.api.insertRecords(C.module, o)
+	if v == nil {
+		return Contacts{}, err
+	}
 	return v.(Contacts), err
 }
 
 func (C *ContactsModule) UpdateRecords(o UpdateRecordsOptions) (Contacts, error) {
 	v, err := C.api.updateRecords(C.module, o)
+	if v == nil {
+		return Contacts{}, err
+	}
 	return v.(Contacts), err
 }
 
 func (C *ContactsModule) DeleteRecords(id string) (Contacts, error) {
 	v, err := C.api.deleteRecords(C.module, id)
+	if v == nil {
+		return Contacts{}, err
+	}
 	return v.(Contacts), err
 }
 
 func (C *ContactsModule) GetSearchRecordsByPDC(o GetSearchRecordsByPDCOptions) (Contacts, error) {
 	v, err := C.api.getSearchRecordsByPDC(C.module, o)
+	if v == nil {
+		return Contacts{}, err
+	}
 	return v.(Contacts), err
 }
 
 func (C *ContactsModule) GetRelatedRecords(o GetRelatedRecordsOptions) (Contacts, error) {
 	v, err := C.api.getRelatedRecords(C.module, o)
+	if v == nil {
+		return Contacts{}, err
+	}
 	return v.(Contacts), err
 }
 
 func (C *ContactsModule) UpdateRelatedRecord(o UpdateRelatedRecordOptions) (Contacts, error) {
 	v, err := C.api.updateRelatedRecord(C.module, o)
+	if v == nil {
+		return Contacts{}, err
+	}
 	return v.(Contacts), err
 }
 
 func (C *ContactsModule) GetFields(kind int) (Contacts, error) {
 	v, err := C.api.getFields(C.module, kind)
+	if v == nil {
+		return Contacts{}, err
+	}
 	return v.(Contacts), err
 }
 
 func (C *ContactsModule) UploadFile(o UploadFileOptions) (Contacts, error) {
 	v, err := C.api.uploadFile(C.module, o)
+	if v == nil {
+		return Contacts{}, err
+	}
 	return v.(Contacts), err
 }
 
 func (C *ContactsModule) DownloadFile(id string) (Contacts, error) {
 	v, err := C.api.downloadFile(C.module, id)
+	if v == nil {
+		return Contacts{}, err
+	}
 	return v.(Contacts), err
 }
 
 func (C *ContactsModule) DeleteFile(id string) (Contacts, error) {
 	v, err := C.api.deleteFile(C.module, id)
+	if v == nil {
+		return Contacts{}, err
+	}
 	return v.(Contacts), err
 }
 
 func (C *ContactsModule) Delink(o DelinkOptions) (Contacts, error) {
 	v, err := C.api.delink(C.module, o)
+	if v == nil {
+		return Contacts{}, err
+	}
 	return v.(Contacts), err
 }
 
 func (C *ContactsModule) UploadPhoto(o UploadPhotoOptions) (Contacts, error) {
 	v, err := C.api.uploadPhoto(C.module, o)
+	if v == nil {
+		return Contacts{}, err
+	}
 	return v.(Contacts), err
 }
 
 func (C *ContactsModule) DownloadPhoto(id string) (Contacts, error) {
 	v, err := C.api.downloadPhoto(C.module, id)
+	if v == nil {
+		return Contacts{}, err
+	}
 	return v.(Contacts), err
 }
 
 func (C *ContactsModule) DeletePhoto(id string) (Contacts, error) {
 	v, err := C.api.deletePhoto(C.module, id)
+	if v == nil {
+		return Contacts{}, err
+	}
 	return v.(Contacts), err
 }
 
 func (C *ContactsModule) SearchRecords(o SearchRecordsOptions) (Contacts, error) {
 	v, err := C.api.searchRecords(C.module, o)
+	if v == nil {
+		return Contacts{}, err
+	}
 	return v.(Contacts), err
 }
 

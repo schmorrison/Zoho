@@ -17,96 +17,153 @@ func (a *API) Leads() *LeadsModule {
 
 func (L *LeadsModule) GetMyRecords(o GetRecordsOptions) (Leads, error) {
 	v, err := L.api.getMyRecords(L.module, o)
+	if v == nil {
+		return Leads{}, err
+	}
 	return v.(Leads), err
 }
 
 func (L *LeadsModule) GetRecords(o GetRecordsOptions) (Leads, error) {
 	v, err := L.api.getRecords(L.module, o)
+	if v == nil {
+		return Leads{}, err
+	}
 	return v.(Leads), err
 }
 
 func (L *LeadsModule) GetRecordsByID(o GetRecordsByIdOptions) (Leads, error) {
 	v, err := L.api.getRecordById(L.module, o)
+	if v == nil {
+		return Leads{}, err
+	}
 	return v.(Leads), err
 }
 
 func (L *LeadsModule) GetDeletedRecordIds(o GetDeletedRecordIdsOptions) (Leads, error) {
 	v, err := L.api.getDeletedRecordIds(L.module, o)
+	if v == nil {
+		return Leads{}, err
+	}
 	return v.(Leads), err
 }
 
 func (L *LeadsModule) InsertRecords(o InsertRecordsOptions) (Leads, error) {
 	v, err := L.api.insertRecords(L.module, o)
+	if v == nil {
+		return Leads{}, err
+	}
 	return v.(Leads), err
 }
 
 func (L *LeadsModule) UpdateRecords(o UpdateRecordsOptions) (Leads, error) {
 	v, err := L.api.updateRecords(L.module, o)
+	if v == nil {
+		return Leads{}, err
+	}
 	return v.(Leads), err
 }
 
 func (L *LeadsModule) DeleteRecords(id string) (Leads, error) {
 	v, err := L.api.deleteRecords(L.module, id)
+	if v == nil {
+		return Leads{}, err
+	}
 	return v.(Leads), err
 }
 
 func (L *LeadsModule) GetSearchRecordsByPDC(o GetSearchRecordsByPDCOptions) (Leads, error) {
 	v, err := L.api.getSearchRecordsByPDC(L.module, o)
+	if v == nil {
+		return Leads{}, err
+	}
 	return v.(Leads), err
 }
 
 func (L *LeadsModule) GetRelatedRecords(o GetRelatedRecordsOptions) (Leads, error) {
 	v, err := L.api.getRelatedRecords(L.module, o)
+	if v == nil {
+		return Leads{}, err
+	}
 	return v.(Leads), err
 }
 
 func (L *LeadsModule) UpdateRelatedRecord(o UpdateRelatedRecordOptions) (Leads, error) {
 	v, err := L.api.updateRelatedRecord(L.module, o)
+	if v == nil {
+		return Leads{}, err
+	}
 	return v.(Leads), err
 }
 
 func (L *LeadsModule) GetFields(kind int) (Leads, error) {
 	v, err := L.api.getFields(L.module, kind)
+	if v == nil {
+		return Leads{}, err
+	}
 	return v.(Leads), err
 }
 
 func (L *LeadsModule) UploadFile(o UploadFileOptions) (Leads, error) {
 	v, err := L.api.uploadFile(L.module, o)
+	if v == nil {
+		return Leads{}, err
+	}
 	return v.(Leads), err
 }
 
 func (L *LeadsModule) DownloadFile(id string) (Leads, error) {
 	v, err := L.api.downloadFile(L.module, id)
+	if v == nil {
+		return Leads{}, err
+	}
 	return v.(Leads), err
 }
 
 func (L *LeadsModule) DeleteFile(id string) (Leads, error) {
 	v, err := L.api.deleteFile(L.module, id)
+	if v == nil {
+		return Leads{}, err
+	}
 	return v.(Leads), err
 }
 
 func (L *LeadsModule) Delink(o DelinkOptions) (Leads, error) {
 	v, err := L.api.delink(L.module, o)
+	if v == nil {
+		return Leads{}, err
+	}
 	return v.(Leads), err
 }
 
 func (L *LeadsModule) UploadPhoto(o UploadPhotoOptions) (Leads, error) {
 	v, err := L.api.uploadPhoto(L.module, o)
+	if v == nil {
+		return Leads{}, err
+	}
 	return v.(Leads), err
 }
 
 func (L *LeadsModule) DownloadPhoto(id string) (Leads, error) {
 	v, err := L.api.downloadPhoto(L.module, id)
+	if v == nil {
+		return Leads{}, err
+	}
 	return v.(Leads), err
 }
 
 func (L *LeadsModule) DeletePhoto(id string) (Leads, error) {
 	v, err := L.api.deletePhoto(L.module, id)
+	if v == nil {
+		return Leads{}, err
+	}
 	return v.(Leads), err
 }
 
 func (L *LeadsModule) SearchRecords(o SearchRecordsOptions) (Leads, error) {
 	v, err := L.api.searchRecords(L.module, o)
+	if v == nil {
+		return Leads{}, err
+	}
 	return v.(Leads), err
 }
 

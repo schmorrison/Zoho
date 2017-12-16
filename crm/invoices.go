@@ -17,96 +17,153 @@ func (a *API) Invoices() *InvoicesModule {
 
 func (I *InvoicesModule) GetMyRecords(o GetRecordsOptions) (Invoices, error) {
 	v, err := I.api.getMyRecords(I.module, o)
+	if v == nil {
+		return Invoices{}, err
+	}
 	return v.(Invoices), err
 }
 
 func (I *InvoicesModule) GetRecords(o GetRecordsOptions) (Invoices, error) {
 	v, err := I.api.getRecords(I.module, o)
+	if v == nil {
+		return Invoices{}, err
+	}
 	return v.(Invoices), err
 }
 
 func (I *InvoicesModule) GetRecordsByID(o GetRecordsByIdOptions) (Invoices, error) {
 	v, err := I.api.getRecordById(I.module, o)
+	if v == nil {
+		return Invoices{}, err
+	}
 	return v.(Invoices), err
 }
 
 func (I *InvoicesModule) GetDeletedRecordIds(o GetDeletedRecordIdsOptions) (Invoices, error) {
 	v, err := I.api.getDeletedRecordIds(I.module, o)
+	if v == nil {
+		return Invoices{}, err
+	}
 	return v.(Invoices), err
 }
 
 func (I *InvoicesModule) InsertRecords(o InsertRecordsOptions) (Invoices, error) {
 	v, err := I.api.insertRecords(I.module, o)
+	if v == nil {
+		return Invoices{}, err
+	}
 	return v.(Invoices), err
 }
 
 func (I *InvoicesModule) UpdateRecords(o UpdateRecordsOptions) (Invoices, error) {
 	v, err := I.api.updateRecords(I.module, o)
+	if v == nil {
+		return Invoices{}, err
+	}
 	return v.(Invoices), err
 }
 
 func (I *InvoicesModule) DeleteRecords(id string) (Invoices, error) {
 	v, err := I.api.deleteRecords(I.module, id)
+	if v == nil {
+		return Invoices{}, err
+	}
 	return v.(Invoices), err
 }
 
 func (I *InvoicesModule) GetSearchRecordsByPDC(o GetSearchRecordsByPDCOptions) (Invoices, error) {
 	v, err := I.api.getSearchRecordsByPDC(I.module, o)
+	if v == nil {
+		return Invoices{}, err
+	}
 	return v.(Invoices), err
 }
 
 func (I *InvoicesModule) GetRelatedRecords(o GetRelatedRecordsOptions) (Invoices, error) {
 	v, err := I.api.getRelatedRecords(I.module, o)
+	if v == nil {
+		return Invoices{}, err
+	}
 	return v.(Invoices), err
 }
 
 func (I *InvoicesModule) UpdateRelatedRecord(o UpdateRelatedRecordOptions) (Invoices, error) {
 	v, err := I.api.updateRelatedRecord(I.module, o)
+	if v == nil {
+		return Invoices{}, err
+	}
 	return v.(Invoices), err
 }
 
 func (I *InvoicesModule) GetFields(kind int) (Invoices, error) {
 	v, err := I.api.getFields(I.module, kind)
+	if v == nil {
+		return Invoices{}, err
+	}
 	return v.(Invoices), err
 }
 
 func (I *InvoicesModule) UploadFile(o UploadFileOptions) (Invoices, error) {
 	v, err := I.api.uploadFile(I.module, o)
+	if v == nil {
+		return Invoices{}, err
+	}
 	return v.(Invoices), err
 }
 
 func (I *InvoicesModule) DownloadFile(id string) (Invoices, error) {
 	v, err := I.api.downloadFile(I.module, id)
+	if v == nil {
+		return Invoices{}, err
+	}
 	return v.(Invoices), err
 }
 
 func (I *InvoicesModule) DeleteFile(id string) (Invoices, error) {
 	v, err := I.api.deleteFile(I.module, id)
+	if v == nil {
+		return Invoices{}, err
+	}
 	return v.(Invoices), err
 }
 
 func (I *InvoicesModule) Delink(o DelinkOptions) (Invoices, error) {
 	v, err := I.api.delink(I.module, o)
+	if v == nil {
+		return Invoices{}, err
+	}
 	return v.(Invoices), err
 }
 
 func (I *InvoicesModule) UploadPhoto(o UploadPhotoOptions) (Invoices, error) {
 	v, err := I.api.uploadPhoto(I.module, o)
+	if v == nil {
+		return Invoices{}, err
+	}
 	return v.(Invoices), err
 }
 
 func (I *InvoicesModule) DownloadPhoto(id string) (Invoices, error) {
 	v, err := I.api.downloadPhoto(I.module, id)
+	if v == nil {
+		return Invoices{}, err
+	}
 	return v.(Invoices), err
 }
 
 func (I *InvoicesModule) DeletePhoto(id string) (Invoices, error) {
 	v, err := I.api.deletePhoto(I.module, id)
+	if v == nil {
+		return Invoices{}, err
+	}
 	return v.(Invoices), err
 }
 
 func (I *InvoicesModule) SearchRecords(o SearchRecordsOptions) (Invoices, error) {
 	v, err := I.api.searchRecords(I.module, o)
+	if v == nil {
+		return Invoices{}, err
+	}
 	return v.(Invoices), err
 }
 

@@ -17,96 +17,153 @@ func (a *API) Potentials() *PotentialsModule {
 
 func (P *PotentialsModule) GetMyRecords(o GetRecordsOptions) (Potentials, error) {
 	v, err := P.api.getMyRecords(P.module, o)
+	if v == nil {
+		return Potentials{}, err
+	}
 	return v.(Potentials), err
 }
 
 func (P *PotentialsModule) GetRecords(o GetRecordsOptions) (Potentials, error) {
 	v, err := P.api.getRecords(P.module, o)
+	if v == nil {
+		return Potentials{}, err
+	}
 	return v.(Potentials), err
 }
 
 func (P *PotentialsModule) GetRecordsByID(o GetRecordsByIdOptions) (Potentials, error) {
 	v, err := P.api.getRecordById(P.module, o)
+	if v == nil {
+		return Potentials{}, err
+	}
 	return v.(Potentials), err
 }
 
 func (P *PotentialsModule) GetDeletedRecordIds(o GetDeletedRecordIdsOptions) (Potentials, error) {
 	v, err := P.api.getDeletedRecordIds(P.module, o)
+	if v == nil {
+		return Potentials{}, err
+	}
 	return v.(Potentials), err
 }
 
 func (P *PotentialsModule) InsertRecords(o InsertRecordsOptions) (Potentials, error) {
 	v, err := P.api.insertRecords(P.module, o)
+	if v == nil {
+		return Potentials{}, err
+	}
 	return v.(Potentials), err
 }
 
 func (P *PotentialsModule) UpdateRecords(o UpdateRecordsOptions) (Potentials, error) {
 	v, err := P.api.updateRecords(P.module, o)
+	if v == nil {
+		return Potentials{}, err
+	}
 	return v.(Potentials), err
 }
 
 func (P *PotentialsModule) DeleteRecords(id string) (Potentials, error) {
 	v, err := P.api.deleteRecords(P.module, id)
+	if v == nil {
+		return Potentials{}, err
+	}
 	return v.(Potentials), err
 }
 
 func (P *PotentialsModule) GetSearchRecordsByPDC(o GetSearchRecordsByPDCOptions) (Potentials, error) {
 	v, err := P.api.getSearchRecordsByPDC(P.module, o)
+	if v == nil {
+		return Potentials{}, err
+	}
 	return v.(Potentials), err
 }
 
 func (P *PotentialsModule) GetRelatedRecords(o GetRelatedRecordsOptions) (Potentials, error) {
 	v, err := P.api.getRelatedRecords(P.module, o)
+	if v == nil {
+		return Potentials{}, err
+	}
 	return v.(Potentials), err
 }
 
 func (P *PotentialsModule) UpdateRelatedRecord(o UpdateRelatedRecordOptions) (Potentials, error) {
 	v, err := P.api.updateRelatedRecord(P.module, o)
+	if v == nil {
+		return Potentials{}, err
+	}
 	return v.(Potentials), err
 }
 
 func (P *PotentialsModule) GetFields(kind int) (Potentials, error) {
 	v, err := P.api.getFields(P.module, kind)
+	if v == nil {
+		return Potentials{}, err
+	}
 	return v.(Potentials), err
 }
 
 func (P *PotentialsModule) UploadFile(o UploadFileOptions) (Potentials, error) {
 	v, err := P.api.uploadFile(P.module, o)
+	if v == nil {
+		return Potentials{}, err
+	}
 	return v.(Potentials), err
 }
 
 func (P *PotentialsModule) DownloadFile(id string) (Potentials, error) {
 	v, err := P.api.downloadFile(P.module, id)
+	if v == nil {
+		return Potentials{}, err
+	}
 	return v.(Potentials), err
 }
 
 func (P *PotentialsModule) DeleteFile(id string) (Potentials, error) {
 	v, err := P.api.deleteFile(P.module, id)
+	if v == nil {
+		return Potentials{}, err
+	}
 	return v.(Potentials), err
 }
 
 func (P *PotentialsModule) Delink(o DelinkOptions) (Potentials, error) {
 	v, err := P.api.delink(P.module, o)
+	if v == nil {
+		return Potentials{}, err
+	}
 	return v.(Potentials), err
 }
 
 func (P *PotentialsModule) UploadPhoto(o UploadPhotoOptions) (Potentials, error) {
 	v, err := P.api.uploadPhoto(P.module, o)
+	if v == nil {
+		return Potentials{}, err
+	}
 	return v.(Potentials), err
 }
 
 func (P *PotentialsModule) DownloadPhoto(id string) (Potentials, error) {
 	v, err := P.api.downloadPhoto(P.module, id)
+	if v == nil {
+		return Potentials{}, err
+	}
 	return v.(Potentials), err
 }
 
 func (P *PotentialsModule) DeletePhoto(id string) (Potentials, error) {
 	v, err := P.api.deletePhoto(P.module, id)
+	if v == nil {
+		return Potentials{}, err
+	}
 	return v.(Potentials), err
 }
 
 func (P *PotentialsModule) SearchRecords(o SearchRecordsOptions) (Potentials, error) {
 	v, err := P.api.searchRecords(P.module, o)
+	if v == nil {
+		return Potentials{}, err
+	}
 	return v.(Potentials), err
 }
 

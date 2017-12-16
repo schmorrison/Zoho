@@ -17,96 +17,153 @@ func (a *API) Events() *EventsModule {
 
 func (E *EventsModule) GetMyRecords(o GetRecordsOptions) (Events, error) {
 	v, err := E.api.getMyRecords(E.module, o)
+	if v == nil {
+		return Events{}, err
+	}
 	return v.(Events), err
 }
 
 func (E *EventsModule) GetRecords(o GetRecordsOptions) (Events, error) {
 	v, err := E.api.getRecords(E.module, o)
+	if v == nil {
+		return Events{}, err
+	}
 	return v.(Events), err
 }
 
 func (E *EventsModule) GetRecordsByID(o GetRecordsByIdOptions) (Events, error) {
 	v, err := E.api.getRecordById(E.module, o)
+	if v == nil {
+		return Events{}, err
+	}
 	return v.(Events), err
 }
 
 func (E *EventsModule) GetDeletedRecordIds(o GetDeletedRecordIdsOptions) (Events, error) {
 	v, err := E.api.getDeletedRecordIds(E.module, o)
+	if v == nil {
+		return Events{}, err
+	}
 	return v.(Events), err
 }
 
 func (E *EventsModule) InsertRecords(o InsertRecordsOptions) (Events, error) {
 	v, err := E.api.insertRecords(E.module, o)
+	if v == nil {
+		return Events{}, err
+	}
 	return v.(Events), err
 }
 
 func (E *EventsModule) UpdateRecords(o UpdateRecordsOptions) (Events, error) {
 	v, err := E.api.updateRecords(E.module, o)
+	if v == nil {
+		return Events{}, err
+	}
 	return v.(Events), err
 }
 
 func (E *EventsModule) DeleteRecords(id string) (Events, error) {
 	v, err := E.api.deleteRecords(E.module, id)
+	if v == nil {
+		return Events{}, err
+	}
 	return v.(Events), err
 }
 
 func (E *EventsModule) GetSearchRecordsByPDC(o GetSearchRecordsByPDCOptions) (Events, error) {
 	v, err := E.api.getSearchRecordsByPDC(E.module, o)
+	if v == nil {
+		return Events{}, err
+	}
 	return v.(Events), err
 }
 
 func (E *EventsModule) GetRelatedRecords(o GetRelatedRecordsOptions) (Events, error) {
 	v, err := E.api.getRelatedRecords(E.module, o)
+	if v == nil {
+		return Events{}, err
+	}
 	return v.(Events), err
 }
 
 func (E *EventsModule) UpdateRelatedRecord(o UpdateRelatedRecordOptions) (Events, error) {
 	v, err := E.api.updateRelatedRecord(E.module, o)
+	if v == nil {
+		return Events{}, err
+	}
 	return v.(Events), err
 }
 
 func (E *EventsModule) GetFields(kind int) (Events, error) {
 	v, err := E.api.getFields(E.module, kind)
+	if v == nil {
+		return Events{}, err
+	}
 	return v.(Events), err
 }
 
 func (E *EventsModule) UploadFile(o UploadFileOptions) (Events, error) {
 	v, err := E.api.uploadFile(E.module, o)
+	if v == nil {
+		return Events{}, err
+	}
 	return v.(Events), err
 }
 
 func (E *EventsModule) DownloadFile(id string) (Events, error) {
 	v, err := E.api.downloadFile(E.module, id)
+	if v == nil {
+		return Events{}, err
+	}
 	return v.(Events), err
 }
 
 func (E *EventsModule) DeleteFile(id string) (Events, error) {
 	v, err := E.api.deleteFile(E.module, id)
+	if v == nil {
+		return Events{}, err
+	}
 	return v.(Events), err
 }
 
 func (E *EventsModule) Delink(o DelinkOptions) (Events, error) {
 	v, err := E.api.delink(E.module, o)
+	if v == nil {
+		return Events{}, err
+	}
 	return v.(Events), err
 }
 
 func (E *EventsModule) UploadPhoto(o UploadPhotoOptions) (Events, error) {
 	v, err := E.api.uploadPhoto(E.module, o)
+	if v == nil {
+		return Events{}, err
+	}
 	return v.(Events), err
 }
 
 func (E *EventsModule) DownloadPhoto(id string) (Events, error) {
 	v, err := E.api.downloadPhoto(E.module, id)
+	if v == nil {
+		return Events{}, err
+	}
 	return v.(Events), err
 }
 
 func (E *EventsModule) DeletePhoto(id string) (Events, error) {
 	v, err := E.api.deletePhoto(E.module, id)
+	if v == nil {
+		return Events{}, err
+	}
 	return v.(Events), err
 }
 
 func (E *EventsModule) SearchRecords(o SearchRecordsOptions) (Events, error) {
 	v, err := E.api.searchRecords(E.module, o)
+	if v == nil {
+		return Events{}, err
+	}
 	return v.(Events), err
 }
 

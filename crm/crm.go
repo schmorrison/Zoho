@@ -4,8 +4,6 @@ import (
 	"encoding/xml"
 	"errors"
 	"fmt"
-	"io"
-	"log"
 	"reflect"
 	"strconv"
 	"strings"
@@ -98,8 +96,7 @@ func getValuesFromStruct(data interface{}) ([]FieldLabel, error) {
 							if err != nil {
 								t, err := time.Parse("2006-01-02", fmt.Sprint(field.Interface()))
 								if err != nil {
-									fmt.Println("Got error parsing time")
-									return nil, err
+									return nil, fmt.Errorf("Got error parsing time format: %s", err.Error())
 								}
 								f.Value = []byte(fmt.Sprint(t))
 							} else {
@@ -164,16 +161,26 @@ func decodeXML(b []byte, data crmData) (crmData, error) {
 
 	if dV.Kind() == reflect.Ptr {
 		dV = reflect.Indirect(dV)
-
 		dT = reflect.TypeOf(dV.Interface())
 	}
 
-	rows, err := getValuesFromXML(b)
+	x, err := getValuesFromXML(b)
 	if err != nil {
 		return nil, err
 	}
 
-	for _, a := range rows {
+	//There was an error in the XML
+	if x.Error != (XMLError{}) {
+		if x.Error.XMLName.Local == "error" {
+			//make a 'crmData' of errortype
+			return CrmError{Type: x.Error.XMLName.Local, Code: x.Error.Code, Message: x.Error.Message},
+				fmt.Errorf("Zoho CRM returned an Error: Code %d: %s", x.Error.Code, x.Error.Message)
+		} else if x.Error.XMLName.Local == "nodata" {
+			return dV.Interface().(crmData), nil
+		}
+	}
+
+	for _, a := range x.Rows {
 		switch dV.Kind() {
 		case reflect.Slice:
 			uT := dV.Type().Elem()
@@ -302,8 +309,7 @@ func fillStructFromValues(fields []FieldLabel, data interface{}) error {
 					if err != nil {
 						t, err := time.Parse("2006-01-02", string(f.Value))
 						if err != nil {
-							fmt.Println("Got error parsing time")
-							log.Fatal(err)
+							return fmt.Errorf("Got error parsing Time format: %s", err.Error())
 						}
 						field.Set(reflect.ValueOf(t))
 					} else {
@@ -350,270 +356,6 @@ func fillStructFromValues(fields []FieldLabel, data interface{}) error {
 	}
 
 	return nil
-}
-
-func getFieldLabelByName(f []FieldLabel, name string) FieldLabel {
-	if strings.Contains(name, ">") {
-		tags := strings.Split(name, ">")
-		name = tags[0]
-	}
-	for _, a := range f {
-		if a.Label == name {
-			return a
-		}
-	}
-	return FieldLabel{}
-}
-
-func removeLabelByName(f []FieldLabel, name string) []FieldLabel {
-	for i, a := range f {
-		if a.Label == name {
-			f = append(f[:i], f[i+1:]...)
-			return f
-		}
-	}
-	return f
-}
-
-func getValuesFromXML(b []byte) ([]Row, error) {
-	values := []Row{}
-	currentRow := []FieldLabel{}
-	nestedField := FieldLabel{}
-	nestedGroup := InternalGroup{}
-	module := ""
-	nested := ""
-	//Make an XML decoder from the response body
-	decoder := xml.NewDecoder(strings.NewReader(string(b)))
-PRIME:
-	for {
-		// iterate over XML documents tokens
-		t1, err := decoder.Token()
-		if err != nil && err != io.EOF {
-			fmt.Println("Got error on primer 'tokener'")
-			log.Fatal(err)
-		}
-		if t1 == nil {
-			break PRIME
-		}
-		// Inspect the type of the token just read.
-		switch e1 := t1.(type) {
-		case xml.StartElement:
-			switch e1.Name.Local {
-			case "response", "result":
-			case "row":
-				//start a []FieldLabel in 'currentRow'
-				currentRow = []FieldLabel{}
-			case "FL":
-				//check for a nested item
-				if checkForInternalGroup(xml.NewDecoder(strings.NewReader(string(b))), e1) {
-					//if another start element with name
-				ATTR:
-					for _, a := range e1.Attr {
-						//save e1.Attr("val") as field label in nestField
-						if a.Name.Local == "val" {
-							nestedField = FieldLabel{Label: a.Value}
-							break ATTR
-						}
-					}
-				} else {
-					//decode FL and append to 'currentRow'
-					fl := FieldLabel{}
-					fl.decode(decoder, t1)
-					if nested != "" {
-						//append to 'internal group'
-						nestedGroup.Fields = append(nestedGroup.Fields, fl)
-					} else {
-						currentRow = append(currentRow, fl)
-					}
-				}
-			default:
-				if module == "" {
-					module = e1.Name.Local
-				} else {
-					//should be expanded to support multiple nested items
-					nested = e1.Name.Local
-					nestedGroup.XMLName = xml.Name{Local: nested}
-				}
-			}
-		case xml.EndElement:
-			switch e1.Name.Local {
-			case "row":
-				//append 'currentRow' to 'values'
-				values = append(values, Row{Number: len(values) + 1, Fields: currentRow})
-			case nested:
-				if nested != "" {
-					//Got closing nested element
-					//clear nested element
-					nested = ""
-					t := false
-				cROW:
-					for i := range currentRow {
-						//if nestedField label is already in current row
-						if currentRow[i].Label == nestedField.Label {
-							nestedGroup.Number = len(currentRow[i].Data) + 1
-							//append nestedGroup to currentRow[i]
-							currentRow[i].Data = append(currentRow[i].Data, nestedGroup)
-							nestedGroup = InternalGroup{}
-							t = true
-							break cROW
-						}
-					}
-					//current row doesn't have the nestfields label in it
-					if !t {
-						//place nestedGroup in nestedField
-						nestedGroup.Number = 1
-						nestedField.Data = append(nestedField.Data, nestedGroup)
-						nestedGroup = InternalGroup{}
-						//append the 'nestedGroup' to the 'currentRow'
-						currentRow = append(currentRow, nestedField)
-						nestedField = FieldLabel{Label: nestedField.Label}
-					}
-				}
-			case module:
-				if module != "" {
-					//got closing module element
-					//should be safe to return the fields
-					break PRIME
-				}
-			case "response":
-				break PRIME
-			case "result":
-				break PRIME
-			}
-		}
-	}
-
-	return values, nil
-}
-
-func checkForInternalGroup(decoder *xml.Decoder, v xml.StartElement) bool {
-	found := false
-	for {
-		t, err := decoder.Token()
-		if err != nil && err != io.EOF {
-			fmt.Println("TOKEN ERROR: check internal group")
-			return false
-		}
-		if t == nil {
-			return false
-		}
-		switch e := t.(type) {
-		case xml.EndElement:
-			if found {
-				return false
-			}
-		case xml.StartElement:
-			if found {
-				name := e.Name.Local
-				switch name {
-				case "FL":
-					return false
-				default:
-
-					return true
-				}
-			}
-			if e.Name.Local == v.Name.Local {
-				same := true
-				//iterate attributes on new token
-			ATTR_1:
-				for _, a := range e.Attr {
-					//iterate attributes on old token
-					//ATTR_2:
-					for _, b := range v.Attr {
-						//if both tokens have attr with same name
-						if a.Name.Local == b.Name.Local {
-							//and have same value
-							if a.Value == b.Value {
-								//test next attribute on new token
-								continue ATTR_1
-							}
-						}
-					}
-					//tested all attributes on this token
-					// and they are not identical
-					same = false
-					break ATTR_1
-				}
-				if same {
-					found = true
-				}
-			}
-		}
-	}
-}
-
-//This is the base request XMLData
-// Name is set by the 'CrmModule' provided to the function
-type XMLData struct {
-	XMLName xml.Name
-	Rows    []Row
-}
-
-func (x *XMLData) addRow(c crmData, i int) {
-	//Create a Row
-	r := Row{Number: i}
-	f, err := getValuesFromStruct(c)
-	if err != nil {
-		fmt.Println(err)
-		return
-	}
-	r.Fields = f
-	x.Rows = append(x.Rows, r)
-}
-
-func (x *XMLData) encode() string {
-	//Encode the XML
-	b, err := xml.Marshal(x)
-	if err != nil {
-		fmt.Println("Got error encoding XML")
-		fmt.Println(err.Error())
-		return ""
-	}
-
-	return string(b)
-}
-
-//Each record must be in a row, with a sequential number scheme
-type Row struct {
-	XMLName xml.Name `xml:"row"`
-	Number  int      `xml:"no,attr"`
-	ID      string   `xml:"id,attr,omitempty"`
-	PL      string   `xml:"pl,attr,omitempty"`
-	SL      string   `xml:"sl,attr,omitempty"`
-	GT      string   `xml:"gt,attr,omitempty"`
-	Value   string   `xml:",chardata"`
-	Fields  []FieldLabel
-}
-
-// The fields of each record as such `<FL val="">{{CharData}}</FL>`
-type FieldLabel struct {
-	XMLName xml.Name `xml:"FL"`
-	Label   string   `xml:"val,attr"`
-	Value   []byte   `xml:",chardata"`
-	Data    []InternalGroup
-}
-
-type InternalGroup struct {
-	XMLName xml.Name
-	Number  int `xml:"no,attr"`
-	Fields  []FieldLabel
-}
-
-func (f *FieldLabel) decode(decoder *xml.Decoder, v xml.Token) {
-	e := v.(xml.StartElement)
-	err := decoder.DecodeElement(f, &e)
-	if err != nil {
-		fmt.Println("Failed to decode field label: ", err.Error())
-		fmt.Println("Got ", e.Name.Local)
-		fmt.Println(v)
-	}
-}
-
-type XMLError struct {
-	XMLName xml.Name `xml:"error"`
-	Code    int      `xml:"code"`
-	Message string   `xml:"message"`
 }
 
 type crmModule string

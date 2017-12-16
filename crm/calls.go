@@ -17,96 +17,153 @@ func (a *API) Calls() *CallsModule {
 
 func (C *CallsModule) GetMyRecords(o GetRecordsOptions) (Calls, error) {
 	v, err := C.api.getMyRecords(C.module, o)
+	if v == nil {
+		return Calls{}, err
+	}
 	return v.(Calls), err
 }
 
 func (C *CallsModule) GetRecords(o GetRecordsOptions) (Calls, error) {
 	v, err := C.api.getRecords(C.module, o)
+	if v == nil {
+		return Calls{}, err
+	}
 	return v.(Calls), err
 }
 
 func (C *CallsModule) GetRecordsByID(o GetRecordsByIdOptions) (Calls, error) {
 	v, err := C.api.getRecordById(C.module, o)
+	if v == nil {
+		return Calls{}, err
+	}
 	return v.(Calls), err
 }
 
 func (C *CallsModule) GetDeletedRecordIds(o GetDeletedRecordIdsOptions) (Calls, error) {
 	v, err := C.api.getDeletedRecordIds(C.module, o)
+	if v == nil {
+		return Calls{}, err
+	}
 	return v.(Calls), err
 }
 
 func (C *CallsModule) InsertRecords(o InsertRecordsOptions) (Calls, error) {
 	v, err := C.api.insertRecords(C.module, o)
+	if v == nil {
+		return Calls{}, err
+	}
 	return v.(Calls), err
 }
 
 func (C *CallsModule) UpdateRecords(o UpdateRecordsOptions) (Calls, error) {
 	v, err := C.api.updateRecords(C.module, o)
+	if v == nil {
+		return Calls{}, err
+	}
 	return v.(Calls), err
 }
 
 func (C *CallsModule) DeleteRecords(id string) (Calls, error) {
 	v, err := C.api.deleteRecords(C.module, id)
+	if v == nil {
+		return Calls{}, err
+	}
 	return v.(Calls), err
 }
 
 func (C *CallsModule) GetSearchRecordsByPDC(o GetSearchRecordsByPDCOptions) (Calls, error) {
 	v, err := C.api.getSearchRecordsByPDC(C.module, o)
+	if v == nil {
+		return Calls{}, err
+	}
 	return v.(Calls), err
 }
 
 func (C *CallsModule) GetRelatedRecords(o GetRelatedRecordsOptions) (Calls, error) {
 	v, err := C.api.getRelatedRecords(C.module, o)
+	if v == nil {
+		return Calls{}, err
+	}
 	return v.(Calls), err
 }
 
 func (C *CallsModule) UpdateRelatedRecord(o UpdateRelatedRecordOptions) (Calls, error) {
 	v, err := C.api.updateRelatedRecord(C.module, o)
+	if v == nil {
+		return Calls{}, err
+	}
 	return v.(Calls), err
 }
 
 func (C *CallsModule) GetFields(kind int) (Calls, error) {
 	v, err := C.api.getFields(C.module, kind)
+	if v == nil {
+		return Calls{}, err
+	}
 	return v.(Calls), err
 }
 
 func (C *CallsModule) UploadFile(o UploadFileOptions) (Calls, error) {
 	v, err := C.api.uploadFile(C.module, o)
+	if v == nil {
+		return Calls{}, err
+	}
 	return v.(Calls), err
 }
 
 func (C *CallsModule) DownloadFile(id string) (Calls, error) {
 	v, err := C.api.downloadFile(C.module, id)
+	if v == nil {
+		return Calls{}, err
+	}
 	return v.(Calls), err
 }
 
 func (C *CallsModule) DeleteFile(id string) (Calls, error) {
 	v, err := C.api.deleteFile(C.module, id)
+	if v == nil {
+		return Calls{}, err
+	}
 	return v.(Calls), err
 }
 
 func (C *CallsModule) Delink(o DelinkOptions) (Calls, error) {
 	v, err := C.api.delink(C.module, o)
+	if v == nil {
+		return Calls{}, err
+	}
 	return v.(Calls), err
 }
 
 func (C *CallsModule) UploadPhoto(o UploadPhotoOptions) (Calls, error) {
 	v, err := C.api.uploadPhoto(C.module, o)
+	if v == nil {
+		return Calls{}, err
+	}
 	return v.(Calls), err
 }
 
 func (C *CallsModule) DownloadPhoto(id string) (Calls, error) {
 	v, err := C.api.downloadPhoto(C.module, id)
+	if v == nil {
+		return Calls{}, err
+	}
 	return v.(Calls), err
 }
 
 func (C *CallsModule) DeletePhoto(id string) (Calls, error) {
 	v, err := C.api.deletePhoto(C.module, id)
+	if v == nil {
+		return Calls{}, err
+	}
 	return v.(Calls), err
 }
 
 func (C *CallsModule) SearchRecords(o SearchRecordsOptions) (Calls, error) {
 	v, err := C.api.searchRecords(C.module, o)
+	if v == nil {
+		return Calls{}, err
+	}
 	return v.(Calls), err
 }
 

@@ -17,96 +17,153 @@ func (a *API) Quotes() *QuotesModule {
 
 func (Q *QuotesModule) GetMyRecords(o GetRecordsOptions) (Quotes, error) {
 	v, err := Q.api.getMyRecords(Q.module, o)
+	if v == nil {
+		return Quotes{}, err
+	}
 	return v.(Quotes), err
 }
 
 func (Q *QuotesModule) GetRecords(o GetRecordsOptions) (Quotes, error) {
 	v, err := Q.api.getRecords(Q.module, o)
+	if v == nil {
+		return Quotes{}, err
+	}
 	return v.(Quotes), err
 }
 
 func (Q *QuotesModule) GetRecordsByID(o GetRecordsByIdOptions) (Quotes, error) {
 	v, err := Q.api.getRecordById(Q.module, o)
+	if v == nil {
+		return Quotes{}, err
+	}
 	return v.(Quotes), err
 }
 
 func (Q *QuotesModule) GetDeletedRecordIds(o GetDeletedRecordIdsOptions) (Quotes, error) {
 	v, err := Q.api.getDeletedRecordIds(Q.module, o)
+	if v == nil {
+		return Quotes{}, err
+	}
 	return v.(Quotes), err
 }
 
 func (Q *QuotesModule) InsertRecords(o InsertRecordsOptions) (Quotes, error) {
 	v, err := Q.api.insertRecords(Q.module, o)
+	if v == nil {
+		return Quotes{}, err
+	}
 	return v.(Quotes), err
 }
 
 func (Q *QuotesModule) UpdateRecords(o UpdateRecordsOptions) (Quotes, error) {
 	v, err := Q.api.updateRecords(Q.module, o)
+	if v == nil {
+		return Quotes{}, err
+	}
 	return v.(Quotes), err
 }
 
 func (Q *QuotesModule) DeleteRecords(id string) (Quotes, error) {
 	v, err := Q.api.deleteRecords(Q.module, id)
+	if v == nil {
+		return Quotes{}, err
+	}
 	return v.(Quotes), err
 }
 
 func (Q *QuotesModule) GetSearchRecordsByPDC(o GetSearchRecordsByPDCOptions) (Quotes, error) {
 	v, err := Q.api.getSearchRecordsByPDC(Q.module, o)
+	if v == nil {
+		return Quotes{}, err
+	}
 	return v.(Quotes), err
 }
 
 func (Q *QuotesModule) GetRelatedRecords(o GetRelatedRecordsOptions) (Quotes, error) {
 	v, err := Q.api.getRelatedRecords(Q.module, o)
+	if v == nil {
+		return Quotes{}, err
+	}
 	return v.(Quotes), err
 }
 
 func (Q *QuotesModule) UpdateRelatedRecord(o UpdateRelatedRecordOptions) (Quotes, error) {
 	v, err := Q.api.updateRelatedRecord(Q.module, o)
+	if v == nil {
+		return Quotes{}, err
+	}
 	return v.(Quotes), err
 }
 
 func (Q *QuotesModule) GetFields(kind int) (Quotes, error) {
 	v, err := Q.api.getFields(Q.module, kind)
+	if v == nil {
+		return Quotes{}, err
+	}
 	return v.(Quotes), err
 }
 
 func (Q *QuotesModule) UploadFile(o UploadFileOptions) (Quotes, error) {
 	v, err := Q.api.uploadFile(Q.module, o)
+	if v == nil {
+		return Quotes{}, err
+	}
 	return v.(Quotes), err
 }
 
 func (Q *QuotesModule) DownloadFile(id string) (Quotes, error) {
 	v, err := Q.api.downloadFile(Q.module, id)
+	if v == nil {
+		return Quotes{}, err
+	}
 	return v.(Quotes), err
 }
 
 func (Q *QuotesModule) DeleteFile(id string) (Quotes, error) {
 	v, err := Q.api.deleteFile(Q.module, id)
+	if v == nil {
+		return Quotes{}, err
+	}
 	return v.(Quotes), err
 }
 
 func (Q *QuotesModule) Delink(o DelinkOptions) (Quotes, error) {
 	v, err := Q.api.delink(Q.module, o)
+	if v == nil {
+		return Quotes{}, err
+	}
 	return v.(Quotes), err
 }
 
 func (Q *QuotesModule) UploadPhoto(o UploadPhotoOptions) (Quotes, error) {
 	v, err := Q.api.uploadPhoto(Q.module, o)
+	if v == nil {
+		return Quotes{}, err
+	}
 	return v.(Quotes), err
 }
 
 func (Q *QuotesModule) DownloadPhoto(id string) (Quotes, error) {
 	v, err := Q.api.downloadPhoto(Q.module, id)
+	if v == nil {
+		return Quotes{}, err
+	}
 	return v.(Quotes), err
 }
 
 func (Q *QuotesModule) DeletePhoto(id string) (Quotes, error) {
 	v, err := Q.api.deletePhoto(Q.module, id)
+	if v == nil {
+		return Quotes{}, err
+	}
 	return v.(Quotes), err
 }
 
 func (Q *QuotesModule) SearchRecords(o SearchRecordsOptions) (Quotes, error) {
 	v, err := Q.api.searchRecords(Q.module, o)
+	if v == nil {
+		return Quotes{}, err
+	}
 	return v.(Quotes), err
 }
 

@@ -17,96 +17,156 @@ func (a *API) PurchaseOrders() *PurchaseOrdersModule {
 
 func (P *PurchaseOrdersModule) GetMyRecords(o GetRecordsOptions) (PurchaseOrders, error) {
 	v, err := P.api.getMyRecords(P.module, o)
+	if v == nil {
+		return PurchaseOrders{}, err
+	}
 	return v.(PurchaseOrders), err
 }
 
 func (P *PurchaseOrdersModule) GetRecords(o GetRecordsOptions) (PurchaseOrders, error) {
 	v, err := P.api.getRecords(P.module, o)
+	if v == nil {
+		return PurchaseOrders{}, err
+	}
 	return v.(PurchaseOrders), err
 }
 
 func (P *PurchaseOrdersModule) GetRecordsByID(o GetRecordsByIdOptions) (PurchaseOrders, error) {
 	v, err := P.api.getRecordById(P.module, o)
+	if v == nil {
+		return PurchaseOrders{}, err
+	}
 	return v.(PurchaseOrders), err
 }
 
 func (P *PurchaseOrdersModule) GetDeletedRecordIds(o GetDeletedRecordIdsOptions) (PurchaseOrders, error) {
 	v, err := P.api.getDeletedRecordIds(P.module, o)
+	if v == nil {
+		return PurchaseOrders{}, err
+	}
 	return v.(PurchaseOrders), err
 }
 
 func (P *PurchaseOrdersModule) InsertRecords(o InsertRecordsOptions) (PurchaseOrders, error) {
 	v, err := P.api.insertRecords(P.module, o)
+	if v == nil {
+		return PurchaseOrders{}, err
+	}
 	return v.(PurchaseOrders), err
 }
 
 func (P *PurchaseOrdersModule) UpdateRecords(o UpdateRecordsOptions) (PurchaseOrders, error) {
 	v, err := P.api.updateRecords(P.module, o)
+	if v == nil {
+		return PurchaseOrders{}, err
+	}
+	if v == nil {
+		return PurchaseOrders{}, err
+	}
 	return v.(PurchaseOrders), err
 }
 
 func (P *PurchaseOrdersModule) DeleteRecords(id string) (PurchaseOrders, error) {
 	v, err := P.api.deleteRecords(P.module, id)
+	if v == nil {
+		return PurchaseOrders{}, err
+	}
 	return v.(PurchaseOrders), err
 }
 
 func (P *PurchaseOrdersModule) GetSearchRecordsByPDC(o GetSearchRecordsByPDCOptions) (PurchaseOrders, error) {
 	v, err := P.api.getSearchRecordsByPDC(P.module, o)
+	if v == nil {
+		return PurchaseOrders{}, err
+	}
 	return v.(PurchaseOrders), err
 }
 
 func (P *PurchaseOrdersModule) GetRelatedRecords(o GetRelatedRecordsOptions) (PurchaseOrders, error) {
 	v, err := P.api.getRelatedRecords(P.module, o)
+	if v == nil {
+		return PurchaseOrders{}, err
+	}
 	return v.(PurchaseOrders), err
 }
 
 func (P *PurchaseOrdersModule) UpdateRelatedRecord(o UpdateRelatedRecordOptions) (PurchaseOrders, error) {
 	v, err := P.api.updateRelatedRecord(P.module, o)
+	if v == nil {
+		return PurchaseOrders{}, err
+	}
 	return v.(PurchaseOrders), err
 }
 
 func (P *PurchaseOrdersModule) GetFields(kind int) (PurchaseOrders, error) {
 	v, err := P.api.getFields(P.module, kind)
+	if v == nil {
+		return PurchaseOrders{}, err
+	}
 	return v.(PurchaseOrders), err
 }
 
 func (P *PurchaseOrdersModule) UploadFile(o UploadFileOptions) (PurchaseOrders, error) {
 	v, err := P.api.uploadFile(P.module, o)
+	if v == nil {
+		return PurchaseOrders{}, err
+	}
 	return v.(PurchaseOrders), err
 }
 
 func (P *PurchaseOrdersModule) DownloadFile(id string) (PurchaseOrders, error) {
 	v, err := P.api.downloadFile(P.module, id)
+	if v == nil {
+		return PurchaseOrders{}, err
+	}
 	return v.(PurchaseOrders), err
 }
 
 func (P *PurchaseOrdersModule) DeleteFile(id string) (PurchaseOrders, error) {
 	v, err := P.api.deleteFile(P.module, id)
+	if v == nil {
+		return PurchaseOrders{}, err
+	}
 	return v.(PurchaseOrders), err
 }
 
 func (P *PurchaseOrdersModule) Delink(o DelinkOptions) (PurchaseOrders, error) {
 	v, err := P.api.delink(P.module, o)
+	if v == nil {
+		return PurchaseOrders{}, err
+	}
 	return v.(PurchaseOrders), err
 }
 
 func (P *PurchaseOrdersModule) UploadPhoto(o UploadPhotoOptions) (PurchaseOrders, error) {
 	v, err := P.api.uploadPhoto(P.module, o)
+	if v == nil {
+		return PurchaseOrders{}, err
+	}
 	return v.(PurchaseOrders), err
 }
 
 func (P *PurchaseOrdersModule) DownloadPhoto(id string) (PurchaseOrders, error) {
 	v, err := P.api.downloadPhoto(P.module, id)
+	if v == nil {
+		return PurchaseOrders{}, err
+	}
 	return v.(PurchaseOrders), err
 }
 
 func (P *PurchaseOrdersModule) DeletePhoto(id string) (PurchaseOrders, error) {
 	v, err := P.api.deletePhoto(P.module, id)
+	if v == nil {
+		return PurchaseOrders{}, err
+	}
 	return v.(PurchaseOrders), err
 }
 
 func (P *PurchaseOrdersModule) SearchRecords(o SearchRecordsOptions) (PurchaseOrders, error) {
 	v, err := P.api.searchRecords(P.module, o)
+	if v == nil {
+		return PurchaseOrders{}, err
+	}
 	return v.(PurchaseOrders), err
 }
 

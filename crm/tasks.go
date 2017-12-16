@@ -17,96 +17,153 @@ func (a *API) Tasks() *TasksModule {
 
 func (T *TasksModule) GetMyRecords(o GetRecordsOptions) (Tasks, error) {
 	v, err := T.api.getMyRecords(T.module, o)
+	if v == nil {
+		return Tasks{}, err
+	}
 	return v.(Tasks), err
 }
 
 func (T *TasksModule) GetRecords(o GetRecordsOptions) (Tasks, error) {
 	v, err := T.api.getRecords(T.module, o)
+	if v == nil {
+		return Tasks{}, err
+	}
 	return v.(Tasks), err
 }
 
 func (T *TasksModule) GetRecordsByID(o GetRecordsByIdOptions) (Tasks, error) {
 	v, err := T.api.getRecordById(T.module, o)
+	if v == nil {
+		return Tasks{}, err
+	}
 	return v.(Tasks), err
 }
 
 func (T *TasksModule) GetDeletedRecordIds(o GetDeletedRecordIdsOptions) (Tasks, error) {
 	v, err := T.api.getDeletedRecordIds(T.module, o)
+	if v == nil {
+		return Tasks{}, err
+	}
 	return v.(Tasks), err
 }
 
 func (T *TasksModule) InsertRecords(o InsertRecordsOptions) (Tasks, error) {
 	v, err := T.api.insertRecords(T.module, o)
+	if v == nil {
+		return Tasks{}, err
+	}
 	return v.(Tasks), err
 }
 
 func (T *TasksModule) UpdateRecords(o UpdateRecordsOptions) (Tasks, error) {
 	v, err := T.api.updateRecords(T.module, o)
+	if v == nil {
+		return Tasks{}, err
+	}
 	return v.(Tasks), err
 }
 
 func (T *TasksModule) DeleteRecords(id string) (Tasks, error) {
 	v, err := T.api.deleteRecords(T.module, id)
+	if v == nil {
+		return Tasks{}, err
+	}
 	return v.(Tasks), err
 }
 
 func (T *TasksModule) GetSearchRecordsByPDC(o GetSearchRecordsByPDCOptions) (Tasks, error) {
 	v, err := T.api.getSearchRecordsByPDC(T.module, o)
+	if v == nil {
+		return Tasks{}, err
+	}
 	return v.(Tasks), err
 }
 
 func (T *TasksModule) GetRelatedRecords(o GetRelatedRecordsOptions) (Tasks, error) {
 	v, err := T.api.getRelatedRecords(T.module, o)
+	if v == nil {
+		return Tasks{}, err
+	}
 	return v.(Tasks), err
 }
 
 func (T *TasksModule) UpdateRelatedRecord(o UpdateRelatedRecordOptions) (Tasks, error) {
 	v, err := T.api.updateRelatedRecord(T.module, o)
+	if v == nil {
+		return Tasks{}, err
+	}
 	return v.(Tasks), err
 }
 
 func (T *TasksModule) GetFields(kind int) (Tasks, error) {
 	v, err := T.api.getFields(T.module, kind)
+	if v == nil {
+		return Tasks{}, err
+	}
 	return v.(Tasks), err
 }
 
 func (T *TasksModule) UploadFile(o UploadFileOptions) (Tasks, error) {
 	v, err := T.api.uploadFile(T.module, o)
+	if v == nil {
+		return Tasks{}, err
+	}
 	return v.(Tasks), err
 }
 
 func (T *TasksModule) DownloadFile(id string) (Tasks, error) {
 	v, err := T.api.downloadFile(T.module, id)
+	if v == nil {
+		return Tasks{}, err
+	}
 	return v.(Tasks), err
 }
 
 func (T *TasksModule) DeleteFile(id string) (Tasks, error) {
 	v, err := T.api.deleteFile(T.module, id)
+	if v == nil {
+		return Tasks{}, err
+	}
 	return v.(Tasks), err
 }
 
 func (T *TasksModule) Delink(o DelinkOptions) (Tasks, error) {
 	v, err := T.api.delink(T.module, o)
+	if v == nil {
+		return Tasks{}, err
+	}
 	return v.(Tasks), err
 }
 
 func (T *TasksModule) UploadPhoto(o UploadPhotoOptions) (Tasks, error) {
 	v, err := T.api.uploadPhoto(T.module, o)
+	if v == nil {
+		return Tasks{}, err
+	}
 	return v.(Tasks), err
 }
 
 func (T *TasksModule) DownloadPhoto(id string) (Tasks, error) {
 	v, err := T.api.downloadPhoto(T.module, id)
+	if v == nil {
+		return Tasks{}, err
+	}
 	return v.(Tasks), err
 }
 
 func (T *TasksModule) DeletePhoto(id string) (Tasks, error) {
 	v, err := T.api.deletePhoto(T.module, id)
+	if v == nil {
+		return Tasks{}, err
+	}
 	return v.(Tasks), err
 }
 
 func (T *TasksModule) SearchRecords(o SearchRecordsOptions) (Tasks, error) {
 	v, err := T.api.searchRecords(T.module, o)
+	if v == nil {
+		return Tasks{}, err
+	}
 	return v.(Tasks), err
 }
 

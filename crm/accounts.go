@@ -17,96 +17,153 @@ func (a *API) Accounts() *AccountsModule {
 
 func (A *AccountsModule) GetMyRecords(o GetRecordsOptions) (Accounts, error) {
 	v, err := A.api.getMyRecords(A.module, o)
+	if v == nil {
+		return Accounts{}, err
+	}
 	return v.(Accounts), err
 }
 
 func (A *AccountsModule) GetRecords(o GetRecordsOptions) (Accounts, error) {
 	v, err := A.api.getRecords(A.module, o)
+	if v == nil {
+		return Accounts{}, err
+	}
 	return v.(Accounts), err
 }
 
 func (A *AccountsModule) GetRecordsByID(o GetRecordsByIdOptions) (Accounts, error) {
 	v, err := A.api.getRecordById(A.module, o)
+	if v == nil {
+		return Accounts{}, err
+	}
 	return v.(Accounts), err
 }
 
 func (A *AccountsModule) GetDeletedRecordIds(o GetDeletedRecordIdsOptions) (Accounts, error) {
 	v, err := A.api.getDeletedRecordIds(A.module, o)
+	if v == nil {
+		return Accounts{}, err
+	}
 	return v.(Accounts), err
 }
 
 func (A *AccountsModule) InsertRecords(o InsertRecordsOptions) (Accounts, error) {
 	v, err := A.api.insertRecords(A.module, o)
+	if v == nil {
+		return Accounts{}, err
+	}
 	return v.(Accounts), err
 }
 
 func (A *AccountsModule) UpdateRecords(o UpdateRecordsOptions) (Accounts, error) {
 	v, err := A.api.updateRecords(A.module, o)
+	if v == nil {
+		return Accounts{}, err
+	}
 	return v.(Accounts), err
 }
 
 func (A *AccountsModule) DeleteRecords(id string) (Accounts, error) {
 	v, err := A.api.deleteRecords(A.module, id)
+	if v == nil {
+		return Accounts{}, err
+	}
 	return v.(Accounts), err
 }
 
 func (A *AccountsModule) GetSearchRecordsByPDC(o GetSearchRecordsByPDCOptions) (Accounts, error) {
 	v, err := A.api.getSearchRecordsByPDC(A.module, o)
+	if v == nil {
+		return Accounts{}, err
+	}
 	return v.(Accounts), err
 }
 
 func (A *AccountsModule) GetRelatedRecords(o GetRelatedRecordsOptions) (Accounts, error) {
 	v, err := A.api.getRelatedRecords(A.module, o)
+	if v == nil {
+		return Accounts{}, err
+	}
 	return v.(Accounts), err
 }
 
 func (A *AccountsModule) UpdateRelatedRecord(o UpdateRelatedRecordOptions) (Accounts, error) {
 	v, err := A.api.updateRelatedRecord(A.module, o)
+	if v == nil {
+		return Accounts{}, err
+	}
 	return v.(Accounts), err
 }
 
 func (A *AccountsModule) GetFields(kind int) (Accounts, error) {
 	v, err := A.api.getFields(A.module, kind)
+	if v == nil {
+		return Accounts{}, err
+	}
 	return v.(Accounts), err
 }
 
 func (A *AccountsModule) UploadFile(o UploadFileOptions) (Accounts, error) {
 	v, err := A.api.uploadFile(A.module, o)
+	if v == nil {
+		return Accounts{}, err
+	}
 	return v.(Accounts), err
 }
 
 func (A *AccountsModule) DownloadFile(id string) (Accounts, error) {
 	v, err := A.api.downloadFile(A.module, id)
+	if v == nil {
+		return Accounts{}, err
+	}
 	return v.(Accounts), err
 }
 
 func (A *AccountsModule) DeleteFile(id string) (Accounts, error) {
 	v, err := A.api.deleteFile(A.module, id)
+	if v == nil {
+		return Accounts{}, err
+	}
 	return v.(Accounts), err
 }
 
 func (A *AccountsModule) Delink(o DelinkOptions) (Accounts, error) {
 	v, err := A.api.delink(A.module, o)
+	if v == nil {
+		return Accounts{}, err
+	}
 	return v.(Accounts), err
 }
 
 func (A *AccountsModule) UploadPhoto(o UploadPhotoOptions) (Accounts, error) {
 	v, err := A.api.uploadPhoto(A.module, o)
+	if v == nil {
+		return Accounts{}, err
+	}
 	return v.(Accounts), err
 }
 
 func (A *AccountsModule) DownloadPhoto(id string) (Accounts, error) {
 	v, err := A.api.downloadPhoto(A.module, id)
+	if v == nil {
+		return Accounts{}, err
+	}
 	return v.(Accounts), err
 }
 
 func (A *AccountsModule) DeletePhoto(id string) (Accounts, error) {
 	v, err := A.api.deletePhoto(A.module, id)
+	if v == nil {
+		return Accounts{}, err
+	}
 	return v.(Accounts), err
 }
 
 func (A *AccountsModule) SearchRecords(o SearchRecordsOptions) (Accounts, error) {
 	v, err := A.api.searchRecords(A.module, o)
+	if v == nil {
+		return Accounts{}, err
+	}
 	return v.(Accounts), err
 }
 

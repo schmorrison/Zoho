@@ -17,96 +17,153 @@ func (a *API) PriceBooks() *PriceBooksModule {
 
 func (P *PriceBooksModule) GetMyRecords(o GetRecordsOptions) (PriceBooks, error) {
 	v, err := P.api.getMyRecords(P.module, o)
+	if v == nil {
+		return PriceBooks{}, err
+	}
 	return v.(PriceBooks), err
 }
 
 func (P *PriceBooksModule) GetRecords(o GetRecordsOptions) (PriceBooks, error) {
 	v, err := P.api.getRecords(P.module, o)
+	if v == nil {
+		return PriceBooks{}, err
+	}
 	return v.(PriceBooks), err
 }
 
 func (P *PriceBooksModule) GetRecordsByID(o GetRecordsByIdOptions) (PriceBooks, error) {
 	v, err := P.api.getRecordById(P.module, o)
+	if v == nil {
+		return PriceBooks{}, err
+	}
 	return v.(PriceBooks), err
 }
 
 func (P *PriceBooksModule) GetDeletedRecordIds(o GetDeletedRecordIdsOptions) (PriceBooks, error) {
 	v, err := P.api.getDeletedRecordIds(P.module, o)
+	if v == nil {
+		return PriceBooks{}, err
+	}
 	return v.(PriceBooks), err
 }
 
 func (P *PriceBooksModule) InsertRecords(o InsertRecordsOptions) (PriceBooks, error) {
 	v, err := P.api.insertRecords(P.module, o)
+	if v == nil {
+		return PriceBooks{}, err
+	}
 	return v.(PriceBooks), err
 }
 
 func (P *PriceBooksModule) UpdateRecords(o UpdateRecordsOptions) (PriceBooks, error) {
 	v, err := P.api.updateRecords(P.module, o)
+	if v == nil {
+		return PriceBooks{}, err
+	}
 	return v.(PriceBooks), err
 }
 
 func (P *PriceBooksModule) DeleteRecords(id string) (PriceBooks, error) {
 	v, err := P.api.deleteRecords(P.module, id)
+	if v == nil {
+		return PriceBooks{}, err
+	}
 	return v.(PriceBooks), err
 }
 
 func (P *PriceBooksModule) GetSearchRecordsByPDC(o GetSearchRecordsByPDCOptions) (PriceBooks, error) {
 	v, err := P.api.getSearchRecordsByPDC(P.module, o)
+	if v == nil {
+		return PriceBooks{}, err
+	}
 	return v.(PriceBooks), err
 }
 
 func (P *PriceBooksModule) GetRelatedRecords(o GetRelatedRecordsOptions) (PriceBooks, error) {
 	v, err := P.api.getRelatedRecords(P.module, o)
+	if v == nil {
+		return PriceBooks{}, err
+	}
 	return v.(PriceBooks), err
 }
 
 func (P *PriceBooksModule) UpdateRelatedRecord(o UpdateRelatedRecordOptions) (PriceBooks, error) {
 	v, err := P.api.updateRelatedRecord(P.module, o)
+	if v == nil {
+		return PriceBooks{}, err
+	}
 	return v.(PriceBooks), err
 }
 
 func (P *PriceBooksModule) GetFields(kind int) (PriceBooks, error) {
 	v, err := P.api.getFields(P.module, kind)
+	if v == nil {
+		return PriceBooks{}, err
+	}
 	return v.(PriceBooks), err
 }
 
 func (P *PriceBooksModule) UploadFile(o UploadFileOptions) (PriceBooks, error) {
 	v, err := P.api.uploadFile(P.module, o)
+	if v == nil {
+		return PriceBooks{}, err
+	}
 	return v.(PriceBooks), err
 }
 
 func (P *PriceBooksModule) DownloadFile(id string) (PriceBooks, error) {
 	v, err := P.api.downloadFile(P.module, id)
+	if v == nil {
+		return PriceBooks{}, err
+	}
 	return v.(PriceBooks), err
 }
 
 func (P *PriceBooksModule) DeleteFile(id string) (PriceBooks, error) {
 	v, err := P.api.deleteFile(P.module, id)
+	if v == nil {
+		return PriceBooks{}, err
+	}
 	return v.(PriceBooks), err
 }
 
 func (P *PriceBooksModule) Delink(o DelinkOptions) (PriceBooks, error) {
 	v, err := P.api.delink(P.module, o)
+	if v == nil {
+		return PriceBooks{}, err
+	}
 	return v.(PriceBooks), err
 }
 
 func (P *PriceBooksModule) UploadPhoto(o UploadPhotoOptions) (PriceBooks, error) {
 	v, err := P.api.uploadPhoto(P.module, o)
+	if v == nil {
+		return PriceBooks{}, err
+	}
 	return v.(PriceBooks), err
 }
 
 func (P *PriceBooksModule) DownloadPhoto(id string) (PriceBooks, error) {
 	v, err := P.api.downloadPhoto(P.module, id)
+	if v == nil {
+		return PriceBooks{}, err
+	}
 	return v.(PriceBooks), err
 }
 
 func (P *PriceBooksModule) DeletePhoto(id string) (PriceBooks, error) {
 	v, err := P.api.deletePhoto(P.module, id)
+	if v == nil {
+		return PriceBooks{}, err
+	}
 	return v.(PriceBooks), err
 }
 
 func (P *PriceBooksModule) SearchRecords(o SearchRecordsOptions) (PriceBooks, error) {
 	v, err := P.api.searchRecords(P.module, o)
+	if v == nil {
+		return PriceBooks{}, err
+	}
 	return v.(PriceBooks), err
 }
 

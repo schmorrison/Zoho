@@ -69,6 +69,11 @@ func (a *API) makeRequest(module crmModule, resource, method string, options opt
 	//decode response into CrmData
 	data, err = decodeXML(b, data)
 
+	//check if data returned is 'error' type
+	if v, ok := data.(CrmError); ok {
+		return nil, fmt.Errorf("Zoho returned an response of type '%s': %d: %s", v.Type, v.Code, v.Message)
+	}
+
 	return data, err
 }
 

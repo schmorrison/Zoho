@@ -17,96 +17,153 @@ func (a *API) SalesOrders() *SalesOrdersModule {
 
 func (S *SalesOrdersModule) GetMyRecords(o GetRecordsOptions) (SalesOrders, error) {
 	v, err := S.api.getMyRecords(S.module, o)
+	if v == nil {
+		return SalesOrders{}, err
+	}
 	return v.(SalesOrders), err
 }
 
 func (S *SalesOrdersModule) GetRecords(o GetRecordsOptions) (SalesOrders, error) {
 	v, err := S.api.getRecords(S.module, o)
+	if v == nil {
+		return SalesOrders{}, err
+	}
 	return v.(SalesOrders), err
 }
 
 func (S *SalesOrdersModule) GetRecordsByID(o GetRecordsByIdOptions) (SalesOrders, error) {
 	v, err := S.api.getRecordById(S.module, o)
+	if v == nil {
+		return SalesOrders{}, err
+	}
 	return v.(SalesOrders), err
 }
 
 func (S *SalesOrdersModule) GetDeletedRecordIds(o GetDeletedRecordIdsOptions) (SalesOrders, error) {
 	v, err := S.api.getDeletedRecordIds(S.module, o)
+	if v == nil {
+		return SalesOrders{}, err
+	}
 	return v.(SalesOrders), err
 }
 
 func (S *SalesOrdersModule) InsertRecords(o InsertRecordsOptions) (SalesOrders, error) {
 	v, err := S.api.insertRecords(S.module, o)
+	if v == nil {
+		return SalesOrders{}, err
+	}
 	return v.(SalesOrders), err
 }
 
 func (S *SalesOrdersModule) UpdateRecords(o UpdateRecordsOptions) (SalesOrders, error) {
 	v, err := S.api.updateRecords(S.module, o)
+	if v == nil {
+		return SalesOrders{}, err
+	}
 	return v.(SalesOrders), err
 }
 
 func (S *SalesOrdersModule) DeleteRecords(id string) (SalesOrders, error) {
 	v, err := S.api.deleteRecords(S.module, id)
+	if v == nil {
+		return SalesOrders{}, err
+	}
 	return v.(SalesOrders), err
 }
 
 func (S *SalesOrdersModule) GetSearchRecordsByPDC(o GetSearchRecordsByPDCOptions) (SalesOrders, error) {
 	v, err := S.api.getSearchRecordsByPDC(S.module, o)
+	if v == nil {
+		return SalesOrders{}, err
+	}
 	return v.(SalesOrders), err
 }
 
 func (S *SalesOrdersModule) GetRelatedRecords(o GetRelatedRecordsOptions) (SalesOrders, error) {
 	v, err := S.api.getRelatedRecords(S.module, o)
+	if v == nil {
+		return SalesOrders{}, err
+	}
 	return v.(SalesOrders), err
 }
 
 func (S *SalesOrdersModule) UpdateRelatedRecord(o UpdateRelatedRecordOptions) (SalesOrders, error) {
 	v, err := S.api.updateRelatedRecord(S.module, o)
+	if v == nil {
+		return SalesOrders{}, err
+	}
 	return v.(SalesOrders), err
 }
 
 func (S *SalesOrdersModule) GetFields(kind int) (SalesOrders, error) {
 	v, err := S.api.getFields(S.module, kind)
+	if v == nil {
+		return SalesOrders{}, err
+	}
 	return v.(SalesOrders), err
 }
 
 func (S *SalesOrdersModule) UploadFile(o UploadFileOptions) (SalesOrders, error) {
 	v, err := S.api.uploadFile(S.module, o)
+	if v == nil {
+		return SalesOrders{}, err
+	}
 	return v.(SalesOrders), err
 }
 
 func (S *SalesOrdersModule) DownloadFile(id string) (SalesOrders, error) {
 	v, err := S.api.downloadFile(S.module, id)
+	if v == nil {
+		return SalesOrders{}, err
+	}
 	return v.(SalesOrders), err
 }
 
 func (S *SalesOrdersModule) DeleteFile(id string) (SalesOrders, error) {
 	v, err := S.api.deleteFile(S.module, id)
+	if v == nil {
+		return SalesOrders{}, err
+	}
 	return v.(SalesOrders), err
 }
 
 func (S *SalesOrdersModule) Delink(o DelinkOptions) (SalesOrders, error) {
 	v, err := S.api.delink(S.module, o)
+	if v == nil {
+		return SalesOrders{}, err
+	}
 	return v.(SalesOrders), err
 }
 
 func (S *SalesOrdersModule) UploadPhoto(o UploadPhotoOptions) (SalesOrders, error) {
 	v, err := S.api.uploadPhoto(S.module, o)
+	if v == nil {
+		return SalesOrders{}, err
+	}
 	return v.(SalesOrders), err
 }
 
 func (S *SalesOrdersModule) DownloadPhoto(id string) (SalesOrders, error) {
 	v, err := S.api.downloadPhoto(S.module, id)
+	if v == nil {
+		return SalesOrders{}, err
+	}
 	return v.(SalesOrders), err
 }
 
 func (S *SalesOrdersModule) DeletePhoto(id string) (SalesOrders, error) {
 	v, err := S.api.deletePhoto(S.module, id)
+	if v == nil {
+		return SalesOrders{}, err
+	}
 	return v.(SalesOrders), err
 }
 
 func (S *SalesOrdersModule) SearchRecords(o SearchRecordsOptions) (SalesOrders, error) {
 	v, err := S.api.searchRecords(S.module, o)
+	if v == nil {
+		return SalesOrders{}, err
+	}
 	return v.(SalesOrders), err
 }
 

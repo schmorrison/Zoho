@@ -14,96 +14,153 @@ func (a *API) Cases() *CasesModule {
 
 func (C *CasesModule) GetMyRecords(o GetRecordsOptions) (Cases, error) {
 	v, err := C.api.getMyRecords(C.module, o)
+	if v == nil {
+		return Cases{}, err
+	}
 	return v.(Cases), err
 }
 
 func (C *CasesModule) GetRecords(o GetRecordsOptions) (Cases, error) {
 	v, err := C.api.getRecords(C.module, o)
+	if v == nil {
+		return Cases{}, err
+	}
 	return v.(Cases), err
 }
 
 func (C *CasesModule) GetRecordsByID(o GetRecordsByIdOptions) (Cases, error) {
 	v, err := C.api.getRecordById(C.module, o)
+	if v == nil {
+		return Cases{}, err
+	}
 	return v.(Cases), err
 }
 
 func (C *CasesModule) GetDeletedRecordIds(o GetDeletedRecordIdsOptions) (Cases, error) {
 	v, err := C.api.getDeletedRecordIds(C.module, o)
+	if v == nil {
+		return Cases{}, err
+	}
 	return v.(Cases), err
 }
 
 func (C *CasesModule) InsertRecords(o InsertRecordsOptions) (Cases, error) {
 	v, err := C.api.insertRecords(C.module, o)
+	if v == nil {
+		return Cases{}, err
+	}
 	return v.(Cases), err
 }
 
 func (C *CasesModule) UpdateRecords(o UpdateRecordsOptions) (Cases, error) {
 	v, err := C.api.updateRecords(C.module, o)
+	if v == nil {
+		return Cases{}, err
+	}
 	return v.(Cases), err
 }
 
 func (C *CasesModule) DeleteRecords(id string) (Cases, error) {
 	v, err := C.api.deleteRecords(C.module, id)
+	if v == nil {
+		return Cases{}, err
+	}
 	return v.(Cases), err
 }
 
 func (C *CasesModule) GetSearchRecordsByPDC(o GetSearchRecordsByPDCOptions) (Cases, error) {
 	v, err := C.api.getSearchRecordsByPDC(C.module, o)
+	if v == nil {
+		return Cases{}, err
+	}
 	return v.(Cases), err
 }
 
 func (C *CasesModule) GetRelatedRecords(o GetRelatedRecordsOptions) (Cases, error) {
 	v, err := C.api.getRelatedRecords(C.module, o)
+	if v == nil {
+		return Cases{}, err
+	}
 	return v.(Cases), err
 }
 
 func (C *CasesModule) UpdateRelatedRecord(o UpdateRelatedRecordOptions) (Cases, error) {
 	v, err := C.api.updateRelatedRecord(C.module, o)
+	if v == nil {
+		return Cases{}, err
+	}
 	return v.(Cases), err
 }
 
 func (C *CasesModule) GetFields(kind int) (Cases, error) {
 	v, err := C.api.getFields(C.module, kind)
+	if v == nil {
+		return Cases{}, err
+	}
 	return v.(Cases), err
 }
 
 func (C *CasesModule) UploadFile(o UploadFileOptions) (Cases, error) {
 	v, err := C.api.uploadFile(C.module, o)
+	if v == nil {
+		return Cases{}, err
+	}
 	return v.(Cases), err
 }
 
 func (C *CasesModule) DownloadFile(id string) (Cases, error) {
 	v, err := C.api.downloadFile(C.module, id)
+	if v == nil {
+		return Cases{}, err
+	}
 	return v.(Cases), err
 }
 
 func (C *CasesModule) DeleteFile(id string) (Cases, error) {
 	v, err := C.api.deleteFile(C.module, id)
+	if v == nil {
+		return Cases{}, err
+	}
 	return v.(Cases), err
 }
 
 func (C *CasesModule) Delink(o DelinkOptions) (Cases, error) {
 	v, err := C.api.delink(C.module, o)
+	if v == nil {
+		return Cases{}, err
+	}
 	return v.(Cases), err
 }
 
 func (C *CasesModule) UploadPhoto(o UploadPhotoOptions) (Cases, error) {
 	v, err := C.api.uploadPhoto(C.module, o)
+	if v == nil {
+		return Cases{}, err
+	}
 	return v.(Cases), err
 }
 
 func (C *CasesModule) DownloadPhoto(id string) (Cases, error) {
 	v, err := C.api.downloadPhoto(C.module, id)
+	if v == nil {
+		return Cases{}, err
+	}
 	return v.(Cases), err
 }
 
 func (C *CasesModule) DeletePhoto(id string) (Cases, error) {
 	v, err := C.api.deletePhoto(C.module, id)
+	if v == nil {
+		return Cases{}, err
+	}
 	return v.(Cases), err
 }
 
 func (C *CasesModule) SearchRecords(o SearchRecordsOptions) (Cases, error) {
 	v, err := C.api.searchRecords(C.module, o)
+	if v == nil {
+		return Cases{}, err
+	}
 	return v.(Cases), err
 }
 

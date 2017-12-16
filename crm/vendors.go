@@ -17,96 +17,153 @@ func (a *API) Vendors() *VendorsModule {
 
 func (V *VendorsModule) GetMyRecords(o GetRecordsOptions) (Vendors, error) {
 	v, err := V.api.getMyRecords(V.module, o)
+	if v == nil {
+		return Vendors{}, err
+	}
 	return v.(Vendors), err
 }
 
 func (V *VendorsModule) GetRecords(o GetRecordsOptions) (Vendors, error) {
 	v, err := V.api.getRecords(V.module, o)
+	if v == nil {
+		return Vendors{}, err
+	}
 	return v.(Vendors), err
 }
 
 func (V *VendorsModule) GetRecordsByID(o GetRecordsByIdOptions) (Vendors, error) {
 	v, err := V.api.getRecordById(V.module, o)
+	if v == nil {
+		return Vendors{}, err
+	}
 	return v.(Vendors), err
 }
 
 func (V *VendorsModule) GetDeletedRecordIds(o GetDeletedRecordIdsOptions) (Vendors, error) {
 	v, err := V.api.getDeletedRecordIds(V.module, o)
+	if v == nil {
+		return Vendors{}, err
+	}
 	return v.(Vendors), err
 }
 
 func (V *VendorsModule) InsertRecords(o InsertRecordsOptions) (Vendors, error) {
 	v, err := V.api.insertRecords(V.module, o)
+	if v == nil {
+		return Vendors{}, err
+	}
 	return v.(Vendors), err
 }
 
 func (V *VendorsModule) UpdateRecords(o UpdateRecordsOptions) (Vendors, error) {
 	v, err := V.api.updateRecords(V.module, o)
+	if v == nil {
+		return Vendors{}, err
+	}
 	return v.(Vendors), err
 }
 
 func (V *VendorsModule) DeleteRecords(id string) (Vendors, error) {
 	v, err := V.api.deleteRecords(V.module, id)
+	if v == nil {
+		return Vendors{}, err
+	}
 	return v.(Vendors), err
 }
 
 func (V *VendorsModule) GetSearchRecordsByPDC(o GetSearchRecordsByPDCOptions) (Vendors, error) {
 	v, err := V.api.getSearchRecordsByPDC(V.module, o)
+	if v == nil {
+		return Vendors{}, err
+	}
 	return v.(Vendors), err
 }
 
 func (V *VendorsModule) GetRelatedRecords(o GetRelatedRecordsOptions) (Vendors, error) {
 	v, err := V.api.getRelatedRecords(V.module, o)
+	if v == nil {
+		return Vendors{}, err
+	}
 	return v.(Vendors), err
 }
 
 func (V *VendorsModule) UpdateRelatedRecord(o UpdateRelatedRecordOptions) (Vendors, error) {
 	v, err := V.api.updateRelatedRecord(V.module, o)
+	if v == nil {
+		return Vendors{}, err
+	}
 	return v.(Vendors), err
 }
 
 func (V *VendorsModule) GetFields(kind int) (Vendors, error) {
 	v, err := V.api.getFields(V.module, kind)
+	if v == nil {
+		return Vendors{}, err
+	}
 	return v.(Vendors), err
 }
 
 func (V *VendorsModule) UploadFile(o UploadFileOptions) (Vendors, error) {
 	v, err := V.api.uploadFile(V.module, o)
+	if v == nil {
+		return Vendors{}, err
+	}
 	return v.(Vendors), err
 }
 
 func (V *VendorsModule) DownloadFile(id string) (Vendors, error) {
 	v, err := V.api.downloadFile(V.module, id)
+	if v == nil {
+		return Vendors{}, err
+	}
 	return v.(Vendors), err
 }
 
 func (V *VendorsModule) DeleteFile(id string) (Vendors, error) {
 	v, err := V.api.deleteFile(V.module, id)
+	if v == nil {
+		return Vendors{}, err
+	}
 	return v.(Vendors), err
 }
 
 func (V *VendorsModule) Delink(o DelinkOptions) (Vendors, error) {
 	v, err := V.api.delink(V.module, o)
+	if v == nil {
+		return Vendors{}, err
+	}
 	return v.(Vendors), err
 }
 
 func (V *VendorsModule) UploadPhoto(o UploadPhotoOptions) (Vendors, error) {
 	v, err := V.api.uploadPhoto(V.module, o)
+	if v == nil {
+		return Vendors{}, err
+	}
 	return v.(Vendors), err
 }
 
 func (V *VendorsModule) DownloadPhoto(id string) (Vendors, error) {
 	v, err := V.api.downloadPhoto(V.module, id)
+	if v == nil {
+		return Vendors{}, err
+	}
 	return v.(Vendors), err
 }
 
 func (V *VendorsModule) DeletePhoto(id string) (Vendors, error) {
 	v, err := V.api.deletePhoto(V.module, id)
+	if v == nil {
+		return Vendors{}, err
+	}
 	return v.(Vendors), err
 }
 
 func (V *VendorsModule) SearchRecords(o SearchRecordsOptions) (Vendors, error) {
 	v, err := V.api.searchRecords(V.module, o)
+	if v == nil {
+		return Vendors{}, err
+	}
 	return v.(Vendors), err
 }
 
