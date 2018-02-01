@@ -52,6 +52,10 @@ func (a *API) makeRequest(module crmModule, resource, method string, options opt
 	//use 'zoho' module to make request/authenticate
 	zr := a.Zoho.NewRequest(U.String(), "GET")
 
+	if t := a.Zoho.GetAuthToken(); t != "" {
+		zr.Add("authtoken", t)
+	}
+
 	resp, err := a.Zoho.Request(zr)
 	if err != nil {
 		return nil, fmt.Errorf("Error performing request for method '%s' in module '%s': %s", resource, string(module), err.Error())

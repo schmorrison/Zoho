@@ -5,8 +5,11 @@ import (
 	"time"
 )
 
+// AccountsModule exposes the API methods that are related to the Account type
 type AccountsModule CrmModule
 
+// Accounts returns an pointer to an 'AccountsModule' which can be used to call the methods
+// that can be used to interact with Zoho CRM 'Account' types
 func (a *API) Accounts() *AccountsModule {
 	return &AccountsModule{
 		id:     a.id,
@@ -16,6 +19,7 @@ func (a *API) Accounts() *AccountsModule {
 }
 
 func (A *AccountsModule) GetMyRecords(o GetRecordsOptions) (Accounts, error) {
+	A.options = o
 	v, err := A.api.getMyRecords(A.module, o)
 	if v == nil {
 		return Accounts{}, err
@@ -24,6 +28,7 @@ func (A *AccountsModule) GetMyRecords(o GetRecordsOptions) (Accounts, error) {
 }
 
 func (A *AccountsModule) GetRecords(o GetRecordsOptions) (Accounts, error) {
+	A.options = o
 	v, err := A.api.getRecords(A.module, o)
 	if v == nil {
 		return Accounts{}, err
@@ -32,6 +37,7 @@ func (A *AccountsModule) GetRecords(o GetRecordsOptions) (Accounts, error) {
 }
 
 func (A *AccountsModule) GetRecordsByID(o GetRecordsByIdOptions) (Accounts, error) {
+	A.options = o
 	v, err := A.api.getRecordById(A.module, o)
 	if v == nil {
 		return Accounts{}, err
@@ -40,6 +46,7 @@ func (A *AccountsModule) GetRecordsByID(o GetRecordsByIdOptions) (Accounts, erro
 }
 
 func (A *AccountsModule) GetDeletedRecordIds(o GetDeletedRecordIdsOptions) (Accounts, error) {
+	A.options = o
 	v, err := A.api.getDeletedRecordIds(A.module, o)
 	if v == nil {
 		return Accounts{}, err
@@ -48,6 +55,7 @@ func (A *AccountsModule) GetDeletedRecordIds(o GetDeletedRecordIdsOptions) (Acco
 }
 
 func (A *AccountsModule) InsertRecords(o InsertRecordsOptions) (Accounts, error) {
+	A.options = o
 	v, err := A.api.insertRecords(A.module, o)
 	if v == nil {
 		return Accounts{}, err
@@ -56,6 +64,7 @@ func (A *AccountsModule) InsertRecords(o InsertRecordsOptions) (Accounts, error)
 }
 
 func (A *AccountsModule) UpdateRecords(o UpdateRecordsOptions) (Accounts, error) {
+	A.options = o
 	v, err := A.api.updateRecords(A.module, o)
 	if v == nil {
 		return Accounts{}, err
@@ -72,6 +81,7 @@ func (A *AccountsModule) DeleteRecords(id string) (Accounts, error) {
 }
 
 func (A *AccountsModule) GetSearchRecordsByPDC(o GetSearchRecordsByPDCOptions) (Accounts, error) {
+	A.options = o
 	v, err := A.api.getSearchRecordsByPDC(A.module, o)
 	if v == nil {
 		return Accounts{}, err
@@ -80,6 +90,7 @@ func (A *AccountsModule) GetSearchRecordsByPDC(o GetSearchRecordsByPDCOptions) (
 }
 
 func (A *AccountsModule) GetRelatedRecords(o GetRelatedRecordsOptions) (Accounts, error) {
+	A.options = o
 	v, err := A.api.getRelatedRecords(A.module, o)
 	if v == nil {
 		return Accounts{}, err
@@ -88,6 +99,7 @@ func (A *AccountsModule) GetRelatedRecords(o GetRelatedRecordsOptions) (Accounts
 }
 
 func (A *AccountsModule) UpdateRelatedRecord(o UpdateRelatedRecordOptions) (Accounts, error) {
+	A.options = o
 	v, err := A.api.updateRelatedRecord(A.module, o)
 	if v == nil {
 		return Accounts{}, err
@@ -104,6 +116,7 @@ func (A *AccountsModule) GetFields(kind int) (Accounts, error) {
 }
 
 func (A *AccountsModule) UploadFile(o UploadFileOptions) (Accounts, error) {
+	A.options = o
 	v, err := A.api.uploadFile(A.module, o)
 	if v == nil {
 		return Accounts{}, err
@@ -128,6 +141,7 @@ func (A *AccountsModule) DeleteFile(id string) (Accounts, error) {
 }
 
 func (A *AccountsModule) Delink(o DelinkOptions) (Accounts, error) {
+	A.options = o
 	v, err := A.api.delink(A.module, o)
 	if v == nil {
 		return Accounts{}, err
@@ -136,6 +150,7 @@ func (A *AccountsModule) Delink(o DelinkOptions) (Accounts, error) {
 }
 
 func (A *AccountsModule) UploadPhoto(o UploadPhotoOptions) (Accounts, error) {
+	A.options = o
 	v, err := A.api.uploadPhoto(A.module, o)
 	if v == nil {
 		return Accounts{}, err
@@ -160,6 +175,7 @@ func (A *AccountsModule) DeletePhoto(id string) (Accounts, error) {
 }
 
 func (A *AccountsModule) SearchRecords(o SearchRecordsOptions) (Accounts, error) {
+	A.options = o
 	v, err := A.api.searchRecords(A.module, o)
 	if v == nil {
 		return Accounts{}, err
@@ -184,7 +200,7 @@ type Account struct {
 	Fax             string  `zoho:"Fax"`               // 30 chars
 	Email           string  `zoho:"Email"`             // 100 chars
 	Rating          string  `zoho:"Rating"`            //
-	SicCode         int     `zoho:"SICCode"`           // 10 digits
+	SicCode         int     `zoho:"SIC Code"`          // 10 digits
 	AnnualRevenue   float64 `zoho:"Annual Revenue"`    // 16 digits
 	BillingStreet   string  `zoho:"Billing Street"`    // 250 chars
 	BillingCity     string  `zoho:"Billing City"`      // 30 chars
@@ -197,24 +213,22 @@ type Account struct {
 	ShippingZipCode string  `zoho:"Shipping Zip Code"` // 30 chars
 	ShippingCountry string  `zoho:"Shipping Country"`  // 30 chars
 	Description     string  `zoho:"Description"`       // 32000 chars
+	Currency        string  `zoho:"Currency"`          //
+	ExchangedRate   float64 `zoho:"Exchange Rate"`     //
+	BillingCode     string  `zoho:"Billing Code"`      //  GetRecords
+	Territories     string  `zoho:"Territories"`       //  GetRecords
 
 	//Fields not documented but returned by some methods
 	//Some of these fields may need to be stripped on 'insert' due to zoho requirements
-	AccountID        int       `zoho:"ACCOUNTID"`
-	SmOwnerID        int       `zoho:"SMOWNERID"`
-	SICCode          int       `zoho:"SIC Code"`
-	SmCreatorID      int       `zoho:"SMCREATORID"`
-	CreatedBy        string    `zoho:"Created By"`
-	ModifiedByID     int       `zoho:"MODIFIEDBY"`
-	ModifiedBy       string    `zoho:"Modified By"`
-	CreatedTime      time.Time `zoho:"Created Time"`
-	ModifiedTime     time.Time `zoho:"Modified Time"`
-	Currency         string    `zoho:"Currency"`
-	ExchangedRate    float64   `zoho:"Exchange Rate"`
-	LastActivityTime time.Time `zoho:"Last Activity Time"`
-
-	BillingCode string `zoho:"Billing Code"` //  GetRecords
-	Territories string `zoho:"Territories"`  //  GetRecords
+	AccountID        int       `zoho:"ACCOUNTID,strip"`
+	SmOwnerID        int       `zoho:"SMOWNERID,strip"`
+	SmCreatorID      int       `zoho:"SMCREATORID,strip"`
+	CreatedBy        string    `zoho:"Created By,strip"`
+	ModifiedByID     int       `zoho:"MODIFIEDBY,strip"`
+	ModifiedBy       string    `zoho:"Modified By,strip"`
+	CreatedTime      time.Time `zoho:"Created Time,strip"`
+	ModifiedTime     time.Time `zoho:"Modified Time,strip"`
+	LastActivityTime time.Time `zoho:"Last Activity Time,strip"`
 
 	ExtraFields ExtraFields
 }
@@ -225,10 +239,12 @@ func (a Account) writeXML() string {
 	return x.encode()
 }
 
+// String will return the XML Encoded value that will be passed to zoho
 func (a Account) String() string {
 	return a.writeXML()
 }
 
+// Accounts is a slice of Account
 type Accounts []Account
 
 func (A Accounts) writeXML() string {
@@ -239,6 +255,7 @@ func (A Accounts) writeXML() string {
 	return x.encode()
 }
 
+// String will return the XML Encoded value that will be passed to zoho
 func (A Accounts) String() string {
 	return A.writeXML()
 }

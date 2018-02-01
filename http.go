@@ -18,7 +18,6 @@ func (z *Zoho) NewRequest(resource, method string) *Request {
 
 //Request will perform the provided request with the account provided in the Zoho pointer
 func (z *Zoho) Request(zr *Request) (*http.Response, error) {
-	zr.Add("authtoken", z.authtoken)
 	req, err := http.NewRequest(zr.Method, zr.URL(), nil)
 	if err != nil {
 		return nil, fmt.Errorf("Error initializing http request: %s", err.Error())

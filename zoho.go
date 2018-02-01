@@ -28,6 +28,7 @@ type Zoho struct {
 	password  string
 	scope     string
 	authtoken string
+	orgID     string
 
 	client *http.Client
 }

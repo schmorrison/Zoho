@@ -5,6 +5,7 @@ import (
 	"fmt"
 )
 
+// https://www.zoho.com/crm/help/api/error-messages.html
 type CrmError struct {
 	Type    string
 	Code    int

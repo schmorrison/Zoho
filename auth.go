@@ -7,9 +7,9 @@ import (
 	"regexp"
 )
 
-//GetAuthToken takes an email, password, and scope and retrieves an
+//GenerateAuthToken takes an email, password, and scope and retrieves an
 // authentication token from zoho for the account and scope pair
-func (z *Zoho) GetAuthToken(email, password, scope string) error {
+func (z *Zoho) GenerateAuthToken(email, password, scope string) error {
 	if email == "" || password == "" || scope == "" {
 		return fmt.Errorf("Must set email, password, and scope when requesting an authtoken, got: Email='%s' Password='%s' Scope='%s'", email, password, scope)
 	}
@@ -49,7 +49,7 @@ func extractAuthToken(r *http.Response) (string, error) {
 	return token[0], nil
 }
 
-//SetAuthToken will set a manually provided authtoken from Zoho
+// SetAuthToken will set a manually provided authtoken from Zoho
 func (z *Zoho) SetAuthToken(token, scope string) error {
 	if token == "" {
 		return fmt.Errorf("Error: Must provide authtoken, provided: '%s'", token)
@@ -59,5 +59,22 @@ func (z *Zoho) SetAuthToken(token, scope string) error {
 	}
 	z.authtoken = token
 	z.scope = scope
+	return nil
+}
+
+// GetAuthToken will get the token set on this Zoho and an empty string if its not set
+func (z *Zoho) GetAuthToken() string {
+	if t := z.authtoken; t != "" {
+		return t
+	}
+	return ""
+}
+
+//SetOrganizationID will set the id as provided my the required methods
+func (z *Zoho) SetOrganizationID(id string) error {
+	if id == "" {
+		return fmt.Errorf("Error: Must provide id, provided: '%s'", id)
+	}
+	z.orgID = id
 	return nil
 }
