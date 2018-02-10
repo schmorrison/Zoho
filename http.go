@@ -6,7 +6,7 @@ import (
 	"net/url"
 )
 
-//NewRequest uses the resource and method to initialize a ZohoRequest for usage
+// NewRequest uses the resource and method to initialize build a Zoho Request
 func (z *Zoho) NewRequest(resource, method string) *Request {
 	zr := &Request{
 		Resource: resource,
@@ -16,7 +16,7 @@ func (z *Zoho) NewRequest(resource, method string) *Request {
 	return zr
 }
 
-//Request will perform the provided request with the account provided in the Zoho pointer
+// Request will perform the provided request with the account in the Zoho receiver
 func (z *Zoho) Request(zr *Request) (*http.Response, error) {
 	req, err := http.NewRequest(zr.Method, zr.URL(), nil)
 	if err != nil {
@@ -30,11 +30,12 @@ func (z *Zoho) Request(zr *Request) (*http.Response, error) {
 	return resp, nil
 }
 
-//CustomClient replaces the preinitialized http Client with the provided Client
+// CustomClient replaces the preinitialized http Client with the provided Client
 func (z *Zoho) CustomClient(c *http.Client) {
 	z.client = c
 }
 
+// URL will return the full parsed URL
 func (zr *Request) URL() string {
 	u, err := url.Parse(zr.Resource)
 	if err != nil {
@@ -45,7 +46,7 @@ func (zr *Request) URL() string {
 	return u.String()
 }
 
-//Add will add the provided key/val pair as a URL value to the request
+// Add will add the provided key/val pair as a URL value to the request
 func (zr *Request) Add(key string, val interface{}) error {
 	valStr := ""
 	switch t := val.(type) {
@@ -78,7 +79,7 @@ func (zr *Request) Add(key string, val interface{}) error {
 	return nil
 }
 
-//AddMulti will add each item in the map to the requests url Values
+// AddMulti will add each item in the map to the requests url Values
 func (zr *Request) AddMulti(m map[string]interface{}) {
 	if len(m) > 0 {
 		for k, v := range m {
@@ -87,7 +88,7 @@ func (zr *Request) AddMulti(m map[string]interface{}) {
 	}
 }
 
-//Request is the structure used prepare an http.Request
+// Request is the structure used prepare an http.Request
 type Request struct {
 	Resource string
 	Method   string

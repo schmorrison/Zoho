@@ -6,7 +6,7 @@ import (
 	"time"
 )
 
-//New initializes a Zoho structure
+// New initializes a Zoho structure
 func New() *Zoho {
 	z := Zoho{
 		client: &http.Client{
@@ -22,7 +22,8 @@ func New() *Zoho {
 	return &z
 }
 
-//Zoho is the base structure for accessing all APIs. It is also imported into each subpackage
+// Zoho is for accessing all APIs. It is used by subpackages to simplify passing authentication
+// values between API subpackages.
 type Zoho struct {
 	user      string
 	password  string

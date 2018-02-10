@@ -34,7 +34,8 @@ func (z *Zoho) GenerateAuthToken(email, password, scope string) error {
 	return nil
 }
 
-//Extract authtoken will use regex to extract the token from the response provided by zoho
+// extactAuthtoken will use regex to extract the token from the response provided by zoho
+// this regex might be subject to change
 func extractAuthToken(r *http.Response) (string, error) {
 	defer r.Body.Close()
 	b, err := ioutil.ReadAll(r.Body)
@@ -49,20 +50,20 @@ func extractAuthToken(r *http.Response) (string, error) {
 	return token[0], nil
 }
 
-// SetAuthToken will set a manually provided authtoken from Zoho
+// SetAuthToken will use a provided token and scope as for HTTP Request authentication
 func (z *Zoho) SetAuthToken(token, scope string) error {
 	if token == "" {
 		return fmt.Errorf("Error: Must provide authtoken, provided: '%s'", token)
 	}
 	if scope == "" {
-		return fmt.Errorf("Error: Must provide a scope, provided '%s'", scope)
+		return fmt.Errorf("Error: Must provide scope, provided '%s'", scope)
 	}
 	z.authtoken = token
 	z.scope = scope
 	return nil
 }
 
-// GetAuthToken will get the token set on this Zoho and an empty string if its not set
+// GetAuthToken will return the token that is set on the receiver Zoho object
 func (z *Zoho) GetAuthToken() string {
 	if t := z.authtoken; t != "" {
 		return t
@@ -70,7 +71,7 @@ func (z *Zoho) GetAuthToken() string {
 	return ""
 }
 
-//SetOrganizationID will set the id as provided my the required methods
+// SetOrganizationID will set the id as provided for use in HTTP request authentication
 func (z *Zoho) SetOrganizationID(id string) error {
 	if id == "" {
 		return fmt.Errorf("Error: Must provide id, provided: '%s'", id)
