@@ -7,7 +7,7 @@ import (
 	"net/url"
 	"time"
 
-	"bitbucket.org/cleanflo/zoho"
+	"github.com/schmorrison/Zoho"
 )
 
 const (
