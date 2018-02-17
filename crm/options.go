@@ -8,14 +8,28 @@ import (
 	"time"
 )
 
-type blankOptions map[string]string
+type BlankOptions map[string]string
 
-func (o blankOptions) encodeURL(u *url.URL) error {
+// encodeURL must be better considered
+// there are quite a number of rules that zoho values must follow
+func (o BlankOptions) encodeURL(u *url.URL) error {
+	noencode := ""
 	val := url.Values{}
 	for k, v := range o {
-		val.Add(k, v)
+		//This is the ',noencode' option
+		// the result of url.QueryEncode changing ' ' to '+'
+		// when we need percent encoded spaces we pass a url.PathEncoded value here
+		if strings.Contains(k, ",noencode") {
+			key := strings.Replace(k, ",noencode", "", -1)
+			//unfortunately pathEncode misses the '=' signs so we do that manually
+			v = strings.Replace(v, "=", "%3D",-1)
+			noencode += key + "=" + v + "&"
+		} else {
+			val.Add(k, v)
+		}
 	}
 	u.RawQuery = val.Encode()
+	u.RawQuery += "&" + noencode
 	return nil
 }
 

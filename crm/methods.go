@@ -2,6 +2,7 @@ package crm
 
 import (
 	"fmt"
+	"strings"
 	"io/ioutil"
 	"math/rand"
 	"net/url"
@@ -52,7 +53,7 @@ func (a *API) makeRequest(module crmModule, resource, method string, options opt
 	options.encodeURL(U)
 
 	U.RawQuery += "&authtoken=" + a.Zoho.GetAuthToken()
-	
+
 	//use 'zoho' module to make request/authenticate
 	zr := a.Zoho.NewRequest(U.String(), "GET")
 
@@ -223,7 +224,7 @@ func (o UpdateRecordsOptions) encodeURL(u *url.URL) error {
 // deleteRecords is used to delete a record from a module by ID
 // https://www.zoho.com/crm/help/api/deleterecords.html
 func (a *API) deleteRecords(module crmModule, id string) (crmData, error) {
-	return a.makeRequest(module, "/deleteRecords", "GET", blankOptions{"id": id})
+	return a.makeRequest(module, "/deleteRecords", "GET", BlankOptions{"id": id})
 }
 
 // getSearchByPDC is used to search records in a module and return only the 'pre-defined columns'
@@ -245,9 +246,83 @@ func (o GetSearchRecordsByPDCOptions) encodeURL(u *url.URL) error {
 }
 
 // convertLead is used to change a Lead to a Contact/Potential/Account and remove the Lead
+// this method needs some serious cleaning up
+// ultimately Zoho required an XML like the following:
+// <Potentials>
+// 	<row no="1">
+//   <option val="createPotential">true</option>
+//   <option val="assignTo">sample@zoho.com</option>
+//   <option val="notifyLeadOwner">true</option>
+//   <option val="notifyNewEntityOwner">true</option>
+//  </row>
+//  <row no="2">
+//   <FL val="Potential Name">Samplepotential</FL>
+//   <FL val="Closing Date">12/21/2009</FL><FL val="Potential Stage">Closed Won</FL>
+//   <FL val="Contact Role">Purchasing</FL>
+//   <FL val="Amount">3432.23</FL>
+//   <FL val="Probability">100</FL>
+//  </row>
+// </Potentials>
+// A user passes the data and we just print the 'Potential' XML and manually modify it
+// this will not stand up to normal usage
 // https://www.zoho.com/crm/help/api/convertlead.html
-func (a *API) convertLead(leadID string, data crmData) (crmData, error) {
-	return a.makeRequest(leadsModule, "/convertLead", "GET", blankOptions{"leadId": leadID, "xmlData": fmt.Sprint(data)})
+func (a *API) convertLead(o ConvertLeadOptions, opts BlankOptions) (crmData, error) {
+	if opts["assignTo"] == "" {
+		return nil, fmt.Errorf("Error: Please include an value for 'assignTo' in the 'blankOptions'")
+	}
+	if opts["createPotential"] == "" {
+		opts["createPotential"] = "false"
+	}
+	if opts["notifyLeadOwner"] == "" {
+		opts["notifyLeadOwner"] = "false"
+	}
+	if opts["notifyNewEntityOwner"] == "" {
+		opts["notifyNewEntityOwner"] = "false"
+	}
+	str := ""
+
+	//Print the original XML data
+	data := o.Data
+	if v, ok := data.(Potential); ok {
+		str = v.writeXML()
+	} else {
+		data = Potential{}
+		str = data.writeXML()
+	}
+
+	//create the string we will concatenate with
+	optStr := `<option val="assignTo">` + opts["assignTo"] + `</option>`
+	optStr += `<option val="createPotential">` + opts["createPotential"] + `</option>`
+	optStr += `<option val="notifyLeadOwner">` + opts["notifyLeadOwner"] + `</option>`
+	optStr += `<option val="notifyNewEntityOwner">` + opts["notifyNewEntityOwner"] + `</option>`
+
+	//concatenate the strings
+	if strings.Contains(str, "<row no=\"1\"></row>") {
+		str = str[:24] + optStr + str[24:]
+	} else {
+		optStr += "</row>"
+		optStr += "<row no=\"2\">"
+		str = str[:24] + optStr + str[24:]
+	}
+
+	//remove the 'Error' elements that appear but I can't get rid of
+	str = strings.Replace(str, "<Error></Error>", "", -1)
+
+	//make the request
+	// notice the ',noencode' on the key for the map
+	// this is because options will encode during the request
+	// but zoho doesn't like Golang's Query Encoding for the XMLData because it encodes ' ' as '+'
+	// zoho wants percent encoding
+	// so we do a pathEscape encoding on the data, which does percent encode
+	// and tell our encodeOptionsToURL to not encode values with ',noencode' on the name
+	return a.makeRequest(leadsModule, "/convertLead", "GET", BlankOptions{"leadId": o.LeadID, "xmlData,noencode": url.PathEscape(str)})
+
+	/// YIKES!!!!!
+}
+
+type ConvertLeadOptions struct {
+	LeadID		string		`zoho:"leadId,required"`		// The Lead to convert
+	Data		crmData		`zoho:"xmlData,required"`		// Required
 }
 
 // getRelatedRecords is used to return the records that have been associated with the other record
@@ -287,14 +362,14 @@ func (o UpdateRelatedRecordOptions) encodeURL(u *url.URL) error {
 // kind: 1 - retrieve all fields , 2 - retrieve mandatory fields
 // https://www.zoho.com/crm/help/api/getfields.html
 func (a *API) getFields(module crmModule, kind int) (crmData, error) {
-	return a.makeRequest(module, "/getFields", "GET", blankOptions{"type": fmt.Sprintf("%d", kind)})
+	return a.makeRequest(module, "/getFields", "GET", BlankOptions{"type": fmt.Sprintf("%d", kind)})
 }
 
 // getUsers is used to return CRM users with provided status
 // kind: AllUsers, ActiveUsers, DeactiveUsers, AdminUsers, ActiveConfirmedAdmins
 // https://www.zoho.com/crm/help/api/getusers.html
 func (a *API) getUsers(kind string) (crmData, error) {
-	return a.makeRequest("Users", "/getUsers", "GET", blankOptions{"type": kind})
+	return a.makeRequest("Users", "/getUsers", "GET", BlankOptions{"type": kind})
 }
 
 // uploadFile is used to associate a file with a record
@@ -316,13 +391,13 @@ func (o UploadFileOptions) encodeURL(u *url.URL) error {
 // downloadFile is used to download a File associated with a record
 // https://www.zoho.com/crm/help/api/downloadfile.html
 func (a *API) downloadFile(module crmModule, id string) (crmData, error) {
-	return a.makeRequest(module, "/downloadFile", "GET", blankOptions{"id": id})
+	return a.makeRequest(module, "/downloadFile", "GET", BlankOptions{"id": id})
 }
 
 // deleteFile is used to delete a File associated with a record
 // https://www.zoho.com/crm/help/api/deletefile.html
 func (a *API) deleteFile(module crmModule, id string) (crmData, error) {
-	return a.makeRequest(module, "/deleteFile", "GET", blankOptions{"id": id})
+	return a.makeRequest(module, "/deleteFile", "GET", BlankOptions{"id": id})
 }
 
 // delink is used to 'unassociate' two records
@@ -359,19 +434,19 @@ func (o UploadPhotoOptions) encodeURL(u *url.URL) error {
 // downloadPhoto is used to download the photo associated with a record
 // https://www.zoho.com/crm/help/api/downloadphoto.html
 func (a *API) downloadPhoto(module crmModule, id string) (crmData, error) {
-	return a.makeRequest(module, "/downloadPhoto", "GET", blankOptions{"id": id})
+	return a.makeRequest(module, "/downloadPhoto", "GET", BlankOptions{"id": id})
 }
 
 // deletePhoto is used to remove a photo associated with a record
 // https://www.zoho.com/crm/help/api/deletephoto.html
 func (a *API) deletePhoto(module crmModule, id string) (crmData, error) {
-	return a.makeRequest(module, "/deletePhoto", "GET", blankOptions{"id": id})
+	return a.makeRequest(module, "/deletePhoto", "GET", BlankOptions{"id": id})
 }
 
 //specify kind: 'api' will return API accessible modules
 // https://www.zoho.com/crm/help/api/getmodules.html
 func (a *API) getModules(kind string) (crmData, error) {
-	return a.makeRequest("Info", "/getModules", "GET", blankOptions{"type": kind})
+	return a.makeRequest("Info", "/getModules", "GET", BlankOptions{"type": kind})
 }
 
 // searchRecords will return the records found during search

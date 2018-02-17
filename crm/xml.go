@@ -146,8 +146,8 @@ func removeLabelByName(f []FieldLabel, name string) []FieldLabel {
 // XMLError is returned from Zoho when an Error occurs internally
 type XMLError struct {
 	XMLName xml.Name
-	Code    int    `xml:"code"`
-	Message string `xml:"message"`
+	Code    int    `xml:"code,omitempty"`
+	Message string `xml:"message,omitempty"`
 }
 
 // getvaluesFromXML will create a valid data type from the XML returned by Zoho

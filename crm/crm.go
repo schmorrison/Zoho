@@ -64,11 +64,23 @@ func getValuesFromStruct(data interface{}) ([]FieldLabel, error) {
 			f := FieldLabel{Label: tag}
 			switch field.Kind() {
 			case reflect.Int:
-				f.Value = []byte(fmt.Sprintf("%d", field.Interface().(int)))
+				if v, ok := field.Interface().(int); ok {
+					if v > 0 {
+						f.Value = []byte(fmt.Sprintf("%d", v))
+					}
+				}
 			case reflect.Int64:
-				f.Value = []byte(fmt.Sprintf("%d", field.Interface().(int64)))
+				if v, ok := field.Interface().(int64); ok {
+					if v > 0 {
+						f.Value = []byte(fmt.Sprintf("%d", v))
+					}
+				} 
 			case reflect.Float64:
-				f.Value = []byte(fmt.Sprintf("%f", field.Interface().(float64)))
+				if v, ok := field.Interface().(float64); ok {
+					if v > 0.0 {
+						f.Value = []byte(fmt.Sprintf("%f", v))
+					}
+				}
 			case reflect.String:
 				f.Value = []byte(field.Interface().(string))
 			case reflect.Bool:
@@ -143,7 +155,10 @@ func getValuesFromStruct(data interface{}) ([]FieldLabel, error) {
 				}
 			}
 			//append the FieldLabel for this field to the list of field labels
-			values = append(values, f)
+			// but only if the value is not empty
+			if len(f.Value) > 0 {
+				values = append(values, f)
+			}
 		} //NumFields END
 	case reflect.Slice:
 		//Slice should not be sent to this function. Only items in a slice
