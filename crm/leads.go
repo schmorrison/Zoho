@@ -79,6 +79,16 @@ func (L *LeadsModule) GetSearchRecordsByPDC(o GetSearchRecordsByPDCOptions) (Lea
 	return v.(Leads), err
 }
 
+func (L *LeadsModule) ConvertLead(o ConvertLeadOptions) (error) {
+	
+	return nil
+}
+
+type ConvertLeadOptions struct {
+	LeadID		string		`zoho:"leadId,required"`		// The Lead to convert
+	Data		crmData		`zoho:"xmlData,required"`		// Required
+}
+
 func (L *LeadsModule) GetRelatedRecords(o GetRelatedRecordsOptions) (Leads, error) {
 	v, err := L.api.getRelatedRecords(L.module, o)
 	if v == nil {
