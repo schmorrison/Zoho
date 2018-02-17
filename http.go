@@ -42,7 +42,6 @@ func (zr *Request) URL() string {
 		fmt.Println("Got error parsing resource URL: ", err.Error())
 		return ""
 	}
-	u.RawQuery = zr.vals.Encode()
 	return u.String()
 }
 
