@@ -15,8 +15,11 @@ type crmData interface {
 	//	String() string
 }
 
+//ExtraFields are the type used to hold any fields that came from extra modules or custom fields
 type ExtraFields map[string]interface{}
 
+//GetFieldByName will return the value of the provided field name
+// if the name doesn't exist then a nil is returned
 func (e ExtraFields) GetFieldByName(name string) interface{} {
 	for k, v := range e {
 		if k == name {

@@ -19,30 +19,40 @@ type XMLData struct {
 	Error   XMLError
 }
 
+// addRow will get the fields from the provided data and add the fields to the new row.
 func (x *XMLData) addRow(c crmData, i int) {
 	//Create a Row
 	r := Row{Number: i}
+	//get fields from data
 	f, err := getValuesFromStruct(c)
 	if err != nil {
 		fmt.Println(err)
 		return
 	}
+	//add fields to row
 	r.Fields = f
+	//add new row to row list
 	x.Rows = append(x.Rows, r)
 }
 
+// encode will iterate over the fields in each row
 func (x *XMLData) encode() string {
 	x2 := x
 	// iterate over the rows
 	for i := range x2.Rows {
 		fields := x2.Rows[i].Fields
+		//iterate over the rows fields
 	FIELDS:
 		for j := range x2.Rows[i].Fields {
+			//iterate over the fields Tags
 			for _, tag := range x2.Rows[i].Fields[j].Tags {
-				//strip tags
+				//if the 'strip' tag exists
 				if tag == "strip" {
+					//iterate over the fields reference
 					for k := range fields {
+						//if the fields label is same as reference fields label
 						if fields[k].Label == x2.Rows[i].Fields[j].Label {
+							//remove field with label from fields
 							fields[len(fields)-1], fields[k] = fields[k], fields[len(fields)-1]
 							fields = fields[:len(fields)-1]
 							continue FIELDS
@@ -51,6 +61,7 @@ func (x *XMLData) encode() string {
 				}
 			}
 		}
+		//replace the rows fields with the reference fields
 		x2.Rows[i].Fields = fields
 	}
 
@@ -92,6 +103,7 @@ type InternalGroup struct {
 	Fields  []FieldLabel
 }
 
+// decode is used to get the data from inside a "FL" XML tag
 func (f *FieldLabel) decode(decoder *xml.Decoder, v xml.Token) {
 	e := v.(xml.StartElement)
 	err := decoder.DecodeElement(f, &e)
@@ -102,12 +114,15 @@ func (f *FieldLabel) decode(decoder *xml.Decoder, v xml.Token) {
 	}
 }
 
+// getFieldLabelByName will return a named field label
 func getFieldLabelByName(f []FieldLabel, name string) FieldLabel {
 	if strings.Contains(name, ">") {
 		tags := strings.Split(name, ">")
 		name = tags[0]
 	}
+	//iterate over the provided FieldLabels
 	for _, a := range f {
+		//if the fields label is the same as the provided name, or the iterpreted name from the tag
 		if a.Label == name {
 			return a
 		}
@@ -115,8 +130,11 @@ func getFieldLabelByName(f []FieldLabel, name string) FieldLabel {
 	return FieldLabel{}
 }
 
+// removeLabelByName will remove a named field from a list of fields
 func removeLabelByName(f []FieldLabel, name string) []FieldLabel {
+	// iterate over the provided fields
 	for i, a := range f {
+		// if the fields label is the name to be removed
 		if a.Label == name {
 			f = append(f[:i], f[i+1:]...)
 			return f
@@ -125,20 +143,23 @@ func removeLabelByName(f []FieldLabel, name string) []FieldLabel {
 	return f
 }
 
+// XMLError is returned from Zoho when an Error occurs internally
 type XMLError struct {
 	XMLName xml.Name
 	Code    int    `xml:"code"`
 	Message string `xml:"message"`
 }
 
+// getvaluesFromXML will create a valid data type from the XML returned by Zoho
 func getValuesFromXML(b []byte) (XMLData, error) {
-	data := XMLData{}
-	values := []Row{}
-	currentRow := []FieldLabel{}
+	data := XMLData{} //all data
+	values := []Row{} // list of rows
+	currentRow := []FieldLabel{} //fields in row
 	nestedField := FieldLabel{}
 	nestedGroup := InternalGroup{}
 	module := ""
 	nested := ""
+
 	//Make an XML decoder from the response body
 	decoder := xml.NewDecoder(strings.NewReader(string(b)))
 PRIME:
@@ -146,9 +167,10 @@ PRIME:
 		// iterate over XML documents tokens
 		t1, err := decoder.Token()
 		if err != nil && err != io.EOF {
-			fmt.Println("Got error on primer 'tokener'")
+			fmt.Println("Got error on prime 'tokener'")
 			log.Fatal(err)
 		}
+		// no more tokens
 		if t1 == nil {
 			break PRIME
 		}
@@ -157,6 +179,7 @@ PRIME:
 		case xml.StartElement:
 			switch e1.Name.Local {
 			case "response", "result":
+				//these are just wrapper words and not particularly useful
 			case "nodata":
 				//found 'nodata' error so decode element into 'XMLError'
 				e := XMLError{XMLName: xml.Name{Local: "nodata"}}
@@ -204,6 +227,7 @@ PRIME:
 					}
 				}
 			default:
+				// set the module value
 				if module == "" {
 					module = e1.Name.Local
 				} else {
@@ -252,17 +276,20 @@ PRIME:
 					//should be safe to return the fields
 					break PRIME
 				}
-			case "response":
-				break PRIME
-			case "result":
+			case "response", "result":
 				break PRIME
 			}
 		}
 	}
+	//set the datas 'Rows'
 	data.Rows = values
+	//return the data
 	return data, nil
 }
 
+//checkForInternalGroud will return true when the provided XML startelement
+// is followed by a set of elements deeper than the row>FL
+// an example would be row>FL>products when retreiving a SalesOrder
 func checkForInternalGroup(decoder *xml.Decoder, v xml.StartElement) bool {
 	found := false
 	for {
@@ -271,11 +298,14 @@ func checkForInternalGroup(decoder *xml.Decoder, v xml.StartElement) bool {
 			fmt.Println("TOKEN ERROR: check internal group")
 			return false
 		}
+		//no more tokens
 		if t == nil {
 			return false
 		}
+
 		switch e := t.(type) {
 		case xml.EndElement:
+			//because we have an endelement after we found our token
 			if found {
 				return false
 			}
@@ -284,12 +314,14 @@ func checkForInternalGroup(decoder *xml.Decoder, v xml.StartElement) bool {
 				name := e.Name.Local
 				switch name {
 				case "FL":
+					//got a 'FL' element inside our found element
 					return false
 				default:
-
+					//got some other field element inside our found element
 					return true
 				}
 			}
+			// provided element name is same as new start element
 			if e.Name.Local == v.Name.Local {
 				same := true
 				//iterate attributes on new token
@@ -312,6 +344,7 @@ func checkForInternalGroup(decoder *xml.Decoder, v xml.StartElement) bool {
 					same = false
 					break ATTR_1
 				}
+				// the two tokens and all attributes are the same
 				if same {
 					found = true
 				}
@@ -514,13 +547,13 @@ func fillStructFromValues(fields []FieldLabel, data interface{}) error {
 		} //FIELDS END
 	}
 
-	if len(fields) > 0 {
-		fmt.Println("FIELDS REMAINING")
-	}
+	//put all remaining fields in the data struct
+	e := ExtraFields{}
 	for _, a := range fields {
-
-		fmt.Printf("FIELD:\t'%s'\twith Value:\t'%s'\n", a.Label, string(a.Value))
+		e[a.Label] = string(a.Value)
 	}
+	ev := reflect.ValueOf(e)
+	dV.FieldByName("ExtraFields").Set(ev)
 
 	return nil
 }
