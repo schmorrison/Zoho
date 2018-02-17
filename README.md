@@ -26,6 +26,7 @@ I will try to comment the code religously, and will read up on Go Doc so the gen
 - [ ] Read up on writing Go Doc comments
 - [ ] Comment code religously
 - [ ] Write extensive unit tests
+- [ ] Start versioning commits to prevent major breaks
 
 ## Usage
 
