@@ -1,98 +1,132 @@
 package zoho
 
 import (
+	"encoding/json"
 	"fmt"
+	"io/ioutil"
 	"net/http"
 	"net/url"
+	"strings"
 )
 
-// NewRequest uses the resource and method to initialize build a Zoho Request
-func (z *Zoho) NewRequest(resource, method string) *Request {
-	zr := &Request{
-		Resource: resource,
-		Method:   method,
-		vals:     url.Values{},
-	}
-	return zr
+type Endpoint struct {
+	Methods          []HttpMethod
+	URL              string
+	Name             string
+	ResponseData     interface{}
+	URLParameters    map[string]Parameter
+	OptionalSegments map[string]string
 }
 
-// Request will perform the provided request with the account in the Zoho receiver
-func (z *Zoho) Request(zr *Request) (*http.Response, error) {
-	req, err := http.NewRequest(zr.Method, zr.URL(), nil)
-	if err != nil {
-		return nil, fmt.Errorf("Error initializing http request: %s", err.Error())
+type Parameter string
+
+func (z *Zoho) HttpRequest(endpoint *Endpoint, method HttpMethod) (err error) {
+	methodExists := false
+	for _, a := range endpoint.Methods {
+		if a == method {
+			methodExists = true
+			break
+		}
 	}
+	if !methodExists {
+		return fmt.Errorf("Provided method is not available for this endpoint")
+	}
+
+	endpointURL := endpoint.URL
+
+	if len(endpoint.OptionalSegments) > 0 {
+		for k, v := range endpoint.OptionalSegments {
+			segment := fmt.Sprintf("/${%s}", k)
+			if strings.Contains(endpointURL, segment) {
+				strings.Replace(endpointURL, segment, fmt.Sprintf("/%s", v), 1)
+			} else {
+				strings.Replace(endpointURL, segment, "", 1)
+			}
+		}
+	}
+
+	q := url.Values{}
+	for k, v := range endpoint.URLParameters {
+		if v != "" {
+			q.Set(k, string(v))
+		}
+	}
+
+	req, err := http.NewRequest(string(method), endpoint.URL, nil)
+	if err != nil {
+		return fmt.Errorf("Failed to create a request for %s: %s", endpoint.Name, err)
+	}
+
+	req.Header.Add("Authorization", "Zoho-oauthtoken "+z.oauth.token.AccessToken)
+
 	resp, err := z.client.Do(req)
 	if err != nil {
-		return nil, fmt.Errorf("Error performing http request: %s", err.Error())
+		return fmt.Errorf("Failed to perform request for %s: %s", endpoint.Name, err)
 	}
 
-	return resp, nil
-}
+	defer resp.Body.Close()
 
-// CustomClient replaces the preinitialized http Client with the provided Client
-func (z *Zoho) CustomClient(c *http.Client) {
-	z.client = c
-}
-
-// URL will return the full parsed URL
-func (zr *Request) URL() string {
-	u, err := url.Parse(zr.Resource)
+	body, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
-		fmt.Println("Got error parsing resource URL: ", err.Error())
-		return ""
+		return fmt.Errorf("Failed to read body of response for %s: got status %s: %s", endpoint.Name, checkStatus(resp), err)
 	}
-	u.RawQuery += zr.vals.Encode()
-	return u.String()
-}
 
-// Add will add the provided key/val pair as a URL value to the request
-func (zr *Request) Add(key string, val interface{}) error {
-	valStr := ""
-	switch t := val.(type) {
-	case bool:
-		valStr = fmt.Sprintf("%t", val.(bool))
-	case string:
-		valStr = val.(string)
-	case int:
-		valStr = fmt.Sprintf("%d", val.(int))
-	case int8:
-		valStr = fmt.Sprintf("%d", val.(int8))
-	case int16:
-		valStr = fmt.Sprintf("%d", val.(int16))
-	case int32:
-		valStr = fmt.Sprintf("%d", val.(int32))
-	case int64:
-		valStr = fmt.Sprintf("%d", val.(int64))
-	case float32:
-		valStr = fmt.Sprintf("%f", val.(float32))
-	case float64:
-		valStr = fmt.Sprintf("%f", val.(float64))
-	case complex64:
-		valStr = fmt.Sprintf("%g", val.(complex64))
-	case complex128:
-		valStr = fmt.Sprintf("%g", val.(complex128))
-	default:
-		return fmt.Errorf("The data type '%T' is not supported", t)
+	err = json.Unmarshal(body, &endpoint.ResponseData)
+	if err != nil {
+		return fmt.Errorf("Failed to unmarshal data from response for %s: got status %s: %s", endpoint.Name, checkStatus(resp), err)
 	}
-	zr.vals.Add(key, valStr)
+
 	return nil
 }
 
-// AddMulti will add each item in the map to the requests url Values
-func (zr *Request) AddMulti(m map[string]interface{}) {
-	if len(m) > 0 {
-		for k, v := range m {
-			zr.Add(k, v)
-		}
-	}
+type HttpStatusCode int
+
+var HttpStatusCodes = map[HttpStatusCode]string{
+	200: "The API request is successful.",
+	201: "Request fulfilled for single record insertion.",
+	202: "Request fulfilled for multiple records insertion.",
+	204: "There is no content available for the request.",
+	304: "The requested page has not been modified. In case \"If-Modified-Since\" header is used for GET APIs",
+	400: "The request or the authentication considered is invalid.",
+	401: "Invalid API key provided.",
+	403: "No permission to do the operation.",
+	404: "Invalid request.",
+	405: "The specified method is not allowed.",
+	413: "The server did not accept the request while uploading a file, since the limited file size has exceeded.",
+	415: "The server did not accept the request while uploading a file, since the media/ file type is not supported.",
+	429: "Number of API requests per minute/day has exceeded the limit.",
+	500: "Generic error that is encountered due to an unexpected server error.",
 }
 
-// Request is the structure used prepare an http.Request
-type Request struct {
-	Resource string
-	Method   string
-	Map      map[string]interface{}
-	vals     url.Values
-	request  http.Request
+func checkStatus(r *http.Response) string {
+	if v, ok := HttpStatusCodes[HttpStatusCode(r.StatusCode)]; ok {
+		return v
+	}
+	return ""
 }
+
+type HttpHeader string
+
+const (
+	rateLimit          HttpHeader = "X-RATELIMIT-LIMIT"
+	rateLimitRemaining HttpHeader = "X-RATELIMIT-REMAINING"
+	rateLimitReset     HttpHeader = "X-RATELIMIT-RESET"
+)
+
+func checkHeaders(r http.Response, header HttpHeader) string {
+	value := r.Header.Get(string(header))
+
+	if value != "" {
+		return value
+	}
+	return ""
+}
+
+type HttpMethod string
+
+const (
+	HTTPGet    HttpMethod = "GET"
+	HTTPPost   HttpMethod = "POST"
+	HTTPPut    HttpMethod = "PUT"
+	HTTPDelete HttpMethod = "DELETE"
+)

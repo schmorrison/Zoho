@@ -25,11 +25,13 @@ func New() *Zoho {
 // Zoho is for accessing all APIs. It is used by subpackages to simplify passing authentication
 // values between API subpackages.
 type Zoho struct {
-	user      string
-	password  string
-	scope     string
-	authtoken string
-	orgID     string
+	oauth struct {
+		scopes       []ScopeString
+		clientID     string
+		clientSecret string
+		redirectURI  string
+		token        AccessTokenResponse
+	}
 
 	client *http.Client
 }
