@@ -32,3 +32,30 @@ func (t *Time) UnmarshalJSON(b []byte) {
 	}
 	return
 }
+
+type Date time.Time
+
+var zohoDateLayout = "2006-01-02"
+
+func (d *Date) MarshalJSON() ([]byte, error) {
+	if *d == Date(time.Time{}) {
+		return []byte("null"), nil
+	}
+	stamp := fmt.Sprintf("\"%s\"", time.Time(*d).Format(zohoDateLayout))
+	return []byte(stamp), nil
+}
+
+func (d *Date) UnmarshalJSON(b []byte) {
+	s := strings.Trim(string(b), "\"")
+	if s == "null" {
+		blank := Date(time.Time{})
+		d = &blank
+		return
+	}
+	pTime, err := time.Parse(zohoDateLayout, s)
+	if err == nil {
+		ref := Date(pTime)
+		d = &ref
+	}
+	return
+}

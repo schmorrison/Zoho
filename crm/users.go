@@ -1,20 +1,52 @@
 package crm
 
 import (
+	"fmt"
+
 	".."
 )
 
-var UsersEndpoint = zoho.Endpoint{
-	Name:         "users",
-	URL:          "https://www.zohoapis.com/crm/v2/users/${id}",
-	Methods:      []zoho.HttpMethod{zoho.HTTPGet},
-	ResponseData: UsersResponse{},
-	URLParameters: map[string]zoho.Parameter{
-		"type": None,
-	},
-	OptionalSegments: map[string]string{
-		"id": "",
-	},
+func (c *API) GetUsers(kind UserType) (data UsersResponse, err error) {
+	endpoint := zoho.Endpoint{
+		Name:         "users",
+		URL:          "https://www.zohoapis.com/crm/v2/users",
+		Method:       zoho.HTTPGet,
+		ResponseData: UsersResponse{},
+		URLParameters: map[string]zoho.Parameter{
+			"type": kind,
+		},
+	}
+
+	err = c.Zoho.HttpRequest(&endpoint)
+	if err != nil {
+		return UsersResponse{}, fmt.Errorf("Failed to retrieve users: %s", err)
+	}
+
+	if v, ok := endpoint.ResponseData.(UsersResponse); ok {
+		return v, nil
+	}
+
+	return UsersResponse{}, fmt.Errorf("Data retrieved was not 'UsersResponse'")
+}
+
+func (c *API) GetUser(id string) (data UsersResponse, err error) {
+	endpoint := zoho.Endpoint{
+		Name:         "users",
+		URL:          fmt.Sprintf("https://www.zohoapis.com/crm/v2/users/%s", id),
+		Method:       zoho.HTTPGet,
+		ResponseData: UsersResponse{},
+	}
+
+	err = c.Zoho.HttpRequest(&endpoint)
+	if err != nil {
+		return UsersResponse{}, fmt.Errorf("Failed to retrieve user (%s): %s", id, err)
+	}
+
+	if v, ok := endpoint.ResponseData.(UsersResponse); ok {
+		return v, nil
+	}
+
+	return UsersResponse{}, fmt.Errorf("Data retrieved was not 'UsersResponse'")
 }
 
 type UserType = zoho.Parameter

@@ -1,4 +1,4 @@
-# Zoho CRM
+# Zoho CRM V2 API
 
 NOTE: Not finished and probably unstable. PRs welcome.
 

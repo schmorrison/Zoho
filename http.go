@@ -1,49 +1,28 @@
 package zoho
 
 import (
+	"bytes"
 	"encoding/json"
 	"fmt"
+	"io"
 	"io/ioutil"
 	"net/http"
 	"net/url"
-	"strings"
 )
 
 type Endpoint struct {
-	Methods          []HttpMethod
-	URL              string
-	Name             string
-	ResponseData     interface{}
-	URLParameters    map[string]Parameter
-	OptionalSegments map[string]string
+	Method        HttpMethod
+	URL           string
+	Name          string
+	ResponseData  interface{}
+	URLParameters map[string]Parameter
+	RequestBody   interface{}
 }
 
 type Parameter string
 
-func (z *Zoho) HttpRequest(endpoint *Endpoint, method HttpMethod) (err error) {
-	methodExists := false
-	for _, a := range endpoint.Methods {
-		if a == method {
-			methodExists = true
-			break
-		}
-	}
-	if !methodExists {
-		return fmt.Errorf("Provided method is not available for this endpoint")
-	}
-
+func (z *Zoho) HttpRequest(endpoint *Endpoint) (err error) {
 	endpointURL := endpoint.URL
-
-	if len(endpoint.OptionalSegments) > 0 {
-		for k, v := range endpoint.OptionalSegments {
-			segment := fmt.Sprintf("/${%s}", k)
-			if strings.Contains(endpointURL, segment) {
-				strings.Replace(endpointURL, segment, fmt.Sprintf("/%s", v), 1)
-			} else {
-				strings.Replace(endpointURL, segment, "", 1)
-			}
-		}
-	}
 
 	q := url.Values{}
 	for k, v := range endpoint.URLParameters {
@@ -52,7 +31,17 @@ func (z *Zoho) HttpRequest(endpoint *Endpoint, method HttpMethod) (err error) {
 		}
 	}
 
-	req, err := http.NewRequest(string(method), endpoint.URL, nil)
+	var reqBody io.Reader
+	if endpoint.RequestBody != nil {
+		b, err := json.Marshal(endpoint.RequestBody)
+		if err != nil {
+			return fmt.Errorf("Failed to create json from request body")
+		}
+
+		reqBody = bytes.NewReader(b)
+	}
+
+	req, err := http.NewRequest(string(endpoint.Method), fmt.Sprintf("%s?%s", endpointURL, q.Encode()), reqBody)
 	if err != nil {
 		return fmt.Errorf("Failed to create a request for %s: %s", endpoint.Name, err)
 	}
