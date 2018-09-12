@@ -3,7 +3,7 @@ package crm
 import (
 	"fmt"
 
-	".."
+	"github.com/schmorrison/Zoho"
 )
 
 func (c *API) GetBlueprint(module crmModule, id string) (data BlueprintResponse, err error) {

@@ -3,7 +3,7 @@ package crm
 import (
 	"fmt"
 
-	".."
+	"github.com/schmorrison/Zoho"
 )
 
 func (c *API) GetUsers(kind UserType) (data UsersResponse, err error) {

@@ -3,7 +3,7 @@ package crm
 import (
 	"math/rand"
 
-	".."
+	"github.com/schmorrison/Zoho"
 )
 
 type crmModule string

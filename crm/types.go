@@ -1,6 +1,6 @@
 package crm
 
-import ".."
+import "github.com/schmorrison/Zoho"
 
 type SingleLine string
 type MultiLine string

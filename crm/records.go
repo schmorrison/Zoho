@@ -3,7 +3,7 @@ package crm
 import (
 	"fmt"
 
-	".."
+	"github.com/schmorrison/Zoho"
 )
 
 func (c *API) ListRecords(request interface{}, module crmModule, params map[string]zoho.Parameter) (data interface{}, err error) {

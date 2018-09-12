@@ -3,7 +3,7 @@ package crm
 import (
 	"fmt"
 
-	".."
+	"github.com/schmorrison/Zoho"
 )
 
 func (c *API) GetNotes(params map[string]zoho.Parameter) (data NotesResponse, err error) {
