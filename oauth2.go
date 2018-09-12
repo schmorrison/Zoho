@@ -12,7 +12,7 @@ import (
 	"time"
 )
 
-func (z *Zoho) refreshTokenRequest() (err error) {
+func (z *Zoho) RefreshTokenRequest() (err error) {
 	q := url.Values{}
 	q.Set("client_id", z.oauth.clientID)
 	q.Set("client_secret", z.oauth.clientSecret)
@@ -55,7 +55,7 @@ func (z *Zoho) refreshTokenRequest() (err error) {
 	return nil
 }
 
-func (z *Zoho) generateTokenRequest(clientID, clientSecret, code, redirectURI string) (err error) {
+func (z *Zoho) GenerateTokenRequest(clientID, clientSecret, code, redirectURI string) (err error) {
 	q := url.Values{}
 	q.Set("client_id", clientID)
 	q.Set("client_secret", clientSecret)
@@ -98,7 +98,7 @@ func (z *Zoho) generateTokenRequest(clientID, clientSecret, code, redirectURI st
 	return nil
 }
 
-func (z *Zoho) authorizationRequest(clientID, clientSecret string, scopes []ScopeString, redirectURI string) (err error) {
+func (z *Zoho) AuthorizationCodeRequest(clientID, clientSecret string, scopes []ScopeString, redirectURI string) (err error) {
 	scopeStr := ""
 	for i, a := range scopes {
 		scopeStr += string(a)
@@ -171,7 +171,7 @@ func (z *Zoho) authorizationRequest(clientID, clientSecret string, scopes []Scop
 		return fmt.Errorf("No code was recieved from oAuth2 flow")
 	}
 
-	err = z.generateTokenRequest(clientID, clientSecret, code, redirectURI)
+	err = z.GenerateTokenRequest(clientID, clientSecret, code, redirectURI)
 	if err != nil {
 		return fmt.Errorf("Failed to retrieve oAuth2 token: %s", err)
 	}
