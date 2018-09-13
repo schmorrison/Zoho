@@ -37,6 +37,7 @@ It is reasonable to assume that each API may provide different implementation, h
 
     import (
         "github.com/schmorrison/Zoho"
+        "log"
     )
 
     func main() {
@@ -53,7 +54,7 @@ It is reasonable to assume that each API may provide different implementation, h
         // if the provided redirectURL is a localhost domain, the function will create a server on that port (use non-privileged port), and wait for the redirect to occur.
         // if the redirect provides the authorization code in the URL parameter "code", then the server catches it and provides it to the function for generating AccessToken and RefreshToken
 
-        if err := z.AuthorizationCodeRequest("yourClientID", "yourClientSecret", scopes, "http://localhost:8080/oauthredirect"); != nil {
+        if err := z.AuthorizationCodeRequest("yourClientID", "yourClientSecret", scopes, "http://localhost:8080/oauthredirect"); err != nil {
             log.Fatal(err)
         }
     }
@@ -63,6 +64,7 @@ Alternatively, you may not want to have to click on the link. Perhaps you are ru
 That code can be used to request Access and Request tokens as so.
 
     import (
+        "log"
         "github.com/schmorrison/Zoho"
     )
 
