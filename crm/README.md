@@ -8,6 +8,8 @@ Brainstorm: CRM defines many special types for their internal fields (SingleLine
 
 ## Usage
     import (
+        "log"
+        "fmt"
         "github.com/schmorrison/Zoho"
     )
 
@@ -17,7 +19,7 @@ Brainstorm: CRM defines many special types for their internal fields (SingleLine
         scopes := []zoho.ScopeString{
             zoho.BuildScope(zoho.Crm, zoho.ModulesScope, zoho.AllMethod, zoho.NoOp),
         }
-        if err := z.AuthorizationCodeRequest("yourClientID", "yourClientSecret", scopes, "http://localhost:8080/oauthredirect"); != nil {
+        if err := z.AuthorizationCodeRequest("yourClientID", "yourClientSecret", scopes, "http://localhost:8080/oauthredirect"); err != nil {
             log.Fatal(err)
         }
 
@@ -36,7 +38,7 @@ Brainstorm: CRM defines many special types for their internal fields (SingleLine
         // The returned JSON values are subject to change given that custom fields are an instrinsic part of zoho. (see brainstorm above)
         data := map[string]interface{}
         _, err := c.ListRecords(&data, crm.AccountsModule, nil)
-        if err !- nil {
+        if err != nil {
             log.Fatal(err)
         }
 
