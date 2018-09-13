@@ -5,9 +5,9 @@ import (
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
+	"net"
 	"net/http"
 	"net/url"
-	"os"
 	"strings"
 	"time"
 )
@@ -122,9 +122,13 @@ func (z *Zoho) AuthorizationCodeRequest(clientID, clientSecret string, scopes []
 	localRedirect := strings.Contains(redirectURI, "localhost")
 	if localRedirect {
 		// start a localhost server that will handle the redirect url
-		port := "8080"
-		if os.Getenv("ZOHO_REDIRECT_PORT") != "" {
-			port = os.Getenv("ZOHO_REDIRECT_PORT")
+		u, err := url.Parse(redirectURI)
+		if err != nil {
+			return fmt.Errorf("Failed to parse redirect URI: %s", err)
+		}
+		_, port, err := net.SplitHostPort(u.Host)
+		if err != nil {
+			return fmt.Errorf("Failed to split redirect URI into host and port segments: %s", err)
 		}
 		srv := &http.Server{Addr: ":" + port}
 
@@ -269,6 +273,7 @@ const (
 type Operation string
 
 const (
+	NoOp   Operation = ""
 	All    Operation = "ALL"
 	Read   Operation = "READ"
 	Create Operation = "CREATE"
