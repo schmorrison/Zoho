@@ -9,7 +9,6 @@ import (
 	"net/http"
 	"net/url"
 	"strings"
-	"time"
 )
 
 func (z *Zoho) RefreshTokenRequest() (err error) {
@@ -118,6 +117,7 @@ func (z *Zoho) AuthorizationCodeRequest(clientID, clientSecret string, scopes []
 
 	srvChan := make(chan int)
 	codeChan := make(chan string)
+	var srv *http.Server
 
 	localRedirect := strings.Contains(redirectURI, "localhost")
 	if localRedirect {
@@ -130,24 +130,18 @@ func (z *Zoho) AuthorizationCodeRequest(clientID, clientSecret string, scopes []
 		if err != nil {
 			return fmt.Errorf("Failed to split redirect URI into host and port segments: %s", err)
 		}
-		srv := &http.Server{Addr: ":" + port}
+		srv = &http.Server{Addr: ":" + port}
 
 		http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-			w.WriteHeader(200)
 			w.Write([]byte("Code retrieved, you can close this window to continue"))
 
 			codeChan <- r.URL.Query().Get("code")
-			time.Sleep(500 * time.Millisecond)
-			ctx := context.Background()
-			if err := srv.Shutdown(ctx); err != nil {
-				fmt.Printf("Error while shutting down local server: %s\n", err)
-			}
 		})
 
 		go func() {
 			srvChan <- 1
 			err := srv.ListenAndServe()
-			if err != nil {
+			if err != nil && err != http.ErrServerClosed {
 				fmt.Printf("Error while serving locally: %s\n", err)
 			}
 		}()
@@ -163,8 +157,12 @@ func (z *Zoho) AuthorizationCodeRequest(clientID, clientSecret string, scopes []
 	if localRedirect {
 		// wait for code to be returned by the server
 		code = <-codeChan
+		ctx := context.Background()
+		if err := srv.Shutdown(ctx); err != nil {
+			fmt.Printf("Error while shutting down local server: %s\n", err)
+		}
 	} else {
-		fmt.Println("Paste code and press enter:\n")
+		fmt.Printf("Paste code and press enter:\n")
 		_, err := fmt.Scan(&code)
 		if err != nil {
 			return fmt.Errorf("Failed to read code from input: %s", err)
