@@ -105,14 +105,14 @@ type UsersResponse struct {
 			Name string `json:"name,omitempty"`
 			ID   string `json:"id,omitempty"`
 		} `json:"created_by,omitempty"`
-		Zuid          string   `json:"zuid,omitempty"`
-		Confirm       bool     `json:"confirm,omitempty"`
-		FullName      string   `json:"full_name,omitempty"`
-		Territories   []string `json:"territories,omitempty"`
-		Phone         string   `json:"phone,omitempty"`
-		Dob           string   `json:"dob,omitempty"`
-		DateFormat    string   `json:"date_format,omitempty"`
-		Status        string   `json:"status,omitempty"`
+		Zuid          string      `json:"zuid,omitempty"`
+		Confirm       bool        `json:"confirm,omitempty"`
+		FullName      string      `json:"full_name,omitempty"`
+		Territories   interface{} `json:"territories,omitempty"`
+		Phone         string      `json:"phone,omitempty"`
+		Dob           string      `json:"dob,omitempty"`
+		DateFormat    string      `json:"date_format,omitempty"`
+		Status        string      `json:"status,omitempty"`
 		CustomizeInfo struct {
 			NotesDesc       string `json:"notes_desc,omitempty"`
 			ShowRightPanel  bool   `json:"show_right_panel,omitempty"`
