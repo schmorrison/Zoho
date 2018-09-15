@@ -61,6 +61,9 @@ func (z *Zoho) HttpRequest(endpoint *Endpoint) (err error) {
 		return fmt.Errorf("Failed to read body of response for %s: got status %s: %s", endpoint.Name, checkStatus(resp), err)
 	}
 
+	if reflect.TypeOf(endpoint.ResponseData).Kind() != reflect.Ptr {
+		return fmt.Errorf("Failed, you must pass a pointer in the DataResponse field of endpoint")
+	}
 	dataType := reflect.TypeOf(endpoint.ResponseData).Elem()
 	data := reflect.New(dataType).Interface()
 
