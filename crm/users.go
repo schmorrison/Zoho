@@ -108,7 +108,7 @@ type UsersResponse struct {
 		Zuid        string `json:"zuid,omitempty"`
 		Confirm     bool   `json:"confirm,omitempty"`
 		FullName    string `json:"full_name,omitempty"`
-		Territories struct {
+		Territories []struct {
 			Manager bool   `json:"manager,omitempty"`
 			Name    string `json:"name,omitempty"`
 			ID      string `json:"id,omitempty"`
