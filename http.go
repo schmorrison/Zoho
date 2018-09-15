@@ -8,6 +8,7 @@ import (
 	"io/ioutil"
 	"net/http"
 	"net/url"
+	"reflect"
 )
 
 type Endpoint struct {
@@ -60,10 +61,15 @@ func (z *Zoho) HttpRequest(endpoint *Endpoint) (err error) {
 		return fmt.Errorf("Failed to read body of response for %s: got status %s: %s", endpoint.Name, checkStatus(resp), err)
 	}
 
-	err = json.Unmarshal(body, &endpoint.ResponseData)
+	dataType := reflect.TypeOf(endpoint.ResponseData).Elem()
+	data := reflect.New(dataType).Interface()
+
+	err = json.Unmarshal(body, data)
 	if err != nil {
 		return fmt.Errorf("Failed to unmarshal data from response for %s: got status %s: %s", endpoint.Name, checkStatus(resp), err)
 	}
+
+	endpoint.ResponseData = data
 
 	return nil
 }
