@@ -11,7 +11,7 @@ func (c *API) GetOrganization() (data OrganizationResponse, err error) {
 		Name:         "organization",
 		URL:          "https://www.zohoapis.com/crm/v2/org",
 		Method:       zoho.HTTPGet,
-		ResponseData: OrganizationResponse{},
+		ResponseData: &OrganizationResponse{},
 	}
 
 	err = c.Zoho.HttpRequest(&endpoint)
@@ -19,8 +19,8 @@ func (c *API) GetOrganization() (data OrganizationResponse, err error) {
 		return OrganizationResponse{}, fmt.Errorf("Failed to retrieve organization: %s", err)
 	}
 
-	if v, ok := endpoint.ResponseData.(OrganizationResponse); ok {
-		return v, nil
+	if v, ok := endpoint.ResponseData.(*OrganizationResponse); ok {
+		return *v, nil
 	}
 
 	return OrganizationResponse{}, fmt.Errorf("Data retrieved was not 'OrganizationResponse'")

@@ -34,7 +34,7 @@ func (c *API) GetUser(id string) (data UsersResponse, err error) {
 		Name:         "users",
 		URL:          fmt.Sprintf("https://www.zohoapis.com/crm/v2/users/%s", id),
 		Method:       zoho.HTTPGet,
-		ResponseData: UsersResponse{},
+		ResponseData: &UsersResponse{},
 	}
 
 	err = c.Zoho.HttpRequest(&endpoint)
@@ -42,8 +42,8 @@ func (c *API) GetUser(id string) (data UsersResponse, err error) {
 		return UsersResponse{}, fmt.Errorf("Failed to retrieve user (%s): %s", id, err)
 	}
 
-	if v, ok := endpoint.ResponseData.(UsersResponse); ok {
-		return v, nil
+	if v, ok := endpoint.ResponseData.(*UsersResponse); ok {
+		return *v, nil
 	}
 
 	return UsersResponse{}, fmt.Errorf("Data retrieved was not 'UsersResponse'")

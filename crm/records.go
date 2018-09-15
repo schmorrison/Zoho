@@ -11,7 +11,7 @@ func (c *API) ListRecords(request interface{}, module crmModule, params map[stri
 		Name:         "records",
 		URL:          fmt.Sprintf("https://www.zohoapis.com/crm/v2/%s", module),
 		Method:       zoho.HTTPGet,
-		ResponseData: request,
+		ResponseData: &request,
 		URLParameters: map[string]zoho.Parameter{
 			"fields":     "",
 			"sort_order": "",
@@ -45,7 +45,7 @@ func (c *API) GetRecord(request interface{}, module crmModule, ID string, params
 		Name:         "records",
 		URL:          fmt.Sprintf("https://www.zohoapis.com/crm/v2/%s/%s", module, ID),
 		Method:       zoho.HTTPGet,
-		ResponseData: request,
+		ResponseData: &request,
 	}
 
 	err = c.Zoho.HttpRequest(&endpoint)

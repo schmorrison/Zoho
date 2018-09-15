@@ -11,7 +11,7 @@ func (c *API) GetNotes(params map[string]zoho.Parameter) (data NotesResponse, er
 		Name:         "notes",
 		URL:          "https://www.zohoapis.com/crm/v2/Notes",
 		Method:       zoho.HTTPGet,
-		ResponseData: NotesResponse{},
+		ResponseData: &NotesResponse{},
 		URLParameters: map[string]zoho.Parameter{
 			"page":     "",
 			"per_page": "200",
@@ -29,8 +29,8 @@ func (c *API) GetNotes(params map[string]zoho.Parameter) (data NotesResponse, er
 		return NotesResponse{}, fmt.Errorf("Failed to retrieve notes: %s", err)
 	}
 
-	if v, ok := endpoint.ResponseData.(NotesResponse); ok {
-		return v, nil
+	if v, ok := endpoint.ResponseData.(*NotesResponse); ok {
+		return *v, nil
 	}
 
 	return NotesResponse{}, fmt.Errorf("Data returned was not 'NotesResponse'")
@@ -41,15 +41,15 @@ func (c *API) GetNote(module crmModule, recordID string) (data NotesResponse, er
 		Name:         "notes",
 		URL:          fmt.Sprintf("https://www.zohoapis.com/crm/v2/%s/%s/Notes", module, recordID),
 		Method:       zoho.HTTPGet,
-		ResponseData: NotesResponse{},
+		ResponseData: &NotesResponse{},
 	}
 	err = c.Zoho.HttpRequest(&endpoint)
 	if err != nil {
 		return NotesResponse{}, fmt.Errorf("Failed to retrieve notes: %s", err)
 	}
 
-	if v, ok := endpoint.ResponseData.(NotesResponse); ok {
-		return v, nil
+	if v, ok := endpoint.ResponseData.(*NotesResponse); ok {
+		return *v, nil
 	}
 
 	return NotesResponse{}, fmt.Errorf("Data returned was not 'NotesResponse'")
@@ -99,7 +99,7 @@ func (c *API) CreateNote(input CreateNoteData) (data CreateNoteResponse, err err
 		Name:         "notes",
 		URL:          "https://www.zohoapis.com/crm/v2/Notes",
 		Method:       zoho.HTTPPost,
-		ResponseData: CreateNoteResponse{},
+		ResponseData: &CreateNoteResponse{},
 		RequestBody:  input,
 	}
 
@@ -108,8 +108,8 @@ func (c *API) CreateNote(input CreateNoteData) (data CreateNoteResponse, err err
 		return CreateNoteResponse{}, fmt.Errorf("Failed to create notes: %s", err)
 	}
 
-	if v, ok := endpoint.ResponseData.(CreateNoteResponse); ok {
-		return v, nil
+	if v, ok := endpoint.ResponseData.(*CreateNoteResponse); ok {
+		return *v, nil
 	}
 
 	return CreateNoteResponse{}, fmt.Errorf("Data returned was not 'CreateNoteResponse'")
@@ -150,7 +150,7 @@ func (c *API) CreateRecordNote(input CreateRecordNoteData, module crmModule, rec
 		Name:         "notes",
 		URL:          fmt.Sprintf("https://www.zohoapis.com/crm/v2/%s/%s/Notes", module, recordID),
 		Method:       zoho.HTTPPost,
-		ResponseData: CreateRecordNoteResponse{},
+		ResponseData: &CreateRecordNoteResponse{},
 		RequestBody:  input,
 	}
 
@@ -159,8 +159,8 @@ func (c *API) CreateRecordNote(input CreateRecordNoteData, module crmModule, rec
 		return CreateRecordNoteResponse{}, fmt.Errorf("Failed to retrieve notes: %s", err)
 	}
 
-	if v, ok := endpoint.ResponseData.(CreateRecordNoteResponse); ok {
-		return v, nil
+	if v, ok := endpoint.ResponseData.(*CreateRecordNoteResponse); ok {
+		return *v, nil
 	}
 
 	return CreateRecordNoteResponse{}, fmt.Errorf("Data returned was not 'CreateRecordNoteResponse'")
@@ -180,7 +180,7 @@ func (c *API) UpdateNote(input UpdateNoteData, module crmModule, recordID, noteI
 		Name:         "notes",
 		URL:          fmt.Sprintf("https://www.zohoapis.com/crm/v2/%s/%s/Notes/%s", module, recordID, noteID),
 		Method:       zoho.HTTPPut,
-		ResponseData: UpdateNoteResponse{},
+		ResponseData: &UpdateNoteResponse{},
 		RequestBody:  input,
 	}
 
@@ -189,8 +189,8 @@ func (c *API) UpdateNote(input UpdateNoteData, module crmModule, recordID, noteI
 		return UpdateNoteResponse{}, fmt.Errorf("Failed to update notes: %s", err)
 	}
 
-	if v, ok := endpoint.ResponseData.(UpdateNoteResponse); ok {
-		return v, nil
+	if v, ok := endpoint.ResponseData.(*UpdateNoteResponse); ok {
+		return *v, nil
 	}
 
 	return UpdateNoteResponse{}, fmt.Errorf("Data returned was not 'UpdateNoteResponse'")
@@ -204,7 +204,7 @@ func (c *API) DeleteNote(module crmModule, recordID, noteID string) (data Delete
 		Name:         "notes",
 		URL:          fmt.Sprintf("https://www.zohoapis.com/crm/v2/%s/%s/Notes/%s", module, recordID, noteID),
 		Method:       zoho.HTTPDelete,
-		ResponseData: DeleteNoteResponse{},
+		ResponseData: &DeleteNoteResponse{},
 	}
 
 	err = c.Zoho.HttpRequest(&endpoint)
@@ -212,8 +212,8 @@ func (c *API) DeleteNote(module crmModule, recordID, noteID string) (data Delete
 		return DeleteNoteResponse{}, fmt.Errorf("Failed to delete note: %s", err)
 	}
 
-	if v, ok := endpoint.ResponseData.(DeleteNoteResponse); ok {
-		return v, nil
+	if v, ok := endpoint.ResponseData.(*DeleteNoteResponse); ok {
+		return *v, nil
 	}
 
 	return DeleteNoteResponse{}, fmt.Errorf("Data returned was not 'DeleteNoteResponse'")
@@ -231,7 +231,7 @@ func (c *API) DeleteNotes(IDs ...string) (data DeleteNoteResponse, err error) {
 		Name:         "notes",
 		URL:          "https://www.zohoapis.com/crm/v2/Notes",
 		Method:       zoho.HTTPDelete,
-		ResponseData: DeleteNoteResponse{},
+		ResponseData: &DeleteNoteResponse{},
 		URLParameters: map[string]zoho.Parameter{
 			"ids": "",
 		},
@@ -242,8 +242,8 @@ func (c *API) DeleteNotes(IDs ...string) (data DeleteNoteResponse, err error) {
 		return DeleteNoteResponse{}, fmt.Errorf("Failed to delete notes: %s", err)
 	}
 
-	if v, ok := endpoint.ResponseData.(DeleteNoteResponse); ok {
-		return v, nil
+	if v, ok := endpoint.ResponseData.(*DeleteNoteResponse); ok {
+		return *v, nil
 	}
 
 	return DeleteNoteResponse{}, fmt.Errorf("Data returned was not 'DeleteNoteResponse'")

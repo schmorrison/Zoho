@@ -11,7 +11,7 @@ func (c *API) GetModules() (data ModulesResponse, err error) {
 		Name:         "modules",
 		URL:          "https://www.zohoapis.com/crm/v2/settings/modules",
 		Method:       zoho.HTTPGet,
-		ResponseData: ModulesResponse{},
+		ResponseData: &ModulesResponse{},
 	}
 
 	err = c.Zoho.HttpRequest(&endpoint)
@@ -19,8 +19,8 @@ func (c *API) GetModules() (data ModulesResponse, err error) {
 		return ModulesResponse{}, fmt.Errorf("Failed to retrieve modules: %s", err)
 	}
 
-	if v, ok := endpoint.ResponseData.(ModulesResponse); ok {
-		return v, nil
+	if v, ok := endpoint.ResponseData.(*ModulesResponse); ok {
+		return *v, nil
 	}
 
 	return ModulesResponse{}, fmt.Errorf("Data retrieved was not 'ModuleResponse'")

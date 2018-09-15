@@ -11,7 +11,7 @@ func (c *API) GetProfiles() (data ProfilesResponse, err error) {
 		Name:         "profiles",
 		URL:          "https://www.zohoapis.com/crm/v2/settings/profiles",
 		Method:       zoho.HTTPGet,
-		ResponseData: ProfilesResponse{},
+		ResponseData: &ProfilesResponse{},
 	}
 
 	err = c.Zoho.HttpRequest(&endpoint)
@@ -19,8 +19,8 @@ func (c *API) GetProfiles() (data ProfilesResponse, err error) {
 		return ProfilesResponse{}, fmt.Errorf("Failed to retrieve profiles: %s", err)
 	}
 
-	if v, ok := endpoint.ResponseData.(ProfilesResponse); ok {
-		return v, nil
+	if v, ok := endpoint.ResponseData.(*ProfilesResponse); ok {
+		return *v, nil
 	}
 
 	return ProfilesResponse{}, fmt.Errorf("Data retrieved was not 'ProfilesResponse'")
@@ -31,7 +31,7 @@ func (c *API) GetProfile(id string) (data ProfilesResponse, err error) {
 		Name:         "profiles",
 		URL:          fmt.Sprintf("https://www.zohoapis.com/crm/v2/settings/profiles/%s", id),
 		Method:       zoho.HTTPGet,
-		ResponseData: ProfilesResponse{},
+		ResponseData: &ProfilesResponse{},
 	}
 
 	err = c.Zoho.HttpRequest(&endpoint)
@@ -39,8 +39,8 @@ func (c *API) GetProfile(id string) (data ProfilesResponse, err error) {
 		return ProfilesResponse{}, fmt.Errorf("Failed to retrieve profile (%s): %s", id, err)
 	}
 
-	if v, ok := endpoint.ResponseData.(ProfilesResponse); ok {
-		return v, nil
+	if v, ok := endpoint.ResponseData.(*ProfilesResponse); ok {
+		return *v, nil
 	}
 
 	return ProfilesResponse{}, fmt.Errorf("Data retrieved was not 'ProfilesResponse'")

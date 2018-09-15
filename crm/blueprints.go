@@ -11,7 +11,7 @@ func (c *API) GetBlueprint(module crmModule, id string) (data BlueprintResponse,
 		Name:         "blueprints",
 		URL:          fmt.Sprintf("https://www.zohoapis.com/crm/v2/%s/%s/actions/blueprint", module, id),
 		Method:       zoho.HTTPGet,
-		ResponseData: BlueprintResponse{},
+		ResponseData: &BlueprintResponse{},
 	}
 
 	err = c.Zoho.HttpRequest(&endpoint)
@@ -19,8 +19,8 @@ func (c *API) GetBlueprint(module crmModule, id string) (data BlueprintResponse,
 		return BlueprintResponse{}, fmt.Errorf("Failed to retrieve blueprint: %s", err)
 	}
 
-	if v, ok := endpoint.ResponseData.(BlueprintResponse); ok {
-		return v, nil
+	if v, ok := endpoint.ResponseData.(*BlueprintResponse); ok {
+		return *v, nil
 	}
 
 	return BlueprintResponse{}, fmt.Errorf("Data returned was not 'BlueprintResponse'")
@@ -71,7 +71,7 @@ func (c *API) UpdateBlueprint(input, module crmModule, id string) (data UpdateBl
 		Name:         "blueprints",
 		URL:          fmt.Sprintf("https://www.zohoapis.com/crm/v2/%s/%s/actions/blueprint", module, id),
 		Method:       zoho.HTTPPost,
-		ResponseData: UpdateBlueprintResponse{},
+		ResponseData: &UpdateBlueprintResponse{},
 	}
 
 	err = c.Zoho.HttpRequest(&endpoint)
@@ -79,8 +79,8 @@ func (c *API) UpdateBlueprint(input, module crmModule, id string) (data UpdateBl
 		return UpdateBlueprintResponse{}, fmt.Errorf("Failed to update blueprint: %s", err)
 	}
 
-	if v, ok := endpoint.ResponseData.(UpdateBlueprintResponse); ok {
-		return v, nil
+	if v, ok := endpoint.ResponseData.(*UpdateBlueprintResponse); ok {
+		return *v, nil
 	}
 
 	return UpdateBlueprintResponse{}, fmt.Errorf("Data returned was not 'UpdateBlueprintResponse'")
