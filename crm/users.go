@@ -11,7 +11,7 @@ func (c *API) GetUsers(kind UserType) (data UsersResponse, err error) {
 		Name:         "users",
 		URL:          "https://www.zohoapis.com/crm/v2/users",
 		Method:       zoho.HTTPGet,
-		ResponseData: UsersResponse{},
+		ResponseData: &UsersResponse{},
 		URLParameters: map[string]zoho.Parameter{
 			"type": kind,
 		},
@@ -22,8 +22,8 @@ func (c *API) GetUsers(kind UserType) (data UsersResponse, err error) {
 		return UsersResponse{}, fmt.Errorf("Failed to retrieve users: %s", err)
 	}
 
-	if v, ok := endpoint.ResponseData.(UsersResponse); ok {
-		return v, nil
+	if v, ok := endpoint.ResponseData.(*UsersResponse); ok {
+		return *v, nil
 	}
 
 	return UsersResponse{}, fmt.Errorf("Data retrieved was not 'UsersResponse'")
