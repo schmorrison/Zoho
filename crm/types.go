@@ -6,6 +6,13 @@ import (
 	"github.com/schmorrison/Zoho"
 )
 
+type PageInfo struct {
+	PerPage     int  `json:"per_page,omitempty"`
+	Count       int  `json:"count,omitempty"`
+	Page        int  `json:"page,omitempty"`
+	MoreRecords bool `json:"more_records,omitempty"`
+}
+
 type MultiSelect []string
 type Date = zoho.Date
 type Time = zoho.Time

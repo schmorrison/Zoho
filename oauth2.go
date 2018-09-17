@@ -11,6 +11,7 @@ import (
 	"strings"
 )
 
+// RefreshTokenRequest is used to refresh the oAuth2 access token
 func (z *Zoho) RefreshTokenRequest() (err error) {
 	q := url.Values{}
 	q.Set("client_id", z.oauth.clientID)
@@ -54,6 +55,10 @@ func (z *Zoho) RefreshTokenRequest() (err error) {
 	return nil
 }
 
+// GenerateTokenRequest will get the Access token and Refresh token and hold them in the Zoho struct. This function can be used rather than
+// AuthorizationCodeRequest is you do not want to click on a link and redirect to a consent screen. Instead you can go to, https://accounts.zoho.com/developerconsole
+// and click the kebab icon beside your clienID, and click 'Self-Client'; then you can define you scopes and an expiry, then provide the generated authorization code
+// to this function which will generate your access token and refresh tokens.
 func (z *Zoho) GenerateTokenRequest(clientID, clientSecret, code, redirectURI string) (err error) {
 	q := url.Values{}
 	q.Set("client_id", clientID)
@@ -97,6 +102,12 @@ func (z *Zoho) GenerateTokenRequest(clientID, clientSecret, code, redirectURI st
 	return nil
 }
 
+// AuthorizationCodeRequest will request an authorization code from Zoho. This authorization code is then used to generate access and refresh tokens.
+// This function will print a link that needs to be pasted into a browser to continue the oAuth2 flow. Then it will redirect to the redirectURL, it
+// must be the same as the redirect URL that was provided to Zoho when generating your client ID and client secret. If the redirect URL was a localhost
+// domain, the function will start a server that will get the code from the URL when the browser redirects.
+// If the domain is not a localhost, you will be prompted to paste the code from the URL back into the terminal window,
+// eg. https://domain.com/redirect-url?code=xxxxxxxxxx
 func (z *Zoho) AuthorizationCodeRequest(clientID, clientSecret string, scopes []ScopeString, redirectURI string) (err error) {
 	scopeStr := ""
 	for i, a := range scopes {
@@ -181,6 +192,7 @@ func (z *Zoho) AuthorizationCodeRequest(clientID, clientSecret string, scopes []
 	return nil
 }
 
+// AccessTokenResponse is the data returned when generating AccessTokens, or Refreshing the token
 type AccessTokenResponse struct {
 	AccessToken      string `json:"access_token,omitempty"`
 	RefreshToken     string `json:"refresh_token,omitempty"`
@@ -198,8 +210,10 @@ const (
 	oauthRevokeTokenRequestSlug   = "revoke"
 )
 
+// ScopeString is a type for defining scopes for oAuth2 flow
 type ScopeString string
 
+// BuildScope is used to generate a scope string for oAuth2 flow
 func BuildScope(service Service, scope Scope, method Method, operation Operation) ScopeString {
 	built := fmt.Sprintf("%s.%s.%s", service, scope, method)
 	if operation != "" {
@@ -208,73 +222,128 @@ func BuildScope(service Service, scope Scope, method Method, operation Operation
 	return ScopeString(built)
 }
 
+// Service is a type for building scopes
 type Service string
 
 const (
+	// Crm is the Service portion of the scope string
 	Crm Service = "ZohoCRM"
 )
 
+// Scope is a type for building scopes
 type Scope string
 
 const (
-	UsersScope    Scope = "users"
-	OrgScope      Scope = "org"
+	// UsersScope is a possible Scope portion of the scope string
+	UsersScope Scope = "users"
+	// OrgScope is a possible Scope portion of the scope string
+	OrgScope Scope = "org"
+	// SettingsScope is a possible Scope portion of the scope string
 	SettingsScope Scope = "settings"
-	ModulesScope  Scope = "modules"
+	// ModulesScope is a possible Scope portion of the scope string
+	ModulesScope Scope = "modules"
 )
 
+// Method is a type for building scopes
 type Method string
+
+// SettingsMethod is a type for building scopes
 type SettingsMethod = Method
+
+// ModulesMethod is a type for building scopes
 type ModulesMethod = Method
 
 const (
+	// AllMethod is a possible Method portion of the scope string
 	AllMethod Method = "ALL"
 
-	Territories   SettingsMethod = "territories"
-	CustomViews   SettingsMethod = "custom_views"
-	RelatedLists  SettingsMethod = "related_lists"
-	Modules       SettingsMethod = "modules"
-	TabGroups     SettingsMethod = "tab_groups"
-	Fields        SettingsMethod = "fields"
-	Layouts       SettingsMethod = "layouts"
-	Macros        SettingsMethod = "macros"
-	CustomLinks   SettingsMethod = "custom_links"
+	// Territories is a possible Method portion of the scope string
+	Territories SettingsMethod = "territories"
+	// CustomViews is a possible Method portion of the scope string
+	CustomViews SettingsMethod = "custom_views"
+	// RelatedLists is a possible Method portion of the scope string
+	RelatedLists SettingsMethod = "related_lists"
+	// Modules is a possible Method portion of the scope string
+	Modules SettingsMethod = "modules"
+	// TabGroups is a possible Method portion of the scope string
+	TabGroups SettingsMethod = "tab_groups"
+	// Fields is a possible Method portion of the scope string
+	Fields SettingsMethod = "fields"
+	// Layouts is a possible Method portion of the scope string
+	Layouts SettingsMethod = "layouts"
+	// Macros is a possible Method portion of the scope string
+	Macros SettingsMethod = "macros"
+	// CustomLinks is a possible Method portion of the scope string
+	CustomLinks SettingsMethod = "custom_links"
+	// CustomButtons is a possible Method portion of the scope string
 	CustomButtons SettingsMethod = "custom_buttons"
-	Roles         SettingsMethod = "roles"
-	Profiles      SettingsMethod = "profiles"
+	// Roles is a possible Method portion of the scope string
+	Roles SettingsMethod = "roles"
+	// Profiles is a possible Method portion of the scope string
+	Profiles SettingsMethod = "profiles"
 
-	Approvals      ModulesMethod = "approvals"
-	Leads          ModulesMethod = "leads"
-	Accounts       ModulesMethod = "accounts"
-	Contacts       ModulesMethod = "contacts"
-	Deals          ModulesMethod = "deals"
-	Campaigns      ModulesMethod = "campaigns"
-	Tasks          ModulesMethod = "tasks"
-	Cases          ModulesMethod = "cases"
-	Events         ModulesMethod = "events"
-	Calls          ModulesMethod = "calls"
-	Solutions      ModulesMethod = "solutions"
-	Products       ModulesMethod = "products"
-	Vendors        ModulesMethod = "vendors"
-	PriceBooks     ModulesMethod = "pricebooks"
-	Quotes         ModulesMethod = "quotes"
-	SalesOrders    ModulesMethod = "salesorders"
+	// Approvals is a possible Method portion of the scope string
+	Approvals ModulesMethod = "approvals"
+	// Leads is a possible Method portion of the scope string
+	Leads ModulesMethod = "leads"
+	// Accounts is a possible Method portion of the scope string
+	Accounts ModulesMethod = "accounts"
+	// Contacts is a possible Method portion of the scope string
+	Contacts ModulesMethod = "contacts"
+	// Deals is a possible Method portion of the scope string
+	Deals ModulesMethod = "deals"
+	// Campaigns is a possible Method portion of the scope string
+	Campaigns ModulesMethod = "campaigns"
+	// Tasks is a possible Method portion of the scope string
+	Tasks ModulesMethod = "tasks"
+	// Cases is a possible Method portion of the scope string
+	Cases ModulesMethod = "cases"
+	// Events is a possible Method portion of the scope string
+	Events ModulesMethod = "events"
+	// Calls is a possible Method portion of the scope string
+	Calls ModulesMethod = "calls"
+	// Solutions is a possible Method portion of the scope string
+	Solutions ModulesMethod = "solutions"
+	// Products is a possible Method portion of the scope string
+	Products ModulesMethod = "products"
+	// Vendors is a possible Method portion of the scope string
+	Vendors ModulesMethod = "vendors"
+	// PriceBooks is a possible Method portion of the scope string
+	PriceBooks ModulesMethod = "pricebooks"
+	// Quotes is a possible Method portion of the scope string
+	Quotes ModulesMethod = "quotes"
+	// SalesOrders is a possible Method portion of the scope string
+	SalesOrders ModulesMethod = "salesorders"
+	// PurchaseOrders is a possible Method portion of the scope string
 	PurchaseOrders ModulesMethod = "purchaseorders"
-	Invoices       ModulesMethod = "invoices"
-	Custom         ModulesMethod = "custom"
-	Dashboards     ModulesMethod = "dashboards"
-	Notes          ModulesMethod = "notes"
-	Activities     ModulesMethod = "activities"
-	Search         ModulesMethod = "search"
+	// Invoices is a possible Method portion of the scope string
+	Invoices ModulesMethod = "invoices"
+	// Custom is a possible Method portion of the scope string
+	Custom ModulesMethod = "custom"
+	// Dashboards is a possible Method portion of the scope string
+	Dashboards ModulesMethod = "dashboards"
+	// Notes is a possible Method portion of the scope string
+	Notes ModulesMethod = "notes"
+	// Activities is a possible Method portion of the scope string
+	Activities ModulesMethod = "activities"
+	// Search is a possible Method portion of the scope string
+	Search ModulesMethod = "search"
 )
 
+// Operation is a type for building scopes
 type Operation string
 
 const (
-	NoOp   Operation = ""
-	All    Operation = "ALL"
-	Read   Operation = "READ"
+	// NoOp is a possible Operation portion of the scope string
+	NoOp Operation = ""
+	// All is a possible Operation portion of the scope string
+	All Operation = "ALL"
+	// Read is a possible Operation portion of the scope string
+	Read Operation = "READ"
+	// Create is a possible Operation portion of the scope string
 	Create Operation = "CREATE"
+	// Update is a possible Operation portion of the scope string
 	Update Operation = "UPDATE"
+	// Delete is a possible Operation portion of the scope string
 	Delete Operation = "DELETE"
 )

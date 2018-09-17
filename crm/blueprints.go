@@ -6,6 +6,8 @@ import (
 	"github.com/schmorrison/Zoho"
 )
 
+// GetBlueprint retrieves a blueprint record specified by the ID parameter from the module specified
+// https://www.zoho.com/crm/help/api/v2/#blueprint-api
 func (c *API) GetBlueprint(module crmModule, id string) (data BlueprintResponse, err error) {
 	endpoint := zoho.Endpoint{
 		Name:         "blueprints",
@@ -14,7 +16,7 @@ func (c *API) GetBlueprint(module crmModule, id string) (data BlueprintResponse,
 		ResponseData: &BlueprintResponse{},
 	}
 
-	err = c.Zoho.HttpRequest(&endpoint)
+	err = c.Zoho.HTTPRequest(&endpoint)
 	if err != nil {
 		return BlueprintResponse{}, fmt.Errorf("Failed to retrieve blueprint: %s", err)
 	}
@@ -26,6 +28,7 @@ func (c *API) GetBlueprint(module crmModule, id string) (data BlueprintResponse,
 	return BlueprintResponse{}, fmt.Errorf("Data returned was not 'BlueprintResponse'")
 }
 
+// BlueprintResponse is the data returned by the GetBlueprint endpoint
 type BlueprintResponse struct {
 	Blueprint struct {
 		ProcessInfo struct {
@@ -66,15 +69,18 @@ type BlueprintResponse struct {
 	} `json:"blueprint"`
 }
 
-func (c *API) UpdateBlueprint(input, module crmModule, id string) (data UpdateBlueprintResponse, err error) {
+// UpdateBlueprint updates the blueprint specified by ID in the specified module
+// https://www.zoho.com/crm/help/api/v2/#update-blueprint
+func (c *API) UpdateBlueprint(request UpdateBlueprintData, module crmModule, id string) (data UpdateBlueprintResponse, err error) {
 	endpoint := zoho.Endpoint{
 		Name:         "blueprints",
 		URL:          fmt.Sprintf("https://www.zohoapis.com/crm/v2/%s/%s/actions/blueprint", module, id),
 		Method:       zoho.HTTPPost,
 		ResponseData: &UpdateBlueprintResponse{},
+		RequestBody:  request,
 	}
 
-	err = c.Zoho.HttpRequest(&endpoint)
+	err = c.Zoho.HTTPRequest(&endpoint)
 	if err != nil {
 		return UpdateBlueprintResponse{}, fmt.Errorf("Failed to update blueprint: %s", err)
 	}
@@ -86,13 +92,15 @@ func (c *API) UpdateBlueprint(input, module crmModule, id string) (data UpdateBl
 	return UpdateBlueprintResponse{}, fmt.Errorf("Data returned was not 'UpdateBlueprintResponse'")
 }
 
-type UpdateBluprintData struct {
+// UpdateBlueprintData is the data that should be provided to UpdateBlueprint
+type UpdateBlueprintData struct {
 	Blueprint []struct {
 		TransitionID string                 `json:"transition_id"`
 		Data         map[string]interface{} `json:"data"`
 	} `json:"blueprint"`
 }
 
+// UpdateBlueprintResponse is the data returned by UpdateBlueprint
 type UpdateBlueprintResponse struct {
 	Code    string `json:"code"`
 	Details struct {

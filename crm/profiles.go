@@ -6,6 +6,8 @@ import (
 	"github.com/schmorrison/Zoho"
 )
 
+// GetProfiles will return the list of profiles in this CRM organization
+// https://www.zoho.com/crm/help/api/v2/#Profiles-APIs
 func (c *API) GetProfiles() (data ProfilesResponse, err error) {
 	endpoint := zoho.Endpoint{
 		Name:         "profiles",
@@ -14,7 +16,7 @@ func (c *API) GetProfiles() (data ProfilesResponse, err error) {
 		ResponseData: &ProfilesResponse{},
 	}
 
-	err = c.Zoho.HttpRequest(&endpoint)
+	err = c.Zoho.HTTPRequest(&endpoint)
 	if err != nil {
 		return ProfilesResponse{}, fmt.Errorf("Failed to retrieve profiles: %s", err)
 	}
@@ -26,6 +28,8 @@ func (c *API) GetProfiles() (data ProfilesResponse, err error) {
 	return ProfilesResponse{}, fmt.Errorf("Data retrieved was not 'ProfilesResponse'")
 }
 
+// GetProfile will return the profile specified by id
+// https://www.zoho.com/crm/help/api/v2/#get-single-profile-data
 func (c *API) GetProfile(id string) (data ProfilesResponse, err error) {
 	endpoint := zoho.Endpoint{
 		Name:         "profiles",
@@ -34,7 +38,7 @@ func (c *API) GetProfile(id string) (data ProfilesResponse, err error) {
 		ResponseData: &ProfilesResponse{},
 	}
 
-	err = c.Zoho.HttpRequest(&endpoint)
+	err = c.Zoho.HTTPRequest(&endpoint)
 	if err != nil {
 		return ProfilesResponse{}, fmt.Errorf("Failed to retrieve profile (%s): %s", id, err)
 	}
@@ -46,6 +50,7 @@ func (c *API) GetProfile(id string) (data ProfilesResponse, err error) {
 	return ProfilesResponse{}, fmt.Errorf("Data retrieved was not 'ProfilesResponse'")
 }
 
+// ProfilesResponse is the data returned by GetProfiles and GetProfile
 type ProfilesResponse struct {
 	Profiles []struct {
 		Name        string `json:"name,omitempty"`

@@ -6,6 +6,8 @@ import (
 	"github.com/schmorrison/Zoho"
 )
 
+// GetModules returns the list of modules available in the CRM account
+// https://www.zoho.com/crm/help/api/v2/#Modules-APIs
 func (c *API) GetModules() (data ModulesResponse, err error) {
 	endpoint := zoho.Endpoint{
 		Name:         "modules",
@@ -14,7 +16,7 @@ func (c *API) GetModules() (data ModulesResponse, err error) {
 		ResponseData: &ModulesResponse{},
 	}
 
-	err = c.Zoho.HttpRequest(&endpoint)
+	err = c.Zoho.HTTPRequest(&endpoint)
 	if err != nil {
 		return ModulesResponse{}, fmt.Errorf("Failed to retrieve modules: %s", err)
 	}
@@ -26,6 +28,7 @@ func (c *API) GetModules() (data ModulesResponse, err error) {
 	return ModulesResponse{}, fmt.Errorf("Data retrieved was not 'ModuleResponse'")
 }
 
+// ModulesResponse is the data returned by GetModules
 type ModulesResponse struct {
 	Modules []struct {
 		Convertable   bool   `json:"convertable,omitempty"`

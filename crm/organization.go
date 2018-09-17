@@ -6,6 +6,8 @@ import (
 	"github.com/schmorrison/Zoho"
 )
 
+// GetOrganization will return the organization data related to the logged in account
+// https://www.zoho.com/crm/help/api/v2/#Organization-API
 func (c *API) GetOrganization() (data OrganizationResponse, err error) {
 	endpoint := zoho.Endpoint{
 		Name:         "organization",
@@ -14,7 +16,7 @@ func (c *API) GetOrganization() (data OrganizationResponse, err error) {
 		ResponseData: &OrganizationResponse{},
 	}
 
-	err = c.Zoho.HttpRequest(&endpoint)
+	err = c.Zoho.HTTPRequest(&endpoint)
 	if err != nil {
 		return OrganizationResponse{}, fmt.Errorf("Failed to retrieve organization: %s", err)
 	}
@@ -26,6 +28,7 @@ func (c *API) GetOrganization() (data OrganizationResponse, err error) {
 	return OrganizationResponse{}, fmt.Errorf("Data retrieved was not 'OrganizationResponse'")
 }
 
+// OrganizationResponse is the data returned by GetOrganization
 type OrganizationResponse struct {
 	Org []struct {
 		Country        string `json:"country,omitempty"`

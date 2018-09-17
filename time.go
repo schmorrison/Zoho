@@ -6,10 +6,12 @@ import (
 	"time"
 )
 
+// Time is a time.Time which can be marshalled/unmarshalled according to Zoho's specific time scheme
 type Time time.Time
 
 var zohoTimeLayout = "2006-01-02T15:04:05-07:00"
 
+// MarshalJSON is the json marshalling function for Time internal type
 func (t *Time) MarshalJSON() ([]byte, error) {
 	if *t == Time(time.Time{}) {
 		return []byte("null"), nil
@@ -18,25 +20,28 @@ func (t *Time) MarshalJSON() ([]byte, error) {
 	return []byte(stamp), nil
 }
 
-func (t *Time) UnmarshalJSON(b []byte) {
+// UnmarshalJSON is the json unmarshalling function for Time internal type
+func (t *Time) UnmarshalJSON(b []byte) error {
 	s := strings.Trim(string(b), "\"")
 	if s == "null" {
 		blank := Time(time.Time{})
 		t = &blank
-		return
+		return nil
 	}
 	pTime, err := time.Parse(zohoTimeLayout, s)
 	if err == nil {
 		ref := Time(pTime)
 		t = &ref
 	}
-	return
+	return err
 }
 
+// Date iis a time.Time which can be marshalled/unmarshalled according to Zoho's specific date scheme
 type Date time.Time
 
 var zohoDateLayout = "2006-01-02"
 
+// MarshalJSON is the json marshalling function for Date internal type
 func (d *Date) MarshalJSON() ([]byte, error) {
 	if *d == Date(time.Time{}) {
 		return []byte("null"), nil
@@ -45,17 +50,18 @@ func (d *Date) MarshalJSON() ([]byte, error) {
 	return []byte(stamp), nil
 }
 
-func (d *Date) UnmarshalJSON(b []byte) {
+// UnmarshalJSON is the json unmarshalling function for Date internal type
+func (d *Date) UnmarshalJSON(b []byte) error {
 	s := strings.Trim(string(b), "\"")
 	if s == "null" {
 		blank := Date(time.Time{})
 		d = &blank
-		return
+		return nil
 	}
 	pTime, err := time.Parse(zohoDateLayout, s)
 	if err == nil {
 		ref := Date(pTime)
 		d = &ref
 	}
-	return
+	return err
 }

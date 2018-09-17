@@ -11,18 +11,27 @@ import (
 	"reflect"
 )
 
+// Endpoint defines the data required to interact with most Zoho REST api endpoints
 type Endpoint struct {
-	Method        HttpMethod
+	Method        HTTPMethod
 	URL           string
 	Name          string
 	ResponseData  interface{}
-	URLParameters map[string]Parameter
 	RequestBody   interface{}
+	URLParameters map[string]Parameter
 }
 
+// Parameter is used to provide URL Parameters to zoho endpoints
 type Parameter string
 
-func (z *Zoho) HttpRequest(endpoint *Endpoint) (err error) {
+// HTTPRequest is the function which actually performs the request to a Zoho endpoint as specified by the provided endpoint
+func (z *Zoho) HTTPRequest(endpoint *Endpoint) (err error) {
+	if reflect.TypeOf(endpoint.ResponseData).Kind() != reflect.Ptr {
+		return fmt.Errorf("Failed, you must pass a pointer in the ResponseData field of endpoint")
+	}
+	dataType := reflect.TypeOf(endpoint.ResponseData).Elem()
+	data := reflect.New(dataType).Interface()
+
 	endpointURL := endpoint.URL
 
 	q := url.Values{}
@@ -58,18 +67,12 @@ func (z *Zoho) HttpRequest(endpoint *Endpoint) (err error) {
 
 	body, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
-		return fmt.Errorf("Failed to read body of response for %s: got status %s: %s", endpoint.Name, checkStatus(resp), err)
+		return fmt.Errorf("Failed to read body of response for %s: got status %s: %s", endpoint.Name, resolveStatus(resp), err)
 	}
-
-	if reflect.TypeOf(endpoint.ResponseData).Kind() != reflect.Ptr {
-		return fmt.Errorf("Failed, you must pass a pointer in the DataResponse field of endpoint")
-	}
-	dataType := reflect.TypeOf(endpoint.ResponseData).Elem()
-	data := reflect.New(dataType).Interface()
 
 	err = json.Unmarshal(body, data)
 	if err != nil {
-		return fmt.Errorf("Failed to unmarshal data from response for %s: got status %s: %s", endpoint.Name, checkStatus(resp), err)
+		return fmt.Errorf("Failed to unmarshal data from response for %s: got status %s: %s", endpoint.Name, resolveStatus(resp), err)
 	}
 
 	endpoint.ResponseData = data
@@ -77,9 +80,11 @@ func (z *Zoho) HttpRequest(endpoint *Endpoint) (err error) {
 	return nil
 }
 
-type HttpStatusCode int
+// HTTPStatusCode is a type for resolving the returned HTTP Status Code Message
+type HTTPStatusCode int
 
-var HttpStatusCodes = map[HttpStatusCode]string{
+// HTTPStatusCodes is a map of possible HTTP Status Code and Messages
+var HTTPStatusCodes = map[HTTPStatusCode]string{
 	200: "The API request is successful.",
 	201: "Request fulfilled for single record insertion.",
 	202: "Request fulfilled for multiple records insertion.",
@@ -96,22 +101,23 @@ var HttpStatusCodes = map[HttpStatusCode]string{
 	500: "Generic error that is encountered due to an unexpected server error.",
 }
 
-func checkStatus(r *http.Response) string {
-	if v, ok := HttpStatusCodes[HttpStatusCode(r.StatusCode)]; ok {
+func resolveStatus(r *http.Response) string {
+	if v, ok := HTTPStatusCodes[HTTPStatusCode(r.StatusCode)]; ok {
 		return v
 	}
 	return ""
 }
 
-type HttpHeader string
+// HTTPHeader is a type for defining possible HTTPHeaders that zoho request could return
+type HTTPHeader string
 
 const (
-	rateLimit          HttpHeader = "X-RATELIMIT-LIMIT"
-	rateLimitRemaining HttpHeader = "X-RATELIMIT-REMAINING"
-	rateLimitReset     HttpHeader = "X-RATELIMIT-RESET"
+	rateLimit          HTTPHeader = "X-RATELIMIT-LIMIT"
+	rateLimitRemaining HTTPHeader = "X-RATELIMIT-REMAINING"
+	rateLimitReset     HTTPHeader = "X-RATELIMIT-RESET"
 )
 
-func checkHeaders(r http.Response, header HttpHeader) string {
+func checkHeaders(r http.Response, header HTTPHeader) string {
 	value := r.Header.Get(string(header))
 
 	if value != "" {
@@ -120,11 +126,16 @@ func checkHeaders(r http.Response, header HttpHeader) string {
 	return ""
 }
 
-type HttpMethod string
+// HTTPMethod is a type for defining the possible HTTP request methods that can be used
+type HTTPMethod string
 
 const (
-	HTTPGet    HttpMethod = "GET"
-	HTTPPost   HttpMethod = "POST"
-	HTTPPut    HttpMethod = "PUT"
-	HTTPDelete HttpMethod = "DELETE"
+	// HTTPGet is the GET method for http requests
+	HTTPGet HTTPMethod = "GET"
+	// HTTPPost is the POST method for http requests
+	HTTPPost HTTPMethod = "POST"
+	// HTTPPut is the PUT method for http requests
+	HTTPPut HTTPMethod = "PUT"
+	// HTTPDelete is the DELETE method for http requests
+	HTTPDelete HTTPMethod = "DELETE"
 )

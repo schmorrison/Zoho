@@ -8,7 +8,7 @@ import (
 
 type crmModule string
 
-//Proper names for CRM modules
+// Proper names for CRM modules
 const (
 	AccountsModule       crmModule = "Accounts"
 	CallsModule          crmModule = "Calls"
@@ -31,14 +31,14 @@ const (
 	VendorsModule        crmModule = "Vendors"
 )
 
-//API is used for interacting with the Zoho CRM API
+// API is used for interacting with the Zoho CRM API
 // the exposed methods are primarily access to CRM modules which provide access to CRM Methods
 type API struct {
 	*zoho.Zoho
 	id string
 }
 
-//New returns a *crm.API with the provided zoho.Zoho as an embedded field
+// New returns a *crm.API with the provided zoho.Zoho as an embedded field
 func New(z *zoho.Zoho) *API {
 	id := func() string {
 		var id []byte

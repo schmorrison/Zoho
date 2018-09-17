@@ -6,6 +6,8 @@ import (
 	"github.com/schmorrison/Zoho"
 )
 
+// GetNotes returns a list of all notes
+// https://www.zoho.com/crm/help/api/v2/#notes-api
 func (c *API) GetNotes(params map[string]zoho.Parameter) (data NotesResponse, err error) {
 	endpoint := zoho.Endpoint{
 		Name:         "notes",
@@ -24,7 +26,7 @@ func (c *API) GetNotes(params map[string]zoho.Parameter) (data NotesResponse, er
 		}
 	}
 
-	err = c.Zoho.HttpRequest(&endpoint)
+	err = c.Zoho.HTTPRequest(&endpoint)
 	if err != nil {
 		return NotesResponse{}, fmt.Errorf("Failed to retrieve notes: %s", err)
 	}
@@ -36,14 +38,16 @@ func (c *API) GetNotes(params map[string]zoho.Parameter) (data NotesResponse, er
 	return NotesResponse{}, fmt.Errorf("Data returned was not 'NotesResponse'")
 }
 
-func (c *API) GetNote(module crmModule, recordID string) (data NotesResponse, err error) {
+// GetNote returns the note specified by ID and module
+// https://www.zoho.com/crm/help/api/v2/#get-spec-notes-data
+func (c *API) GetNote(module crmModule, id string) (data NotesResponse, err error) {
 	endpoint := zoho.Endpoint{
 		Name:         "notes",
-		URL:          fmt.Sprintf("https://www.zohoapis.com/crm/v2/%s/%s/Notes", module, recordID),
+		URL:          fmt.Sprintf("https://www.zohoapis.com/crm/v2/%s/%s/Notes", module, id),
 		Method:       zoho.HTTPGet,
 		ResponseData: &NotesResponse{},
 	}
-	err = c.Zoho.HttpRequest(&endpoint)
+	err = c.Zoho.HTTPRequest(&endpoint)
 	if err != nil {
 		return NotesResponse{}, fmt.Errorf("Failed to retrieve notes: %s", err)
 	}
@@ -55,6 +59,7 @@ func (c *API) GetNote(module crmModule, recordID string) (data NotesResponse, er
 	return NotesResponse{}, fmt.Errorf("Data returned was not 'NotesResponse'")
 }
 
+// NotesResponse is the data returned by GetNotes and GetNote
 type NotesResponse struct {
 	Data []struct {
 		Owner struct {
@@ -86,24 +91,21 @@ type NotesResponse struct {
 		NoteTitle   string `json:"Note_Title,omitempty"`
 		NoteContent string `json:"Note_Content,omitempty"`
 	} `json:"data,omitempty"`
-	Info struct {
-		PerPage     int  `json:"per_page,omitempty"`
-		Count       int  `json:"count,omitempty"`
-		Page        int  `json:"page,omitempty"`
-		MoreRecords bool `json:"more_records,omitempty"`
-	} `json:"info,omitempty"`
+	Info PageInfo `json:"info,omitempty"`
 }
 
-func (c *API) CreateNote(input CreateNoteData) (data CreateNoteResponse, err error) {
+// CreateNotes will create multiple notes provided in the request data
+// https://www.zoho.com/crm/help/api/v2/#create-notes
+func (c *API) CreateNotes(request CreateNoteData) (data CreateNoteResponse, err error) {
 	endpoint := zoho.Endpoint{
 		Name:         "notes",
 		URL:          "https://www.zohoapis.com/crm/v2/Notes",
 		Method:       zoho.HTTPPost,
 		ResponseData: &CreateNoteResponse{},
-		RequestBody:  input,
+		RequestBody:  request,
 	}
 
-	err = c.Zoho.HttpRequest(&endpoint)
+	err = c.Zoho.HTTPRequest(&endpoint)
 	if err != nil {
 		return CreateNoteResponse{}, fmt.Errorf("Failed to create notes: %s", err)
 	}
@@ -115,6 +117,7 @@ func (c *API) CreateNote(input CreateNoteData) (data CreateNoteResponse, err err
 	return CreateNoteResponse{}, fmt.Errorf("Data returned was not 'CreateNoteResponse'")
 }
 
+// CreateNoteData is the data provided to create 1 or more notes
 type CreateNoteData struct {
 	Data []struct {
 		NoteTitle   string `json:"Note_Title,omitempty"`
@@ -124,6 +127,7 @@ type CreateNoteData struct {
 	} `json:"data,omitempty"`
 }
 
+// CreateNoteResponse is the data returned by CreateNotes
 type CreateNoteResponse struct {
 	Data []struct {
 		Message string `json:"message,omitempty"`
@@ -145,16 +149,18 @@ type CreateNoteResponse struct {
 	} `json:"data,omitempty"`
 }
 
-func (c *API) CreateRecordNote(input CreateRecordNoteData, module crmModule, recordID string) (data CreateRecordNoteResponse, err error) {
+// CreateRecordNote will create a note on the specified record of the specified module
+// https://www.zoho.com/crm/help/api/v2/#create-spec-notes
+func (c *API) CreateRecordNote(request CreateRecordNoteData, module crmModule, recordID string) (data CreateRecordNoteResponse, err error) {
 	endpoint := zoho.Endpoint{
 		Name:         "notes",
 		URL:          fmt.Sprintf("https://www.zohoapis.com/crm/v2/%s/%s/Notes", module, recordID),
 		Method:       zoho.HTTPPost,
 		ResponseData: &CreateRecordNoteResponse{},
-		RequestBody:  input,
+		RequestBody:  request,
 	}
 
-	err = c.Zoho.HttpRequest(&endpoint)
+	err = c.Zoho.HTTPRequest(&endpoint)
 	if err != nil {
 		return CreateRecordNoteResponse{}, fmt.Errorf("Failed to retrieve notes: %s", err)
 	}
@@ -166,8 +172,10 @@ func (c *API) CreateRecordNote(input CreateRecordNoteData, module crmModule, rec
 	return CreateRecordNoteResponse{}, fmt.Errorf("Data returned was not 'CreateRecordNoteResponse'")
 }
 
+// CreateRecordNoteResponse is the data returned by CreateRecordNote, it is the same as the data returned by CreateNote
 type CreateRecordNoteResponse = CreateNoteResponse
 
+// CreateRecordNoteData is the data returned by CreateRecordNote
 type CreateRecordNoteData struct {
 	Data []struct {
 		NoteTitle   string `json:"Note_Title,omitempty"`
@@ -175,16 +183,18 @@ type CreateRecordNoteData struct {
 	} `json:"data,omitempty"`
 }
 
-func (c *API) UpdateNote(input UpdateNoteData, module crmModule, recordID, noteID string) (data UpdateNoteResponse, err error) {
+// UpdateNote will update the note data of the specified note on the specified record of the module
+// https://www.zoho.com/crm/help/api/v2/#update-notes
+func (c *API) UpdateNote(request UpdateNoteData, module crmModule, recordID, noteID string) (data UpdateNoteResponse, err error) {
 	endpoint := zoho.Endpoint{
 		Name:         "notes",
 		URL:          fmt.Sprintf("https://www.zohoapis.com/crm/v2/%s/%s/Notes/%s", module, recordID, noteID),
 		Method:       zoho.HTTPPut,
 		ResponseData: &UpdateNoteResponse{},
-		RequestBody:  input,
+		RequestBody:  request,
 	}
 
-	err = c.Zoho.HttpRequest(&endpoint)
+	err = c.Zoho.HTTPRequest(&endpoint)
 	if err != nil {
 		return UpdateNoteResponse{}, fmt.Errorf("Failed to update notes: %s", err)
 	}
@@ -196,9 +206,14 @@ func (c *API) UpdateNote(input UpdateNoteData, module crmModule, recordID, noteI
 	return UpdateNoteResponse{}, fmt.Errorf("Data returned was not 'UpdateNoteResponse'")
 }
 
+// UpdateNoteResponse is the data returned by UpdateNote
 type UpdateNoteResponse = CreateNoteResponse
+
+// UpdateNoteData is the data required by UpdateNote
 type UpdateNoteData = CreateRecordNoteData
 
+// DeleteNote will delete the specified note on the specified record from the module
+// https://www.zoho.com/crm/help/api/v2/#delete-notes
 func (c *API) DeleteNote(module crmModule, recordID, noteID string) (data DeleteNoteResponse, err error) {
 	endpoint := zoho.Endpoint{
 		Name:         "notes",
@@ -207,7 +222,7 @@ func (c *API) DeleteNote(module crmModule, recordID, noteID string) (data Delete
 		ResponseData: &DeleteNoteResponse{},
 	}
 
-	err = c.Zoho.HttpRequest(&endpoint)
+	err = c.Zoho.HTTPRequest(&endpoint)
 	if err != nil {
 		return DeleteNoteResponse{}, fmt.Errorf("Failed to delete note: %s", err)
 	}
@@ -219,6 +234,8 @@ func (c *API) DeleteNote(module crmModule, recordID, noteID string) (data Delete
 	return DeleteNoteResponse{}, fmt.Errorf("Data returned was not 'DeleteNoteResponse'")
 }
 
+// DeleteNotes will delete all notes specified in the IDs
+// https://www.zoho.com/crm/help/api/v2/#delete-bulk-notes
 func (c *API) DeleteNotes(IDs ...string) (data DeleteNoteResponse, err error) {
 	idStr := ""
 	for i, a := range IDs {
@@ -237,7 +254,7 @@ func (c *API) DeleteNotes(IDs ...string) (data DeleteNoteResponse, err error) {
 		},
 	}
 
-	err = c.Zoho.HttpRequest(&endpoint)
+	err = c.Zoho.HTTPRequest(&endpoint)
 	if err != nil {
 		return DeleteNoteResponse{}, fmt.Errorf("Failed to delete notes: %s", err)
 	}
@@ -249,6 +266,7 @@ func (c *API) DeleteNotes(IDs ...string) (data DeleteNoteResponse, err error) {
 	return DeleteNoteResponse{}, fmt.Errorf("Data returned was not 'DeleteNoteResponse'")
 }
 
+// DeleteNoteResponse is the data returned when deleting a note
 type DeleteNoteResponse struct {
 	Data []struct {
 		Code    string `json:"code"`

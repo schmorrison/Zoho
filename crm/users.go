@@ -6,6 +6,9 @@ import (
 	"github.com/schmorrison/Zoho"
 )
 
+// GetUsers will return the list of users in the CRM organization. The list can be filtered using the
+// 'kind' parameter
+// https://www.zoho.com/crm/help/api/v2/#Users-APIs
 func (c *API) GetUsers(kind UserType) (data UsersResponse, err error) {
 	endpoint := zoho.Endpoint{
 		Name:         "users",
@@ -17,7 +20,7 @@ func (c *API) GetUsers(kind UserType) (data UsersResponse, err error) {
 		},
 	}
 
-	err = c.Zoho.HttpRequest(&endpoint)
+	err = c.Zoho.HTTPRequest(&endpoint)
 	if err != nil {
 		return UsersResponse{}, fmt.Errorf("Failed to retrieve users: %s", err)
 	}
@@ -29,6 +32,8 @@ func (c *API) GetUsers(kind UserType) (data UsersResponse, err error) {
 	return UsersResponse{}, fmt.Errorf("Data retrieved was not 'UsersResponse'")
 }
 
+// GetUser will return the user specified by id
+// https://www.zoho.com/crm/help/api/v2/#get-single-user-data
 func (c *API) GetUser(id string) (data UsersResponse, err error) {
 	endpoint := zoho.Endpoint{
 		Name:         "users",
@@ -37,7 +42,7 @@ func (c *API) GetUser(id string) (data UsersResponse, err error) {
 		ResponseData: &UsersResponse{},
 	}
 
-	err = c.Zoho.HttpRequest(&endpoint)
+	err = c.Zoho.HTTPRequest(&endpoint)
 	if err != nil {
 		return UsersResponse{}, fmt.Errorf("Failed to retrieve user (%s): %s", id, err)
 	}
@@ -49,22 +54,35 @@ func (c *API) GetUser(id string) (data UsersResponse, err error) {
 	return UsersResponse{}, fmt.Errorf("Data retrieved was not 'UsersResponse'")
 }
 
+// UserType is the 'kind' parameter in the GetUsers function
 type UserType = zoho.Parameter
 
 const (
-	None                  UserType = ""
-	AllUsers              UserType = "AllUsers"
-	ActiveUsers           UserType = "ActiveUsers"
-	DeactiveUsers         UserType = "DeactiveUsers"
-	ConfirmedUsers        UserType = "ConfirmedUsers"
-	NotConfirmedUsers     UserType = "NotConfirmedUsers"
-	DeletedUsers          UserType = "DeletedUsers"
-	ActiveConfirmedUsers  UserType = "ActiveConfirmedUsers"
-	AdminUsers            UserType = "AdminUsers"
+	// None - Do not filter the Users list
+	None UserType = ""
+	// AllUsers - To list all users in your organization (both active and inactive users)
+	AllUsers UserType = "AllUsers"
+	// ActiveUsers - To get the list of all Active Users
+	ActiveUsers UserType = "ActiveUsers"
+	// DeactiveUsers - To get the list of all users who were deactivated
+	DeactiveUsers UserType = "DeactiveUsers"
+	// ConfirmedUsers - To get the list of confirmed users
+	ConfirmedUsers UserType = "ConfirmedUsers"
+	// NotConfirmedUsers - To get the list of non-confirmed users
+	NotConfirmedUsers UserType = "NotConfirmedUsers"
+	// DeletedUsers - To get the list of deleted users
+	DeletedUsers UserType = "DeletedUsers"
+	// ActiveConfirmedUsers - To get the list of active users who are also confirmed
+	ActiveConfirmedUsers UserType = "ActiveConfirmedUsers"
+	// AdminUsers - To get the list of admin users.
+	AdminUsers UserType = "AdminUsers"
+	// ActiveConfirmedAdmins - To get the list of active users with the administrative privileges and are also confirmed
 	ActiveConfirmedAdmins UserType = "ActiveConfirmedAdmins"
-	CurrentUser           UserType = "CurrentUser"
+	// CurrentUser - To get the list of current CRM users
+	CurrentUser UserType = "CurrentUser"
 )
 
+// UsersResponse is the data returned by GetUsers and GetUser
 type UsersResponse struct {
 	Users []struct {
 		Country string `json:"country,omitempty"`
@@ -150,10 +168,5 @@ type UsersResponse struct {
 		RtlEnabled       bool   `json:"rtl_enabled,omitempty,omitempty"`
 		NtcEnabled       bool   `json:"ntc_enabled,omitempty,omitempty"`
 	} `json:"users,omitempty"`
-	Info struct {
-		PerPage     int  `json:"per_page,omitempty"`
-		Count       int  `json:"count,omitempty"`
-		Page        int  `json:"page,omitempty"`
-		MoreRecords bool `json:"more_records,omitempty"`
-	} `json:"info,omitempty"`
+	Info PageInfo `json:"info,omitempty"`
 }
