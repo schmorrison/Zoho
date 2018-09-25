@@ -60,6 +60,14 @@ func (z *Zoho) RefreshTokenRequest() (err error) {
 // and click the kebab icon beside your clienID, and click 'Self-Client'; then you can define you scopes and an expiry, then provide the generated authorization code
 // to this function which will generate your access token and refresh tokens.
 func (z *Zoho) GenerateTokenRequest(clientID, clientSecret, code, redirectURI string) (err error) {
+	err = z.checkForSavedTokens()
+	if err == nil {
+		z.oauth.clientID = clientID
+		z.oauth.clientSecret = clientSecret
+		z.oauth.redirectURI = redirectURI
+		return nil
+	}
+
 	q := url.Values{}
 	q.Set("client_id", clientID)
 	q.Set("client_secret", clientSecret)
@@ -99,6 +107,11 @@ func (z *Zoho) GenerateTokenRequest(clientID, clientSecret, code, redirectURI st
 	z.oauth.redirectURI = redirectURI
 	z.oauth.token = tokenResponse
 
+	err = z.SaveTokens(z.oauth.token)
+	if err != nil {
+		return fmt.Errorf("Failed to save access tokens: %s", err)
+	}
+
 	return nil
 }
 
@@ -109,6 +122,16 @@ func (z *Zoho) GenerateTokenRequest(clientID, clientSecret, code, redirectURI st
 // If the domain is not a localhost, you will be prompted to paste the code from the URL back into the terminal window,
 // eg. https://domain.com/redirect-url?code=xxxxxxxxxx
 func (z *Zoho) AuthorizationCodeRequest(clientID, clientSecret string, scopes []ScopeString, redirectURI string) (err error) {
+	// check for existing tokens
+	err = z.checkForSavedTokens()
+	if err == nil {
+		z.oauth.clientID = clientID
+		z.oauth.clientSecret = clientSecret
+		z.oauth.redirectURI = redirectURI
+		z.oauth.scopes = scopes
+		return nil
+	}
+
 	scopeStr := ""
 	for i, a := range scopes {
 		scopeStr += string(a)

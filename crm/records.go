@@ -96,6 +96,15 @@ type InsertRecordsResponse struct {
 
 // UpdateRecords will modify records by the data provided to request in the specified module
 // https://www.zoho.com/crm/help/api/v2/#ra-update-records
+//
+// When performing an update, because the natural state of the records fields in this package is to 'omitempty',
+// if you want to empty the fields contents you will need to embed the records type in a struct in your own package,
+// and override the field with a field that has a json tag that does not contain 'omitempty'.
+// eg.
+//    type struct Account {
+//        crm.Account
+//        CustomField string `json:"Custom_Field"`
+//     }
 func (c *API) UpdateRecords(request UpdateRecordsData, module crmModule) (data UpdateRecordsResponse, err error) {
 	endpoint := zoho.Endpoint{
 		Name:         "records",
@@ -125,6 +134,15 @@ type UpdateRecordsResponse = InsertRecordsResponse
 
 // UpsertRecords will insert the provided records in the request, if they already exist it will be updated
 // https://www.zoho.com/crm/help/api/v2/#ra-insert-or-update
+//
+// When performing an upsert, because the natural state of the records fields in this package is to 'omitempty' when encoding json,
+// if you want to empty the fields contents in zoho you will need to embed the records type in a struct in your own package,
+// and override the field with a field that has a json tag that does not contain 'omitempty'.
+// eg.
+//    type struct Account {
+//        crm.Account
+//        CustomField string `json:"Custom_Field"`
+//     }
 func (c *API) UpsertRecords(request UpsertRecordsData, module crmModule, duplicateFieldsCheck []string) (data UpsertRecordsResponse, err error) {
 	endpoint := zoho.Endpoint{
 		Name:         "records",

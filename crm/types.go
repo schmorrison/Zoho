@@ -6,6 +6,14 @@ import (
 	"github.com/schmorrison/Zoho"
 )
 
+type Error struct {
+	Code    string `json:"code,omitempty"`
+	Details struct {
+	} `json:"details,omitempty"`
+	Message string `json:"message,omitempty"`
+	Status  string `json:"status,omitempty"`
+}
+
 type PageInfo struct {
 	PerPage     int  `json:"per_page,omitempty"`
 	Count       int  `json:"count,omitempty"`

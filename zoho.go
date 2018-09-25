@@ -18,8 +18,31 @@ func New() *Zoho {
 				TLSHandshakeTimeout: 5 * time.Second,
 			},
 		},
+		tokensFile: "./.tokens.zoho",
 	}
+
 	return &z
+}
+
+// SetTokenManager can be used to provide a type which implements the TokenManager interface
+// which will get/set AccessTokens/RefreshTokens using a persistence mechanism
+func (z *Zoho) SetTokenManager(tm TokenLoaderSaver) {
+	z.tokenManager = tm
+}
+
+// SetTokensFile can be used to set the file location of the token persistence location,
+// by default tokens are stored in a file in the current directory called '.tokens.zoho'
+func (z *Zoho) SetTokensFile(s string) {
+	z.tokensFile = s
+}
+
+// CustomHTTPClient can be used to provide a custom HTTP Client that replaces the once instantiated
+// when executing New()
+//
+// A notable use case is AppEngine where a user must use the appengine/urlfetch packages provided http client
+// when performing outbound http requests.
+func (z *Zoho) CustomHTTPClient(c *http.Client) {
+	z.client = c
 }
 
 // Zoho is for accessing all APIs. It is used by subpackages to simplify passing authentication
@@ -33,5 +56,7 @@ type Zoho struct {
 		token        AccessTokenResponse
 	}
 
-	client *http.Client
+	client       *http.Client
+	tokenManager TokenLoaderSaver
+	tokensFile   string
 }
