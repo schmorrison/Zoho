@@ -1,3 +1,4 @@
+[![](https://godoc.org/github.com/schmorrison/Zoho/crm?status.svg)](http://godoc.org/github.com/schmorrison/Zoho/crm)
 # Zoho CRM V2 API
 
 NOTE: Not finished and probably unstable. PRs welcome.

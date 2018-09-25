@@ -1,3 +1,5 @@
+[![](https://godoc.org/github.com/schmorrison/Zoho?status.svg)](http://godoc.org/github.com/schmorrison/Zoho)
+
 # Golang API Wrapper for Zoho Services
 
 This repo is an attempt to build a comprehensive API wrapper for Zoho Services.
