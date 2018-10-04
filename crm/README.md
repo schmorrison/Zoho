@@ -39,7 +39,7 @@ Additional Brainstorm: Because of the custom field problem, I believe we can def
 
         // The API for getting module records is bound to change once the returned data types can be defined.
         // The returned JSON values are subject to change given that custom fields are an instrinsic part of zoho. (see brainstorm above)
-        data := map[string]interface{}
+        data := crm.Account{}
         _, err := c.ListRecords(&data, crm.AccountsModule, nil)
         if err != nil {
             log.Fatal(err)

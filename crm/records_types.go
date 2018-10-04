@@ -63,8 +63,6 @@ type Account struct {
 	Info PageInfo `json:"info,omitempty"`
 }
 
-type Accounts []Account
-
 type Call struct {
 	Data []struct {
 		CallDuration string `json:"Call_Duration,omitempty"`
@@ -116,8 +114,6 @@ type Call struct {
 	Info PageInfo `json:"info,omitempty"`
 }
 
-type Calls []Call
-
 type Campaign struct {
 	Data []struct {
 		Owner struct {
@@ -168,12 +164,8 @@ type Campaign struct {
 	} `json:"info,omitempty"`
 }
 
-type Campaigns []Campaign
-
 type Case struct {
 }
-
-type Cases []Case
 
 type Contact struct {
 	Data []struct {
@@ -279,8 +271,6 @@ type Contact struct {
 	Info PageInfo `json:"info,omitempty"`
 }
 
-type Contacts []Contact
-
 type Deal struct {
 	Data []struct {
 		Owner struct {
@@ -351,64 +341,38 @@ type Deal struct {
 	Info PageInfo `json:"info,omitempty"`
 }
 
-type Deals []Deal
-
 type Event struct {
 }
-
-type Events []Event
 
 type Invoice struct {
 }
 
-type Invoices []Invoice
-
 type Lead struct {
 }
-
-type Leads []Lead
 
 type Potential struct {
 }
 
-type Potentials []Potential
-
 type PriceBook struct {
 }
-
-type PriceBooks []PriceBook
 
 type Product struct {
 }
 
-type Products []Product
-
 type PurchaseOrder struct {
 }
-
-type PurchaseOrders []PurchaseOrder
 
 type Quote struct {
 }
 
-type Quotes []Quote
-
 type SalesOrder struct {
 }
-
-type SalesOrders []SalesOrder
 
 type Solution struct {
 }
 
-type Solutions []Solution
-
 type Task struct {
 }
 
-type Tasks []Task
-
 type Vendor struct {
 }
-
-type Vendors []Vendor
