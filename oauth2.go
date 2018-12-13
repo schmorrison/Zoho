@@ -271,10 +271,10 @@ const (
 type Method string
 
 // SettingsMethod is a type for building scopes
-type SettingsMethod = Method
+type SettingsMethod Method
 
 // ModulesMethod is a type for building scopes
-type ModulesMethod = Method
+type ModulesMethod Method
 
 const (
 	// AllMethod is a possible Method portion of the scope string
