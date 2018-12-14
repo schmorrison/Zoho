@@ -8,6 +8,9 @@ import (
 // GetExpenseReports will return a list of all submitted expense reports as specified by
 // https://www.zoho.com/expense/api/v1/#Expense_Reports_List_of_all_expense_reports
 func (c *API) GetExpenseReports(request interface{}, organizationId string, params map[string]zoho.Parameter) (data ExpenseReportResponse, err error) {
+	// Add mandatory header for expense report
+	c.Zoho.SetOrganizationID(organizationId)
+
 	endpoint := zoho.Endpoint{
 		Name:         ExpenseReportModule,
 		URL:          fmt.Sprintf(ExpenseAPIEndPoint+"%s", ExpenseReportModule),
@@ -17,8 +20,10 @@ func (c *API) GetExpenseReports(request interface{}, organizationId string, para
 			"filter_by": "",
 		},
 	}
-	// Add mandatory header for expense report
-	c.Zoho.SetOrganizationID(organizationId)
+
+	for k, v := range params {
+		endpoint.URLParameters[k] = v
+	}
 
 	err = c.Zoho.HTTPRequest(&endpoint)
 	if err != nil {
@@ -29,7 +34,6 @@ func (c *API) GetExpenseReports(request interface{}, organizationId string, para
 		return *v, nil
 	}
 	return ExpenseReportResponse{}, fmt.Errorf("Data retrieved was not 'ExpenseReportResponse'")
-
 }
 
 // ExpenseReportResponse is the data returned by GetExpenseReports
@@ -60,13 +64,13 @@ type ExpenseReportResponse struct {
 		IsArchived                bool   `json:"is_archived"`
 		LastModifiedTime          string `json:"last_modified_time"`
 		LastSubmittedDate         string `json:"last_submitted_date"`
-		NonReimbursableTotal      int    `json:"non_reimbursable_total"`
+		NonReimbursableTotal      float64    `json:"non_reimbursable_total"`
 		PolicyID                  string `json:"policy_id"`
 		PolicyName                string `json:"policy_name"`
 		PolicyViolated            bool   `json:"policy_violated"`
 		ProjectID                 string `json:"project_id"`
 		ProjectName               string `json:"project_name"`
-		ReimbursableTotal         int    `json:"reimbursable_total"`
+		ReimbursableTotal         float64    `json:"reimbursable_total"`
 		ReimbursementDate         string `json:"reimbursement_date"`
 		ReportID                  string `json:"report_id"`
 		ReportName                string `json:"report_name"`
@@ -80,8 +84,8 @@ type ExpenseReportResponse struct {
 		SubmittedToName           string `json:"submitted_to_name"`
 		SubmitterEmail            string `json:"submitter_email"`
 		SubmitterName             string `json:"submitter_name"`
-		Total                     int    `json:"total"`
-		UncategorizedExpenseCount int    `json:"uncategorized_expense_count"`
+		Total                     float64    `json:"total"`
+		UncategorizedExpenseCount float64    `json:"uncategorized_expense_count"`
 	} `json:"expense_reports"`
 	Message string `json:"message"`
 }
