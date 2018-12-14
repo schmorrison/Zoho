@@ -2,7 +2,7 @@ package expense
 
 import (
 	"fmt"
-	"github.com/schmorrison/Zoho"
+	"github.com/ashishsnigam/Zoho"
 )
 
 // GetOrganization will return the organization data related to the logged in account
