@@ -2,7 +2,7 @@ package expense
 
 import (
 	"fmt"
-	"github.com/schmorrison/Zoho"
+	"github.com/ashishsnigam/Zoho"
 )
 
 // GetExpenseReports will return a list of all submitted expense reports as specified by
@@ -17,10 +17,12 @@ func (c *API) GetExpenseReports(request interface{}, organizationId string, para
 			"filter_by": "",
 		},
 	}
+	// Add mandatory header for expense report
+	c.Zoho.SetOrganizationID(organizationId)
 
 	err = c.Zoho.HTTPRequest(&endpoint)
 	if err != nil {
-		return ExpenseReportResponse{}, fmt.Errorf("Failed to retrieve users: %s", err)
+		return ExpenseReportResponse{}, fmt.Errorf("Failed to retrieve expense reports: %s", err)
 	}
 
 	if v, ok := endpoint.ResponseData.(*ExpenseReportResponse); ok {

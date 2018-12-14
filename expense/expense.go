@@ -3,13 +3,14 @@
 package expense
 
 import (
-	"github.com/schmorrison/Zoho"
+	"github.com/ashishsnigam/Zoho"
 	"math/rand"
 )
 
 // Change here only if these values changes over time
 const (
 	ExpenseAPIEndPoint     string = "https://expense.zoho.com/api/v1/"
+	OrganizationsModule    string = "organizations"
 	ExpenseReportModule    string = "expensereports"
 	ExpensesModule         string = "expenses"
 	TripsModule            string = "trips"
