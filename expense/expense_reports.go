@@ -55,37 +55,37 @@ type ExpenseReportResponse struct {
 			Label         string `json:"label"`
 			Value         string `json:"value"`
 		} `json:"custom_fields"`
-		CustomerID                string `json:"customer_id"`
-		CustomerName              string `json:"customer_name"`
-		Description               string `json:"description"`
-		DueDate                   string `json:"due_date"`
-		DueDays                   string `json:"due_days"`
-		EndDate                   string `json:"end_date"`
-		IsArchived                bool   `json:"is_archived"`
-		LastModifiedTime          string `json:"last_modified_time"`
-		LastSubmittedDate         string `json:"last_submitted_date"`
-		NonReimbursableTotal      float64    `json:"non_reimbursable_total"`
-		PolicyID                  string `json:"policy_id"`
-		PolicyName                string `json:"policy_name"`
-		PolicyViolated            bool   `json:"policy_violated"`
-		ProjectID                 string `json:"project_id"`
-		ProjectName               string `json:"project_name"`
-		ReimbursableTotal         float64    `json:"reimbursable_total"`
-		ReimbursementDate         string `json:"reimbursement_date"`
-		ReportID                  string `json:"report_id"`
-		ReportName                string `json:"report_name"`
-		ReportNumber              string `json:"report_number"`
-		StartDate                 string `json:"start_date"`
-		Status                    string `json:"status"`
-		SubmittedBy               string `json:"submitted_by"`
-		SubmittedDate             string `json:"submitted_date"`
-		SubmittedToEmail          string `json:"submitted_to_email"`
-		SubmittedToID             string `json:"submitted_to_id"`
-		SubmittedToName           string `json:"submitted_to_name"`
-		SubmitterEmail            string `json:"submitter_email"`
-		SubmitterName             string `json:"submitter_name"`
-		Total                     float64    `json:"total"`
-		UncategorizedExpenseCount float64    `json:"uncategorized_expense_count"`
+		CustomerID                string  `json:"customer_id"`
+		CustomerName              string  `json:"customer_name"`
+		Description               string  `json:"description"`
+		DueDate                   string  `json:"due_date"`
+		DueDays                   string  `json:"due_days"`
+		EndDate                   string  `json:"end_date"`
+		IsArchived                bool    `json:"is_archived"`
+		LastModifiedTime          string  `json:"last_modified_time"`
+		LastSubmittedDate         string  `json:"last_submitted_date"`
+		NonReimbursableTotal      float64 `json:"non_reimbursable_total"`
+		PolicyID                  string  `json:"policy_id"`
+		PolicyName                string  `json:"policy_name"`
+		PolicyViolated            bool    `json:"policy_violated"`
+		ProjectID                 string  `json:"project_id"`
+		ProjectName               string  `json:"project_name"`
+		ReimbursableTotal         float64 `json:"reimbursable_total"`
+		ReimbursementDate         string  `json:"reimbursement_date"`
+		ReportID                  string  `json:"report_id"`
+		ReportName                string  `json:"report_name"`
+		ReportNumber              string  `json:"report_number"`
+		StartDate                 string  `json:"start_date"`
+		Status                    string  `json:"status"`
+		SubmittedBy               string  `json:"submitted_by"`
+		SubmittedDate             string  `json:"submitted_date"`
+		SubmittedToEmail          string  `json:"submitted_to_email"`
+		SubmittedToID             string  `json:"submitted_to_id"`
+		SubmittedToName           string  `json:"submitted_to_name"`
+		SubmitterEmail            string  `json:"submitter_email"`
+		SubmitterName             string  `json:"submitter_name"`
+		Total                     float64 `json:"total"`
+		UncategorizedExpenseCount float64 `json:"uncategorized_expense_count"`
 	} `json:"expense_reports"`
 	Message string `json:"message"`
 }
