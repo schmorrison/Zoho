@@ -57,6 +57,10 @@ func (z *Zoho) HTTPRequest(endpoint *Endpoint) (err error) {
 	}
 
 	req.Header.Add("Authorization", "Zoho-oauthtoken "+z.oauth.token.AccessToken)
+	// Add mandatory header for expense apis
+	if z.organizationID != "" {
+		req.Header.Add("X-com-zoho-expense-organizationid", z.organizationID)
+	}
 
 	resp, err := z.client.Do(req)
 	if err != nil {

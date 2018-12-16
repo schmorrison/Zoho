@@ -251,6 +251,8 @@ type Service string
 const (
 	// Crm is the Service portion of the scope string
 	Crm Service = "ZohoCRM"
+	// Expense is the Service portion of the scope string
+	Expense Service = "ZohoExpense"
 )
 
 // Scope is a type for building scopes
@@ -265,6 +267,19 @@ const (
 	SettingsScope Scope = "settings"
 	// ModulesScope is a possible Scope portion of the scope string
 	ModulesScope Scope = "modules"
+
+	// Additional Scopes related to expense APIs
+
+	// FullAccessScope is a possible Method portion of the scope string
+	FullAccessScope Scope = "fullaccess"
+	// ExpenseReportScope is a possible Method portion of the scope string
+	ExpenseReportScope Scope = "expensereport"
+	// ApprovalScope is a possible Method portion of the scope string
+	ApprovalScope Scope = "approval"
+	// ReimbursementScope is a possible Method portion of the scope string
+	ReimbursementScope Scope = "reimbursement"
+	// AdvanceScope is a possible Method portion of the scope string
+	AdvanceScope Scope = "advance"
 )
 
 // Method is a type for building scopes
