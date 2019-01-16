@@ -31,6 +31,9 @@ I will try to comment the code religously, and will read up on Go Doc so the gen
 - [ ] Write extensive unit tests
 - [ ] Start versioning commits to prevent major breaks
 
+## A special thanks to Contributors
+- Thanks to @ashishsnigam for the pull request.
+
 ## Usage
 
 It is reasonable to assume that each API may provide different implementation, however they should all use the common methods available in Zoho.
