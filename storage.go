@@ -95,7 +95,7 @@ func (t *TokensWrapper) CheckExpiry() bool {
 
 func (z *Zoho) checkForSavedTokens() error {
 	t, err := z.LoadTokens()
-	if err != nil && err != ErrTokenExpired {
+	if err != nil && err == ErrTokenExpired {
 		return err
 	}
 
