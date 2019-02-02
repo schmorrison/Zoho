@@ -93,9 +93,9 @@ func (t *TokensWrapper) CheckExpiry() bool {
 	return t.Expires.Before(time.Now())
 }
 
-func (z Zoho) checkForSavedTokens() error {
+func (z *Zoho) checkForSavedTokens() error {
 	t, err := z.LoadTokens()
-	if err != nil && err != ErrTokenExpired {
+	if err != nil && err == ErrTokenExpired {
 		return err
 	}
 
