@@ -33,6 +33,7 @@ I will try to comment the code religously, and will read up on Go Doc so the gen
 
 ## A special thanks to Contributors
 - Thanks to @ashishsnigam for the pull request.
+- Thanks to @beatscode for the pull requests.
 
 ## Usage
 
