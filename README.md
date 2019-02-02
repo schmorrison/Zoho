@@ -32,8 +32,8 @@ I will try to comment the code religously, and will read up on Go Doc so the gen
 - [ ] Start versioning commits to prevent major breaks
 
 ## A special thanks to Contributors
-- Thanks to @ashishsnigam for the pull request.
-- Thanks to @beatscode for the pull requests.
+- Thanks to @ashishsnigam for pull request #7.
+- Thanks to @beatscode for pull requests #9 & #11.
 
 ## Usage
 
