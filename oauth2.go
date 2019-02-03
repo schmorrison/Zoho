@@ -3,6 +3,7 @@ package zoho
 import (
 	"context"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"io/ioutil"
 	"net"
@@ -45,12 +46,21 @@ func (z *Zoho) RefreshTokenRequest() (err error) {
 	if err != nil {
 		return fmt.Errorf("Failed to unmarshal access token response from request to refresh token: %s", err)
 	}
+	//If the tokenResponse is not valid it should not update local tokens
+	if tokenResponse.Error == "invalid_code" {
+		return errors.New("Invalid Code")
+	}
 
 	z.oauth.token.AccessToken = tokenResponse.AccessToken
 	z.oauth.token.APIDomain = tokenResponse.APIDomain
 	z.oauth.token.ExpiresIn = tokenResponse.ExpiresIn
 	z.oauth.token.ExpiresInSeconds = tokenResponse.ExpiresInSeconds
 	z.oauth.token.TokenType = tokenResponse.TokenType
+
+	err = z.SaveTokens(z.oauth.token)
+	if err != nil {
+		return fmt.Errorf("Failed to save access tokens: %s", err)
+	}
 
 	return nil
 }
@@ -61,11 +71,11 @@ func (z *Zoho) RefreshTokenRequest() (err error) {
 // to this function which will generate your access token and refresh tokens.
 func (z *Zoho) GenerateTokenRequest(clientID, clientSecret, code, redirectURI string) (err error) {
 	err = z.checkForSavedTokens()
-	if err == nil {
+	if err == ErrTokenExpired {
 		z.oauth.clientID = clientID
 		z.oauth.clientSecret = clientSecret
 		z.oauth.redirectURI = redirectURI
-		return nil
+		return z.RefreshTokenRequest()
 	}
 
 	q := url.Values{}
@@ -100,6 +110,11 @@ func (z *Zoho) GenerateTokenRequest(clientID, clientSecret, code, redirectURI st
 	err = json.Unmarshal(body, &tokenResponse)
 	if err != nil {
 		return fmt.Errorf("Failed to unmarshal access token response from request to generate token: %s", err)
+	}
+
+	//If the tokenResponse is not valid it should not update local tokens
+	if tokenResponse.Error == "invalid_code" {
+		return errors.New("Invalid Code Error")
 	}
 
 	z.oauth.clientID = clientID
