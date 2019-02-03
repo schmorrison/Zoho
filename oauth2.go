@@ -3,7 +3,6 @@ package zoho
 import (
 	"context"
 	"encoding/json"
-	"errors"
 	"fmt"
 	"io/ioutil"
 	"net"
@@ -48,7 +47,7 @@ func (z *Zoho) RefreshTokenRequest() (err error) {
 	}
 	//If the tokenResponse is not valid it should not update local tokens
 	if tokenResponse.Error == "invalid_code" {
-		return errors.New("Invalid Code")
+		return ErrTokenInvalidCode
 	}
 
 	z.oauth.token.AccessToken = tokenResponse.AccessToken
@@ -114,7 +113,7 @@ func (z *Zoho) GenerateTokenRequest(clientID, clientSecret, code, redirectURI st
 
 	//If the tokenResponse is not valid it should not update local tokens
 	if tokenResponse.Error == "invalid_code" {
-		return errors.New("Invalid Code Error")
+		return ErrTokenInvalidCode
 	}
 
 	z.oauth.clientID = clientID

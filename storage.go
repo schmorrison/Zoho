@@ -76,6 +76,9 @@ func (z Zoho) LoadTokens() (AccessTokenResponse, error) {
 // ErrTokenExpired should be returned when the token is expired but still exists in persistence
 var ErrTokenExpired = errors.New("zoho: oAuth2 token already expired")
 
+// ErrTokenInvalidCode is turned when the autorization code in a request is invalid
+var ErrTokenInvalidCode = errors.New("zoho: authorization-code is invalid ")
+
 // TokensWrapper should be used to provide the time.Time corresponding to the expiry of an access token
 type TokensWrapper struct {
 	Tokens  AccessTokenResponse
