@@ -70,10 +70,12 @@ func (z *Zoho) RefreshTokenRequest() (err error) {
 // to this function which will generate your access token and refresh tokens.
 func (z *Zoho) GenerateTokenRequest(clientID, clientSecret, code, redirectURI string) (err error) {
 	err = z.checkForSavedTokens()
+
+	z.oauth.clientID = clientID
+	z.oauth.clientSecret = clientSecret
+	z.oauth.redirectURI = redirectURI
+
 	if err == ErrTokenExpired {
-		z.oauth.clientID = clientID
-		z.oauth.clientSecret = clientSecret
-		z.oauth.redirectURI = redirectURI
 		return z.RefreshTokenRequest()
 	}
 
