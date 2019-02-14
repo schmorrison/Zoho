@@ -448,7 +448,6 @@ func (c *API) UpdateRecord(request UpdateRecordData, module crmModule, ID string
 type UpdateRecordData = InsertRecordsData
 
 // UpdateRecordResponse is the data returned by UpdateRecord
-//type UpdateRecordResponse = InsertRecordsResponse
 type UpdateRecordResponse = UpdateRecordsResponse
 
 // DeleteRecord will delete the record specified by the id in the specified module
