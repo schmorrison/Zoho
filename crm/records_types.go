@@ -189,7 +189,7 @@ type Contact struct {
 			Reject   bool `json:"reject,omitempty"`
 			Resubmit bool `json:"resubmit,omitempty"`
 		} `json:"$approval,omitempty"`
-		CostPerClick            int         `json:"Cost_per_Click,omitempty"`
+		CostPerClick            float64     `json:"Cost_per_Click,omitempty"`
 		FirstVisitedURL         interface{} `json:"First_Visited_URL,omitempty"`
 		NegativeTouchPointScore int64       `json:"Negative_Touch_Point_Score,omitempty"`
 		CreatedTime             string      `json:"Created_Time,omitempty"`
@@ -253,7 +253,7 @@ type Contact struct {
 		Twitter                string      `json:"Twitter,omitempty"`
 		FirstName              string      `json:"First_Name,omitempty"`
 		ConversionExportStatus interface{} `json:"Conversion_Export_Status,omitempty"`
-		CostPerConversion      int         `json:"Cost_per_Conversion,omitempty"`
+		CostPerConversion      float64     `json:"Cost_per_Conversion,omitempty"`
 		ModifiedBy             struct {
 			Name string `json:"name,omitempty"`
 			ID   string `json:"id,omitempty"`

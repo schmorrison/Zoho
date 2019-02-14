@@ -66,32 +66,44 @@ func (c *API) InsertRecords(request InsertRecordsData, module crmModule) (data I
 	return InsertRecordsResponse{}, fmt.Errorf("Data returned was nil")
 }
 
+//UpdateRecordsResponseData is the data provided to UpdateRecords
+type UpdateRecordsResponseData struct {
+	Message string `json:"message,omitempty"`
+	Details struct {
+		ExpectedDataType string `json:"expected_data_type,omitempty"`
+		APIName          string `json:"api_name"`
+	} `json:"details,omitempty"`
+	Status string `json:"status,omitempty"`
+	Code   string `json:"code,omitempty"`
+}
+
 // InsertRecordsData is the data provided to InsertRecords
 type InsertRecordsData struct {
 	Data    interface{} `json:"data,omitempty"`
 	Trigger []string    `json:"trigger,omitempty"`
 }
+type InsertRecordsResponseData struct {
+	Message string `json:"message,omitempty"`
+	Details struct {
+		CreatedBy struct {
+			ID   string `json:"id,omitempty"`
+			Name string `json:"name,omitempty"`
+		} `json:"created_by,omitempty"`
+		ID         string `json:"id,omitempty"`
+		ModifiedBy struct {
+			ID   string `json:"id,omitempty"`
+			Name string `json:"name,omitempty"`
+		} `json:"modified_by,omitempty"`
+		ModifiedTime time.Time `json:"modified_time,omitempty"`
+		CreatedTime  time.Time `json:"created_time,omitempty"`
+	} `json:"details,omitempty"`
+	Status string `json:"status,omitempty"`
+	Code   string `json:"code,omitempty"`
+}
 
 // InsertRecordsResponse is the data returned by InsertRecords
 type InsertRecordsResponse struct {
-	Data []struct {
-		Message string `json:"message,omitempty"`
-		Details struct {
-			CreatedBy struct {
-				ID   string `json:"id,omitempty"`
-				Name string `json:"name,omitempty"`
-			} `json:"created_by,omitempty"`
-			ID         string `json:"id,omitempty"`
-			ModifiedBy struct {
-				ID   string `json:"id,omitempty"`
-				Name string `json:"name,omitempty"`
-			} `json:"modified_by,omitempty"`
-			ModifiedTime time.Time `json:"modified_time,omitempty"`
-			CreatedTime  time.Time `json:"created_time,omitempty"`
-		} `json:"details,omitempty"`
-		Status string `json:"status,omitempty"`
-		Code   string `json:"code,omitempty"`
-	} `json:"data,omitempty"`
+	Data []InsertRecordsResponseData `json:"data,omitempty"`
 }
 
 // UpdateRecords will modify records by the data provided to request in the specified module
@@ -130,7 +142,9 @@ func (c *API) UpdateRecords(request UpdateRecordsData, module crmModule) (data U
 type UpdateRecordsData = InsertRecordsData
 
 // UpdateRecordsResponse is the data returned by UpdateRecords
-type UpdateRecordsResponse = InsertRecordsResponse
+type UpdateRecordsResponse struct {
+	Data []UpdateRecordsResponseData `json:"data,omitempty"`
+}
 
 // UpsertRecords will insert the provided records in the request, if they already exist it will be updated
 // https://www.zoho.com/crm/help/api/v2/#ra-insert-or-update
@@ -434,7 +448,8 @@ func (c *API) UpdateRecord(request UpdateRecordData, module crmModule, ID string
 type UpdateRecordData = InsertRecordsData
 
 // UpdateRecordResponse is the data returned by UpdateRecord
-type UpdateRecordResponse = InsertRecordsResponse
+//type UpdateRecordResponse = InsertRecordsResponse
+type UpdateRecordResponse = UpdateRecordsResponse
 
 // DeleteRecord will delete the record specified by the id in the specified module
 // https://www.zoho.com/crm/help/api/v2/#delete-specify-records
