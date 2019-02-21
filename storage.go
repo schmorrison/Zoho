@@ -4,12 +4,11 @@ import (
 	"encoding/gob"
 	"errors"
 	"fmt"
+	"google.golang.org/appengine"
+	"google.golang.org/appengine/datastore"
 	"net/http"
 	"os"
 	"time"
-
-	"google.golang.org/appengine"
-	"google.golang.org/appengine/datastore"
 )
 
 // TokenLoaderSaver is an interface that can be implemented when using a system that does
@@ -68,7 +67,7 @@ func (z Zoho) LoadTokens() (AccessTokenResponse, error) {
 	}
 
 	if v.CheckExpiry() {
-		return AccessTokenResponse{}, ErrTokenExpired
+		return v.Tokens, ErrTokenExpired
 	}
 
 	return v.Tokens, nil
@@ -76,6 +75,9 @@ func (z Zoho) LoadTokens() (AccessTokenResponse, error) {
 
 // ErrTokenExpired should be returned when the token is expired but still exists in persistence
 var ErrTokenExpired = errors.New("zoho: oAuth2 token already expired")
+
+// ErrTokenInvalidCode is turned when the autorization code in a request is invalid
+var ErrTokenInvalidCode = errors.New("zoho: authorization-code is invalid ")
 
 // TokensWrapper should be used to provide the time.Time corresponding to the expiry of an access token
 type TokensWrapper struct {
@@ -95,12 +97,13 @@ func (t *TokensWrapper) CheckExpiry() bool {
 
 func (z *Zoho) checkForSavedTokens() error {
 	t, err := z.LoadTokens()
+	z.oauth.token = t
+
 	if err != nil && err == ErrTokenExpired {
 		return err
 	}
 
 	if (t != AccessTokenResponse{}) && err != ErrTokenExpired {
-		z.oauth.token = t
 		return nil
 	}
 	return fmt.Errorf("No saved tokens")

@@ -45,12 +45,21 @@ func (z *Zoho) RefreshTokenRequest() (err error) {
 	if err != nil {
 		return fmt.Errorf("Failed to unmarshal access token response from request to refresh token: %s", err)
 	}
+	//If the tokenResponse is not valid it should not update local tokens
+	if tokenResponse.Error == "invalid_code" {
+		return ErrTokenInvalidCode
+	}
 
 	z.oauth.token.AccessToken = tokenResponse.AccessToken
 	z.oauth.token.APIDomain = tokenResponse.APIDomain
 	z.oauth.token.ExpiresIn = tokenResponse.ExpiresIn
 	z.oauth.token.ExpiresInSeconds = tokenResponse.ExpiresInSeconds
 	z.oauth.token.TokenType = tokenResponse.TokenType
+
+	err = z.SaveTokens(z.oauth.token)
+	if err != nil {
+		return fmt.Errorf("Failed to save access tokens: %s", err)
+	}
 
 	return nil
 }
@@ -60,12 +69,14 @@ func (z *Zoho) RefreshTokenRequest() (err error) {
 // and click the kebab icon beside your clienID, and click 'Self-Client'; then you can define you scopes and an expiry, then provide the generated authorization code
 // to this function which will generate your access token and refresh tokens.
 func (z *Zoho) GenerateTokenRequest(clientID, clientSecret, code, redirectURI string) (err error) {
+
+	z.oauth.clientID = clientID
+	z.oauth.clientSecret = clientSecret
+	z.oauth.redirectURI = redirectURI
+
 	err = z.checkForSavedTokens()
-	if err == nil {
-		z.oauth.clientID = clientID
-		z.oauth.clientSecret = clientSecret
-		z.oauth.redirectURI = redirectURI
-		return nil
+	if err == ErrTokenExpired {
+		return z.RefreshTokenRequest()
 	}
 
 	q := url.Values{}
@@ -100,6 +111,11 @@ func (z *Zoho) GenerateTokenRequest(clientID, clientSecret, code, redirectURI st
 	err = json.Unmarshal(body, &tokenResponse)
 	if err != nil {
 		return fmt.Errorf("Failed to unmarshal access token response from request to generate token: %s", err)
+	}
+
+	//If the tokenResponse is not valid it should not update local tokens
+	if tokenResponse.Error == "invalid_code" {
+		return ErrTokenInvalidCode
 	}
 
 	z.oauth.clientID = clientID
