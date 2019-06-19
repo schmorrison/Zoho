@@ -1,6 +1,7 @@
 package zoho
 
 import (
+	"fmt"
 	"net"
 	"net/http"
 	"time"
@@ -19,7 +20,10 @@ func New() *Zoho {
 			},
 		},
 		tokensFile: "./.tokens.zoho",
+		ZohoDomain: "com",
 	}
+
+	z.oauth.baseURL = "https://accounts.zoho.com/oauth/v2/"
 
 	return &z
 }
@@ -34,6 +38,13 @@ func (z *Zoho) SetTokenManager(tm TokenLoaderSaver) {
 // by default tokens are stored in a file in the current directory called '.tokens.zoho'
 func (z *Zoho) SetTokensFile(s string) {
 	z.tokensFile = s
+}
+
+// SetZohoDomain can be used to set the TLD extension for API calls for example for Zoho in EU and China.
+// by default this is set to "com", other options are "eu" and "ch"
+func (z *Zoho) SetZohoDomain(s string) {
+	z.ZohoDomain = s
+	z.oauth.baseURL = fmt.Sprintf("https://accounts.zoho.%s/oauth/v2/", s)
 }
 
 // CustomHTTPClient can be used to provide a custom HTTP Client that replaces the once instantiated
@@ -60,10 +71,13 @@ type Zoho struct {
 		clientSecret string
 		redirectURI  string
 		token        AccessTokenResponse
+		baseURL      string
 	}
 
 	client         *http.Client
 	tokenManager   TokenLoaderSaver
 	tokensFile     string
 	organizationID string
+
+	ZohoDomain string
 }

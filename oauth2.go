@@ -19,7 +19,7 @@ func (z *Zoho) RefreshTokenRequest() (err error) {
 	q.Set("refresh_token", z.oauth.token.RefreshToken)
 	q.Set("grant_type", "refresh_token")
 
-	tokenURL := fmt.Sprintf("%s%s?%s", oauthBaseURL, oauthGenerateTokenRequestSlug, q.Encode())
+	tokenURL := fmt.Sprintf("%s%s?%s", z.oauth.baseURL, oauthGenerateTokenRequestSlug, q.Encode())
 	resp, err := z.client.Post(tokenURL, "application/x-www-form-urlencoded", nil)
 	if err != nil {
 		return fmt.Errorf("Failed while requesting refresh token: %s", err)
@@ -33,7 +33,7 @@ func (z *Zoho) RefreshTokenRequest() (err error) {
 
 	body, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
-		return fmt.Errorf("Failed to read request body on request to %s%s: %s", oauthBaseURL, oauthGenerateTokenRequestSlug, err)
+		return fmt.Errorf("Failed to read request body on request to %s%s: %s", z.oauth.baseURL, oauthGenerateTokenRequestSlug, err)
 	}
 
 	if resp.StatusCode != 200 {
@@ -86,7 +86,7 @@ func (z *Zoho) GenerateTokenRequest(clientID, clientSecret, code, redirectURI st
 	q.Set("redirect_uri", redirectURI)
 	q.Set("grant_type", "authorization_code")
 
-	tokenURL := fmt.Sprintf("%s%s?%s", oauthBaseURL, oauthGenerateTokenRequestSlug, q.Encode())
+	tokenURL := fmt.Sprintf("%s%s?%s", z.oauth.baseURL, oauthGenerateTokenRequestSlug, q.Encode())
 	resp, err := z.client.Post(tokenURL, "application/x-www-form-urlencoded", nil)
 	if err != nil {
 		return fmt.Errorf("Failed while requesting generate token: %s", err)
@@ -100,7 +100,7 @@ func (z *Zoho) GenerateTokenRequest(clientID, clientSecret, code, redirectURI st
 
 	body, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
-		return fmt.Errorf("Failed to read request body on request to %s%s: %s", oauthBaseURL, oauthGenerateTokenRequestSlug, err)
+		return fmt.Errorf("Failed to read request body on request to %s%s: %s", z.oauth.baseURL, oauthGenerateTokenRequestSlug, err)
 	}
 
 	if resp.StatusCode != 200 {
@@ -199,7 +199,7 @@ func (z *Zoho) AuthorizationCodeRequest(clientID, clientSecret string, scopes []
 		<-srvChan
 	}
 
-	authURL := fmt.Sprintf("%s%s?%s", oauthBaseURL, oauthAuthorizationRequestSlug, q.Encode())
+	authURL := fmt.Sprintf("%s%s?%s", z.oauth.baseURL, oauthAuthorizationRequestSlug, q.Encode())
 	fmt.Printf("Go to the following authentication URL to begin oAuth2 flow:\n %s\n\n", authURL)
 
 	code := ""
@@ -243,7 +243,6 @@ type AccessTokenResponse struct {
 }
 
 const (
-	oauthBaseURL                  = "https://accounts.zoho.com/oauth/v2/"
 	oauthAuthorizationRequestSlug = "auth"
 	oauthGenerateTokenRequestSlug = "token"
 	oauthRevokeTokenRequestSlug   = "revoke"
