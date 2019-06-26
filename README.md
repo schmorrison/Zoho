@@ -34,6 +34,7 @@ I will try to comment the code religously, and will read up on Go Doc so the gen
 ## A special thanks to Contributors
 - Thanks to @ashishsnigam for pull request #7.
 - Thanks to @beatscode for pull requests #10, #11, #12, & #13.
+- Thanks to @meyskens for pull request #15.
 
 ## Usage
 
