@@ -11,7 +11,7 @@ import (
 func (c *API) GetBlueprint(module crmModule, id string) (data BlueprintResponse, err error) {
 	endpoint := zoho.Endpoint{
 		Name:         "blueprints",
-		URL:          fmt.Sprintf("https://www.zohoapis.com/crm/v2/%s/%s/actions/blueprint", module, id),
+		URL:          fmt.Sprintf("https://www.zohoapis.%s/crm/v2/%s/%s/actions/blueprint", c.ZohoTLD, module, id),
 		Method:       zoho.HTTPGet,
 		ResponseData: &BlueprintResponse{},
 	}
@@ -74,7 +74,7 @@ type BlueprintResponse struct {
 func (c *API) UpdateBlueprint(request UpdateBlueprintData, module crmModule, id string) (data UpdateBlueprintResponse, err error) {
 	endpoint := zoho.Endpoint{
 		Name:         "blueprints",
-		URL:          fmt.Sprintf("https://www.zohoapis.com/crm/v2/%s/%s/actions/blueprint", module, id),
+		URL:          fmt.Sprintf("https://www.zohoapis.%s/crm/v2/%s/%s/actions/blueprint", c.ZohoTLD, module, id),
 		Method:       zoho.HTTPPost,
 		ResponseData: &UpdateBlueprintResponse{},
 		RequestBody:  request,

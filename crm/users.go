@@ -12,7 +12,7 @@ import (
 func (c *API) GetUsers(kind UserType) (data UsersResponse, err error) {
 	endpoint := zoho.Endpoint{
 		Name:         "users",
-		URL:          "https://www.zohoapis.com/crm/v2/users",
+		URL:          fmt.Sprintf("https://www.zohoapis.%s/crm/v2/users", c.ZohoTLD),
 		Method:       zoho.HTTPGet,
 		ResponseData: &UsersResponse{},
 		URLParameters: map[string]zoho.Parameter{
@@ -37,7 +37,7 @@ func (c *API) GetUsers(kind UserType) (data UsersResponse, err error) {
 func (c *API) GetUser(id string) (data UsersResponse, err error) {
 	endpoint := zoho.Endpoint{
 		Name:         "users",
-		URL:          fmt.Sprintf("https://www.zohoapis.com/crm/v2/users/%s", id),
+		URL:          fmt.Sprintf("https://www.zohoapis.%s/crm/v2/users/%s", c.ZohoTLD, id),
 		Method:       zoho.HTTPGet,
 		ResponseData: &UsersResponse{},
 	}

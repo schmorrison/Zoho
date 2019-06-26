@@ -11,7 +11,7 @@ import (
 func (c *API) GetProfiles() (data ProfilesResponse, err error) {
 	endpoint := zoho.Endpoint{
 		Name:         "profiles",
-		URL:          "https://www.zohoapis.com/crm/v2/settings/profiles",
+		URL:          fmt.Sprintf("https://www.zohoapis.%s/crm/v2/settings/profiles", c.ZohoTLD),
 		Method:       zoho.HTTPGet,
 		ResponseData: &ProfilesResponse{},
 	}
@@ -33,7 +33,7 @@ func (c *API) GetProfiles() (data ProfilesResponse, err error) {
 func (c *API) GetProfile(id string) (data ProfilesResponse, err error) {
 	endpoint := zoho.Endpoint{
 		Name:         "profiles",
-		URL:          fmt.Sprintf("https://www.zohoapis.com/crm/v2/settings/profiles/%s", id),
+		URL:          fmt.Sprintf("https://www.zohoapis.%s/crm/v2/settings/profiles/%s", c.ZohoTLD, id),
 		Method:       zoho.HTTPGet,
 		ResponseData: &ProfilesResponse{},
 	}

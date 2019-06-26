@@ -11,7 +11,7 @@ import (
 func (c *API) GetNotes(params map[string]zoho.Parameter) (data NotesResponse, err error) {
 	endpoint := zoho.Endpoint{
 		Name:         "notes",
-		URL:          "https://www.zohoapis.com/crm/v2/Notes",
+		URL:          fmt.Sprintf("https://www.zohoapis.%s/crm/v2/Notes", c.ZohoTLD),
 		Method:       zoho.HTTPGet,
 		ResponseData: &NotesResponse{},
 		URLParameters: map[string]zoho.Parameter{
@@ -43,7 +43,7 @@ func (c *API) GetNotes(params map[string]zoho.Parameter) (data NotesResponse, er
 func (c *API) GetNote(module crmModule, id string) (data NotesResponse, err error) {
 	endpoint := zoho.Endpoint{
 		Name:         "notes",
-		URL:          fmt.Sprintf("https://www.zohoapis.com/crm/v2/%s/%s/Notes", module, id),
+		URL:          fmt.Sprintf("https://www.zohoapis.%s/crm/v2/%s/%s/Notes", c.ZohoTLD, module, id),
 		Method:       zoho.HTTPGet,
 		ResponseData: &NotesResponse{},
 	}
@@ -99,7 +99,7 @@ type NotesResponse struct {
 func (c *API) CreateNotes(request CreateNoteData) (data CreateNoteResponse, err error) {
 	endpoint := zoho.Endpoint{
 		Name:         "notes",
-		URL:          "https://www.zohoapis.com/crm/v2/Notes",
+		URL:          fmt.Sprintf("https://www.zohoapis.%s/crm/v2/Notes", c.ZohoTLD),
 		Method:       zoho.HTTPPost,
 		ResponseData: &CreateNoteResponse{},
 		RequestBody:  request,
@@ -154,7 +154,7 @@ type CreateNoteResponse struct {
 func (c *API) CreateRecordNote(request CreateRecordNoteData, module crmModule, recordID string) (data CreateRecordNoteResponse, err error) {
 	endpoint := zoho.Endpoint{
 		Name:         "notes",
-		URL:          fmt.Sprintf("https://www.zohoapis.com/crm/v2/%s/%s/Notes", module, recordID),
+		URL:          fmt.Sprintf("https://www.zohoapis.%s/crm/v2/%s/%s/Notes", c.ZohoTLD, module, recordID),
 		Method:       zoho.HTTPPost,
 		ResponseData: &CreateRecordNoteResponse{},
 		RequestBody:  request,
@@ -188,7 +188,7 @@ type CreateRecordNoteData struct {
 func (c *API) UpdateNote(request UpdateNoteData, module crmModule, recordID, noteID string) (data UpdateNoteResponse, err error) {
 	endpoint := zoho.Endpoint{
 		Name:         "notes",
-		URL:          fmt.Sprintf("https://www.zohoapis.com/crm/v2/%s/%s/Notes/%s", module, recordID, noteID),
+		URL:          fmt.Sprintf("https://www.zohoapis.%s/crm/v2/%s/%s/Notes/%s", c.ZohoTLD, module, recordID, noteID),
 		Method:       zoho.HTTPPut,
 		ResponseData: &UpdateNoteResponse{},
 		RequestBody:  request,
@@ -217,7 +217,7 @@ type UpdateNoteData = CreateRecordNoteData
 func (c *API) DeleteNote(module crmModule, recordID, noteID string) (data DeleteNoteResponse, err error) {
 	endpoint := zoho.Endpoint{
 		Name:         "notes",
-		URL:          fmt.Sprintf("https://www.zohoapis.com/crm/v2/%s/%s/Notes/%s", module, recordID, noteID),
+		URL:          fmt.Sprintf("https://www.zohoapis.%s/crm/v2/%s/%s/Notes/%s", c.ZohoTLD, module, recordID, noteID),
 		Method:       zoho.HTTPDelete,
 		ResponseData: &DeleteNoteResponse{},
 	}
@@ -246,7 +246,7 @@ func (c *API) DeleteNotes(IDs ...string) (data DeleteNoteResponse, err error) {
 	}
 	endpoint := zoho.Endpoint{
 		Name:         "notes",
-		URL:          "https://www.zohoapis.com/crm/v2/Notes",
+		URL:          fmt.Sprintf("https://www.zohoapis.%s/crm/v2/Notes", c.ZohoTLD),
 		Method:       zoho.HTTPDelete,
 		ResponseData: &DeleteNoteResponse{},
 		URLParameters: map[string]zoho.Parameter{

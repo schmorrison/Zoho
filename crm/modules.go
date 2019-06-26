@@ -11,7 +11,7 @@ import (
 func (c *API) GetModules() (data ModulesResponse, err error) {
 	endpoint := zoho.Endpoint{
 		Name:         "modules",
-		URL:          "https://www.zohoapis.com/crm/v2/settings/modules",
+		URL:          fmt.Sprintf("https://www.zohoapis.%s/crm/v2/settings/modules", c.ZohoTLD),
 		Method:       zoho.HTTPGet,
 		ResponseData: &ModulesResponse{},
 	}
