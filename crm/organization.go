@@ -11,7 +11,7 @@ import (
 func (c *API) GetOrganization() (data OrganizationResponse, err error) {
 	endpoint := zoho.Endpoint{
 		Name:         "organization",
-		URL:          fmt.Sprintf("https://www.zohoapis.%s/crm/v2/org", c.ZohoDomain),
+		URL:          fmt.Sprintf("https://www.zohoapis.%s/crm/v2/org", c.ZohoTLD),
 		Method:       zoho.HTTPGet,
 		ResponseData: &OrganizationResponse{},
 	}

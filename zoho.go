@@ -19,11 +19,12 @@ func New() *Zoho {
 				TLSHandshakeTimeout: 5 * time.Second,
 			},
 		},
+		ZohoTLD:    "com",
 		tokensFile: "./.tokens.zoho",
-		ZohoDomain: "com",
+		oauth: OAuth{
+			baseURL: "https://accounts.zoho.com/oauth/v2/",
+		},
 	}
-
-	z.oauth.baseURL = "https://accounts.zoho.com/oauth/v2/"
 
 	return &z
 }
@@ -40,10 +41,10 @@ func (z *Zoho) SetTokensFile(s string) {
 	z.tokensFile = s
 }
 
-// SetZohoDomain can be used to set the TLD extension for API calls for example for Zoho in EU and China.
+// SetZohoTLD can be used to set the TLD extension for API calls for example for Zoho in EU and China.
 // by default this is set to "com", other options are "eu" and "ch"
-func (z *Zoho) SetZohoDomain(s string) {
-	z.ZohoDomain = s
+func (z *Zoho) SetZohoTLD(s string) {
+	z.ZohoTLD = s
 	z.oauth.baseURL = fmt.Sprintf("https://accounts.zoho.%s/oauth/v2/", s)
 }
 
@@ -65,19 +66,22 @@ func (z *Zoho) SetOrganizationID(orgID string) {
 // Zoho is for accessing all APIs. It is used by subpackages to simplify passing authentication
 // values between API subpackages.
 type Zoho struct {
-	oauth struct {
-		scopes       []ScopeString
-		clientID     string
-		clientSecret string
-		redirectURI  string
-		token        AccessTokenResponse
-		baseURL      string
-	}
+	oauth OAuth
 
 	client         *http.Client
 	tokenManager   TokenLoaderSaver
 	tokensFile     string
 	organizationID string
 
-	ZohoDomain string
+	ZohoTLD string
+}
+
+// OAuth is the OAuth part of the Zoho struct
+type OAuth struct {
+	scopes       []ScopeString
+	clientID     string
+	clientSecret string
+	redirectURI  string
+	token        AccessTokenResponse
+	baseURL      string
 }
