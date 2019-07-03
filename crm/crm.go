@@ -2,6 +2,7 @@ package crm
 
 import (
 	"math/rand"
+	"time"
 
 	"github.com/schmorrison/Zoho"
 )
@@ -44,7 +45,9 @@ func New(z *zoho.Zoho) *API {
 		var id []byte
 		keyspace := "abcdefghijklmnopqrutuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
 		for i := 0; i < 25; i++ {
-			id = append(id, keyspace[rand.Intn(len(keyspace))])
+			source := rand.NewSource(time.Now().UnixNano())
+			rnd := rand.New(source)
+			id = append(id, keyspace[rnd.Intn(len(keyspace))])
 		}
 		return string(id)
 	}()
