@@ -2,6 +2,8 @@ package crm
 
 import (
 	"fmt"
+
+	"github.com/schmorrison/Zoho"
 )
 
 // GetModules returns the list of modules available in the CRM account
@@ -9,7 +11,7 @@ import (
 func (c *API) GetModules() (data ModulesResponse, err error) {
 	endpoint := zoho.Endpoint{
 		Name:         "modules",
-		URL:          fmt.Sprintf("https://www.zohoapis.%s/crm/v2/settings/modules", c.zohoTLD),
+		URL:          fmt.Sprintf("https://www.zohoapis.%s/crm/v2/settings/modules", c.ZohoTLD),
 		Method:       zoho.HTTPGet,
 		ResponseData: &ModulesResponse{},
 	}
