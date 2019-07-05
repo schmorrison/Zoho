@@ -35,7 +35,7 @@ I will try to comment the code religously, and will read up on Go Doc so the gen
 - Thanks to @ashishsnigam for pull request #7.
 - Thanks to @beatscode for pull requests #10, #11, #12, & #13.
 - Thanks to @meyskens for pull request #15.
-- Thanks to @vazha for pull request #17.
+
 ## Usage
 
 It is reasonable to assume that each API may provide different implementation, however they should all use the common methods available in Zoho.
