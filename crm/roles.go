@@ -11,7 +11,7 @@ import (
 func (c *API) GetRoles() (data RolesResponse, err error) {
 	endpoint := zoho.Endpoint{
 		Name:         "roles",
-		URL:          fmt.Sprintf("https://www.zohoapis.%s/crm/v2/settings/roles", c.ZohoTLD),
+		URL:          fmt.Sprintf("https://www.zohoapis.%s/crm/v2/settings/roles", c.zohoTLD),
 		Method:       zoho.HTTPGet,
 		ResponseData: &RolesResponse{},
 	}
@@ -33,7 +33,7 @@ func (c *API) GetRoles() (data RolesResponse, err error) {
 func (c *API) GetRole(id string) (data RolesResponse, err error) {
 	endpoint := zoho.Endpoint{
 		Name:         "roles",
-		URL:          fmt.Sprintf("https://www.zohoapis.%s/crm/v2/settings/roles/%s", c.ZohoTLD, id),
+		URL:          fmt.Sprintf("https://www.zohoapis.%s/crm/v2/settings/roles/%s", c.zohoTLD, id),
 		Method:       zoho.HTTPGet,
 		ResponseData: &RolesResponse{},
 	}

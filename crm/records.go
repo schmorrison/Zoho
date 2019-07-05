@@ -3,8 +3,6 @@ package crm
 import (
 	"fmt"
 	"time"
-
-	"github.com/schmorrison/Zoho"
 )
 
 // ListRecords will return a list of the records provided in the request field, and specified by the module
@@ -12,7 +10,7 @@ import (
 func (c *API) ListRecords(request interface{}, module crmModule, params map[string]zoho.Parameter) (data interface{}, err error) {
 	endpoint := zoho.Endpoint{
 		Name:         "records",
-		URL:          fmt.Sprintf("https://www.zohoapis.%s/crm/v2/%s", c.ZohoTLD, module),
+		URL:          fmt.Sprintf("https://www.zohoapis.%s/crm/v2/%s", c.zohoTLD, module),
 		Method:       zoho.HTTPGet,
 		ResponseData: request,
 		URLParameters: map[string]zoho.Parameter{
@@ -48,7 +46,7 @@ func (c *API) ListRecords(request interface{}, module crmModule, params map[stri
 func (c *API) InsertRecords(request InsertRecordsData, module crmModule) (data InsertRecordsResponse, err error) {
 	endpoint := zoho.Endpoint{
 		Name:         "records",
-		URL:          fmt.Sprintf("https://www.zohoapis.%s/crm/v2/%s", c.ZohoTLD, module),
+		URL:          fmt.Sprintf("https://www.zohoapis.%s/crm/v2/%s", c.zohoTLD, module),
 		Method:       zoho.HTTPPost,
 		ResponseData: &InsertRecordsResponse{},
 		RequestBody:  request,
@@ -120,7 +118,7 @@ type InsertRecordsResponse struct {
 func (c *API) UpdateRecords(request UpdateRecordsData, module crmModule) (data UpdateRecordsResponse, err error) {
 	endpoint := zoho.Endpoint{
 		Name:         "records",
-		URL:          fmt.Sprintf("https://www.zohoapis.%s/crm/v2/%s", c.ZohoTLD, module),
+		URL:          fmt.Sprintf("https://www.zohoapis.%s/crm/v2/%s", c.zohoTLD, module),
 		Method:       zoho.HTTPPut,
 		ResponseData: &UpdateRecordsResponse{},
 		RequestBody:  request,
@@ -160,7 +158,7 @@ type UpdateRecordsResponse struct {
 func (c *API) UpsertRecords(request UpsertRecordsData, module crmModule, duplicateFieldsCheck []string) (data UpsertRecordsResponse, err error) {
 	endpoint := zoho.Endpoint{
 		Name:         "records",
-		URL:          fmt.Sprintf("https://www.zohoapis.%s/crm/v2/%s/upsert", c.ZohoTLD, module),
+		URL:          fmt.Sprintf("https://www.zohoapis.%s/crm/v2/%s/upsert", c.zohoTLD, module),
 		Method:       zoho.HTTPPost,
 		ResponseData: &UpsertRecordsResponse{},
 		RequestBody:  request,
@@ -232,7 +230,7 @@ func (c *API) DeleteRecords(module crmModule, ids []string) (data DeleteRecordsR
 
 	endpoint := zoho.Endpoint{
 		Name:         "records",
-		URL:          fmt.Sprintf("https://www.zohoapis.%s/crm/v2/%s", c.ZohoTLD, module),
+		URL:          fmt.Sprintf("https://www.zohoapis.%s/crm/v2/%s", c.zohoTLD, module),
 		Method:       zoho.HTTPDelete,
 		ResponseData: &DeleteRecordsResponse{},
 		URLParameters: map[string]zoho.Parameter{
@@ -278,7 +276,7 @@ type DeleteRecordsResponse struct {
 func (c *API) ListDeletedRecords(module crmModule, kind DeletedRecordsType, params map[string]zoho.Parameter) (data ListDeletedRecordsResponse, err error) {
 	endpoint := zoho.Endpoint{
 		Name:         "records",
-		URL:          fmt.Sprintf("https://www.zohoapis.%s/crm/v2/%s/deleted", c.ZohoTLD, module),
+		URL:          fmt.Sprintf("https://www.zohoapis.%s/crm/v2/%s/deleted", c.zohoTLD, module),
 		Method:       zoho.HTTPGet,
 		ResponseData: &ListDeletedRecordsResponse{},
 		URLParameters: map[string]zoho.Parameter{
@@ -341,7 +339,7 @@ type ListDeletedRecordsResponse struct {
 func (c *API) SearchRecords(response interface{}, module crmModule, params map[string]zoho.Parameter) (data interface{}, err error) {
 	endpoint := zoho.Endpoint{
 		Name:         "records",
-		URL:          fmt.Sprintf("https://www.zohoapis.%s/crm/v2/%s/search", c.ZohoTLD, module),
+		URL:          fmt.Sprintf("https://www.zohoapis.%s/crm/v2/%s/search", c.zohoTLD, module),
 		Method:       zoho.HTTPGet,
 		ResponseData: response,
 		URLParameters: map[string]zoho.Parameter{
@@ -375,7 +373,7 @@ func (c *API) SearchRecords(response interface{}, module crmModule, params map[s
 func (c *API) GetRecord(request interface{}, module crmModule, ID string) (data interface{}, err error) {
 	endpoint := zoho.Endpoint{
 		Name:         "records",
-		URL:          fmt.Sprintf("https://www.zohoapis.%s/crm/v2/%s/%s", c.ZohoTLD, module, ID),
+		URL:          fmt.Sprintf("https://www.zohoapis.%s/crm/v2/%s/%s", c.zohoTLD, module, ID),
 		Method:       zoho.HTTPGet,
 		ResponseData: request,
 	}
@@ -397,7 +395,7 @@ func (c *API) GetRecord(request interface{}, module crmModule, ID string) (data 
 func (c *API) InsertRecord(request InsertRecordData, module crmModule) (data InsertRecordResponse, err error) {
 	endpoint := zoho.Endpoint{
 		Name:         "records",
-		URL:          fmt.Sprintf("https://www.zohoapis.%s/crm/v2/%s", c.ZohoTLD, module),
+		URL:          fmt.Sprintf("https://www.zohoapis.%s/crm/v2/%s", c.zohoTLD, module),
 		Method:       zoho.HTTPPost,
 		ResponseData: &InsertRecordResponse{},
 		RequestBody:  request,
@@ -426,7 +424,7 @@ type InsertRecordResponse = InsertRecordsResponse
 func (c *API) UpdateRecord(request UpdateRecordData, module crmModule, ID string) (data UpdateRecordResponse, err error) {
 	endpoint := zoho.Endpoint{
 		Name:         "records",
-		URL:          fmt.Sprintf("https://www.zohoapis.%s/crm/v2/%s/%s", c.ZohoTLD, module, ID),
+		URL:          fmt.Sprintf("https://www.zohoapis.%s/crm/v2/%s/%s", c.zohoTLD, module, ID),
 		Method:       zoho.HTTPPut,
 		ResponseData: &UpdateRecordResponse{},
 		RequestBody:  request,
@@ -455,7 +453,7 @@ type UpdateRecordResponse = UpdateRecordsResponse
 func (c *API) DeleteRecord(module crmModule, ID string) (data DeleteRecordResponse, err error) {
 	endpoint := zoho.Endpoint{
 		Name:         "records",
-		URL:          fmt.Sprintf("https://www.zohoapis.%s/crm/v2/%s/%s", c.ZohoTLD, module, ID),
+		URL:          fmt.Sprintf("https://www.zohoapis.%s/crm/v2/%s/%s", c.zohoTLD, module, ID),
 		Method:       zoho.HTTPDelete,
 		ResponseData: &DeleteRecordResponse{},
 	}
@@ -480,7 +478,7 @@ type DeleteRecordResponse = DeleteRecordsResponse
 func (c *API) ConvertLead(request ConvertLeadData, ID string) (data ConvertLeadResponse, err error) {
 	endpoint := zoho.Endpoint{
 		Name:         "records",
-		URL:          fmt.Sprintf("https://www.zohoapis.%s/crm/v2/%s/%s/actions/convert", c.ZohoTLD, LeadsModule, ID),
+		URL:          fmt.Sprintf("https://www.zohoapis.%s/crm/v2/%s/%s/actions/convert", c.zohoTLD, LeadsModule, ID),
 		Method:       zoho.HTTPPost,
 		ResponseData: &ConvertLeadResponse{},
 		RequestBody:  data,

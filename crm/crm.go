@@ -1,10 +1,9 @@
 package crm
 
 import (
+	"fmt"
 	"math/rand"
 	"time"
-
-	"github.com/schmorrison/Zoho"
 )
 
 type crmModule string
@@ -36,7 +35,10 @@ const (
 // the exposed methods are primarily access to CRM modules which provide access to CRM Methods
 type API struct {
 	*zoho.Zoho
-	id string
+	id      string
+	baseURL string
+	zohoTLD string
+	baseUrl string
 }
 
 // New returns a *crm.API with the provided zoho.Zoho as an embedded field
@@ -53,7 +55,16 @@ func New(z *zoho.Zoho) *API {
 	}()
 
 	return &API{
-		Zoho: z,
-		id:   id,
+		Zoho:    z,
+		id:      id,
+		zohoTLD: "com",
+		baseURL: "https://accounts.zoho.com/oauth/v2/",
 	}
+}
+
+// SetZohoTLD can be used to set the TLD extension for API calls for example for Zoho in EU and China.
+// by default this is set to "com", other options are "eu" and "ch"
+func (z *API) SetZohoTLD(s string) {
+	z.zohoTLD = s
+	z.baseURL = fmt.Sprintf("https://accounts.zoho.%s/oauth/v2/", s)
 }

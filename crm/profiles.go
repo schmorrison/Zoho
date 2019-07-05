@@ -2,8 +2,6 @@ package crm
 
 import (
 	"fmt"
-
-	"github.com/schmorrison/Zoho"
 )
 
 // GetProfiles will return the list of profiles in this CRM organization
@@ -11,7 +9,7 @@ import (
 func (c *API) GetProfiles() (data ProfilesResponse, err error) {
 	endpoint := zoho.Endpoint{
 		Name:         "profiles",
-		URL:          fmt.Sprintf("https://www.zohoapis.%s/crm/v2/settings/profiles", c.ZohoTLD),
+		URL:          fmt.Sprintf("https://www.zohoapis.%s/crm/v2/settings/profiles", c.zohoTLD),
 		Method:       zoho.HTTPGet,
 		ResponseData: &ProfilesResponse{},
 	}
@@ -33,7 +31,7 @@ func (c *API) GetProfiles() (data ProfilesResponse, err error) {
 func (c *API) GetProfile(id string) (data ProfilesResponse, err error) {
 	endpoint := zoho.Endpoint{
 		Name:         "profiles",
-		URL:          fmt.Sprintf("https://www.zohoapis.%s/crm/v2/settings/profiles/%s", c.ZohoTLD, id),
+		URL:          fmt.Sprintf("https://www.zohoapis.%s/crm/v2/settings/profiles/%s", c.zohoTLD, id),
 		Method:       zoho.HTTPGet,
 		ResponseData: &ProfilesResponse{},
 	}
