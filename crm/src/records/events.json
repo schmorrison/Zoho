@@ -1,0 +1,87 @@
+{
+    "data": [
+        {
+            "All_day": true, 
+            "Owner": { 
+                "name": "Patricia Boyle",
+                "id": "3652397000000186017"
+            },
+            "Check_In_State": null,
+            "Check_In_Address": null,
+            "Description": null, 
+            "$currency_symbol": "Rs.", 
+            "Start_DateTime": "2020-01-23T00:00:00+00:00", 
+            "Latitude": null,
+            "Participants": [ 
+                { 
+                    "Email": "abc.123@xyz.com", 
+                    "name": "Name", 
+                    "invited": true, 
+                    "id": "3652397000000458396", 
+                    "type": "contact", 
+                    "participant": "3652397000000270003", 
+                    "status": "not_known" 
+                },
+                { 
+                    "Email": "anotheremail@xyz.com",
+                    "name": "Name1",
+                    "invited": true,
+                    "id": "3652397000000458398",
+                    "type": "contact",
+                    "participant": "3652397000000269077",
+                    "status": "not_known"
+                }
+            ],
+            "Event_Title": "event 3", 
+            "$calendar_booking_event": false, 
+            "End_DateTime": "2020-01-23T23:59:59+00:00", 
+            "Check_In_By": null,
+            "Modified_By": { 
+                "name": "Patricia Boyle S",
+                "id": "3652397000000186017"
+            },
+            "$process_flow": false, 
+            "Check_In_City": null,
+            "id": "3652397000000454733", 
+            "Check_In_Comment": null,
+            "$approved": true, 
+            "Remind_At": "2020-01-22T08:00:00+05:30", 
+            "Who_Id": { 
+                "name": "Name",
+                "id": "3652397000000270003"
+            },
+            "Check_In_Status": "PLANNED", 
+            "Check_In_Country": null,
+            "$approval": { 
+                "delegate": false,
+                "approve": false,
+                "reject": false,
+                "resubmit": false
+            },
+            "Modified_Time": "2019-01-23T09:35:29+05:30", 
+            "Venue": "Venue", 
+            "ZIP_Code": null, 
+            "Created_Time": "2019-01-23T09:35:29+05:30", 
+            "$editable": true, 
+            "$recurrence_id": "1579737600000", 
+            "Longitude": null,
+            "Check_In_Time": null,
+            "$se_module": "Accounts", 
+            "Recurring_Activity": { 
+                "RRULE": "FREQ=DAILY;INTERVAL=1;DTSTART=2019-01-23;UNTIL=-1"
+            },
+            "What_Id": { 
+                "name": "Account_namer",
+                "id": "3652397000000261026"
+            },
+            "Check_In_Sub_Locality": null,
+            "$u_id": "3652397000000454002", 
+            "Created_By": { 
+                "name": "Patricia Boyle S",
+                "id": "3652397000000186017"
+            },
+            "Tag": [], 
+            "$send_notification": true 
+        }
+    ]
+}

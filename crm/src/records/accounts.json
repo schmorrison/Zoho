@@ -1,0 +1,60 @@
+{
+    "data": [
+        {
+            "Owner": { 
+                "name": "Patricia Boyle",
+                "id": "3652397000000281001"
+            },
+            "Ownership": "Private", 
+            "Description": null, 
+            "$currency_symbol": "Rs.", 
+            "Account_Type": null, 
+            "Rating": null, 
+            "SIC_Code": 0, 
+            "Shipping_State": null, 
+            "Website": "http://www.truhlarandtruhlarattys.com",
+            "Employees": 100, 
+            "Last_Activity_Time": "2018-12-27T16:06:44+05:30", 
+            "Industry": "Data/Telecom OEM", 
+            "Record_Image": null, 
+            "Modified_By": {
+                "name": "Patricia Boyle",
+                "id": "3652397000000186017"
+            },
+            "Account_Site": null, 
+            "$process_flow": false, 
+            "Phone": "555-555-5555",
+            "Billing_Country": "Minnehaha", 
+            "Account_Name": "Oh My Goodknits Inc", 
+            "id": "3652397000000269085", 
+            "Account_Number": "0", 
+            "$approved": true, 
+            "Ticker_Symbol": null, 
+            "$approval": { 
+                "delegate": false,
+                "approve": false,
+                "reject": false,
+                "resubmit": false
+            },
+            "Modified_Time": "2019-01-24T16:36:18+05:30", 
+            "Billing_Street": "5 Boston Ave #88",
+            "Created_Time": "2018-12-04T15:54:37+05:30", 
+            "$editable": true, 
+            "Billing_Code": "57105",
+            "Parent_Account": null, 
+            "Shipping_City": null,
+            "Shipping_Country": null,
+            "Shipping_Code": null,
+            "Billing_City": "Sioux Falls",
+            "Billing_State": "SD",
+            "Tag": [], 
+            "Created_By": { 
+                "name": "Patricia Boyle",
+                "id": "3652397000000186017"
+            },
+            "Fax": null, 
+            "Annual_Revenue": 200000, 
+            "Shipping_Street": null
+        }
+    ]
+}

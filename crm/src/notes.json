@@ -1,0 +1,155 @@
+{
+    "NotesResponse": {
+        "data": [
+           {
+                "Owner": {
+                    "name": "Patricia Boyle",
+                    "id": "410888000000086001"
+                },
+                "$se_module": "Leads",
+                "$approval": {
+                    "delegate": false,
+                    "approve": false,
+                    "reject": false
+                },
+                "Modified_By": {
+                    "name": "Patricia Boyle",
+                    "id": "410888000000086001"
+                },
+                "Modified_Time": "2016-09-15T18:03:09+05:30",
+                "Created_Time": "2016-09-15T18:03:09+05:30",
+                "$followed": false,
+                "Parent_Id": {
+                    "name": null,
+                    "id": "410888000000698006"
+                },
+                "id": "410888000000734003",
+                "Created_By": {
+                    "name": "Patricia Boyle",
+                    "id": "410888000000086001"
+                },
+                "Note_Title": "",
+                "Note_Content": "Demo scheduled for this Lead"
+            },
+           {
+                "Owner": {
+                    "name": "Patricia Boyle",
+                    "id": "410888000000086001"
+                },
+                "$se_module": "Leads",
+                "$approval": {
+                    "delegate": false,
+                    "approve": false,
+                    "reject": false
+                },
+                "Modified_By": {
+                    "name": "Patricia Boyle",
+                    "id": "410888000000086001"
+                },
+                "Modified_Time": "2016-07-05T16:43:36+05:30",
+                "Created_Time": "2016-07-05T16:43:36+05:30",
+                "$followed": false,
+                "Parent_Id": {
+                    "name": null,
+                    "id": "410888000000572160"
+                },
+                "id": "410888000000643112",
+                "Created_By": {
+                    "name": "Patricia Boyle",
+                    "id": "410888000000086001"
+                },
+                "Note_Title": "Demo",
+                "Note_Content": "This is sample content to test Zoho CRM API"
+            }
+        ],
+        "info": {
+            "per_page": 200,
+            "count": 200,
+            "page": 1,
+            "more_records": true
+        }
+    },
+    "NoteResponse": {
+        "ALIAS": "NotesResponse"
+    },
+    "CreateNoteData": {
+        "data": [
+           {
+                "Note_Title": "Contacted",
+                "Note_Content": "Need to do further tracking",
+                "Parent_Id": "412963000001376069",
+                "se_module": "Leads"
+            }
+        ]
+    },
+    "CreateNoteResponse": {
+        "data": [
+           {
+                "message": "record added",
+                "details": {
+                    "created_by": {
+                        "id": "410888000000086001",
+                        "name": "Patricia Boyle"
+                    },
+                    "id": "410888000000737002",
+                    "modified_by": {
+                        "id": "410888000000086001",
+                        "name": "Patricia Boyle"
+                    },
+                    "modified_time": "2016-09-16T12:15:13+05:30",
+                    "created_time": "2016-09-16T12:15:13+05:30"
+                },
+                "status": "success",
+                "code": "SUCCESS"
+            }
+        ]
+    },
+    "CreateRecordNoteData": {
+        "data": [
+           {
+                "Note_Title": "Contacted",
+                "Note_Content": "Need to do further tracking"
+            }
+        ]
+    },
+    "CreateRecordNoteResponse": {
+        "ALIAS": "CreateNoteResponse" 
+    },
+    "UpdateNoteData": {
+        "ALIAS": "CreateNoteData"
+    },
+    "UpdateNoteResponse": {
+        "ALIAS": "CreateNoteResponse"
+    },
+    "DeleteNoteResponse": {
+        "data": [
+           {
+                "code": "SUCCESS",
+                "details": {
+                    "id": "2883756000000308033"
+                },
+                "message": "record deleted",
+                "status": "success"
+            },
+           {
+                "code": "SUCCESS",
+                "details": {
+                    "id": "2883756000000308027"
+                },
+                "message": "record deleted",
+                "status": "success"
+            },
+           {
+                "code": "SUCCESS",
+                "details": {
+                    "id": "2883756000000308021"
+                },
+                "message": "record deleted",
+                "status": "success"
+            }
+        ]
+    },
+    "DeleteNotesResponse": {
+        "ALIAS": "DeleteNoteResponse"
+    }
+}

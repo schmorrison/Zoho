@@ -1,0 +1,43 @@
+{
+    "OrganizationDetails": {
+        "Response": {
+            "org": [
+               {
+                    "country": "US",
+                    "mc_status": false,
+                    "gapps_enabled": false,
+                    "id": "111111000000033001",
+                    "state": null,
+                    "employee_count": "154",
+                    "website": "www.zylker.com",
+                    "currency_symbol": "$",
+                    "mobile": null,
+                    "currency_locale": "en_US",
+                    "primary_zuid": "5478235",
+                    "zgid": "5478236",
+                    "country_code": "US",
+                    "license_details": {
+                        "paid_expiry": null,
+                        "users_license_purchased": 3,
+                        "trial_type": "professional",
+                        "trial_expiry": "2018-05-17T17:20:05+05:30",
+                        "paid": false,
+                        "paid_type": "free"
+                    },
+                    "company_name": null,
+                    "privacy_settings": true,
+                    "primary_email": "p.boyle@zylker.com",
+                    "iso_code": "USD"
+                }
+            ]
+        }
+    },
+    "UploadOrganizationPhoto": {
+        "Response": {
+            "message": "photo uploaded successfully",
+            "details": {},
+            "status": "success",
+            "code": "SUCCESS",
+        }
+    }
+}

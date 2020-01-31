@@ -1,0 +1,64 @@
+{
+    "data": [
+        {
+            "Owner": { 
+                "name": "Patricia Boyle",
+                "id": "3652397000000281001"
+            },
+            "Email": "abc1@xyz.com", 
+            "Description": null, 
+            "$currency_symbol": "Rs.",
+            "Internal_Comments": null,
+            "No_of_comments": 0,
+            "Reported_By": "Patricia Boyle",
+            "Case_Number": "3652397000000475017",
+            "Modified_By": {
+                "name": "Patricia Boyle",
+                "id": "3652397000000186017"
+            },
+            "$process_flow": false,
+            "Deal_Name": { 
+                "name": "Deal Name", 
+                "id": "3652397000000269093"
+            },
+            "Phone": "123456789",
+            "Account_Name": { 
+                "name": "Account1",
+                "id": "3652397000000251001"
+            },
+            "id": "3652397000000475015", 
+            "$approved": true, 
+            "Solution": null, 
+            "Status": "New", 
+            "$approval": { 
+                "delegate": false,
+                "approve": false,
+                "reject": false,
+                "resubmit": false
+            },
+            "Modified_Time": "2019-01-24T16:36:18+05:30", 
+            "Priority": "Medium", 
+            "Created_Time": "2019-01-24T16:36:18+05:30", 
+            "Comments": [], 
+            "Product_Name": { 
+                "name": "ZCRM_Product",
+                "id": "3652397000000416001"
+            },
+            "$editable": true, 
+            "Add_Comment": null, 
+            "Case_Origin": "Email", 
+            "Case_Reason": "New problem", 
+            "Subject": "Need a new feature", 
+            "Type": "Feature Request", 
+            "Tag": [], 
+            "Created_By": { 
+                "name": "Patricia Boyle",
+                "id": "3652397000000186017"
+            },
+            "Related_To": { 
+                "name": "Contact1",
+                "id": "3652397000000269077"
+            }
+        }
+    ]
+}

@@ -1,0 +1,115 @@
+{
+
+    "data": [
+
+        {
+
+            "Owner": { 
+
+                "name": "Patricia Boyle",
+
+                "id": "3652397000000281001"
+
+            },
+
+            "Description": null, 
+
+            "$currency_symbol": "Rs.", 
+
+            "Campaign_Source": null, 
+
+            "$followers": null, 
+
+            "Closing_Date": "2019-01-31", 
+
+            "Last_Activity_Time": "2018-12-07T15:11:53+05:30", 
+
+            "Modified_By": {
+
+                "name": "Patricia Boyle",
+
+                "id": "3652397000000186017"
+
+            },
+
+            "Lead_Conversion_Time": 20, 
+
+            "$process_flow": false, 
+
+            "Deal_Name": "Oh My Goodknits Inc-", 
+
+            "Expected_Revenue": 0, 
+
+            "Overall_Sales_Duration": 79,
+
+            "Stage": "Needs Analysis", 
+
+            "Account_Name": {
+
+                "name": "Account1",
+
+                "id": "3652397000000251001"
+
+            },
+
+            "id": "3652397000000269093", 
+
+            "$approved": true, 
+
+            "$approval": { 
+
+                "delegate": false,
+
+                "approve": false,
+
+                "reject": false,
+
+                "resubmit": false
+
+            },
+
+            "Modified_Time": "2019-01-24T16:36:18+05:30", 
+
+            "Created_Time": "2018-12-04T15:54:37+05:30", 
+
+            "Amount": 0, 
+
+            "$followed": false, 
+
+            "Probability": 20, 
+
+            "Next_Step": null, 
+
+            "$editable": true, 
+
+            "Prediction_Score": null, 
+
+            "Contact_Name": { 
+
+                "name": "Carissa Batman", 
+
+                "id": "3652397000000269089"
+
+            },
+
+            "Sales_Cycle_Duration": 59, 
+
+            "Type": null, 
+
+            "Lead_Source": "Advertisement", 
+
+            "Created_By": {
+
+                "name": "Patricia Boyle",
+
+                "id": "3652397000000186017"
+
+            },
+
+            "Tag": [] 
+
+        }
+
+    ]
+
+}

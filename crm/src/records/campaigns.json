@@ -1,0 +1,43 @@
+{
+    "data": [
+        {
+            "Status": "Active", 
+            "$approval": { 
+                "delegate": false,
+                "approve": false,
+                "reject": false,
+                "resubmit": false
+            },
+            "Owner": { 
+                "name": "Patricia Boyle",
+                "id": "3652397000000186017"
+            },
+            "Modified_Time": "2019-01-07T10:52:29+05:30", 
+            "Description": null, 
+            "$currency_symbol": "Rs.", 
+            "Campaign_Name": "First Meet", 
+            "Created_Time": "2018-12-13T12:07:02+05:30", 
+            "$editable": true, 
+            "End_Date": "2019-01-09", 
+            "Type": "Public Relations", 
+            "Modified_By": { 
+                "name": "Patricia Boyle",
+                "id": "3652397000000186017"
+            },
+            "Num_sent": null,  
+            "$process_flow": false, 
+            "Expected_Revenue": null, 
+            "Actual_Cost": null, 
+            "id": "3652397000000327001", 
+            "Expected_Response": null, 
+            "Created_By": { 
+                "name": "Patricia Boyle",
+                "id": "3652397000000186017"
+            },
+            "Tag": [], 
+            "Start_Date": "2019-01-03",
+            "$approved": true, 
+            "Budgeted_Cost": null 
+        }
+    ]
+}

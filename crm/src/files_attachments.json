@@ -1,0 +1,70 @@
+{
+    "GetAttachments": {
+        "Response": {
+            "data": [
+               {
+                    "id": "1000000030750",
+                    "Modified_By": "1000000028468",
+                    "Owner": "1000000028468",
+                    "Parent_Id": "1000000231009",
+                    "Created_Time": "2016-03-30 20:29:35",
+                    "Modified_Time": "2016-03-30 20:29:35",
+                    "$Created_By": "Patricia Boyle",
+                    "$Owner": "Patricia Boyle",
+                    "Created_By": "1000000028468",
+                    "File_Name": "External-Api-Automation.html",
+                    "$Modified_By": "Patricia Boyle",
+                    "Size": "985160"
+                }
+            ],
+            "info": {
+                "range": "1-1",
+                "more_records": false
+            }
+        }
+    },
+    "UploadAttachments": {
+        "Response": {
+            "data": [
+               {
+                    "code": "SUCCESS",
+                    "details": {
+                        "id": "1000000231009"
+                    },
+                    "message": "attachment uploaded successfully",
+                    "status": "success"
+                }
+            ]
+        }
+    },
+    "DeleteAttachment": {
+        "Response": {
+            "data": [
+               {
+                    "code": "SUCCESS",
+                    "details": {
+                        "id": "2883756000000261017"
+                    },
+                    "message": "record deleted",
+                    "status": "success"
+                }
+            ]
+        }
+    },
+    "UploadPhoto": {
+        "Response": {
+            "message": "photo uploaded successfully",
+            "details": {},
+            "status": "success",
+            "code": "SUCCESS"
+        }
+    },
+    "DeletePhoto": {
+        "Response": {
+            "code": "SUCCESS",
+            "details": {},
+            "message": "Photo deleted",
+            "status": "success"
+        }
+    }
+}

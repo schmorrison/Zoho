@@ -1,0 +1,120 @@
+{
+    "ModulesResponse": {
+        "modules": [
+           {
+                "convertable": false,
+                "editable": false,
+                "deletable": false,
+                "web_link": null,
+                "singular_label": "Feeds",
+                "modified_time": null,
+                "viewable": true,
+                "api_supported": false,
+                "createable": false,
+                "plural_label": "Feeds",
+                "api_name": "Feeds",
+                "modified_by": null,
+                "generated_type": "default",
+                "id": "410888000000059001",
+                "module_name": "Feeds"
+            },
+           {
+                "convertable": false,
+                "editable": false,
+                "deletable": false,
+                "web_link": null,
+                "singular_label": "Home",
+                "modified_time": null,
+                "viewable": true,
+                "api_supported": false,
+                "createable": false,
+                "plural_label": "Home",
+                "api_name": "Home",
+                "modified_by": null,
+                "generated_type": "default",
+                "id": "410888000000000123",
+                "module_name": "Home"
+            },
+           {
+                "convertable": true,
+                "editable": true,
+                "deletable": true,
+                "web_link": null,
+                "singular_label": "Lead",
+                "modified_time": "2016-07-29T13:19:14+05:30",
+                "viewable": true,
+                "api_supported": true,
+                "createable": true,
+                "plural_label": "Leads",
+                "api_name": "Leads",
+                "modified_by": {
+                    "name": "Patricia Boyle",
+                    "id": "410888000000086001"
+                },
+                "generated_type": "default",
+                "id": "410888000000000125",
+                "module_name": "Leads"
+            },
+           {
+                "convertable": false,
+                "editable": true,
+                "deletable": true,
+                "web_link": null,
+                "singular_label": "Account",
+                "modified_time": "2016-06-27T15:15:13+05:30",
+                "viewable": true,
+                "api_supported": true,
+                "createable": true,
+                "plural_label": "Accounts",
+                "api_name": "Accounts",
+                "modified_by": {
+                    "name": "Patricia Boyle",
+                    "id": "410888000000086001"
+                },
+                "generated_type": "default",
+                "id": "410888000000000127",
+                "module_name": "Accounts"
+            },
+           {
+                "convertable": false,
+                "editable": true,
+                "deletable": true,
+                "web_link": null,
+                "singular_label": "Contact",
+                "modified_time": "2016-04-29T12:45:09+05:30",
+                "viewable": true,
+                "api_supported": true,
+                "createable": true,
+                "plural_label": "Contacts",
+                "api_name": "Contacts",
+                "modified_by": {
+                    "name": "Patricia Boyle",
+                    "id": "410888000000086001"
+                },
+                "generated_type": "default",
+                "id": "410888000000000129",
+                "module_name": "Contacts"
+            },
+           {
+                "convertable": false,
+                "editable": true,
+                "deletable": true,
+                "web_link": null,
+                "singular_label": "Potential",
+                "modified_time": "2016-04-22T16:22:32+05:30",
+                "viewable": true,
+                "api_supported": true,
+                "createable": true,
+                "plural_label": "Potentials",
+                "api_name": "Potentials",
+                "modified_by": {
+                    "name": "Patricia Boyle",
+                    "id": "410888000000086001"
+                },
+                "generated_type": "default",
+                "id": "410888000000000131",
+                "module_name": "Potentials"
+            }
+        ]
+    }
+}

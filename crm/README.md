@@ -48,6 +48,13 @@ Additional Brainstorm: Because of the custom field problem, I believe we can def
         fmt.Println(data)
     }
 
+
+## GENERATED CODE
+
+Due to the high volume of endpoints and data structures available to be returned by Zoho I have begun evaluating the possibility of generating the boiler plate code and JSON structs. The JSON's used to generate the structs are located in the `src/` directory. These JSON files were copied from the Zoho CRM API docs. Because these JSON have some 'null' values in them, any 'JSON to Go Struct' generators will provide an `interface{}` where the data type could be null. In order to provide the type safety I am looking for, these interfaces will be moved over to a proper data type when requested by a user via pull request or issue.
+
+Eventually the goal will be to write a code generator for each endpoint, including URL, HTTP method, parameters, request/response bodies, and generate the entire API codebase.
+
 ## TODO
 
 - [ ] Write a TODO list

@@ -1,0 +1,64 @@
+{
+    "data": [
+        {
+            "Product_Category": "Hardware", 
+            "Qty_in_Demand": 3000, 
+            "Owner": { 
+                "name": "Patricia Boyle",
+                "id": "3652397000000281001"
+            },
+            "Description": null, 
+            "$currency_symbol": "Rs.", 
+            "Vendor_Name": { 
+                "name": "ABC Inc",
+                "id": "3652397000000491141"
+            },
+            "Sales_Start_Date": "2019-01-15", 
+            "Tax": [ 
+                "Sales Tax",
+                "Vat"
+            ],
+            "Product_Active": true, 
+            "Record_Image": null, 
+            "Modified_By": {
+                "name": "Patricia Boyle",
+                "id": "3652397000000186017"
+            },
+            "Product_Code": "1234567890", 
+            "$process_flow": false, 
+            "Manufacturer": "AltvetPet Inc.", 
+            "id": "3652397000000491147", 
+            "Support_Expiry_Date": "2020-02-15", 
+            "$approved": true, 
+            "$approval": { 
+                "delegate": false, 
+                "approve": false, 
+                "reject": false,
+                "resubmit": false
+            },
+            "Modified_Time": "2019-01-29T15:12:03+05:30", 
+            "Created_Time": "2019-01-29T15:10:21+05:30", 
+            "Commission_Rate": 10, 
+            "Product_Name": "Product1", 
+            "Handler": { 
+                "name": "Patricia Boyle",
+                "id": "3652397000000186017"
+            },
+            "$taxable": true, 
+            "$editable": true, 
+            "Support_Start_Date": "2019-01-15", 
+            "Usage_Unit": "Each", 
+            "Qty_Ordered": 1000, 
+            "Qty_in_Stock": 5000, 
+            "Created_By": { 
+                "name": "Patricia Boyle",
+                "id": "3652397000000186017"
+            },
+            "Tag": [], 
+            "Sales_End_Date": "2020-01-15", 
+            "Unit_Price": 100, 
+            "Taxable": true, 
+            "Reorder_Level": 95 
+        }
+    ]
+}

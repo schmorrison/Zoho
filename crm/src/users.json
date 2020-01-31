@@ -1,0 +1,177 @@
+{
+    "GetUsers": {
+        "Response": {
+            "users": [{
+                "country": null,
+                "role": {
+                    "name": "CEO",
+                    "id": "2445013000000026005"
+                },
+                "city": null,
+                "signature": null,
+                "name_format": "Salutation,First Name,Last Name",
+                "language": "en_US",
+                "locale": "en_US",
+                "personal_account": true,
+                "default_tab_group": "0",
+                "street": null,
+                "alias": "Charan",
+                "theme": {
+                    "normal_tab": {
+                        "font_color": "#FFFFFF",
+                        "background": "#222222"
+                    },
+                    "selected_tab": {
+                        "font_color": "#FFFFFF",
+                        "background": "#222222"
+                    },
+                    "new_background": "#018EE0",
+                    "background": "#F3F0EB",
+                    "screen": "fixed",
+                    "type": "default"
+                },
+                "id": "2445013000000114007",
+                "state": null,
+                "country_locale": "en_US",
+                "fax": null,
+                "first_name": "Particia",
+                "email": "p.boyle@zylker.com",
+                "zip": null,
+                "decimal_separator": "en_IN",
+                "website": null,
+                "time_format": "hh:mm a",
+                "profile": {
+                    "name": "Administrator",
+                    "id": "2445013000000026011"
+                },
+                "mobile": null,
+                "last_name": "Boyle",
+                "time_zone": "IST",
+                "zuid": "11290182",
+                "confirm": true,
+                "full_name": "Patricia Boyle",
+                "territories": [],
+                "phone": null,
+                "dob": null,
+                "date_format": "MM/dd/yyyy",
+                "status": "active"
+            }],
+            "info": {
+                "per_page": 200,
+                "count": 1,
+                "page": 1,
+                "more_records": false
+            }
+        }
+    },
+    "GetUser": {
+        "Response": {
+            "users": [{
+                "country": null,
+                "role": {
+                    "name": "CEO",
+                    "id": "3652397000000026005"
+                },
+                "city": null,
+                "language": "en_US",
+                "locale": "en_US",
+                "microsoft": false,
+                "Isonline": false,
+                "Modified_By": {
+                    "name": "Patricia Boyle",
+                    "id": "3652397000000186017"
+                },
+                "street": null,
+                "alias": null,
+                "id": "3652397000000281001",
+                "state": null,
+                "fax": null,
+                "country_locale": "US",
+                "first_name": "Patricia",
+                "email": "p.boyle@zylker.com",
+                "Reporting_To": null,
+                "zip": null,
+                "created_time": "2018-12-05T10:02:20+05:30",
+                "Modified_Time": "2018-12-05T10:08:23+05:30",
+                "website": null,
+                "time_format": "hh:mm a",
+                "offset": 19800000,
+                "profile": {
+                    "name": "Administrator",
+                    "id": "3652397000000026011"
+                },
+                "mobile": null,
+                "last_name": "Boyle",
+                "time_zone": "Asia/Kolkata",
+                "created_by": {
+                    "name": "Patricia Boyle",
+                    "id": "3652397000000186017"
+                },
+                "zuid": "679952958",
+                "confirm": true,
+                "full_name": "Patricia Boyle",
+                "territories": [],
+                "phone": null,
+                "dob": null,
+                "date_format": "MM/dd/yyyy",
+                "status": "active"
+            }]
+        }
+    },
+    "AddUser": {
+        "Request": {
+            "users": [{
+                "role": "554023000000015969",
+                "first_name": "Patricia",
+                "email": "Patricia@abcl.com",
+                "profile": "554023000000015975",
+                "last_name": "Boyle"
+            }]
+        },
+        "Response": {
+            "users": [{
+                "code": "SUCCESS",
+                "details": {
+                    "id": "554023000000691003"
+                },
+                "message": "User added",
+                "status": "success"
+            }]
+        }
+    },
+
+    "UpdateUser": {
+        "Request": {
+            "users": [{
+                "id": "554023000000691003",
+                "phone": "123456789",
+                "email": "newtocrm@zoho.com",
+                "dob": "1990-12-31",
+                "country_locale": "en_US",
+                "time_format": "HH:mm",
+                "time_zone": "US/Samoa",
+                "status": "active"
+            }]
+        },
+        "Response": {
+            "users": [{
+                "code": "SUCCESS",
+                "details": {
+                    "id": "554023000000691003"
+                },
+                "message": "User updated",
+                "status": "success"
+            }]
+        }
+    },
+    "DeleteUser": {
+        "Response": {
+            "users": [{
+                "code": "SUCCESS",
+                "details": {},
+                "message": "User deleted",
+                "status": "success"
+            }]
+        }
+    }
+}

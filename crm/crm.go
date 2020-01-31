@@ -4,8 +4,11 @@ import (
 	"math/rand"
 	"time"
 
-	"github.com/schmorrison/Zoho"
+	zoho "github.com/schmorrison/Zoho"
 )
+
+//go:generate src/build.sh
+//go:generate go run src/records/gen.go
 
 type crmModule string
 

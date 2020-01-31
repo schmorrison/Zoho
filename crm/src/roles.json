@@ -1,0 +1,68 @@
+{
+    "GetRoles": {
+        "Response": {
+            "roles": [
+               {
+                    "display_label": "CEO",
+                    "name": "CEO",
+                    "id": "2883756000000026005",
+                    "reporting_to": null,
+                    "admin_user": true
+                },
+               {
+                    "display_label": "Manager",
+                    "name": "Manager",
+                    "id": "2883756000000026008",
+                    "reporting_to": {
+                        "name": "CEO",
+                        "id": "2883756000000026005"
+                    },
+                    "admin_user": false
+                },
+               {
+                    "display_label": "Supervisors",
+                    "name": "Supervisors",
+                    "id": "2883756000000243007",
+                    "reporting_to": {
+                        "name": "Manager",
+                        "id": "2883756000000026008"
+                    },
+                    "admin_user": false
+                },
+               {
+                    "display_label": "Sales Reps",
+                    "name": "Sales Reps",
+                    "id": "2883756000000243013",
+                    "reporting_to": {
+                        "name": "Supervisors",
+                        "id": "2883756000000243007"
+                    },
+                    "admin_user": false
+                },
+               {
+                    "display_label": "Product Managers",
+                    "name": "Product Managers",
+                    "id": "2883756000000243019",
+                    "reporting_to": {
+                        "name": "CEO",
+                        "id": "2883756000000026005"
+                    },
+                    "admin_user": false
+                }
+            ]
+        }
+    },
+    "GetRole": {
+        "Response": {
+            "roles": [
+               {
+                    "display_label": "CEO",
+                    "name": "CEO",
+                    "id": "2883756000000026005",
+                    "reporting_to": null,
+                    "admin_user": true
+                }
+            ]
+        }
+    }
+}

@@ -1,0 +1,113 @@
+{
+    "data": [
+        {
+            "Owner": { 
+                "name": "Patricia Boyle",
+                "id": "3652397000000281001"
+            },
+            "Discount": 500, 
+            "Description": null, 
+            "$currency_symbol": "Rs.", 
+            "Shipping_State": "MD", 
+            "Tax": 285, 
+            "Modified_By": {
+                "name": "Patricia Boyle",
+                "id": "3652397000000186017"
+            },
+            "$converted": false, 
+            "$process_flow": false, 
+            "Deal_Name": {
+                "name": "Deal name",
+                "id": "3652397000000269093"
+            },
+            "Valid_Till": "2019-02-08", 
+            "Billing_Country": "Baltimore City",
+            "Team": "TeamA", 
+            "Account_Name": { 
+                "name": "Account1",
+                "id": "3652397000000251001"
+            },
+            "id": "3652397000000496001", 
+            "Carrier": "FedEX", 
+            "$approved": true, 
+            "Quote_Stage": "Negotiation", 
+            "Grand_Total": 9785, 
+            "$approval": { 
+                "delegate": false, 
+                "approve": false, 
+                "reject": false,
+                "resubmit": false
+            },
+            "Modified_Time": "2019-01-30T10:00:38+05:30", 
+            "Billing_Street": "228 Runamuck Pl #2808",
+            "Adjustment": 0, 
+            "Created_Time": "2019-01-30T10:00:38+05:30", 
+            "Terms_and_Conditions": null, 
+            "Sub_Total": 10000, 
+            "$editable": true, 
+            "Billing_Code": "21224",
+            "Product_Details": [ 
+                {
+                    "product": { 
+                        "Product_Code": "1234567890",
+                        "name": "Product1",
+                        "id": "3652397000000491147"
+                    },
+                    "quantity": 100, 
+                    "Discount": 0, 
+                    "total_after_discount": 10000, 
+                    "net_total": 10000,
+                    "book": null,
+                    "Tax": 0,
+                    "list_price": 100,
+                    "unit_price": 100,
+                    "quantity_in_stock": 4000,
+                    "total": 10000,
+                    "id": "3652397000000496003",
+                    "product_description": null,
+                    "line_tax": [
+                        {
+                            "percentage": 0,
+                            "name": "Sales Tax",
+                            "value": 0
+                        },
+                        {
+                            "percentage": 0,
+                            "name": "Vat",
+                            "value": 0
+                        }
+                    ]
+                }
+            ],
+            "Subject": "Quote1", 
+            "Contact_Name": { 
+                "name": "Patricia Boyle",
+                "id": "3652397000000269077"
+            },
+            "Shipping_City": "Baltimore", 
+            "Shipping_Country": "Baltimore City",
+            "Shipping_Code": "21224",
+            "Billing_City": "Baltimore",
+            "Quote_Number": "3652397000000496005",
+            "Billing_State": "MD",
+            "$line_tax": [ 
+                {
+                    "percentage": 1,
+                    "name": "Sales Tax",
+                    "value": 95
+                },
+                {
+                    "percentage": 2,
+                    "name": "Vat",
+                    "value": 190
+                }
+            ],
+            "Created_By": {
+                "name": "Patricia Boyle",
+                "id": "3652397000000186017"
+            },
+            "Tag": [], 
+            "Shipping_Street": "228 Runamuck Pl #2808"
+        }
+    ] 
+}

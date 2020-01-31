@@ -1,0 +1,35 @@
+{
+    "GetProfiles": {
+        "Response": {
+            "profiles": [
+               {
+                    "name": "Administrator",
+                    "modified_by": null,
+                    "description": "This profile will have all the permissions. Users with Administrator profile will be able to view and manage all the data within the organization account by default.",
+                    "id": "2883756000000026011",
+                    "category": false
+                },
+               {
+                    "name": "Standard",
+                    "modified_by": null,
+                    "description": "This profile will have all the permissions except administrative privileges.",
+                    "id": "2883756000000026014",
+                    "category": false
+                }
+            ]
+        }
+    },
+    "GetProfile": {
+        "Response": {
+            "profiles": [
+               {
+                    "name": "Administrator",
+                    "modified_by": null,
+                    "description": "This profile will have all the permissions. Users with Administrator profile will be able to view and manage all the data within the organization account by default.",
+                    "id": "2883756000000026011",
+                    "category": false
+                }
+            ]
+        }
+    }
+}

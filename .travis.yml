@@ -1,0 +1,23 @@
+dist: xenial
+language: go
+
+go:
+  - 1.12.x
+
+git:
+  depth: 1
+
+install:
+  - # skip
+
+notifications:
+  email: true
+
+# before_install:
+#   - go test 
+
+script:
+  # - go get -t -v ./...
+  # - golangci-lint run
+  # - go test -v -race ./...
+  - go generate

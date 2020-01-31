@@ -1,0 +1,44 @@
+{
+    "data": [
+        {
+            "Status": "Reviewed", 
+            "$approval": {
+                "delegate": false, 
+                "approve": false, 
+                "reject": false,
+                "resubmit": false
+            },
+            "Owner": { 
+                "name": "Patricia Boyle",
+                "id": "3652397000000281001"
+            },
+            "Modified_Time": "2019-01-29T14:23:34+05:30", 
+            "$currency_symbol": "Rs.", 
+            "Created_Time": "2019-01-29T14:23:34+05:30", 
+            "Comments": [], 
+            "No_of_comments": 0, 
+            "Product_Name": { 
+                "name": "ZCRM_Product",
+                "id": "3652397000000416001"
+            },
+            "$editable": true, 
+            "Add_Comment": null,
+            "Solution_Number": "3652397000000491103", 
+            "Answer": "Answer", 
+            "Modified_By": {
+                "name": "Patricia Boyle",
+                "id": "3652397000000186017"
+            },
+            "$process_flow": false, 
+            "Solution_Title": "Code Change", 
+            "Question": "Question", 
+            "id": "3652397000000491101", 
+            "Created_By": { 
+                "name": "Patricia Boyle",
+                "id": "3652397000000186017"
+            },
+            "Tag": [], 
+            "$approved": true 
+        }
+    ]
+}

@@ -1,0 +1,104 @@
+{
+    "GetTerritories": {
+        "Response": {
+            "territories": [
+              {
+                "created_time": "2019-04-10T14:27:50+05:30",
+                "modified_time": "2019-04-10T14:27:50+05:30",
+                "manager": {
+                  "name": "Patricia Boyle",
+                  "id": "554023000000235011"
+                },
+                "parent_id": null,
+                "criteria": null,
+                "name": "CRM",
+                "modified_by": {
+                  "name": "Patricia Boyle",
+                  "id": "554023000000235011"
+                },
+                "description": "Organization Parent Territory",
+                "id": "554023000000430341",
+                "created_by": {
+                  "name": "Patricia Boyle",
+                  "id": "554023000000235011"
+                }
+              },
+              {
+                "created_time": "2019-04-10T14:32:42+05:30",
+                "modified_time": "2019-04-26T11:24:31+05:30",
+                "manager": {
+                  "name": "Boyle",
+                  "id": "554023000000314027"
+                },
+                "parent_id": "554023000000430341",
+                "criteria": {
+                  "comparator": "equal",
+                  "field": "Billing_City",
+                  "value": "Chennai"
+                },
+                "name": "Chennai",
+                "modified_by": {
+                  "name": "Patricia Boyle",
+                  "id": "554023000000235011"
+                },
+                "description": null,
+                "id": "554023000000430409",
+                "created_by": {
+                  "name": "Patricia Boyle",
+                  "id": "554023000000235011"
+                }
+              },
+              {
+                "created_time": "2019-04-10T15:17:43+05:30",
+                "modified_time": "2019-04-10T15:17:43+05:30",
+                "manager": {
+                  "name": "Boyle",
+                  "id": "554023000000314027"
+                },
+                "parent_id": "554023000000430409",
+                "criteria": {
+                  "comparator": "equal",
+                  "field": "Account_Site",
+                  "value": "Chennai - South"
+                },
+                "name": "Chennai-South",
+                "modified_by": {
+                  "name": "Patricia Boyle",
+                  "id": "554023000000235011"
+                },
+                "description": null,
+                "id": "554023000000430451",
+                "created_by": {
+                  "name": "Patricia Boyle",
+                  "id": "554023000000235011"
+                }
+              },
+              {
+                "created_time": "2019-04-11T14:37:08+05:30",
+                "modified_time": "2019-04-26T11:32:15+05:30",
+                "manager": {
+                  "name": "Boyle",
+                  "id": "554023000000314027"
+                },
+                "parent_id": "554023000000430409",
+                "criteria": {
+                  "comparator": "equal",
+                  "field": "Account_Site",
+                  "value": "Chennai-North"
+                },
+                "name": "Chennai-North",
+                "modified_by": {
+                  "name": "Patricia Boyle",
+                  "id": "554023000000235011"
+                },
+                "description": null,
+                "id": "554023000000439130",
+                "created_by": {
+                  "name": "Patricia Boyle",
+                  "id": "554023000000235011"
+                }
+              }
+            ]
+          }
+    }
+}
