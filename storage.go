@@ -16,7 +16,7 @@ import (
 // The use case that was in mind was AppEngine where datastore is the only persistence option.
 type TokenLoaderSaver interface {
 	SaveTokens(t AccessTokenResponse) error
-	LoadTokens() (AccessTokenResponse, error)
+	LoadAccessAndRefreshToken() (AccessTokenResponse, error)
 }
 
 // SaveTokens will check for a provided 'TokenManager' interface
@@ -33,8 +33,8 @@ func (z Zoho) SaveTokens(t AccessTokenResponse) error {
 	}
 	enc := gob.NewEncoder(file)
 
-	v := TokensWrapper{
-		Tokens: z.oauth.token,
+	v := TokenWrapper{
+		Token: z.oauth.token,
 	}
 	v.SetExpiry()
 
@@ -46,11 +46,13 @@ func (z Zoho) SaveTokens(t AccessTokenResponse) error {
 	return nil
 }
 
-// LoadTokens will check for a provided 'TokenManager' interface
+
+
+// LoadAccessAndRefreshToken will check for a provided 'TokenManager' interface
 // if one exists it will use its provided method
-func (z Zoho) LoadTokens() (AccessTokenResponse, error) {
+func (z Zoho) LoadAccessAndRefreshToken() (AccessTokenResponse, error) {
 	if z.tokenManager != nil {
-		return z.tokenManager.LoadTokens()
+		return z.tokenManager.LoadAccessAndRefreshToken()
 	}
 
 	// Load the GOB and decode to AccessToken
@@ -60,17 +62,17 @@ func (z Zoho) LoadTokens() (AccessTokenResponse, error) {
 	}
 	dec := gob.NewDecoder(file)
 
-	var v TokensWrapper
+	var v TokenWrapper
 	err = dec.Decode(&v)
 	if err != nil {
 		return AccessTokenResponse{}, fmt.Errorf("Failed to decode tokens from file '%s': %s", z.tokensFile, err)
 	}
 
 	if v.CheckExpiry() {
-		return v.Tokens, ErrTokenExpired
+		return v.Token, ErrTokenExpired
 	}
 
-	return v.Tokens, nil
+	return v.Token, nil
 }
 
 // ErrTokenExpired should be returned when the token is expired but still exists in persistence
@@ -79,24 +81,24 @@ var ErrTokenExpired = errors.New("zoho: oAuth2 token already expired")
 // ErrTokenInvalidCode is turned when the autorization code in a request is invalid
 var ErrTokenInvalidCode = errors.New("zoho: authorization-code is invalid ")
 
-// TokensWrapper should be used to provide the time.Time corresponding to the expiry of an access token
-type TokensWrapper struct {
-	Tokens  AccessTokenResponse
+// TokenWrapper should be used to provide the time.Time corresponding to the expiry of an access token
+type TokenWrapper struct {
+	Token   AccessTokenResponse
 	Expires time.Time
 }
 
 // SetExpiry sets the TokenWrappers expiry time to now + seconds until expiry
-func (t *TokensWrapper) SetExpiry() {
-	t.Expires = time.Now().Add(time.Duration(t.Tokens.ExpiresInSeconds) * time.Second)
+func (t *TokenWrapper) SetExpiry() {
+	t.Expires = time.Now().Add(time.Duration(t.Token.ExpiresInSeconds) * time.Second)
 }
 
 // CheckExpiry if the token expired before this instant
-func (t *TokensWrapper) CheckExpiry() bool {
+func (t *TokenWrapper) CheckExpiry() bool {
 	return t.Expires.Before(time.Now())
 }
 
 func (z *Zoho) checkForSavedTokens() error {
-	t, err := z.LoadTokens()
+	t, err := z.LoadAccessAndRefreshToken()
 	z.oauth.token = t
 
 	if err != nil && err == ErrTokenExpired {
@@ -118,10 +120,10 @@ type DatastoreManager struct {
 	TokensKey       string
 }
 
-// LoadTokens will use datastore package to get tokens from the datastore under the entity namespace
+// LoadAccessAndRefreshToken will use datastore package to get tokens from the datastore under the entity namespace
 // 'ZohoAccessTokens' unless a value is provided to the EntityNamespace field
-func (d DatastoreManager) LoadTokens() (AccessTokenResponse, error) {
-	t := TokensWrapper{}
+func (d DatastoreManager) LoadAccessAndRefreshToken() (AccessTokenResponse, error) {
+	t := TokenWrapper{}
 	if d.Request == nil || d.TokensKey == "" {
 		return AccessTokenResponse{}, fmt.Errorf("Must provide the *http.Request for the current request and a valid token key")
 	}
@@ -142,7 +144,7 @@ func (d DatastoreManager) LoadTokens() (AccessTokenResponse, error) {
 		return AccessTokenResponse{}, ErrTokenExpired
 	}
 
-	return t.Tokens, nil
+	return t.Token, nil
 }
 
 // SaveTokens will use datastore package to put tokens to the datastore under the entity namespace
@@ -160,8 +162,8 @@ func (d DatastoreManager) SaveTokens(t AccessTokenResponse) error {
 	ctx := appengine.NewContext(d.Request)
 	k := datastore.NewKey(ctx, entity, d.TokensKey, 0, nil)
 
-	v := TokensWrapper{
-		Tokens: t,
+	v := TokenWrapper{
+		Token: t,
 	}
 	v.SetExpiry()
 

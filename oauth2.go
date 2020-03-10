@@ -78,7 +78,7 @@ func (z *Zoho) RefreshTokenRequest() (err error) {
 
 // GenerateTokenRequest will get the Access token and Refresh token and hold them in the Zoho struct. This function can be used rather than
 // AuthorizationCodeRequest is you do not want to click on a link and redirect to a consent screen. Instead you can go to, https://accounts.zoho.com/developerconsole
-// and click the kebab icon beside your clienID, and click 'Self-Client'; then you can define you scopes and an expiry, then provide the generated authorization code
+// and click the kebab icon beside your clientID, and click 'Self-Client'; then you can define you scopes and an expiry, then provide the generated authorization code
 // to this function which will generate your access token and refresh tokens.
 func (z *Zoho) GenerateTokenRequest(clientID, clientSecret, code, redirectURI string) (err error) {
 

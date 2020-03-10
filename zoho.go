@@ -30,7 +30,7 @@ func New() *Zoho {
 }
 
 // SetTokenManager can be used to provide a type which implements the TokenManager interface
-// which will get/set AccessTokens/RefreshTokens using a persistence mechanism
+// which will get/set AccessTokens/RenewTokens using a persistence mechanism
 func (z *Zoho) SetTokenManager(tm TokenLoaderSaver) {
 	z.tokenManager = tm
 }
@@ -72,6 +72,7 @@ type Zoho struct {
 	tokenManager   TokenLoaderSaver
 	tokensFile     string
 	organizationID string
+	Token          TokenWrapper
 
 	ZohoTLD string
 }

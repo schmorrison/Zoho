@@ -93,7 +93,7 @@ func (z *Zoho) HTTPRequest(endpoint *Endpoint) (err error) {
 	return nil
 }
 
-// HTTPStatusCode is a type for resolving the returned HTTP Status Code Message
+// HTTPStatusCode is a type for resolving the returned HTTP Status Code Content
 type HTTPStatusCode int
 
 // HTTPStatusCodes is a map of possible HTTP Status Code and Messages
