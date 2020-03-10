@@ -11,6 +11,18 @@ import (
 	"strings"
 )
 
+func (z *Zoho) SetRefreshToken(refreshToken string) {
+	z.oauth.token.RefreshToken = refreshToken
+}
+
+func (z *Zoho) SetClientID(clientID string) {
+	z.oauth.clientID = clientID
+}
+
+func (z *Zoho) SetClientSecret(clientSecret string) {
+	z.oauth.clientSecret = clientSecret
+}
+
 // RefreshTokenRequest is used to refresh the oAuth2 access token
 func (z *Zoho) RefreshTokenRequest() (err error) {
 	q := url.Values{}
