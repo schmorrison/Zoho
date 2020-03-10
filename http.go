@@ -47,8 +47,8 @@ func (z *Zoho) HTTPRequest(endpoint *Endpoint) (err error) {
 		if err != nil {
 			return fmt.Errorf("Failed to create json from request body")
 		}
-
-		reqBody = bytes.NewReader(b)
+		requestBodyString := string(b)
+		reqBody = bytes.NewReader([]byte("JSONString=" + requestBodyString))
 	}
 
 	req, err := http.NewRequest(string(endpoint.Method), fmt.Sprintf("%s?%s", endpointURL, q.Encode()), reqBody)
@@ -57,7 +57,11 @@ func (z *Zoho) HTTPRequest(endpoint *Endpoint) (err error) {
 	}
 
 	req.Header.Add("Authorization", "Zoho-oauthtoken "+z.oauth.token.AccessToken)
-	// Add mandatory header for expense apis
+
+	// Zoho doesn't use regular JSON content type
+	req.Header.Add("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8")
+
+	// Add mandatory header for specific APIs
 	if z.organizationID != "" {
 		req.Header.Add("X-com-zoho-expense-organizationid", z.organizationID)
 	}
