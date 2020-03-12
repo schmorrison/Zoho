@@ -64,10 +64,11 @@ func (z *Zoho) HTTPRequest(endpoint *Endpoint) (err error) {
 
 	// Add mandatory header for specific APIs
 	if z.organizationID != "" {
-		if strings.Contains(endpointURL, "invoice.zoho") {
-			req.Header.Add("X-com-zoho-invoice-organizationid", z.organizationID)
-		} else if strings.Contains(endpointURL, "expense.zoho") {
-			req.Header.Add("X-com-zoho-expense-organizationid", z.organizationID)
+		switch {
+			case strings.HasPrefix(endpointURL, InvoiceAPIEndPoint):
+				req.Header.Add("X-com-zoho-invoice-organizationid", z.organizationID)
+			case strings.HasPrefix(endpointURL, ExpenseAPIEndPoint):
+				req.Header.Add("X-com-zoho-expense-organizationid", z.organizationID)
 		}
 	}
 

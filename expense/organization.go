@@ -14,7 +14,7 @@ import (
 func (c *API) GetOrganization() (data OrganizationResponse, err error) {
 	endpoint := zoho.Endpoint{
 		Name:         OrganizationsModule,
-		URL:          fmt.Sprintf(ExpenseAPIEndPoint+"%s", OrganizationsModule),
+		URL:          fmt.Sprintf(zoho.ExpenseAPIEndPoint+"%s", OrganizationsModule),
 		Method:       zoho.HTTPGet,
 		ResponseData: &OrganizationResponse{},
 	}

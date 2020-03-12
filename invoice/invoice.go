@@ -6,7 +6,6 @@ import (
 )
 
 const (
-	InvoiceAPIEndPoint      string = "https://invoice.zoho.com/api/v3/"
 	ContactsModule          string = "contacts"
 	ContactsPersonSubModule string = "contactpersons"
 	InvoicesModule          string = "invoices"

@@ -7,6 +7,11 @@ import (
 	"time"
 )
 
+const (
+	InvoiceAPIEndPoint string = "https://invoice.zoho.com/api/v3/"
+	ExpenseAPIEndPoint string = "https://expense.zoho.com/api/v1/"
+)
+
 // New initializes a Zoho structure
 func New() *Zoho {
 	z := Zoho{

@@ -19,7 +19,7 @@ func (c *ZohoInvoiceAPI) UpdateContact(request interface{}, contactId string) (d
 
 	endpoint := zoho.Endpoint{
 		Name:         ContactsModule,
-		URL:          fmt.Sprintf(InvoiceAPIEndPoint+"%s/%s", ContactsModule, contactId),
+		URL:          fmt.Sprintf(zoho.InvoiceAPIEndPoint+"%s/%s", ContactsModule, contactId),
 		Method:       zoho.HTTPPut,
 		ResponseData: &UpdateContactResponse{},
 		URLParameters: map[string]zoho.Parameter{

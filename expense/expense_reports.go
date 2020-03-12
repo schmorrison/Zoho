@@ -13,7 +13,7 @@ func (c *API) GetExpenseReports(request interface{}, organizationId string, para
 
 	endpoint := zoho.Endpoint{
 		Name:         ExpenseReportModule,
-		URL:          fmt.Sprintf(ExpenseAPIEndPoint+"%s", ExpenseReportModule),
+		URL:          fmt.Sprintf(zoho.ExpenseAPIEndPoint+"%s", ExpenseReportModule),
 		Method:       zoho.HTTPGet,
 		ResponseData: &ExpenseReportResponse{},
 		URLParameters: map[string]zoho.Parameter{

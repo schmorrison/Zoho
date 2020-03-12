@@ -19,7 +19,7 @@ func (c *ZohoInvoiceAPI) RetrievePayment(paymentId string) (data RetrievePayment
 
 	endpoint := zoho.Endpoint{
 		Name:         CustomerPaymentsModule,
-		URL:          fmt.Sprintf(InvoiceAPIEndPoint+"%s/%s", CustomerPaymentsModule, paymentId),
+		URL:          fmt.Sprintf(zoho.InvoiceAPIEndPoint+"%s/%s", CustomerPaymentsModule, paymentId),
 		Method:       zoho.HTTPGet,
 		ResponseData: &RetrievePaymentResponse{},
 		URLParameters: map[string]zoho.Parameter{

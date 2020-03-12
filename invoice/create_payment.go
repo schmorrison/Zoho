@@ -19,7 +19,7 @@ func (c *ZohoInvoiceAPI) CreatePayment(request interface{}) (data CreatePaymentR
 
 	endpoint := zoho.Endpoint{
 		Name:         ContactsModule,
-		URL:          fmt.Sprintf(InvoiceAPIEndPoint+"%s", ContactsModule),
+		URL:          fmt.Sprintf(zoho.InvoiceAPIEndPoint+"%s", ContactsModule),
 		Method:       zoho.HTTPPost,
 		ResponseData: &CreatePaymentResponse{},
 		URLParameters: map[string]zoho.Parameter{

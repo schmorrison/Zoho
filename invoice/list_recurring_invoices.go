@@ -19,7 +19,7 @@ func (c *ZohoInvoiceAPI) ListRecurringInvoices() (data ListRecurringInvoicesResp
 
 	endpoint := zoho.Endpoint{
 		Name:         RecurringInvoicesModule,
-		URL:          fmt.Sprintf(InvoiceAPIEndPoint + "%s", RecurringInvoicesModule),
+		URL:          fmt.Sprintf(zoho.InvoiceAPIEndPoint + "%s", RecurringInvoicesModule),
 		Method:       zoho.HTTPGet,
 		ResponseData: &ListRecurringInvoicesResponse{},
 		URLParameters: map[string]zoho.Parameter{

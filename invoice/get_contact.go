@@ -19,7 +19,7 @@ func (c *ZohoInvoiceAPI) GetContact(contactId string) (data GetContactResponse, 
 
 	endpoint := zoho.Endpoint{
 		Name:         InvoicesModule,
-		URL:          fmt.Sprintf(InvoiceAPIEndPoint+"%s/%s", ContactsModule, contactId),
+		URL:          fmt.Sprintf(zoho.InvoiceAPIEndPoint+"%s/%s", ContactsModule, contactId),
 		Method:       zoho.HTTPGet,
 		ResponseData: &GetContactResponse{},
 		URLParameters: map[string]zoho.Parameter{

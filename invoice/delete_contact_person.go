@@ -20,7 +20,7 @@ func (c *ZohoInvoiceAPI) DeleteContactPerson(contactPersonID string) (data Delet
 	endpoint := zoho.Endpoint{
 		Name: ContactsModule,
 		URL: fmt.Sprintf(
-			InvoiceAPIEndPoint+"%s/%s/%s",
+			zoho.InvoiceAPIEndPoint+"%s/%s/%s",
 			ContactsModule,
 			ContactsPersonSubModule,
 			contactPersonID,
