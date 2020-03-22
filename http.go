@@ -20,6 +20,8 @@ type Endpoint struct {
 	ResponseData  interface{}
 	RequestBody   interface{}
 	URLParameters map[string]Parameter
+	Headers       map[string]string
+	JSONString    bool
 }
 
 // Parameter is used to provide URL Parameters to zoho endpoints
@@ -30,17 +32,6 @@ func (z *Zoho) HTTPRequest(endpoint *Endpoint) (err error) {
 	if reflect.TypeOf(endpoint.ResponseData).Kind() != reflect.Ptr {
 		return fmt.Errorf("Failed, you must pass a pointer in the ResponseData field of endpoint")
 	}
-	dataType := reflect.TypeOf(endpoint.ResponseData).Elem()
-	data := reflect.New(dataType).Interface()
-
-	endpointURL := endpoint.URL
-
-	q := url.Values{}
-	for k, v := range endpoint.URLParameters {
-		if v != "" {
-			q.Set(k, string(v))
-		}
-	}
 
 	var reqBody io.Reader
 	if endpoint.RequestBody != nil {
@@ -48,8 +39,28 @@ func (z *Zoho) HTTPRequest(endpoint *Endpoint) (err error) {
 		if err != nil {
 			return fmt.Errorf("Failed to create json from request body")
 		}
-		requestBodyString := string(b)
-		reqBody = bytes.NewReader([]byte("JSONString=" + requestBodyString))
+		if endpoint.JSONString {
+			requestBodyString := string(b)
+			reqBody = strings.NewReader("JSONString=" + requestBodyString)
+		} else {
+			reqBody = bytes.NewReader(b)
+		}
+	}
+
+	// Renew token if necessary
+	if z.Token.CheckExpiry() {
+		err := z.RefreshTokenRequest()
+		if err != nil {
+			return fmt.Errorf("Failed to refresh the access token: %s: %s", endpoint.Name, err)
+		}
+	}
+
+	endpointURL := endpoint.URL
+	q := url.Values{}
+	for k, v := range endpoint.URLParameters {
+		if v != "" {
+			q.Set(k, string(v))
+		}
 	}
 
 	req, err := http.NewRequest(string(endpoint.Method), fmt.Sprintf("%s?%s", endpointURL, q.Encode()), reqBody)
@@ -59,16 +70,12 @@ func (z *Zoho) HTTPRequest(endpoint *Endpoint) (err error) {
 
 	req.Header.Add("Authorization", "Zoho-oauthtoken "+z.oauth.token.AccessToken)
 
-	// Zoho doesn't use regular JSON content type
-	req.Header.Add("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8")
-
 	// Add mandatory header for specific APIs
-	if z.organizationID != "" {
-		switch {
-			case strings.HasPrefix(endpointURL, InvoiceAPIEndPoint):
-				req.Header.Add("X-com-zoho-invoice-organizationid", z.organizationID)
-			case strings.HasPrefix(endpointURL, ExpenseAPIEndPoint):
-				req.Header.Add("X-com-zoho-expense-organizationid", z.organizationID)
+	if z.OrganizationID != "" {
+		// Zoho doesn't use regular JSON content type
+		req.Header.Add("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8")
+		for k, v := range endpoint.Headers {
+			req.Header.Add(k, v)
 		}
 	}
 
@@ -83,6 +90,9 @@ func (z *Zoho) HTTPRequest(endpoint *Endpoint) (err error) {
 	if err != nil {
 		return fmt.Errorf("Failed to read body of response for %s: got status %s: %s", endpoint.Name, resolveStatus(resp), err)
 	}
+
+	dataType := reflect.TypeOf(endpoint.ResponseData).Elem()
+	data := reflect.New(dataType).Interface()
 
 	err = json.Unmarshal(body, data)
 	if err != nil {
