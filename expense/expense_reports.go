@@ -2,22 +2,23 @@ package expense
 
 import (
 	"fmt"
-	"github.com/schmorrison/Zoho"
+
+	zoho "github.com/schmorrison/Zoho"
 )
 
 // GetExpenseReports will return a list of all submitted expense reports as specified by
 // https://www.zoho.com/expense/api/v1/#Expense_Reports_List_of_all_expense_reports
 func (c *API) GetExpenseReports(request interface{}, organizationId string, params map[string]zoho.Parameter) (data ExpenseReportResponse, err error) {
-	// Add mandatory header for expense report
-	c.Zoho.SetOrganizationID(organizationId)
-
 	endpoint := zoho.Endpoint{
 		Name:         ExpenseReportModule,
-		URL:          fmt.Sprintf(zoho.ExpenseAPIEndPoint+"%s", ExpenseReportModule),
+		URL:          fmt.Sprintf(ExpenseAPIEndpoint+"%s", ExpenseReportModule),
 		Method:       zoho.HTTPGet,
 		ResponseData: &ExpenseReportResponse{},
 		URLParameters: map[string]zoho.Parameter{
 			"filter_by": "",
+		},
+		Headers: map[string]string{
+			ExpenseAPIEndpointHeader: organizationId,
 		},
 	}
 
