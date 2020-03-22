@@ -2,30 +2,27 @@ package invoice
 
 import (
 	"fmt"
+
 	zoho "github.com/schmorrison/Zoho"
 )
 
 //https://www.zoho.com/invoice/api/v3/#Customer_Payments_Create_a_payment
-//func (c *ZohoInvoiceAPI) CreatePayment(request interface{}, organizationId string, params map[string]zoho.Parameter) (data ListContactsResponse, err error) {
-func (c *ZohoInvoiceAPI) CreatePayment(request interface{}) (data CreatePaymentResponse, err error) {
-
-	// Renew token if necessary
-	if c.Zoho.Token.CheckExpiry() {
-		err := c.Zoho.RefreshTokenRequest()
-		if err != nil {
-			return CreatePaymentResponse{}, err
-		}
-	}
+//func (c *API) CreatePayment(request interface{}, OrganizationID string, params map[string]zoho.Parameter) (data ListContactsResponse, err error) {
+func (c *API) CreatePayment(request interface{}) (data CreatePaymentResponse, err error) {
 
 	endpoint := zoho.Endpoint{
 		Name:         ContactsModule,
-		URL:          fmt.Sprintf(zoho.InvoiceAPIEndPoint+"%s", ContactsModule),
+		URL:          fmt.Sprintf(InvoiceAPIEndpoint+"%s", ContactsModule),
 		Method:       zoho.HTTPPost,
 		ResponseData: &CreatePaymentResponse{},
 		URLParameters: map[string]zoho.Parameter{
 			"filter_by": "",
 		},
 		RequestBody: request,
+		JSONString:  true,
+		Headers: map[string]string{
+			InvoiceAPIEndpointHeader: c.OrganizationID,
+		},
 	}
 
 	/*for k, v := range params {

@@ -6,24 +6,20 @@ import (
 )
 
 //https://www.zoho.com/invoice/api/v3/#Recurring_Invoices_Get_a_Recurring_Invoice
-//func (c *ZohoInvoiceAPI) GetRecurringInvoice(request interface{}, organizationId string, params map[string]zoho.Parameter) (data ListContactsResponse, err error) {
-func (c *ZohoInvoiceAPI) GetRecurringInvoice(recurringInvoiceId string) (data RecurringInvoiceResponse, err error) {
-
-	// Renew token if necessary
-	if c.Zoho.Token.CheckExpiry() {
-		err := c.Zoho.RefreshTokenRequest()
-		if err != nil {
-			return RecurringInvoiceResponse{}, err
-		}
-	}
+//func (c *API) GetRecurringInvoice(request interface{}, OrganizationID string, params map[string]zoho.Parameter) (data ListContactsResponse, err error) {
+func (c *API) GetRecurringInvoice(recurringInvoiceId string) (data RecurringInvoiceResponse, err error) {
 
 	endpoint := zoho.Endpoint{
 		Name:         RecurringInvoicesModule,
-		URL:          fmt.Sprintf(zoho.InvoiceAPIEndPoint+"%s/%s", RecurringInvoicesModule, recurringInvoiceId),
+		URL:          fmt.Sprintf(InvoiceAPIEndpoint+"%s/%s", RecurringInvoicesModule, recurringInvoiceId),
 		Method:       zoho.HTTPGet,
 		ResponseData: &RecurringInvoiceResponse{},
 		URLParameters: map[string]zoho.Parameter{
 			"filter_by": "",
+		},
+		JSONString:  true,
+		Headers: map[string]string{
+			InvoiceAPIEndpointHeader: c.OrganizationID,
 		},
 	}
 

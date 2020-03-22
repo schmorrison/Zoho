@@ -5,24 +5,20 @@ import (
     zoho "github.com/schmorrison/Zoho"
 )
 
-func (c *ZohoInvoiceAPI) ListItems() (data ListItemsResponse, err error) {
-
-    // Renew token if necessary
-    if c.Zoho.Token.CheckExpiry() {
-        err := c.Zoho.RefreshTokenRequest()
-        if err != nil {
-            return ListItemsResponse{}, err
-        }
-    }
+func (c *API) ListItems() (data ListItemsResponse, err error) {
 
     endpoint := zoho.Endpoint{
         Name:         ItemsModule,
-        URL:          fmt.Sprintf(zoho.InvoiceAPIEndPoint + "%s", ItemsModule),
+        URL:          fmt.Sprintf(InvoiceAPIEndpoint + "%s", ItemsModule),
         Method:       zoho.HTTPGet,
         ResponseData: &ListItemsResponse{},
         URLParameters: map[string]zoho.Parameter{
             "filter_by": "",
         },
+		JSONString:  true,
+		Headers: map[string]string{
+			InvoiceAPIEndpointHeader: c.OrganizationID,
+		},
     }
 
     /*for k, v := range params {

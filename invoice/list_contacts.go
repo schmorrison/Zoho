@@ -6,24 +6,20 @@ import (
 )
 
 //https://www.zoho.com/invoice/api/v3/#Contacts_List_Contacts
-//func (c *ZohoInvoiceAPI) ListContacts(request interface{}, organizationId string, params map[string]zoho.Parameter) (data ListContactsResponse, err error) {
-func (c *ZohoInvoiceAPI) ListContacts() (data ListContactsResponse, err error) {
-
-	// Renew token if necessary
-	if c.Zoho.Token.CheckExpiry() {
-		err := c.Zoho.RefreshTokenRequest()
-		if err != nil {
-			return ListContactsResponse{}, err
-		}
-	}
+//func (c *API) ListContacts(request interface{}, OrganizationID string, params map[string]zoho.Parameter) (data ListContactsResponse, err error) {
+func (c *API) ListContacts() (data ListContactsResponse, err error) {
 
 	endpoint := zoho.Endpoint{
 		Name:         ContactsModule,
-		URL:          fmt.Sprintf(zoho.InvoiceAPIEndPoint+"%s", ContactsModule),
+		URL:          fmt.Sprintf(InvoiceAPIEndpoint+"%s", ContactsModule),
 		Method:       zoho.HTTPGet,
 		ResponseData: &ListContactsResponse{},
 		URLParameters: map[string]zoho.Parameter{
 			"filter_by": "",
+		},
+		JSONString:  true,
+		Headers: map[string]string{
+			InvoiceAPIEndpointHeader: c.OrganizationID,
 		},
 	}
 

@@ -1,30 +1,26 @@
 package invoice
 
-
 import (
 	"fmt"
-	"github.com/schmorrison/Zoho"
+
+	zoho "github.com/schmorrison/Zoho"
 )
 
 //https://www.zoho.com/invoice/api/v3/#Contact_Persons_List_contact_persons
-//func (c *ZohoInvoiceAPI) ListContactPersons(request interface{}, organizationId string, params map[string]zoho.Parameter) (data ListContactPersonsResponse, err error) {
-func (c *ZohoInvoiceAPI) ListContactPersons() (data ListContactPersonsResponse, err error) {
-
-	// Renew token if necessary
-	if c.Zoho.Token.CheckExpiry() {
-		err := c.Zoho.RefreshTokenRequest()
-		if err != nil {
-			return ListContactPersonsResponse{}, err
-		}
-	}
+//func (c *API) ListContactPersons(request interface{}, OrganizationID string, params map[string]zoho.Parameter) (data ListContactPersonsResponse, err error) {
+func (c *API) ListContactPersons() (data ListContactPersonsResponse, err error) {
 
 	endpoint := zoho.Endpoint{
 		Name:         ContactsModule,
-		URL:          fmt.Sprintf(zoho.InvoiceAPIEndPoint + "%s/%s", ContactsModule, ContactsPersonSubModule),
+		URL:          fmt.Sprintf(InvoiceAPIEndpoint+"%s/%s", ContactsModule, ContactsPersonSubModule),
 		Method:       zoho.HTTPGet,
 		ResponseData: &ListContactPersonsResponse{},
 		URLParameters: map[string]zoho.Parameter{
 			"filter_by": "",
+		},
+		JSONString: true,
+		Headers: map[string]string{
+			InvoiceAPIEndpointHeader: c.OrganizationID,
 		},
 	}
 
@@ -48,8 +44,8 @@ func (c *ZohoInvoiceAPI) ListContactPersons() (data ListContactPersonsResponse, 
 }
 
 type ListContactPersonsResponse struct {
-	Code     int    `json:"code"`
-	Message  string `json:"message"`
+	Code           int    `json:"code"`
+	Message        string `json:"message"`
 	ContactPersons []struct {
 		ContactID        string `json:"contact_id"`
 		ContactPersonID  string `json:"contact_person_id"`

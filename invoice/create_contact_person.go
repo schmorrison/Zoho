@@ -2,30 +2,27 @@ package invoice
 
 import (
 	"fmt"
+
 	zoho "github.com/schmorrison/Zoho"
 )
 
 //https://www.zoho.com/invoice/api/v3/#Contact_Persons_Create_a_contact_person
-//func (c *ZohoInvoiceAPI) CreateContactPerson(request interface{}, organizationId string, params map[string]zoho.Parameter) (data CreateContactPersonResponse, err error) {
-func (c *ZohoInvoiceAPI) CreateContactPerson(request interface{}) (data CreateContactPersonResponse, err error) {
-
-	// Renew token if necessary
-	if c.Zoho.Token.CheckExpiry() {
-		err := c.Zoho.RefreshTokenRequest()
-		if err != nil {
-			return CreateContactPersonResponse{}, err
-		}
-	}
+//func (c *API) CreateContactPerson(request interface{}, OrganizationID string, params map[string]zoho.Parameter) (data CreateContactPersonResponse, err error) {
+func (c *API) CreateContactPerson(request interface{}) (data CreateContactPersonResponse, err error) {
 
 	endpoint := zoho.Endpoint{
 		Name:         ContactsModule,
-		URL:          fmt.Sprintf(zoho.InvoiceAPIEndPoint + "%s/%s", ContactsModule, ContactsPersonSubModule),
+		URL:          fmt.Sprintf(InvoiceAPIEndpoint+"%s/%s", ContactsModule, ContactsPersonSubModule),
 		Method:       zoho.HTTPPost,
 		ResponseData: &CreateContactPersonResponse{},
 		URLParameters: map[string]zoho.Parameter{
 			"filter_by": "",
 		},
 		RequestBody: &request,
+		JSONString:  true,
+		Headers: map[string]string{
+			InvoiceAPIEndpointHeader: c.OrganizationID,
+		},
 	}
 
 	/*for k, v := range params {
@@ -63,8 +60,8 @@ type CreateContactPersonRequest struct {
 }
 
 type CreateContactPersonResponse struct {
-	Code    int    `json:"code"`
-	Message string `json:"message"`
+	Code          int    `json:"code"`
+	Message       string `json:"message"`
 	ContactPerson struct {
 		ContactID        string `json:"contact_id"`
 		ContactPersonID  string `json:"contact_person_id"`

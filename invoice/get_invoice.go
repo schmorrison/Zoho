@@ -6,24 +6,20 @@ import (
 )
 
 //https://www.zoho.com/invoice/api/v3/#Invoices_Get_an_invoice
-//func (c *ZohoInvoiceAPI) GetInvoice(request interface{}, organizationId string, params map[string]zoho.Parameter) (data GetInvoiceResponse, err error) {
-func (c *ZohoInvoiceAPI) GetInvoice(invoiceId string) (data GetInvoiceResponse, err error) {
-
-	// Renew token if necessary
-	if c.Zoho.Token.CheckExpiry() {
-		err := c.Zoho.RefreshTokenRequest()
-		if err != nil {
-			return GetInvoiceResponse{}, err
-		}
-	}
+//func (c *API) GetInvoice(request interface{}, OrganizationID string, params map[string]zoho.Parameter) (data GetInvoiceResponse, err error) {
+func (c *API) GetInvoice(invoiceId string) (data GetInvoiceResponse, err error) {
 
 	endpoint := zoho.Endpoint{
 		Name:         InvoicesModule,
-		URL:          fmt.Sprintf(zoho.InvoiceAPIEndPoint+"%s/%s", InvoicesModule, invoiceId),
+		URL:          fmt.Sprintf(InvoiceAPIEndpoint+"%s/%s", InvoicesModule, invoiceId),
 		Method:       zoho.HTTPGet,
 		ResponseData: &GetInvoiceResponse{},
 		URLParameters: map[string]zoho.Parameter{
 			"filter_by": "",
+		},
+		JSONString:  true,
+		Headers: map[string]string{
+			InvoiceAPIEndpointHeader: c.OrganizationID,
 		},
 	}
 

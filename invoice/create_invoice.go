@@ -2,30 +2,27 @@ package invoice
 
 import (
 	"fmt"
+
 	zoho "github.com/schmorrison/Zoho"
 )
 
 //https://www.zoho.com/invoice/api/v3/#Invoices_Create_an_invoice
-//func (c *ZohoInvoiceAPI) CreateInvoice(request interface{}, organizationId string, params map[string]zoho.Parameter) (data ListContactsResponse, err error) {
-func (c *ZohoInvoiceAPI) CreateInvoice(request interface{}) (data CreateInvoiceResponse, err error) {
-
-	// Renew token if necessary
-	if c.Zoho.Token.CheckExpiry() {
-		err := c.Zoho.RefreshTokenRequest()
-		if err != nil {
-			return CreateInvoiceResponse{}, err
-		}
-	}
+//func (c *API) CreateInvoice(request interface{}, OrganizationID string, params map[string]zoho.Parameter) (data ListContactsResponse, err error) {
+func (c *API) CreateInvoice(request interface{}) (data CreateInvoiceResponse, err error) {
 
 	endpoint := zoho.Endpoint{
 		Name:         InvoicesModule,
-		URL:          fmt.Sprintf(zoho.InvoiceAPIEndPoint+"%s", InvoicesModule),
+		URL:          fmt.Sprintf(InvoiceAPIEndpoint+"%s", InvoicesModule),
 		Method:       zoho.HTTPPost,
 		ResponseData: &CreateInvoiceResponse{},
 		URLParameters: map[string]zoho.Parameter{
 			"filter_by": "",
 		},
 		RequestBody: request,
+		JSONString:  true,
+		Headers: map[string]string{
+			InvoiceAPIEndpointHeader: c.OrganizationID,
+		},
 	}
 
 	/*for k, v := range params {
@@ -48,6 +45,10 @@ func (c *ZohoInvoiceAPI) CreateInvoice(request interface{}) (data CreateInvoiceR
 			URL:          fmt.Sprintf(InvoiceAPIEndPoint+"%s/%s/status/sent", InvoicesModule, v.Invoice.InvoiceId),
 			Method:       zoho.HTTPPost,
 			ResponseData: &InvoiceSent{},
+			JSONString:   true,
+			Headers: map[string]string{
+				InvoiceAPIEndpointHeader: c.OrganizationID,
+			},
 		}
 		err = c.Zoho.HTTPRequest(&endpointSent)
 		if err != nil {

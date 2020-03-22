@@ -6,24 +6,20 @@ import (
 )
 
 //https://www.zoho.com/invoice/api/v3/#Recurring_Invoices_List_Recurring_Invoice
-//func (c *ZohoInvoiceAPI) ListCustomerPayments(request interface{}, organizationId string, params map[string]zoho.Parameter) (data ListCustomerPaymentsResponse, err error) {
-func (c *ZohoInvoiceAPI) ListCustomerPayments() (data ListCustomerPaymentsResponse, err error) {
-
-	// Renew token if necessary
-	if c.Zoho.Token.CheckExpiry() {
-		err := c.Zoho.RefreshTokenRequest()
-		if err != nil {
-			return ListCustomerPaymentsResponse{}, err
-		}
-	}
+//func (c *API) ListCustomerPayments(request interface{}, OrganizationID string, params map[string]zoho.Parameter) (data ListCustomerPaymentsResponse, err error) {
+func (c *API) ListCustomerPayments() (data ListCustomerPaymentsResponse, err error) {
 
 	endpoint := zoho.Endpoint{
 		Name:         CustomerPaymentsModule,
-		URL:          fmt.Sprintf(zoho.InvoiceAPIEndPoint + "%s", CustomerPaymentsModule),
+		URL:          fmt.Sprintf(InvoiceAPIEndpoint + "%s", CustomerPaymentsModule),
 		Method:       zoho.HTTPGet,
 		ResponseData: &ListCustomerPaymentsResponse{},
 		URLParameters: map[string]zoho.Parameter{
 			//"filter_by": "",
+		},
+		JSONString:  true,
+		Headers: map[string]string{
+			InvoiceAPIEndpointHeader: c.OrganizationID,
 		},
 	}
 

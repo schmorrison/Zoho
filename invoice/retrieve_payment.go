@@ -6,24 +6,20 @@ import (
 )
 
 //https://www.zoho.com/invoice/api/v3/#Customer_Payments_Retrieve_a_payment
-//func (c *ZohoInvoiceAPI) RetrievePayment(request interface{}, organizationId string, params map[string]zoho.Parameter) (data RetrievePaymentResponse, err error) {
-func (c *ZohoInvoiceAPI) RetrievePayment(paymentId string) (data RetrievePaymentResponse, err error) {
-
-	// Renew token if necessary
-	if c.Zoho.Token.CheckExpiry() {
-		err := c.Zoho.RefreshTokenRequest()
-		if err != nil {
-			return RetrievePaymentResponse{}, err
-		}
-	}
+//func (c *API) RetrievePayment(request interface{}, OrganizationID string, params map[string]zoho.Parameter) (data RetrievePaymentResponse, err error) {
+func (c *API) RetrievePayment(paymentId string) (data RetrievePaymentResponse, err error) {
 
 	endpoint := zoho.Endpoint{
 		Name:         CustomerPaymentsModule,
-		URL:          fmt.Sprintf(zoho.InvoiceAPIEndPoint+"%s/%s", CustomerPaymentsModule, paymentId),
+		URL:          fmt.Sprintf(InvoiceAPIEndpoint+"%s/%s", CustomerPaymentsModule, paymentId),
 		Method:       zoho.HTTPGet,
 		ResponseData: &RetrievePaymentResponse{},
 		URLParameters: map[string]zoho.Parameter{
 			"filter_by": "",
+		},
+		JSONString:  true,
+		Headers: map[string]string{
+			InvoiceAPIEndpointHeader: c.OrganizationID,
 		},
 	}
 

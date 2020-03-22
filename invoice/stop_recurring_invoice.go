@@ -6,26 +6,22 @@ import (
 )
 
 //https://www.zoho.com/invoice/api/v3/#Recurring_Invoices_Stop_a_Recurring_Invoice
-//func (c *ZohoInvoiceAPI) StopRecurringInvoice(request interface{}, organizationId string, params map[string]zoho.Parameter) (data StopRecurringInvoiceResponse, err error) {
-func (c *ZohoInvoiceAPI) StopRecurringInvoice(recurringInvoiceId string) (data StopRecurringInvoiceResponse, err error) {
-
-	// Renew token if necessary
-	if c.Zoho.Token.CheckExpiry() {
-		err := c.Zoho.RefreshTokenRequest()
-		if err != nil {
-			return StopRecurringInvoiceResponse{}, err
-		}
-	}
+//func (c *API) StopRecurringInvoice(request interface{}, OrganizationID string, params map[string]zoho.Parameter) (data StopRecurringInvoiceResponse, err error) {
+func (c *API) StopRecurringInvoice(recurringInvoiceId string) (data StopRecurringInvoiceResponse, err error) {
 
 	endpoint := zoho.Endpoint{
 		Name: RecurringInvoicesModule,
 		URL: fmt.Sprintf(
-			zoho.InvoiceAPIEndPoint+"%s/status/stop", recurringInvoiceId,
+			InvoiceAPIEndpoint+"%s/status/stop", recurringInvoiceId,
 		),
 		Method:       zoho.HTTPPost,
 		ResponseData: &StopRecurringInvoiceResponse{},
 		URLParameters: map[string]zoho.Parameter{
 			"filter_by": "",
+		},
+		JSONString:  true,
+		Headers: map[string]string{
+			InvoiceAPIEndpointHeader: c.OrganizationID,
 		},
 	}
 

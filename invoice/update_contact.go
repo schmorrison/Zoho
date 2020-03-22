@@ -6,26 +6,22 @@ import (
 )
 
 //https://www.zoho.com/invoice/api/v3/#Contacts_Update_a_Contact
-//func (c *ZohoInvoiceAPI) UpdateContact(request interface{}, organizationId string, params map[string]zoho.Parameter) (data UpdateContactResponse, err error) {
-func (c *ZohoInvoiceAPI) UpdateContact(request interface{}, contactId string) (data UpdateContactResponse, err error) {
-
-	// Renew token if necessary
-	if c.Zoho.Token.CheckExpiry() {
-		err := c.Zoho.RefreshTokenRequest()
-		if err != nil {
-			return UpdateContactResponse{}, err
-		}
-	}
+//func (c *API) UpdateContact(request interface{}, OrganizationID string, params map[string]zoho.Parameter) (data UpdateContactResponse, err error) {
+func (c *API) UpdateContact(request interface{}, contactId string) (data UpdateContactResponse, err error) {
 
 	endpoint := zoho.Endpoint{
 		Name:         ContactsModule,
-		URL:          fmt.Sprintf(zoho.InvoiceAPIEndPoint+"%s/%s", ContactsModule, contactId),
+		URL:          fmt.Sprintf(InvoiceAPIEndpoint+"%s/%s", ContactsModule, contactId),
 		Method:       zoho.HTTPPut,
 		ResponseData: &UpdateContactResponse{},
 		URLParameters: map[string]zoho.Parameter{
 			"filter_by": "",
 		},
 		RequestBody: &request,
+		JSONString:  true,
+		Headers: map[string]string{
+			InvoiceAPIEndpointHeader: c.OrganizationID,
+		},
 	}
 
 	/*for k, v := range params {

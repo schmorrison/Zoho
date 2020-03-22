@@ -6,26 +6,22 @@ import (
 )
 
 //https://www.zoho.com/invoice/api/v3/#Recurring_Invoices_Update_Recurring_Invoice
-//func (c *ZohoInvoiceAPI) UpdateRecurringInvoice(request interface{}, organizationId string, params map[string]zoho.Parameter) (data UpdateRecurringInvoiceRequest, err error) {
-func (c *ZohoInvoiceAPI) UpdateRecurringInvoice(request interface{}, recurringInvoiceId string) (data UpdateRecurringInvoiceResponse, err error) {
-
-	// Renew token if necessary
-	if c.Zoho.Token.CheckExpiry() {
-		err := c.Zoho.RefreshTokenRequest()
-		if err != nil {
-			return UpdateRecurringInvoiceResponse{}, err
-		}
-	}
+//func (c *API) UpdateRecurringInvoice(request interface{}, OrganizationID string, params map[string]zoho.Parameter) (data UpdateRecurringInvoiceRequest, err error) {
+func (c *API) UpdateRecurringInvoice(request interface{}, recurringInvoiceId string) (data UpdateRecurringInvoiceResponse, err error) {
 
 	endpoint := zoho.Endpoint{
 		Name:         ContactsModule,
-		URL:          fmt.Sprintf(zoho.InvoiceAPIEndPoint+"%s/%s", RecurringInvoicesModule, recurringInvoiceId),
+		URL:          fmt.Sprintf(InvoiceAPIEndpoint+"%s/%s", RecurringInvoicesModule, recurringInvoiceId),
 		Method:       zoho.HTTPPut,
 		ResponseData: &UpdateRecurringInvoiceResponse{},
 		URLParameters: map[string]zoho.Parameter{
 			"filter_by": "",
 		},
 		RequestBody: &request,
+		JSONString:  true,
+		Headers: map[string]string{
+			InvoiceAPIEndpointHeader: c.OrganizationID,
+		},
 	}
 
 	/*for k, v := range params {
