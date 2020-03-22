@@ -2,19 +2,20 @@ package expense
 
 import (
 	"fmt"
-	"github.com/schmorrison/Zoho"
+
+	zoho "github.com/schmorrison/Zoho"
 )
 
 // GetOrganization will return the organization data related to the logged in account
 // Parse this response to get organization_id field and pass this value in each expense apis
 // https://www.zoho.com/expense/api/v1/#organization-id
-
+//
 // Alternatively organization_id can also be known after login to zoho web page at
 // https://expense.zoho.com/app#/organizations
 func (c *API) GetOrganization() (data OrganizationResponse, err error) {
 	endpoint := zoho.Endpoint{
 		Name:         OrganizationsModule,
-		URL:          fmt.Sprintf(zoho.ExpenseAPIEndPoint+"%s", OrganizationsModule),
+		URL:          fmt.Sprintf(ExpenseAPIEndpoint+"%s", OrganizationsModule),
 		Method:       zoho.HTTPGet,
 		ResponseData: &OrganizationResponse{},
 	}
