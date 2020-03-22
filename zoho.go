@@ -7,11 +7,6 @@ import (
 	"time"
 )
 
-const (
-	InvoiceAPIEndPoint string = "https://invoice.zoho.com/api/v3/"
-	ExpenseAPIEndPoint string = "https://expense.zoho.com/api/v1/"
-)
-
 // New initializes a Zoho structure
 func New() *Zoho {
 	z := Zoho{
@@ -62,10 +57,10 @@ func (z *Zoho) CustomHTTPClient(c *http.Client) {
 	z.client = c
 }
 
-// SetOrganizationID cab be used to add organization id in zoho struct
+// SetOrganizationID can be used to add organization id in zoho struct
 // which is needed for expense apis
 func (z *Zoho) SetOrganizationID(orgID string) {
-	z.organizationID = orgID
+	z.OrganizationID = orgID
 }
 
 // Zoho is for accessing all APIs. It is used by subpackages to simplify passing authentication
@@ -76,7 +71,7 @@ type Zoho struct {
 	client         *http.Client
 	tokenManager   TokenLoaderSaver
 	tokensFile     string
-	organizationID string
+	OrganizationID string
 	Token          TokenWrapper
 
 	ZohoTLD string
