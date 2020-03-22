@@ -3,22 +3,25 @@
 package expense
 
 import (
-	"github.com/schmorrison/Zoho"
 	"math/rand"
+
+	zoho "github.com/schmorrison/Zoho"
 )
 
 // Change here only if these values changes over time
 const (
-	OrganizationsModule    string = "organizations"
-	ExpenseReportModule    string = "expensereports"
-	ExpensesModule         string = "expenses"
-	TripsModule            string = "trips"
-	ExpenseCategoiesModule string = "expensecategories"
-	UsersModule            string = "users"
-	CustomersModule        string = "contacts"
-	ProjectsModule         string = "projects"
-	CurrenciesModule       string = "settings/currencies"
-	TaxesModule            string = "settings/taxes"
+	ExpenseAPIEndpoint       string = "https://expense.zoho.com/api/v1/"
+	ExpenseAPIEndpointHeader string = "X-com-zoho-expense-organizationid"
+	OrganizationsModule      string = "organizations"
+	ExpenseReportModule      string = "expensereports"
+	ExpensesModule           string = "expenses"
+	TripsModule              string = "trips"
+	ExpenseCategoiesModule   string = "expensecategories"
+	UsersModule              string = "users"
+	CustomersModule          string = "contacts"
+	ProjectsModule           string = "projects"
+	CurrenciesModule         string = "settings/currencies"
+	TaxesModule              string = "settings/taxes"
 )
 
 // API is used for interacting with the Zoho expense API
@@ -38,9 +41,9 @@ func New(z *zoho.Zoho) *API {
 		}
 		return string(id)
 	}()
-
-	return &API{
+	API := &API{
 		Zoho: z,
 		id:   id,
 	}
+	return API
 }

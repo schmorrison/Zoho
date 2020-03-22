@@ -1,17 +1,20 @@
 package invoice
 
 import (
-	"github.com/schmorrison/Zoho"
 	"math/rand"
+
+	zoho "github.com/schmorrison/Zoho"
 )
 
 const (
-	ContactsModule          string = "contacts"
-	ContactsPersonSubModule string = "contactpersons"
-	InvoicesModule          string = "invoices"
-	ItemsModule             string = "items"
-	RecurringInvoicesModule string = "recurringinvoices"
-	CustomerPaymentsModule  string = "customerpayments"
+	InvoiceAPIEndpoint       string = "https://invoice.zoho.com/api/v3/"
+	InvoiceAPIEndpointHeader string = "X-com-zoho-invoice-organizationid"
+	ContactsModule           string = "contacts"
+	ContactsPersonSubModule  string = "contactpersons"
+	InvoicesModule           string = "invoices"
+	ItemsModule              string = "items"
+	RecurringInvoicesModule  string = "recurringinvoices"
+	CustomerPaymentsModule   string = "customerpayments"
 )
 
 type CustomFieldRequest struct {
@@ -20,16 +23,15 @@ type CustomFieldRequest struct {
 	Value         string `json:"value,omitempty"`
 }
 
-// ZohoInvoiceAPI is used for interacting with the Zoho expense ZohoInvoiceAPI
+// API is used for interacting with the Zoho expense API
 // the exposed methods are primarily access to expense modules which provide access to expense Methods
-type ZohoInvoiceAPI struct {
+type API struct {
 	*zoho.Zoho
 	id string
-	organisationId string
 }
 
-// New returns a *expense.ZohoInvoiceAPI with the provided zoho.Zoho as an embedded field
-func New(z *zoho.Zoho, organisationId string) *ZohoInvoiceAPI {
+// New returns a *invoice.API with the provided zoho.Zoho as an embedded field
+func New(z *zoho.Zoho) *API {
 	id := func() string {
 		var id []byte
 		keyspace := "abcdefghijklmnopqrutuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
@@ -39,11 +41,9 @@ func New(z *zoho.Zoho, organisationId string) *ZohoInvoiceAPI {
 		return string(id)
 	}()
 
-	zohoInvoiceAPI := ZohoInvoiceAPI{
+	API := API{
 		Zoho: z,
 		id:   id,
-		organisationId: organisationId,
 	}
-	zohoInvoiceAPI.SetOrganizationID(organisationId)
-	return &zohoInvoiceAPI
+	return &API
 }
