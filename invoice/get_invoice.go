@@ -117,7 +117,7 @@ type GetInvoiceResponse struct {
 		WriteOffAmount         float64 `json:"write_off_amount"`
 		AllowPartialPayments   bool    `json:"allow_partial_payments"`
 		PricePrecision         int64   `json:"price_precision"`
-        PaymentOptions PaymentOptions `json:"payment_options"`
+		PaymentOptions PaymentOptions `json:"payment_options"`
 		IsEmailed            bool   `json:"is_emailed"`
 		RemindersSent        int64  `json:"reminders_sent"`
 		LastReminderSentDate string `json:"last_reminder_sent_date"`
