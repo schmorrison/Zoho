@@ -2,8 +2,7 @@ package crm
 
 import (
 	"fmt"
-
-	"github.com/schmorrison/Zoho"
+	"go-zoho/zoho"
 )
 
 // GetUsers will return the list of users in the CRM organization. The list can be filtered using the

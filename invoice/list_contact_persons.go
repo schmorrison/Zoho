@@ -2,8 +2,7 @@ package invoice
 
 import (
 	"fmt"
-
-	zoho "github.com/schmorrison/Zoho"
+	"go-zoho/zoho"
 )
 
 //https://www.zoho.com/invoice/api/v3/#Contact_Persons_List_contact_persons

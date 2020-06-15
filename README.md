@@ -36,6 +36,12 @@ I will try to comment the code religously, and will read up on Go Doc so the gen
 - Thanks to @beatscode for pull requests #10, #11, #12, & #13.
 - Thanks to @meyskens for pull request #15.
 
+
+## Requirements
+
+Golang v1.13 or above is required, follow the [official documentation](https://golang.org/doc/install) to install it on your system.
+The project uses go vendoring mode (aka. vgo) for dependencies management.
+
 ## Usage
 
 It is reasonable to assume that each API may provide different implementation, however they should all use the common methods available in Zoho.

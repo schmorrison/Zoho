@@ -2,7 +2,7 @@ package invoice
 
 import (
 	"fmt"
-	"github.com/schmorrison/Zoho"
+	"go-zoho/zoho"
 )
 
 //https://www.zoho.com/invoice/api/v3/#Contacts_Update_a_Contact

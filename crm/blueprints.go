@@ -2,8 +2,7 @@ package crm
 
 import (
 	"fmt"
-
-	"github.com/schmorrison/Zoho"
+	"go-zoho/zoho"
 )
 
 // GetBlueprint retrieves a blueprint record specified by the ID parameter from the module specified

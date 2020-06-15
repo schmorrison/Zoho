@@ -2,7 +2,7 @@ package invoice
 
 import (
 	"fmt"
-	"github.com/schmorrison/Zoho"
+	"go-zoho/zoho"
 )
 
 //https://www.zoho.com/invoice/api/v3/#Contacts_Create_a_Contact
@@ -42,7 +42,7 @@ func (c *API) CreateContact(request interface{}, enablePortal bool) (data Create
 		if enablePortal {
 			endpoint := zoho.Endpoint{
 				Name:         ContactsModule,
-				URL:          fmt.Sprintf(InvoiceAPIEndPoint+"%s/%s/portal/enable", ContactsModule, v.Contact.ContactID),
+				URL:          fmt.Sprintf(InvoiceAPIEndpoint+"%s/%s/portal/enable", ContactsModule, v.Contact.ContactID),
 				Method:       zoho.HTTPPost,
 				ResponseData: &EnableContactDashboardResponse{},
 				URLParameters: map[string]zoho.Parameter{

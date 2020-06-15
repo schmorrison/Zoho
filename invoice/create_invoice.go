@@ -2,8 +2,7 @@ package invoice
 
 import (
 	"fmt"
-
-	zoho "github.com/schmorrison/Zoho"
+	"go-zoho/zoho"
 )
 
 //https://www.zoho.com/invoice/api/v3/#Invoices_Create_an_invoice
@@ -42,7 +41,7 @@ func (c *API) CreateInvoice(request interface{}) (data CreateInvoiceResponse, er
 		}
 		endpointSent := zoho.Endpoint{
 			Name:         InvoicesModule,
-			URL:          fmt.Sprintf(InvoiceAPIEndPoint+"%s/%s/status/sent", InvoicesModule, v.Invoice.InvoiceId),
+			URL:          fmt.Sprintf(InvoiceAPIEndpoint+"%s/%s/status/sent", InvoicesModule, v.Invoice.InvoiceId),
 			Method:       zoho.HTTPPost,
 			ResponseData: &InvoiceSent{},
 			JSONString:   true,

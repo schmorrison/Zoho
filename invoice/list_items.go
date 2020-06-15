@@ -2,7 +2,7 @@ package invoice
 
 import (
     "fmt"
-    zoho "github.com/schmorrison/Zoho"
+    "go-zoho/zoho"
 )
 
 func (c *API) ListItems() (data ListItemsResponse, err error) {
