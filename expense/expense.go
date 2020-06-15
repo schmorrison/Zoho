@@ -3,8 +3,8 @@
 package expense
 
 import (
+	zoho "github.com/schmorrison/Zoho"
 	"math/rand"
-	"go-zoho/zoho"
 )
 
 // Change here only if these values changes over time

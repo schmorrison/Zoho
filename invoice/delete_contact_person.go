@@ -2,7 +2,7 @@ package invoice
 
 import (
 	"fmt"
-	"go-zoho/zoho"
+	zoho "github.com/schmorrison/Zoho"
 )
 
 //https://www.zoho.com/invoice/api/v3/#Contact_Persons_Delete_a_contact_person

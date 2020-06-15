@@ -1,8 +1,8 @@
 package invoice
 
 import (
+	zoho "github.com/schmorrison/Zoho"
 	"math/rand"
-	"go-zoho/zoho"
 )
 
 const (
