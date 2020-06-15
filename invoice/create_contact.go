@@ -35,7 +35,7 @@ func (c *API) CreateContact(request interface{}, enablePortal bool) (data Create
 
 	if v, ok := endpoint.ResponseData.(*CreateContactResponse); ok {
 		// Check if the request succeeded
-		if v.Code != 0 {
+		if v.Contact.ContactID == "" {
 			return *v, fmt.Errorf("Failed to create contact: %s", v.Message)
 		}
 		// Enable portal if requested
