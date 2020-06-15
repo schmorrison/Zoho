@@ -72,7 +72,6 @@ type Zoho struct {
 	tokenManager   TokenLoaderSaver
 	tokensFile     string
 	OrganizationID string
-	Token          TokenWrapper
 
 	ZohoTLD string
 }

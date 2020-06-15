@@ -86,7 +86,7 @@ func (z *Zoho) GenerateTokenRequest(clientID, clientSecret, code, redirectURI st
 	z.oauth.clientSecret = clientSecret
 	z.oauth.redirectURI = redirectURI
 
-	err = z.checkForSavedTokens()
+	err = z.CheckForSavedTokens()
 	if err == ErrTokenExpired {
 		return z.RefreshTokenRequest()
 	}
@@ -151,7 +151,7 @@ func (z *Zoho) GenerateTokenRequest(clientID, clientSecret, code, redirectURI st
 // eg. https://domain.com/redirect-url?code=xxxxxxxxxx
 func (z *Zoho) AuthorizationCodeRequest(clientID, clientSecret string, scopes []ScopeString, redirectURI string) (err error) {
 	// check for existing tokens
-	err = z.checkForSavedTokens()
+	err = z.CheckForSavedTokens()
 	if err == nil {
 		z.oauth.clientID = clientID
 		z.oauth.clientSecret = clientSecret

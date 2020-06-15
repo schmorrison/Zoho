@@ -46,8 +46,6 @@ func (z Zoho) SaveTokens(t AccessTokenResponse) error {
 	return nil
 }
 
-
-
 // LoadAccessAndRefreshToken will check for a provided 'TokenManager' interface
 // if one exists it will use its provided method
 func (z Zoho) LoadAccessAndRefreshToken() (AccessTokenResponse, error) {
@@ -97,7 +95,7 @@ func (t *TokenWrapper) CheckExpiry() bool {
 	return t.Expires.Before(time.Now())
 }
 
-func (z *Zoho) checkForSavedTokens() error {
+func (z *Zoho) CheckForSavedTokens() error {
 	t, err := z.LoadAccessAndRefreshToken()
 	z.oauth.token = t
 
