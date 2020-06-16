@@ -162,7 +162,7 @@ type ContactPerson struct {
 	Email            string `json:"email"`
 	Phone            string `json:"phone"`
 	Mobile           string `json:"mobile,omitempty"`
-	IsPrimaryContact bool   `json:"is_primary_contact"`
+	IsPrimaryContact bool   `json:"is_primary_contact,omitempty"`
 }
 
 type ContactAddress struct {
