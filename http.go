@@ -48,13 +48,11 @@ func (z *Zoho) HTTPRequest(endpoint *Endpoint) (err error) {
 	}
 
 	// Load and renew access token if expired
-	if z.CheckForSavedTokens() == nil {
-		_, err = z.LoadAccessAndRefreshToken()
-		if err == ErrTokenExpired {
-			err := z.RefreshTokenRequest()
-			if err != nil {
-				return fmt.Errorf("Failed to refresh the access token: %s: %s", endpoint.Name, err)
-			}
+	err = z.CheckForSavedTokens()
+	if err == ErrTokenExpired {
+		err := z.RefreshTokenRequest()
+		if err != nil {
+			return fmt.Errorf("Failed to refresh the access token: %s: %s", endpoint.Name, err)
 		}
 	}
 

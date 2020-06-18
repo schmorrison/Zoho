@@ -87,7 +87,7 @@ type TokenWrapper struct {
 
 // SetExpiry sets the TokenWrappers expiry time to now + seconds until expiry
 func (t *TokenWrapper) SetExpiry() {
-	t.Expires = time.Now().Add(time.Duration(t.Token.ExpiresInSeconds) * time.Second)
+	t.Expires = time.Now().Add(time.Duration(t.Token.ExpiresIn) * time.Second)
 }
 
 // CheckExpiry if the token expired before this instant

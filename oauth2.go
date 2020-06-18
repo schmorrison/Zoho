@@ -65,7 +65,6 @@ func (z *Zoho) RefreshTokenRequest() (err error) {
 	z.oauth.token.AccessToken = tokenResponse.AccessToken
 	z.oauth.token.APIDomain = tokenResponse.APIDomain
 	z.oauth.token.ExpiresIn = tokenResponse.ExpiresIn
-	z.oauth.token.ExpiresInSeconds = tokenResponse.ExpiresInSeconds
 	z.oauth.token.TokenType = tokenResponse.TokenType
 
 	err = z.SaveTokens(z.oauth.token)
@@ -247,7 +246,6 @@ func (z *Zoho) AuthorizationCodeRequest(clientID, clientSecret string, scopes []
 type AccessTokenResponse struct {
 	AccessToken      string `json:"access_token,omitempty"`
 	RefreshToken     string `json:"refresh_token,omitempty"`
-	ExpiresInSeconds int    `json:"expires_in_sec,omitempty"`
 	ExpiresIn        int    `json:"expires_in,omitempty"`
 	APIDomain        string `json:"api_domain,omitempty"`
 	TokenType        string `json:"token_type,omitempty"`
