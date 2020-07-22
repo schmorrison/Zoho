@@ -6,10 +6,10 @@ import (
 	"fmt"
 	"io"
 	"io/ioutil"
+	"mime/multipart"
 	"net/http"
 	"net/url"
 	"reflect"
-	"strings"
 )
 
 // Endpoint defines the data required to interact with most Zoho REST api endpoints
@@ -33,20 +33,6 @@ func (z *Zoho) HTTPRequest(endpoint *Endpoint) (err error) {
 		return fmt.Errorf("Failed, you must pass a pointer in the ResponseData field of endpoint")
 	}
 
-	var reqBody io.Reader
-	if endpoint.RequestBody != nil {
-		b, err := json.Marshal(endpoint.RequestBody)
-		if err != nil {
-			return fmt.Errorf("Failed to create json from request body")
-		}
-		if endpoint.JSONString {
-			requestBodyString := string(b)
-			reqBody = strings.NewReader("JSONString=" + requestBodyString)
-		} else {
-			reqBody = bytes.NewReader(b)
-		}
-	}
-
 	// Load and renew access token if expired
 	err = z.CheckForSavedTokens()
 	if err == ErrTokenExpired {
@@ -56,6 +42,7 @@ func (z *Zoho) HTTPRequest(endpoint *Endpoint) (err error) {
 		}
 	}
 
+	// Retrieve URL parameters
 	endpointURL := endpoint.URL
 	q := url.Values{}
 	for k, v := range endpoint.URLParameters {
@@ -64,20 +51,58 @@ func (z *Zoho) HTTPRequest(endpoint *Endpoint) (err error) {
 		}
 	}
 
-	req, err := http.NewRequest(string(endpoint.Method), fmt.Sprintf("%s?%s", endpointURL, q.Encode()), reqBody)
-	if err != nil {
-		return fmt.Errorf("Failed to create a request for %s: %s", endpoint.Name, err)
+	// Create the request
+	var req *http.Request
+	if endpoint.RequestBody == nil {
+		req, err = http.NewRequest(string(endpoint.Method), fmt.Sprintf("%s?%s", endpointURL, q.Encode()), nil)
+		if err != nil {
+			return fmt.Errorf("Failed to create a request for %s: %s", endpoint.Name, err)
+		}
+		req.Header.Add("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8")
+	} else {
+		marshalledBody, err := json.Marshal(endpoint.RequestBody)
+		if err != nil {
+			return fmt.Errorf("Failed to create json from request body")
+		}
+		reqBody := bytes.NewReader(marshalledBody)
+
+		// Choose whether to send a multipart encoded data or a simple payload
+		if endpoint.JSONString {
+			var b bytes.Buffer
+			w := multipart.NewWriter(&b)
+			fw, err := w.CreateFormField("JSONString")
+			if err != nil {
+				return err
+			}
+			if _, err = io.Copy(fw, reqBody); err != nil {
+				return err
+			}
+			// Close the multipart writer to set the terminating boundary
+			err = w.Close()
+			if err != nil {
+				return err
+			}
+			req, err = http.NewRequest(string(endpoint.Method), fmt.Sprintf("%s?%s", endpointURL, q.Encode()), &b)
+			if err != nil {
+				return fmt.Errorf("Failed to create a request for %s: %s", endpoint.Name, err)
+			}
+			// Set the content type which contains the multipart boundary
+			req.Header.Set("Content-Type", w.FormDataContentType())
+		} else {
+			req, err = http.NewRequest(string(endpoint.Method), fmt.Sprintf("%s?%s", endpointURL, q.Encode()), reqBody)
+			if err != nil {
+				return fmt.Errorf("Failed to create a request for %s: %s", endpoint.Name, err)
+			}
+			req.Header.Add("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8")
+		}
 	}
 
+	// Add global authorization header
 	req.Header.Add("Authorization", "Zoho-oauthtoken "+z.oauth.token.AccessToken)
 
-	// Add mandatory header for specific APIs
-	if z.OrganizationID != "" {
-		// Zoho doesn't use regular JSON content type
-		req.Header.Add("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8")
-		for k, v := range endpoint.Headers {
-			req.Header.Add(k, v)
-		}
+	// Add specific endpoint headers
+	for k, v := range endpoint.Headers {
+		req.Header.Add(k, v)
 	}
 
 	resp, err := z.client.Do(req)
