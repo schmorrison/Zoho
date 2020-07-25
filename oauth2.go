@@ -9,6 +9,8 @@ import (
 	"net/http"
 	"net/url"
 	"strings"
+	"time"
+
 )
 
 func (z *Zoho) SetRefreshToken(refreshToken string) {
@@ -218,7 +220,10 @@ func (z *Zoho) AuthorizationCodeRequest(clientID, clientSecret string, scopes []
 	if localRedirect {
 		// wait for code to be returned by the server
 		code = <-codeChan
-		ctx := context.Background()
+		ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+		defer func() {
+			cancel()
+		}()
 		if err := srv.Shutdown(ctx); err != nil {
 			fmt.Printf("Error while shutting down local server: %s\n", err)
 		}
@@ -244,12 +249,12 @@ func (z *Zoho) AuthorizationCodeRequest(clientID, clientSecret string, scopes []
 
 // AccessTokenResponse is the data returned when generating AccessTokens, or Refreshing the token
 type AccessTokenResponse struct {
-	AccessToken      string `json:"access_token,omitempty"`
-	RefreshToken     string `json:"refresh_token,omitempty"`
-	ExpiresIn        int    `json:"expires_in,omitempty"`
-	APIDomain        string `json:"api_domain,omitempty"`
-	TokenType        string `json:"token_type,omitempty"`
-	Error            string `json:"error,omitempty"`
+	AccessToken  string `json:"access_token,omitempty"`
+	RefreshToken string `json:"refresh_token,omitempty"`
+	ExpiresIn    int    `json:"expires_in,omitempty"`
+	APIDomain    string `json:"api_domain,omitempty"`
+	TokenType    string `json:"token_type,omitempty"`
+	Error        string `json:"error,omitempty"`
 }
 
 const (
