@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"io"
 	"io/ioutil"
+	"mime/multipart"
 	"net/http"
 	"net/url"
 	"reflect"
@@ -19,6 +20,8 @@ type Endpoint struct {
 	ResponseData  interface{}
 	RequestBody   interface{}
 	URLParameters map[string]Parameter
+	Headers       map[string]string
+	JSONString    bool
 }
 
 // Parameter is used to provide URL Parameters to zoho endpoints
@@ -29,11 +32,18 @@ func (z *Zoho) HTTPRequest(endpoint *Endpoint) (err error) {
 	if reflect.TypeOf(endpoint.ResponseData).Kind() != reflect.Ptr {
 		return fmt.Errorf("Failed, you must pass a pointer in the ResponseData field of endpoint")
 	}
-	dataType := reflect.TypeOf(endpoint.ResponseData).Elem()
-	data := reflect.New(dataType).Interface()
 
+	// Load and renew access token if expired
+	err = z.CheckForSavedTokens()
+	if err == ErrTokenExpired {
+		err := z.RefreshTokenRequest()
+		if err != nil {
+			return fmt.Errorf("Failed to refresh the access token: %s: %s", endpoint.Name, err)
+		}
+	}
+
+	// Retrieve URL parameters
 	endpointURL := endpoint.URL
-
 	q := url.Values{}
 	for k, v := range endpoint.URLParameters {
 		if v != "" {
@@ -41,25 +51,58 @@ func (z *Zoho) HTTPRequest(endpoint *Endpoint) (err error) {
 		}
 	}
 
-	var reqBody io.Reader
-	if endpoint.RequestBody != nil {
-		b, err := json.Marshal(endpoint.RequestBody)
+	// Create the request
+	var req *http.Request
+	if endpoint.RequestBody == nil {
+		req, err = http.NewRequest(string(endpoint.Method), fmt.Sprintf("%s?%s", endpointURL, q.Encode()), nil)
+		if err != nil {
+			return fmt.Errorf("Failed to create a request for %s: %s", endpoint.Name, err)
+		}
+		req.Header.Add("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8")
+	} else {
+		marshalledBody, err := json.Marshal(endpoint.RequestBody)
 		if err != nil {
 			return fmt.Errorf("Failed to create json from request body")
 		}
+		reqBody := bytes.NewReader(marshalledBody)
 
-		reqBody = bytes.NewReader(b)
+		// Choose whether to send a multipart encoded data or a simple payload
+		if endpoint.JSONString {
+			var b bytes.Buffer
+			w := multipart.NewWriter(&b)
+			fw, err := w.CreateFormField("JSONString")
+			if err != nil {
+				return err
+			}
+			if _, err = io.Copy(fw, reqBody); err != nil {
+				return err
+			}
+			// Close the multipart writer to set the terminating boundary
+			err = w.Close()
+			if err != nil {
+				return err
+			}
+			req, err = http.NewRequest(string(endpoint.Method), fmt.Sprintf("%s?%s", endpointURL, q.Encode()), &b)
+			if err != nil {
+				return fmt.Errorf("Failed to create a request for %s: %s", endpoint.Name, err)
+			}
+			// Set the content type which contains the multipart boundary
+			req.Header.Set("Content-Type", w.FormDataContentType())
+		} else {
+			req, err = http.NewRequest(string(endpoint.Method), fmt.Sprintf("%s?%s", endpointURL, q.Encode()), reqBody)
+			if err != nil {
+				return fmt.Errorf("Failed to create a request for %s: %s", endpoint.Name, err)
+			}
+			req.Header.Add("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8")
+		}
 	}
 
-	req, err := http.NewRequest(string(endpoint.Method), fmt.Sprintf("%s?%s", endpointURL, q.Encode()), reqBody)
-	if err != nil {
-		return fmt.Errorf("Failed to create a request for %s: %s", endpoint.Name, err)
-	}
-
+	// Add global authorization header
 	req.Header.Add("Authorization", "Zoho-oauthtoken "+z.oauth.token.AccessToken)
-	// Add mandatory header for expense apis
-	if z.organizationID != "" {
-		req.Header.Add("X-com-zoho-expense-organizationid", z.organizationID)
+
+	// Add specific endpoint headers
+	for k, v := range endpoint.Headers {
+		req.Header.Add(k, v)
 	}
 
 	resp, err := z.client.Do(req)
@@ -74,6 +117,9 @@ func (z *Zoho) HTTPRequest(endpoint *Endpoint) (err error) {
 		return fmt.Errorf("Failed to read body of response for %s: got status %s: %s", endpoint.Name, resolveStatus(resp), err)
 	}
 
+	dataType := reflect.TypeOf(endpoint.ResponseData).Elem()
+	data := reflect.New(dataType).Interface()
+
 	err = json.Unmarshal(body, data)
 	if err != nil {
 		return fmt.Errorf("Failed to unmarshal data from response for %s: got status %s: %s", endpoint.Name, resolveStatus(resp), err)
@@ -84,7 +130,7 @@ func (z *Zoho) HTTPRequest(endpoint *Endpoint) (err error) {
 	return nil
 }
 
-// HTTPStatusCode is a type for resolving the returned HTTP Status Code Message
+// HTTPStatusCode is a type for resolving the returned HTTP Status Code Content
 type HTTPStatusCode int
 
 // HTTPStatusCodes is a map of possible HTTP Status Code and Messages

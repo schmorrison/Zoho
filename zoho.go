@@ -30,7 +30,7 @@ func New() *Zoho {
 }
 
 // SetTokenManager can be used to provide a type which implements the TokenManager interface
-// which will get/set AccessTokens/RefreshTokens using a persistence mechanism
+// which will get/set AccessTokens/RenewTokens using a persistence mechanism
 func (z *Zoho) SetTokenManager(tm TokenLoaderSaver) {
 	z.tokenManager = tm
 }
@@ -57,10 +57,10 @@ func (z *Zoho) CustomHTTPClient(c *http.Client) {
 	z.client = c
 }
 
-// SetOrganizationID cab be used to add organization id in zoho struct
+// SetOrganizationID can be used to add organization id in zoho struct
 // which is needed for expense apis
 func (z *Zoho) SetOrganizationID(orgID string) {
-	z.organizationID = orgID
+	z.OrganizationID = orgID
 }
 
 // Zoho is for accessing all APIs. It is used by subpackages to simplify passing authentication
@@ -71,7 +71,7 @@ type Zoho struct {
 	client         *http.Client
 	tokenManager   TokenLoaderSaver
 	tokensFile     string
-	organizationID string
+	OrganizationID string
 
 	ZohoTLD string
 }

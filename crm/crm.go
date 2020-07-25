@@ -1,10 +1,9 @@
 package crm
 
 import (
+	zoho "github.com/schmorrison/Zoho"
 	"math/rand"
 	"time"
-
-	"github.com/schmorrison/Zoho"
 )
 
 type crmModule string

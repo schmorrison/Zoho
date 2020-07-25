@@ -11,6 +11,18 @@ import (
 	"strings"
 )
 
+func (z *Zoho) SetRefreshToken(refreshToken string) {
+	z.oauth.token.RefreshToken = refreshToken
+}
+
+func (z *Zoho) SetClientID(clientID string) {
+	z.oauth.clientID = clientID
+}
+
+func (z *Zoho) SetClientSecret(clientSecret string) {
+	z.oauth.clientSecret = clientSecret
+}
+
 // RefreshTokenRequest is used to refresh the oAuth2 access token
 func (z *Zoho) RefreshTokenRequest() (err error) {
 	q := url.Values{}
@@ -53,7 +65,6 @@ func (z *Zoho) RefreshTokenRequest() (err error) {
 	z.oauth.token.AccessToken = tokenResponse.AccessToken
 	z.oauth.token.APIDomain = tokenResponse.APIDomain
 	z.oauth.token.ExpiresIn = tokenResponse.ExpiresIn
-	z.oauth.token.ExpiresInSeconds = tokenResponse.ExpiresInSeconds
 	z.oauth.token.TokenType = tokenResponse.TokenType
 
 	err = z.SaveTokens(z.oauth.token)
@@ -66,7 +77,7 @@ func (z *Zoho) RefreshTokenRequest() (err error) {
 
 // GenerateTokenRequest will get the Access token and Refresh token and hold them in the Zoho struct. This function can be used rather than
 // AuthorizationCodeRequest is you do not want to click on a link and redirect to a consent screen. Instead you can go to, https://accounts.zoho.com/developerconsole
-// and click the kebab icon beside your clienID, and click 'Self-Client'; then you can define you scopes and an expiry, then provide the generated authorization code
+// and click the kebab icon beside your clientID, and click 'Self-Client'; then you can define you scopes and an expiry, then provide the generated authorization code
 // to this function which will generate your access token and refresh tokens.
 func (z *Zoho) GenerateTokenRequest(clientID, clientSecret, code, redirectURI string) (err error) {
 
@@ -74,7 +85,7 @@ func (z *Zoho) GenerateTokenRequest(clientID, clientSecret, code, redirectURI st
 	z.oauth.clientSecret = clientSecret
 	z.oauth.redirectURI = redirectURI
 
-	err = z.checkForSavedTokens()
+	err = z.CheckForSavedTokens()
 	if err == ErrTokenExpired {
 		return z.RefreshTokenRequest()
 	}
@@ -139,7 +150,7 @@ func (z *Zoho) GenerateTokenRequest(clientID, clientSecret, code, redirectURI st
 // eg. https://domain.com/redirect-url?code=xxxxxxxxxx
 func (z *Zoho) AuthorizationCodeRequest(clientID, clientSecret string, scopes []ScopeString, redirectURI string) (err error) {
 	// check for existing tokens
-	err = z.checkForSavedTokens()
+	err = z.CheckForSavedTokens()
 	if err == nil {
 		z.oauth.clientID = clientID
 		z.oauth.clientSecret = clientSecret
@@ -235,7 +246,6 @@ func (z *Zoho) AuthorizationCodeRequest(clientID, clientSecret string, scopes []
 type AccessTokenResponse struct {
 	AccessToken      string `json:"access_token,omitempty"`
 	RefreshToken     string `json:"refresh_token,omitempty"`
-	ExpiresInSeconds int    `json:"expires_in_sec,omitempty"`
 	ExpiresIn        int    `json:"expires_in,omitempty"`
 	APIDomain        string `json:"api_domain,omitempty"`
 	TokenType        string `json:"token_type,omitempty"`
