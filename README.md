@@ -33,8 +33,10 @@ I will try to comment the code religously, and will read up on Go Doc so the gen
 
 ## A special thanks to Contributors
 - Thanks to @ashishsnigam for pull request #7.
-- Thanks to @beatscode for pull requests #10, #11, #12, & #13.
-- Thanks to @meyskens for pull request #15.
+- Thanks to @beatscode for pull requests #10, #11, #12, #13, #18, & #19.
+- Thanks to @meyskens for pull request #14.
+- Thanks to @vazha for pull request #17.
+- Thanks to @VincentK-TitanDC for pull request #21
 
 
 ## Requirements
