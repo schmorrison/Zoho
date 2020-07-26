@@ -13,8 +13,9 @@ This will be a long project, with alot of boilerplate code that may benefit from
 - [ ] [CRM](https://github.com/schmorrison/Zoho/tree/master/crm)
 - [ ] Desk
 - [ ] Docs
+- [ ] [Expense](https://github.com/schmorrison/Zoho/tree/master/expense)
 - [ ] Inventory
-- [ ] Invoice
+- [ ] [Invoice](https://github.com/schmorrison/Zoho/tree/master/invoice)
 - [ ] Mail
 - [ ] Meeting
 - [ ] People
@@ -36,7 +37,7 @@ I will try to comment the code religously, and will read up on Go Doc so the gen
 - Thanks to @beatscode for pull requests #10, #11, #12, #13, #18, & #19.
 - Thanks to @meyskens for pull request #14.
 - Thanks to @vazha for pull request #17.
-- Thanks to @VincentK-TitanDC for pull request #21
+- Thanks to @VincentK-Titandc for pull request #21
 
 
 ## Requirements
