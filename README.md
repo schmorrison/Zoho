@@ -49,7 +49,7 @@ The project uses go vendoring mode (aka. vgo) for dependencies management.
 
 It is reasonable to assume that each API may provide different implementation, however they should all use the common methods available in Zoho.
 
-### Getting the master struct and starting oAuth2 flow
+### Getting the Zoho struct and starting oAuth2 flow
 
     import (
         "github.com/schmorrison/Zoho"
@@ -98,6 +98,6 @@ That code can be used to request Access and Request tokens as so.
 
     }
 
-Your Zoho master struct now has the oAuth token for that service/scope combination.
+Your Zoho struct now has the oAuth token for that service/scope combination.
 
 Check the Readme in each services directory for information about using that service

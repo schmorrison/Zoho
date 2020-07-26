@@ -26,7 +26,7 @@ Additional Brainstorm: Because of the custom field problem, I believe we can def
             log.Fatal(err)
         }
 
-        // Create a new CRM object and provide the zoho master struct
+        // Create a new CRM object and provide the Zoho struct
         c := crm.New(z)
 
         // While untested, getting data should work like so

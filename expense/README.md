@@ -25,7 +25,7 @@ Note: These APIs result entire API response in JSON format. It is expected that 
             log.Fatal(err)
         }
 
-        // Create a new Expense object and provide the zoho master struct
+        // Create a new Expense object and provide the Zoho struct
         c := expense.New(z)
 
         // While untested, getting data should work like so
