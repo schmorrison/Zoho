@@ -8,7 +8,7 @@ import (
 
 // ListRecords will return a list of the records provided in the request field, and specified by the module
 // https://www.zoho.com/crm/help/api/v2/#record-api
-func (c *API) ListRecords(request interface{}, module crmModule, params map[string]zoho.Parameter) (data interface{}, err error) {
+func (c *API) ListRecords(request interface{}, module Module, params map[string]zoho.Parameter) (data interface{}, err error) {
 	endpoint := zoho.Endpoint{
 		Name:         "records",
 		URL:          fmt.Sprintf("https://www.zohoapis.%s/crm/v2/%s", c.ZohoTLD, module),
@@ -44,7 +44,7 @@ func (c *API) ListRecords(request interface{}, module crmModule, params map[stri
 
 // InsertRecords will add records in request to the specified module
 // https://www.zoho.com/crm/help/api/v2/#ra-insert-records
-func (c *API) InsertRecords(request InsertRecordsData, module crmModule) (data InsertRecordsResponse, err error) {
+func (c *API) InsertRecords(request InsertRecordsData, module Module) (data InsertRecordsResponse, err error) {
 	endpoint := zoho.Endpoint{
 		Name:         "records",
 		URL:          fmt.Sprintf("https://www.zohoapis.%s/crm/v2/%s", c.ZohoTLD, module),
@@ -116,7 +116,7 @@ type InsertRecordsResponse struct {
 //        crm.Account
 //        CustomField string `json:"Custom_Field"`
 //     }
-func (c *API) UpdateRecords(request UpdateRecordsData, module crmModule) (data UpdateRecordsResponse, err error) {
+func (c *API) UpdateRecords(request UpdateRecordsData, module Module) (data UpdateRecordsResponse, err error) {
 	endpoint := zoho.Endpoint{
 		Name:         "records",
 		URL:          fmt.Sprintf("https://www.zohoapis.%s/crm/v2/%s", c.ZohoTLD, module),
@@ -156,7 +156,7 @@ type UpdateRecordsResponse struct {
 //        crm.Account
 //        CustomField string `json:"Custom_Field"`
 //     }
-func (c *API) UpsertRecords(request UpsertRecordsData, module crmModule, duplicateFieldsCheck []string) (data UpsertRecordsResponse, err error) {
+func (c *API) UpsertRecords(request UpsertRecordsData, module Module, duplicateFieldsCheck []string) (data UpsertRecordsResponse, err error) {
 	endpoint := zoho.Endpoint{
 		Name:         "records",
 		URL:          fmt.Sprintf("https://www.zohoapis.%s/crm/v2/%s/upsert", c.ZohoTLD, module),
@@ -224,7 +224,7 @@ type UpsertRecordsResponse struct {
 
 // DeleteRecords will delete the records in the ids in the specified module
 // https://www.zoho.com/crm/help/api/v2/#delete-bulk-records
-func (c *API) DeleteRecords(module crmModule, ids []string) (data DeleteRecordsResponse, err error) {
+func (c *API) DeleteRecords(module Module, ids []string) (data DeleteRecordsResponse, err error) {
 	if len(ids) == 0 {
 		return DeleteRecordsResponse{}, fmt.Errorf("Failed to delete records, must provide at least 1 ID")
 	}
@@ -274,7 +274,7 @@ type DeleteRecordsResponse struct {
 
 // ListDeletedRecords will return a list of all records that have been deleted in the specified module. The records can be filtered by the kind parameter.
 // https://www.zoho.com/crm/help/api/v2/#ra-deleted-records
-func (c *API) ListDeletedRecords(module crmModule, kind DeletedRecordsType, params map[string]zoho.Parameter) (data ListDeletedRecordsResponse, err error) {
+func (c *API) ListDeletedRecords(module Module, kind DeletedRecordsType, params map[string]zoho.Parameter) (data ListDeletedRecordsResponse, err error) {
 	endpoint := zoho.Endpoint{
 		Name:         "records",
 		URL:          fmt.Sprintf("https://www.zohoapis.%s/crm/v2/%s/deleted", c.ZohoTLD, module),
@@ -337,7 +337,7 @@ type ListDeletedRecordsResponse struct {
 // SearchRecords is used for searching records in the specified module using the parameters.
 // Parameters are 'criteria', 'email', 'phone', and 'word'
 // https://www.zoho.com/crm/help/api/v2/#ra-search-records
-func (c *API) SearchRecords(response interface{}, module crmModule, params map[string]zoho.Parameter) (data interface{}, err error) {
+func (c *API) SearchRecords(response interface{}, module Module, params map[string]zoho.Parameter) (data interface{}, err error) {
 	endpoint := zoho.Endpoint{
 		Name:         "records",
 		URL:          fmt.Sprintf("https://www.zohoapis.%s/crm/v2/%s/search", c.ZohoTLD, module),
@@ -371,7 +371,7 @@ func (c *API) SearchRecords(response interface{}, module crmModule, params map[s
 
 // GetRecord will retrieve the specified record by id in the specified module.
 // https://www.zoho.com/crm/help/api/v2/#single-records
-func (c *API) GetRecord(request interface{}, module crmModule, ID string) (data interface{}, err error) {
+func (c *API) GetRecord(request interface{}, module Module, ID string) (data interface{}, err error) {
 	endpoint := zoho.Endpoint{
 		Name:         "records",
 		URL:          fmt.Sprintf("https://www.zohoapis.%s/crm/v2/%s/%s", c.ZohoTLD, module, ID),
@@ -393,7 +393,7 @@ func (c *API) GetRecord(request interface{}, module crmModule, ID string) (data 
 
 // InsertRecord will insert the specifed record in the module
 // https://www.zoho.com/crm/help/api/v2/#create-specify-records
-func (c *API) InsertRecord(request InsertRecordData, module crmModule) (data InsertRecordResponse, err error) {
+func (c *API) InsertRecord(request InsertRecordData, module Module) (data InsertRecordResponse, err error) {
 	endpoint := zoho.Endpoint{
 		Name:         "records",
 		URL:          fmt.Sprintf("https://www.zohoapis.%s/crm/v2/%s", c.ZohoTLD, module),
@@ -422,7 +422,7 @@ type InsertRecordResponse = InsertRecordsResponse
 
 // UpdateRecord will update the record specified by ID in the specified module
 // https://www.zoho.com/crm/help/api/v2/#update-specify-records
-func (c *API) UpdateRecord(request UpdateRecordData, module crmModule, ID string) (data UpdateRecordResponse, err error) {
+func (c *API) UpdateRecord(request UpdateRecordData, module Module, ID string) (data UpdateRecordResponse, err error) {
 	endpoint := zoho.Endpoint{
 		Name:         "records",
 		URL:          fmt.Sprintf("https://www.zohoapis.%s/crm/v2/%s/%s", c.ZohoTLD, module, ID),
@@ -451,7 +451,7 @@ type UpdateRecordResponse = UpdateRecordsResponse
 
 // DeleteRecord will delete the record specified by the id in the specified module
 // https://www.zoho.com/crm/help/api/v2/#delete-specify-records
-func (c *API) DeleteRecord(module crmModule, ID string) (data DeleteRecordResponse, err error) {
+func (c *API) DeleteRecord(module Module, ID string) (data DeleteRecordResponse, err error) {
 	endpoint := zoho.Endpoint{
 		Name:         "records",
 		URL:          fmt.Sprintf("https://www.zohoapis.%s/crm/v2/%s/%s", c.ZohoTLD, module, ID),

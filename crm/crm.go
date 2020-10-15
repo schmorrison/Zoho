@@ -6,29 +6,29 @@ import (
 	"time"
 )
 
-type crmModule string
+type Module string
 
 // Proper names for CRM modules
 const (
-	AccountsModule       crmModule = "Accounts"
-	CallsModule          crmModule = "Calls"
-	CampaignsModule      crmModule = "Campaigns"
-	CasesModule          crmModule = "Cases"
-	ContactsModule       crmModule = "Contacts"
-	CustomModule         crmModule = "Custom"
-	DealsModule          crmModule = "Deals"
-	EventsModule         crmModule = "Events"
-	InvoicesModule       crmModule = "Invoices"
-	LeadsModule          crmModule = "Leads"
-	PotentialsModule     crmModule = "Potentials"
-	PriceBooksModule     crmModule = "PriceBooks"
-	ProductsModule       crmModule = "Products"
-	PurchaseOrdersModule crmModule = "PurchaseOrders"
-	QuotesModule         crmModule = "Quotes"
-	SalesOrdersModule    crmModule = "SalesOrders"
-	SolutionsModule      crmModule = "Solutions"
-	TasksModule          crmModule = "Tasks"
-	VendorsModule        crmModule = "Vendors"
+	AccountsModule       Module = "Accounts"
+	CallsModule          Module = "Calls"
+	CampaignsModule      Module = "Campaigns"
+	CasesModule          Module = "Cases"
+	ContactsModule       Module = "Contacts"
+	CustomModule         Module = "Custom"
+	DealsModule          Module = "Deals"
+	EventsModule         Module = "Events"
+	InvoicesModule       Module = "Invoices"
+	LeadsModule          Module = "Leads"
+	PotentialsModule     Module = "Potentials"
+	PriceBooksModule     Module = "PriceBooks"
+	ProductsModule       Module = "Products"
+	PurchaseOrdersModule Module = "PurchaseOrders"
+	QuotesModule         Module = "Quotes"
+	SalesOrdersModule    Module = "SalesOrders"
+	SolutionsModule      Module = "Solutions"
+	TasksModule          Module = "Tasks"
+	VendorsModule        Module = "Vendors"
 )
 
 // API is used for interacting with the Zoho CRM API
