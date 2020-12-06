@@ -38,7 +38,7 @@ I will try to comment the code religously, and will read up on Go Doc so the gen
 - Thanks to @meyskens for pull request #14.
 - Thanks to @vazha for pull request #17.
 - Thanks to @VincentK-Titandc for pull request #21
-
+- Thanks to @rollulus for pull request #23
 
 ## Requirements
 
