@@ -1,5 +1,89 @@
 package subscriptions
 
+import (
+	"fmt"
+
+	zoho "github.com/schmorrison/Zoho"
+)
+
+type SubscriptionStatus string
+
+// Proper names for Subscription statuses
+const (
+	SubscriptionStatusAll                  SubscriptionStatus = "SubscriptionStatus.All"
+	SubscriptionStatusActive               SubscriptionStatus = "SubscriptionStatus.ACTIVE"
+	SubscriptionStatusLive                 SubscriptionStatus = "SubscriptionStatus.LIVE"
+	SubscriptionStatusFuture               SubscriptionStatus = "SubscriptionStatus.FUTURE"
+	SubscriptionStatusTrial                SubscriptionStatus = "SubscriptionStatus.TRIAL"
+	SubscriptionStatusPastDue              SubscriptionStatus = "SubscriptionStatus.PAST_DUE"
+	SubscriptionStatusUnpaid               SubscriptionStatus = "SubscriptionStatus.UNPAID"
+	SubscriptionStatusNonRenewing          SubscriptionStatus = "SubscriptionStatus.NON_RENEWING"
+	SubscriptionStatusCancelledFromDunning SubscriptionStatus = "SubscriptionStatus.CANCELLED_FROM_DUNNING"
+	SubscriptionStatusCancelled            SubscriptionStatus = "SubscriptionStatus.CANCELLED"
+	SubscriptionStatusExpired              SubscriptionStatus = "SubscriptionStatus.EXPIRED"
+	SubscriptionStatusTrialExpired         SubscriptionStatus = "SubscriptionStatus.TRIAL_EXPIRED"
+	SubscriptionStatusCancelledLastMonth   SubscriptionStatus = "SubscriptionStatus.CANCELLED_LAST_MONTH"
+	SubscriptionStatusCancelledThisMonth   SubscriptionStatus = "SubscriptionStatus.CANCELLED_THIS_MONTH"
+
+	SubscriptionModeOnline  SubscriptionStatus = "SubscriptionMode.ONLINE"
+	SubscriptionModeOffline SubscriptionStatus = "SubscriptionMode.OFFLINE"
+)
+
+// ListSubscriptions will return the ist of subscriptions that match the given subscription status.
+// https://www.zoho.com/subscriptions/api/v1/#Subscriptions_List_all_subscriptions
+func (s *API) ListSubscriptions(status SubscriptionStatus) (data SubscriptionsResponce, err error) {
+	endpoint := zoho.Endpoint{
+		Name:         "subscriptions",
+		URL:          fmt.Sprintf("https://subscriptions.zoho.%s/api/v1/subscriptions", s.ZohoTLD),
+		Method:       zoho.HTTPGet,
+		ResponseData: &SubscriptionsResponce{},
+		URLParameters: map[string]zoho.Parameter{
+			"filter_by": status,
+		},
+	}
+
+	err = s.Zoho.HTTPRequest(&endpoint)
+	if err != nil {
+		return SubscriptionsResponce{}, fmt.Errorf("Failed to retrieve subscriptions: %s", err)
+	}
+
+	if v, ok := endpoint.ResponseData.(*SubscriptionsResponce); ok {
+		return *v, nil
+	}
+
+	return SubscriptionsResponce{}, fmt.Errorf("Data retrieved was not 'SubscriptionsResponce'")
+}
+
+// GetSubscription will return the subscription specified by id
+// https://www.zoho.com/subscriptions/api/v1/#Subscriptions_Retrieve_a_subscription
+func (s *API) GetSubscription(id string) (data SubscriptionResponce, err error) {
+	endpoint := zoho.Endpoint{
+		Name:         "subscriptions",
+		URL:          fmt.Sprintf("https://subscriptions.zoho.%s/api/v1/subscriptions/%s", s.ZohoTLD, id),
+		Method:       zoho.HTTPGet,
+		ResponseData: &SubscriptionResponce{},
+	}
+
+	err = s.Zoho.HTTPRequest(&endpoint)
+	if err != nil {
+		return SubscriptionResponce{}, fmt.Errorf("Failed to retrieve user (%s): %s", id, err)
+	}
+
+	if v, ok := endpoint.ResponseData.(*SubscriptionResponce); ok {
+		return *v, nil
+	}
+
+	return SubscriptionResponce{}, fmt.Errorf("Data retrieved was not 'SubscriptionResponce'")
+}
+
+type SubscriptionsResponce struct {
+	Subscriptions []Subscription `json:"subscriptions"`
+}
+
+type SubscriptionResponce struct {
+	Subscription Subscription `json:"subscription"`
+}
+
 type Subscription struct {
 	SubscriptionId      string  `json:"subscription_id"`
 	Name                string  `json:"name"`
@@ -85,11 +169,11 @@ type Subscription struct {
 type Customer struct {
 	SubscriptionId    string  `json:"customer_id"`
 	Name              string  `json:"display_name"`
-	Status            string  `json:"salutation"`
-	Status            string  `json:"first_name"`
-	Status            string  `json:"last_name"`
-	Status            string  `json:"email"`
-	Status            string  `json:"company_name"`
+	Salutation        string  `json:"salutation"`
+	FirstName         string  `json:"first_name"`
+	LastName          string  `json:"last_name"`
+	Email             string  `json:"email"`
+	CompanyName       string  `json:"company_name"`
 	BillingAddress    Address `json:"billing_address"`
 	ShippingAddress   Address `json:"shipping_address"`
 	PaymentTerms      int64   `json:"payment_terms"`
