@@ -1,31 +1,32 @@
 package subscriptions
 
 type Subscription struct {
-	SubscriptionId    string  `json:"subscription_id"`
-	Name              string  `json:"name"`
-	Status            string  `json:"status"`
-	Amount            float64 `json:"amount"`
-	CreatedAt         string  `json:"created_at"`
-	ActivatedAt       string  `json:"activated_at"`
-	CurrentTermEndsAt string  `json:"current_term_ends_at"`
-	LastBillingAt     string  `json:"last_billing_at"`
-	NextBillingAt     string  `json:"next_billing_at"`
-	ExpiresAt         string  `json:"expires_at"`
-	Interval          int64   `json:"interval"`
-	IntervalUnit      string  `json:"interval_unit"`
-	AutoCollect       bool    `json:"auto_collect"`
-	CreatedTime       string  `json:"created_time"`
-	UpdatedTime       string  `json:"updated_time"`
-	ReferenceId       string  `json:"reference_id"`
-	SalespersonId     string  `json:"salesperson_id"`
-	SalespersonName   string  `json:"salesperson_name"`
-	ChildInvoiceId    string  `json:"child_invoice_id"`
-	CurrencyCode      string  `json:"currency_code"`
-	CurrencySymbol    string  `json:"currency_symbol"`
-	EndOfTerm         bool    `json:"end_of_term"`
-	ProductId         string  `json:"product_id"`
-	ProductName       string  `json:"product_name"`
-	Plan              struct {
+	SubscriptionId      string  `json:"subscription_id"`
+	Name                string  `json:"name"`
+	Status              string  `json:"status"`
+	Amount              float64 `json:"amount"`
+	CreatedAt           string  `json:"created_at"`
+	ActivatedAt         string  `json:"activated_at"`
+	CurrentTermStartsAt string  `json:"current_term_starts_at"`
+	CurrentTermEndsAt   string  `json:"current_term_ends_at"`
+	LastBillingAt       string  `json:"last_billing_at"`
+	NextBillingAt       string  `json:"next_billing_at"`
+	ExpiresAt           string  `json:"expires_at"`
+	Interval            int64   `json:"interval"`
+	IntervalUnit        string  `json:"interval_unit"`
+	AutoCollect         bool    `json:"auto_collect"`
+	CreatedTime         string  `json:"created_time"`
+	UpdatedTime         string  `json:"updated_time"`
+	ReferenceId         string  `json:"reference_id"`
+	SalespersonId       string  `json:"salesperson_id"`
+	SalespersonName     string  `json:"salesperson_name"`
+	ChildInvoiceId      string  `json:"child_invoice_id"`
+	CurrencyCode        string  `json:"currency_code"`
+	CurrencySymbol      string  `json:"currency_symbol"`
+	EndOfTerm           bool    `json:"end_of_term"`
+	ProductId           string  `json:"product_id"`
+	ProductName         string  `json:"product_name"`
+	Plan                struct {
 		PlanCode        string  `json:"plan_code"`
 		Name            string  `json:"name"`
 		Quantity        int64   `json:"quantity"`
@@ -51,13 +52,23 @@ type Subscription struct {
 		CouponCode     string  `json:"coupon_code"`
 		DiscountAmount float64 `json:"discount_amount"`
 	} `json:"coupon"`
-	Card              struct{}                 `json:"card"`
-	PaymentTerms      int64                    `json:"payment_terms"`
-	PaymentTermsLabel string                   `json:"payment_terms_label"`
-	CanAddBankAccount bool                     `json:"can_add_bank_account"`
-	Customer          Customer                 `json:"customer"`
-	CustomFields      []map[string]interface{} `json:"custom_fields"`
-	Contactpersons    []struct {
+	Card struct {
+		CardId         string `json:"card_id"`
+		LastFourDigits int64  `json:"last_four_digits"`
+		PaymentGateway string `json:"payment_gateway"`
+		ExpiryMonth    int64  `json:"expiry_month"`
+		ExpiryYear     int64  `json:"expiry_year"`
+	} `json:"card"`
+	PaymentTerms      int64    `json:"payment_terms"`
+	PaymentTermsLabel string   `json:"payment_terms_label"`
+	CanAddBankAccount bool     `json:"can_add_bank_account"`
+	Customer          Customer `json:"customer"`
+	CustomFields      []struct {
+		Value    string `json:"value"`
+		Label    string `json:"label"`
+		DataType string `json:"data_type"`
+	} `json:"custom_fields"`
+	Contactpersons []struct {
 		ContactpersonId string `json:"contactperson_id"`
 	} `json:"contactpersons"`
 	Notes []struct {
