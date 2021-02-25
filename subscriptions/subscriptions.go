@@ -40,6 +40,9 @@ func (s *API) ListSubscriptions(status SubscriptionStatus) (data SubscriptionsRe
 		URLParameters: map[string]zoho.Parameter{
 			"filter_by": zoho.Parameter(status),
 		},
+		Headers: map[string]string{
+			ZohoSubscriptionsOriganizationId: s.OrganizationId,
+		},
 	}
 
 	err = s.Zoho.HTTPRequest(&endpoint)
@@ -62,6 +65,9 @@ func (s *API) GetSubscription(id string) (data SubscriptionResponse, err error) 
 		URL:          fmt.Sprintf("https://subscriptions.zoho.%s/api/v1/subscriptions/%s", s.ZohoTLD, id),
 		Method:       zoho.HTTPGet,
 		ResponseData: &SubscriptionResponse{},
+		Headers: map[string]string{
+			ZohoSubscriptionsOriganizationId: s.OrganizationId,
+		},
 	}
 
 	err = s.Zoho.HTTPRequest(&endpoint)
@@ -144,7 +150,7 @@ type Subscription struct {
 	} `json:"coupon"`
 	Card struct {
 		CardId         string `json:"card_id"`
-		LastFourDigits int64  `json:"last_four_digits"`
+		LastFourDigits string `json:"last_four_digits"`
 		PaymentGateway string `json:"payment_gateway"`
 		ExpiryMonth    int64  `json:"expiry_month"`
 		ExpiryYear     int64  `json:"expiry_year"`
@@ -192,6 +198,6 @@ type Address struct {
 	City      string `json:"city"`
 	State     string `json:"state"`
 	Country   string `json:"country"`
-	Zip       int64  `json:"zip"`
-	Fax       int64  `json:"fax"`
+	Zip       string `json:"zip"`
+	Fax       string `json:"fax"`
 }
