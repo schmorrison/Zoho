@@ -29,59 +29,65 @@ const (
 	SubscriptionModeOffline SubscriptionStatus = "SubscriptionMode.OFFLINE"
 )
 
-// ListSubscriptions will return the ist of subscriptions that match the given subscription status.
+// ListSubscriptions will return the list of subscriptions that match the given subscription status.
 // https://www.zoho.com/subscriptions/api/v1/#Subscriptions_List_all_subscriptions
-func (s *API) ListSubscriptions(status SubscriptionStatus) (data SubscriptionsResponce, err error) {
+func (s *API) ListSubscriptions(status SubscriptionStatus) (data SubscriptionsResponse, err error) {
 	endpoint := zoho.Endpoint{
 		Name:         "subscriptions",
 		URL:          fmt.Sprintf("https://subscriptions.zoho.%s/api/v1/subscriptions", s.ZohoTLD),
 		Method:       zoho.HTTPGet,
-		ResponseData: &SubscriptionsResponce{},
+		ResponseData: &SubscriptionsResponse{},
 		URLParameters: map[string]zoho.Parameter{
-			"filter_by": status,
+			"filter_by": zoho.Parameter(status),
 		},
 	}
 
 	err = s.Zoho.HTTPRequest(&endpoint)
 	if err != nil {
-		return SubscriptionsResponce{}, fmt.Errorf("Failed to retrieve subscriptions: %s", err)
+		return SubscriptionsResponse{}, fmt.Errorf("Failed to retrieve subscriptions: %s", err)
 	}
 
-	if v, ok := endpoint.ResponseData.(*SubscriptionsResponce); ok {
+	if v, ok := endpoint.ResponseData.(*SubscriptionsResponse); ok {
 		return *v, nil
 	}
 
-	return SubscriptionsResponce{}, fmt.Errorf("Data retrieved was not 'SubscriptionsResponce'")
+	return SubscriptionsResponse{}, fmt.Errorf("Data retrieved was not 'SubscriptionsResponse'")
 }
 
 // GetSubscription will return the subscription specified by id
 // https://www.zoho.com/subscriptions/api/v1/#Subscriptions_Retrieve_a_subscription
-func (s *API) GetSubscription(id string) (data SubscriptionResponce, err error) {
+func (s *API) GetSubscription(id string) (data SubscriptionResponse, err error) {
 	endpoint := zoho.Endpoint{
 		Name:         "subscriptions",
 		URL:          fmt.Sprintf("https://subscriptions.zoho.%s/api/v1/subscriptions/%s", s.ZohoTLD, id),
 		Method:       zoho.HTTPGet,
-		ResponseData: &SubscriptionResponce{},
+		ResponseData: &SubscriptionResponse{},
 	}
 
 	err = s.Zoho.HTTPRequest(&endpoint)
 	if err != nil {
-		return SubscriptionResponce{}, fmt.Errorf("Failed to retrieve user (%s): %s", id, err)
+		return SubscriptionResponse{}, fmt.Errorf("Failed to retrieve user (%s): %s", id, err)
 	}
 
-	if v, ok := endpoint.ResponseData.(*SubscriptionResponce); ok {
+	if v, ok := endpoint.ResponseData.(*SubscriptionResponse); ok {
 		return *v, nil
 	}
 
-	return SubscriptionResponce{}, fmt.Errorf("Data retrieved was not 'SubscriptionResponce'")
+	return SubscriptionResponse{}, fmt.Errorf("Data retrieved was not 'SubscriptionResponse'")
 }
 
-type SubscriptionsResponce struct {
+//type SubscriptionsResponse map[string]interface{}
+
+type SubscriptionsResponse struct {
 	Subscriptions []Subscription `json:"subscriptions"`
+	Code          int64          `json:"code"`
+	Message       string         `json:success"`
 }
 
-type SubscriptionResponce struct {
+type SubscriptionResponse struct {
 	Subscription Subscription `json:"subscription"`
+	Code         int64        `json:"code"`
+	Message      string       `json:success"`
 }
 
 type Subscription struct {
