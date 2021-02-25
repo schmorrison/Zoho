@@ -155,16 +155,12 @@ type Subscription struct {
 		ExpiryMonth    int64  `json:"expiry_month"`
 		ExpiryYear     int64  `json:"expiry_year"`
 	} `json:"card"`
-	PaymentTerms      int64    `json:"payment_terms"`
-	PaymentTermsLabel string   `json:"payment_terms_label"`
-	CanAddBankAccount bool     `json:"can_add_bank_account"`
-	Customer          Customer `json:"customer"`
-	CustomFields      []struct {
-		Value    string `json:"value"`
-		Label    string `json:"label"`
-		DataType string `json:"data_type"`
-	} `json:"custom_fields"`
-	Contactpersons []struct {
+	PaymentTerms      int64         `json:"payment_terms"`
+	PaymentTermsLabel string        `json:"payment_terms_label"`
+	CanAddBankAccount bool          `json:"can_add_bank_account"`
+	Customer          Customer      `json:"customer"`
+	CustomFields      []CustomField `json:"custom_fields"`
+	Contactpersons    []struct {
 		ContactpersonId string `json:"contactperson_id"`
 	} `json:"contactpersons"`
 	Notes []struct {
@@ -200,4 +196,11 @@ type Address struct {
 	Country   string `json:"country"`
 	Zip       string `json:"zip"`
 	Fax       string `json:"fax"`
+}
+
+type CustomField struct {
+	Index    int64  `json:"index"`
+	Value    string `json:"value"`
+	Label    string `json:"label"`
+	DataType string `json:"data_type"`
 }
