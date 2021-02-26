@@ -82,18 +82,16 @@ func (s *API) GetSubscription(id string) (data SubscriptionResponse, err error) 
 	return SubscriptionResponse{}, fmt.Errorf("Data retrieved was not 'SubscriptionResponse'")
 }
 
-//type SubscriptionsResponse map[string]interface{}
-
 type SubscriptionsResponse struct {
 	Subscriptions []Subscription `json:"subscriptions"`
 	Code          int64          `json:"code"`
-	Message       string         `json:success"`
+	Message       string         `json:"success"`
 }
 
 type SubscriptionResponse struct {
 	Subscription Subscription `json:"subscription"`
 	Code         int64        `json:"code"`
-	Message      string       `json:success"`
+	Message      string       `json:"success"`
 }
 
 type Subscription struct {

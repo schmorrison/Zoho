@@ -73,16 +73,18 @@ func (s *API) GetInvoice(id string) (data InvoiceResponse, err error) {
 	return InvoiceResponse{}, fmt.Errorf("Data retrieved was not 'InvoiceResponse'")
 }
 
+//type InvoiceResponse map[string]interface{}
+
 type InvoicesResponse struct {
-	Invoices []Invoice `json:"subscriptions"`
+	Invoices []Invoice `json:"invoices"`
 	Code     int64     `json:"code"`
-	Message  string    `json:success"`
+	Message  string    `json:"success"`
 }
 
 type InvoiceResponse struct {
-	Invoice Invoice `json:"subscription"`
+	Invoice Invoice `json:"invoice"`
 	Code    int64   `json:"code"`
-	Message string  `json:success"`
+	Message string  `json:"success"`
 }
 
 type Invoice struct {
@@ -132,7 +134,7 @@ type InvoiceItem struct {
 	Price            float64       `json:"price"`
 	Quantity         int64         `json:"quantity"`
 	DiscountAmount   float64       `json:"discount_amount"`
-	ItemTotal        int64         `json:"item_total"`
+	ItemTotal        float64       `json:"item_total"`
 	TaxId            string        `json:"tax_id"`
 	TaxExemptionId   string        `json:"tax_exemption_id"`
 	TaxExemptionCode string        `json:"tax_exemption_code"`
