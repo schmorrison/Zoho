@@ -24,7 +24,7 @@ const (
 // https://www.zoho.com/subscriptions/api/v1/#Invoices_List_all_invoices
 func (s *API) ListInvoices(status InvoiceStatus) (data InvoicesResponse, err error) {
 	endpoint := zoho.Endpoint{
-		Name:         "subscriptions",
+		Name:         "invoices",
 		URL:          fmt.Sprintf("https://subscriptions.zoho.%s/api/v1/invoices", s.ZohoTLD),
 		Method:       zoho.HTTPGet,
 		ResponseData: &InvoicesResponse{},
@@ -38,7 +38,7 @@ func (s *API) ListInvoices(status InvoiceStatus) (data InvoicesResponse, err err
 
 	err = s.Zoho.HTTPRequest(&endpoint)
 	if err != nil {
-		return InvoicesResponse{}, fmt.Errorf("Failed to retrieve subscriptions: %s", err)
+		return InvoicesResponse{}, fmt.Errorf("Failed to retrieve invoices: %s", err)
 	}
 
 	if v, ok := endpoint.ResponseData.(*InvoicesResponse); ok {
@@ -52,7 +52,7 @@ func (s *API) ListInvoices(status InvoiceStatus) (data InvoicesResponse, err err
 // https://www.zoho.com/subscriptions/api/v1/#Invoices_Retrieve_a_subscription
 func (s *API) GetInvoice(id string) (data InvoiceResponse, err error) {
 	endpoint := zoho.Endpoint{
-		Name:         "subscriptions",
+		Name:         "invoices",
 		URL:          fmt.Sprintf("https://subscriptions.zoho.%s/api/v1/invoices/%s", s.ZohoTLD, id),
 		Method:       zoho.HTTPGet,
 		ResponseData: &InvoiceResponse{},
@@ -63,7 +63,7 @@ func (s *API) GetInvoice(id string) (data InvoiceResponse, err error) {
 
 	err = s.Zoho.HTTPRequest(&endpoint)
 	if err != nil {
-		return InvoiceResponse{}, fmt.Errorf("Failed to retrieve user (%s): %s", id, err)
+		return InvoiceResponse{}, fmt.Errorf("Failed to retrieve invoice (%s): %s", id, err)
 	}
 
 	if v, ok := endpoint.ResponseData.(*InvoiceResponse); ok {

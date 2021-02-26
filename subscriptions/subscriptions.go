@@ -72,7 +72,7 @@ func (s *API) GetSubscription(id string) (data SubscriptionResponse, err error) 
 
 	err = s.Zoho.HTTPRequest(&endpoint)
 	if err != nil {
-		return SubscriptionResponse{}, fmt.Errorf("Failed to retrieve user (%s): %s", id, err)
+		return SubscriptionResponse{}, fmt.Errorf("Failed to retrieve subscription (%s): %s", id, err)
 	}
 
 	if v, ok := endpoint.ResponseData.(*SubscriptionResponse); ok {
