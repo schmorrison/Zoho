@@ -82,6 +82,52 @@ func (s *API) GetSubscription(id string) (data SubscriptionResponse, err error) 
 	return SubscriptionResponse{}, fmt.Errorf("Data retrieved was not 'SubscriptionResponse'")
 }
 
+// CreateSubscription creates new subscription
+// https://www.zoho.com/subscriptions/api/v1/#Subscriptions_Create_a_subscription
+func (s *API) CreateSubscription(request Subscription) (data SubscriptionResponse, err error) {
+	endpoint := zoho.Endpoint{
+		Name:         "subscriptions",
+		URL:          fmt.Sprintf("https://subscriptions.zoho.%s/api/v1/subscriptions", s.ZohoTLD),
+		Method:       zoho.HTTPPost,
+		ResponseData: &SubscriptionResponse{},
+		RequestBody:  request,
+	}
+
+	err = s.Zoho.HTTPRequest(&endpoint)
+	if err != nil {
+		return SubscriptionResponse{}, fmt.Errorf("Failed to create subscription: %s", err)
+	}
+
+	if v, ok := endpoint.ResponseData.(*SubscriptionResponse); ok {
+		return *v, nil
+	}
+
+	return SubscriptionResponse{}, fmt.Errorf("Data returned was nil")
+}
+
+// UpdateSubscription will modify subscription by the data provided to request
+// https://www.zoho.com/subscriptions/api/v1/#Subscriptions_Update_a_subscription
+func (s *API) UpdateSubscription(request Subscription) (data SubscriptionResponse, err error) {
+	endpoint := zoho.Endpoint{
+		Name:         "subscriptions",
+		URL:          fmt.Sprintf("https://subscriptions.zoho.%s/api/v1/subscriptions/%s", s.ZohoTLD, request.SubscriptionId),
+		Method:       zoho.HTTPPut,
+		ResponseData: &SubscriptionResponse{},
+		RequestBody:  request,
+	}
+
+	err = s.Zoho.HTTPRequest(&endpoint)
+	if err != nil {
+		return SubscriptionResponse{}, fmt.Errorf("Failed to update subscription: %s", err)
+	}
+
+	if v, ok := endpoint.ResponseData.(*SubscriptionResponse); ok {
+		return *v, nil
+	}
+
+	return SubscriptionResponse{}, fmt.Errorf("Data returned was nil")
+}
+
 type SubscriptionsResponse struct {
 	Subscriptions []Subscription `json:"subscriptions"`
 	Code          int64          `json:"code"`
