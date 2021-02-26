@@ -78,13 +78,13 @@ func (s *API) GetInvoice(id string) (data InvoiceResponse, err error) {
 type InvoicesResponse struct {
 	Invoices []Invoice `json:"invoices"`
 	Code     int64     `json:"code"`
-	Message  string    `json:"success"`
+	Message  string    `json:"message"`
 }
 
 type InvoiceResponse struct {
 	Invoice Invoice `json:"invoice"`
 	Code    int64   `json:"code"`
-	Message string  `json:"success"`
+	Message string  `json:"message"`
 }
 
 type Invoice struct {

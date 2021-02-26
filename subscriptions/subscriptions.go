@@ -91,6 +91,9 @@ func (s *API) CreateSubscription(request Subscription) (data SubscriptionRespons
 		Method:       zoho.HTTPPost,
 		ResponseData: &SubscriptionResponse{},
 		RequestBody:  request,
+		Headers: map[string]string{
+			ZohoSubscriptionsOriganizationId: s.OrganizationId,
+		},
 	}
 
 	err = s.Zoho.HTTPRequest(&endpoint)
@@ -107,13 +110,16 @@ func (s *API) CreateSubscription(request Subscription) (data SubscriptionRespons
 
 // UpdateSubscription will modify subscription by the data provided to request
 // https://www.zoho.com/subscriptions/api/v1/#Subscriptions_Update_a_subscription
-func (s *API) UpdateSubscription(request Subscription) (data SubscriptionResponse, err error) {
+func (s *API) UpdateSubscription(request SubscriptionUpdate, ID string) (data SubscriptionResponse, err error) {
 	endpoint := zoho.Endpoint{
 		Name:         "subscriptions",
-		URL:          fmt.Sprintf("https://subscriptions.zoho.%s/api/v1/subscriptions/%s", s.ZohoTLD, request.SubscriptionId),
+		URL:          fmt.Sprintf("https://subscriptions.zoho.%s/api/v1/subscriptions/%s", s.ZohoTLD, ID),
 		Method:       zoho.HTTPPut,
 		ResponseData: &SubscriptionResponse{},
 		RequestBody:  request,
+		Headers: map[string]string{
+			ZohoSubscriptionsOriganizationId: s.OrganizationId,
+		},
 	}
 
 	err = s.Zoho.HTTPRequest(&endpoint)
@@ -128,16 +134,64 @@ func (s *API) UpdateSubscription(request Subscription) (data SubscriptionRespons
 	return SubscriptionResponse{}, fmt.Errorf("Data returned was nil")
 }
 
+// DeleteSubscription will delete subscription by id
+// https://www.zoho.com/subscriptions/api/v1/#Subscriptions_Delete_a_subscription
+func (s *API) DeleteSubscription(ID string) (data SubscriptionDeleteResponse, err error) {
+	endpoint := zoho.Endpoint{
+		Name:         "subscriptions",
+		URL:          fmt.Sprintf("https://subscriptions.zoho.%s/api/v1/subscriptions/%s", s.ZohoTLD, ID),
+		Method:       zoho.HTTPDelete,
+		ResponseData: &SubscriptionDeleteResponse{},
+		Headers: map[string]string{
+			ZohoSubscriptionsOriganizationId: s.OrganizationId,
+		},
+	}
+
+	err = s.Zoho.HTTPRequest(&endpoint)
+	if err != nil {
+		return SubscriptionDeleteResponse{}, fmt.Errorf("Failed to delete subscription %s: %s", ID, err)
+	}
+
+	if v, ok := endpoint.ResponseData.(*SubscriptionDeleteResponse); ok {
+		return *v, nil
+	}
+
+	return SubscriptionDeleteResponse{}, fmt.Errorf("Data returned was nil")
+}
+
 type SubscriptionsResponse struct {
 	Subscriptions []Subscription `json:"subscriptions"`
 	Code          int64          `json:"code"`
-	Message       string         `json:"success"`
+	Message       string         `json:"message"`
 }
 
 type SubscriptionResponse struct {
 	Subscription Subscription `json:"subscription"`
 	Code         int64        `json:"code"`
-	Message      string       `json:"success"`
+	Message      string       `json:"message"`
+}
+
+type SubscriptionDeleteResponse struct {
+	Code    int64  `json:"code"`
+	Message string `json:"message"`
+}
+
+type SubscriptionUpdate struct {
+	Plan              Plan             `json:"plan,omitempty"`
+	Addons            []Addon          `json:"addons,omitempty"`
+	ExchangeRate      float64          `json:"exchange_rate,omitempty"`
+	AutoCollect       bool             `json:"auto_collect,omitempty"`
+	ReferenceId       string           `json:"reference_id,omitempty"`
+	SalespersonId     string           `json:"salesperson_id,omitempty"`
+	SalespersonName   string           `json:"salesperson_name,omitempty"`
+	EndOfTerm         bool             `json:"end_of_term,omitempty"`
+	CouponCode        string           `json:"coupon_code,omitempty"`
+	PaymentTerms      int64            `json:"payment_terms,omitempty"`
+	PaymentTermsLabel string           `json:"payment_terms_label,omitempty"`
+	PaymentGateways   []PaymentGateway `json:"payment_gateways,omitempty"`
+	CustomFields      []CustomField    `json:"custom_fields,omitempty"`
+	Contactpersons    []ContactPerson  `json:"contactpersons,omitempty"`
+	TemplateId        string           `json:"template_id,omitempty"`
 }
 
 type Subscription struct {
@@ -166,29 +220,9 @@ type Subscription struct {
 	EndOfTerm           bool    `json:"end_of_term,omitempty"`
 	ProductId           string  `json:"product_id,omitempty"`
 	ProductName         string  `json:"product_name,omitempty"`
-	Plan                struct {
-		PlanCode        string  `json:"plan_code,omitempty"`
-		Name            string  `json:"name,omitempty"`
-		Quantity        int64   `json:"quantity,omitempty"`
-		Price           float64 `json:"price,omitempty"`
-		Discount        float64 `json:"discount,omitempty"`
-		Total           float64 `json:"total,omitempty"`
-		SetupFee        float64 `json:"setup_fee,omitempty"`
-		PlanDescription string  `json:"plan_description,omitempty"`
-		TaxId           string  `json:"tax_id,omitempty"`
-		TrialDays       int64   `json:"trial_days,omitempty"`
-	} `json:"plan,omitempty"`
-	Addons []struct {
-		AddonCode        string  `json:"addon_code,omitempty"`
-		Name             string  `json:"name,omitempty"`
-		AddonDescription string  `json:"addon_description,omitempty"`
-		Quantity         int64   `json:"quantity,omitempty"`
-		Price            float64 `json:"price,omitempty"`
-		Discount         float64 `json:"discount,omitempty"`
-		Total            float64 `json:"total,omitempty"`
-		TaxId            string  `json:"tax_id,omitempty"`
-	} `json:"addons,omitempty"`
-	Coupon struct {
+	Plan                Plan    `json:"plan,omitempty"`
+	Addons              []Addon `json:"addons,omitempty"`
+	Coupon              struct {
 		CouponCode     string  `json:"coupon_code,omitempty"`
 		DiscountAmount float64 `json:"discount_amount,omitempty"`
 	} `json:"coupon,omitempty"`
@@ -199,27 +233,49 @@ type Subscription struct {
 		ExpiryMonth    int64  `json:"expiry_month,omitempty"`
 		ExpiryYear     int64  `json:"expiry_year,omitempty"`
 	} `json:"card,omitempty"`
-	PaymentTerms      int64         `json:"payment_terms,omitempty"`
-	PaymentTermsLabel string        `json:"payment_terms_label,omitempty"`
-	CanAddBankAccount bool          `json:"can_add_bank_account,omitempty"`
-	Customer          Customer      `json:"customer,omitempty"`
-	CustomFields      []CustomField `json:"custom_fields,omitempty"`
-	Contactpersons    []struct {
-		ContactpersonId string `json:"contactperson_id,omitempty"`
-	} `json:"contactpersons,omitempty"`
-	Notes []struct {
+	PaymentTerms      int64           `json:"payment_terms,omitempty"`
+	PaymentTermsLabel string          `json:"payment_terms_label,omitempty"`
+	CanAddBankAccount bool            `json:"can_add_bank_account,omitempty"`
+	Customer          Customer        `json:"customer,omitempty"`
+	CustomFields      []CustomField   `json:"custom_fields,omitempty"`
+	Contactpersons    []ContactPerson `json:"contactpersons,omitempty"`
+	Notes             []struct {
 		NoteId        string `json:"note_id,omitempty"`
 		Description   string `json:"description,omitempty"`
 		CommentedBy   string `json:"commented_by,omitempty"`
 		CommentedTime string `json:"commented_time,omitempty"`
 	} `json:"notes,omitempty"`
-	PaymentGateways []struct {
-		PaymentGateway string `json:"payment_gateway,omitempty"`
-	} `json:"payment_gateways,omitempty"`
+	PaymentGateways        []PaymentGateway `json:"payment_gateways,omitempty"`
+	CreateBackdatedInvoice bool             `json:"create_backdated_invoice,omitempty"`
+	TemplateId             string           `json:"template_id,omitempty"`
+}
+
+type Addon struct {
+	AddonCode        string  `json:"addon_code,omitempty"`
+	Name             string  `json:"name,omitempty"`
+	AddonDescription string  `json:"addon_description,omitempty"`
+	Quantity         int64   `json:"quantity,omitempty"`
+	Price            float64 `json:"price,omitempty"`
+	Discount         float64 `json:"discount,omitempty"`
+	Total            float64 `json:"total,omitempty"`
+	TaxId            string  `json:"tax_id,omitempty"`
+}
+
+type Plan struct {
+	PlanCode        string  `json:"plan_code,omitempty"`
+	Name            string  `json:"name,omitempty"`
+	Quantity        int64   `json:"quantity,omitempty"`
+	Price           float64 `json:"price,omitempty"`
+	Discount        float64 `json:"discount,omitempty"`
+	Total           float64 `json:"total,omitempty"`
+	SetupFee        float64 `json:"setup_fee,omitempty"`
+	PlanDescription string  `json:"plan_description,omitempty"`
+	TaxId           string  `json:"tax_id,omitempty"`
+	TrialDays       int64   `json:"trial_days,omitempty"`
 }
 
 type Customer struct {
-	SubscriptionId    string  `json:"customer_id,omitempty"`
+	CustomerId        string  `json:"customer_id,omitempty"`
 	Name              string  `json:"display_name,omitempty"`
 	Salutation        string  `json:"salutation,omitempty"`
 	FirstName         string  `json:"first_name,omitempty"`
@@ -247,4 +303,12 @@ type CustomField struct {
 	Value    string `json:"value,omitempty"`
 	Label    string `json:"label,omitempty"`
 	DataType string `json:"data_type,omitempty"`
+}
+
+type ContactPerson struct {
+	ContactpersonId string `json:"contactperson_id,omitempty"`
+}
+
+type PaymentGateway struct {
+	PaymentGateway string `json:"payment_gateway,omitempty"`
 }
