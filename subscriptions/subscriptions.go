@@ -95,110 +95,110 @@ type SubscriptionResponse struct {
 }
 
 type Subscription struct {
-	SubscriptionId      string  `json:"subscription_id"`
-	Name                string  `json:"name"`
-	Status              string  `json:"status"`
-	Amount              float64 `json:"amount"`
-	CreatedAt           string  `json:"created_at"`
-	ActivatedAt         string  `json:"activated_at"`
-	CurrentTermStartsAt string  `json:"current_term_starts_at"`
-	CurrentTermEndsAt   string  `json:"current_term_ends_at"`
-	LastBillingAt       string  `json:"last_billing_at"`
-	NextBillingAt       string  `json:"next_billing_at"`
-	ExpiresAt           string  `json:"expires_at"`
-	Interval            int64   `json:"interval"`
-	IntervalUnit        string  `json:"interval_unit"`
-	AutoCollect         bool    `json:"auto_collect"`
-	CreatedTime         string  `json:"created_time"`
-	UpdatedTime         string  `json:"updated_time"`
-	ReferenceId         string  `json:"reference_id"`
-	SalespersonId       string  `json:"salesperson_id"`
-	SalespersonName     string  `json:"salesperson_name"`
-	ChildInvoiceId      string  `json:"child_invoice_id"`
-	CurrencyCode        string  `json:"currency_code"`
-	CurrencySymbol      string  `json:"currency_symbol"`
-	EndOfTerm           bool    `json:"end_of_term"`
-	ProductId           string  `json:"product_id"`
-	ProductName         string  `json:"product_name"`
+	SubscriptionId      string  `json:"subscription_id,omitempty"`
+	Name                string  `json:"name,omitempty"`
+	Status              string  `json:"status,omitempty"`
+	Amount              float64 `json:"amount,omitempty"`
+	CreatedAt           string  `json:"created_at,omitempty"`
+	ActivatedAt         string  `json:"activated_at,omitempty"`
+	CurrentTermStartsAt string  `json:"current_term_starts_at,omitempty"`
+	CurrentTermEndsAt   string  `json:"current_term_ends_at,omitempty"`
+	LastBillingAt       string  `json:"last_billing_at,omitempty"`
+	NextBillingAt       string  `json:"next_billing_at,omitempty"`
+	ExpiresAt           string  `json:"expires_at,omitempty"`
+	Interval            int64   `json:"interval,omitempty"`
+	IntervalUnit        string  `json:"interval_unit,omitempty"`
+	AutoCollect         bool    `json:"auto_collect,omitempty"`
+	CreatedTime         string  `json:"created_time,omitempty"`
+	UpdatedTime         string  `json:"updated_time,omitempty"`
+	ReferenceId         string  `json:"reference_id,omitempty"`
+	SalespersonId       string  `json:"salesperson_id,omitempty"`
+	SalespersonName     string  `json:"salesperson_name,omitempty"`
+	ChildInvoiceId      string  `json:"child_invoice_id,omitempty"`
+	CurrencyCode        string  `json:"currency_code,omitempty"`
+	CurrencySymbol      string  `json:"currency_symbol,omitempty"`
+	EndOfTerm           bool    `json:"end_of_term,omitempty"`
+	ProductId           string  `json:"product_id,omitempty"`
+	ProductName         string  `json:"product_name,omitempty"`
 	Plan                struct {
-		PlanCode        string  `json:"plan_code"`
-		Name            string  `json:"name"`
-		Quantity        int64   `json:"quantity"`
-		Price           float64 `json:"price"`
-		Discount        float64 `json:"discount"`
-		Total           float64 `json:"total"`
-		SetupFee        float64 `json:"setup_fee"`
-		PlanDescription string  `json:"plan_description"`
-		TaxId           string  `json:"tax_id"`
-		TrialDays       int64   `json:"trial_days"`
-	} `json:"plan"`
+		PlanCode        string  `json:"plan_code,omitempty"`
+		Name            string  `json:"name,omitempty"`
+		Quantity        int64   `json:"quantity,omitempty"`
+		Price           float64 `json:"price,omitempty"`
+		Discount        float64 `json:"discount,omitempty"`
+		Total           float64 `json:"total,omitempty"`
+		SetupFee        float64 `json:"setup_fee,omitempty"`
+		PlanDescription string  `json:"plan_description,omitempty"`
+		TaxId           string  `json:"tax_id,omitempty"`
+		TrialDays       int64   `json:"trial_days,omitempty"`
+	} `json:"plan,omitempty"`
 	Addons []struct {
-		AddonCode        string  `json:"addon_code"`
-		Name             string  `json:"name"`
-		AddonDescription string  `json:"addon_description"`
-		Quantity         int64   `json:"quantity"`
-		Price            float64 `json:"price"`
-		Discount         float64 `json:"discount"`
-		Total            float64 `json:"total"`
-		TaxId            string  `json:"tax_id"`
-	} `json:"addons"`
+		AddonCode        string  `json:"addon_code,omitempty"`
+		Name             string  `json:"name,omitempty"`
+		AddonDescription string  `json:"addon_description,omitempty"`
+		Quantity         int64   `json:"quantity,omitempty"`
+		Price            float64 `json:"price,omitempty"`
+		Discount         float64 `json:"discount,omitempty"`
+		Total            float64 `json:"total,omitempty"`
+		TaxId            string  `json:"tax_id,omitempty"`
+	} `json:"addons,omitempty"`
 	Coupon struct {
-		CouponCode     string  `json:"coupon_code"`
-		DiscountAmount float64 `json:"discount_amount"`
-	} `json:"coupon"`
+		CouponCode     string  `json:"coupon_code,omitempty"`
+		DiscountAmount float64 `json:"discount_amount,omitempty"`
+	} `json:"coupon,omitempty"`
 	Card struct {
-		CardId         string `json:"card_id"`
-		LastFourDigits string `json:"last_four_digits"`
-		PaymentGateway string `json:"payment_gateway"`
-		ExpiryMonth    int64  `json:"expiry_month"`
-		ExpiryYear     int64  `json:"expiry_year"`
-	} `json:"card"`
-	PaymentTerms      int64         `json:"payment_terms"`
-	PaymentTermsLabel string        `json:"payment_terms_label"`
-	CanAddBankAccount bool          `json:"can_add_bank_account"`
-	Customer          Customer      `json:"customer"`
-	CustomFields      []CustomField `json:"custom_fields"`
+		CardId         string `json:"card_id,omitempty"`
+		LastFourDigits string `json:"last_four_digits,omitempty"`
+		PaymentGateway string `json:"payment_gateway,omitempty"`
+		ExpiryMonth    int64  `json:"expiry_month,omitempty"`
+		ExpiryYear     int64  `json:"expiry_year,omitempty"`
+	} `json:"card,omitempty"`
+	PaymentTerms      int64         `json:"payment_terms,omitempty"`
+	PaymentTermsLabel string        `json:"payment_terms_label,omitempty"`
+	CanAddBankAccount bool          `json:"can_add_bank_account,omitempty"`
+	Customer          Customer      `json:"customer,omitempty"`
+	CustomFields      []CustomField `json:"custom_fields,omitempty"`
 	Contactpersons    []struct {
-		ContactpersonId string `json:"contactperson_id"`
-	} `json:"contactpersons"`
+		ContactpersonId string `json:"contactperson_id,omitempty"`
+	} `json:"contactpersons,omitempty"`
 	Notes []struct {
-		NoteId        string `json:"note_id"`
-		Description   string `json:"description"`
-		CommentedBy   string `json:"commented_by"`
-		CommentedTime string `json:"commented_time"`
-	} `json:"notes"`
+		NoteId        string `json:"note_id,omitempty"`
+		Description   string `json:"description,omitempty"`
+		CommentedBy   string `json:"commented_by,omitempty"`
+		CommentedTime string `json:"commented_time,omitempty"`
+	} `json:"notes,omitempty"`
 	PaymentGateways []struct {
-		PaymentGateway string `json:"payment_gateway"`
-	} `json:"payment_gateways"`
+		PaymentGateway string `json:"payment_gateway,omitempty"`
+	} `json:"payment_gateways,omitempty"`
 }
 
 type Customer struct {
-	SubscriptionId    string  `json:"customer_id"`
-	Name              string  `json:"display_name"`
-	Salutation        string  `json:"salutation"`
-	FirstName         string  `json:"first_name"`
-	LastName          string  `json:"last_name"`
-	Email             string  `json:"email"`
-	CompanyName       string  `json:"company_name"`
-	BillingAddress    Address `json:"billing_address"`
-	ShippingAddress   Address `json:"shipping_address"`
-	PaymentTerms      int64   `json:"payment_terms"`
-	PaymentTermsLabel string  `json:"payment_terms_label"`
+	SubscriptionId    string  `json:"customer_id,omitempty"`
+	Name              string  `json:"display_name,omitempty"`
+	Salutation        string  `json:"salutation,omitempty"`
+	FirstName         string  `json:"first_name,omitempty"`
+	LastName          string  `json:"last_name,omitempty"`
+	Email             string  `json:"email,omitempty"`
+	CompanyName       string  `json:"company_name,omitempty"`
+	BillingAddress    Address `json:"billing_address,omitempty"`
+	ShippingAddress   Address `json:"shipping_address,omitempty"`
+	PaymentTerms      int64   `json:"payment_terms,omitempty"`
+	PaymentTermsLabel string  `json:"payment_terms_label,omitempty"`
 }
 
 type Address struct {
-	Attention string `json:"attention"`
-	Street    string `json:"street"`
-	City      string `json:"city"`
-	State     string `json:"state"`
-	Country   string `json:"country"`
-	Zip       string `json:"zip"`
-	Fax       string `json:"fax"`
+	Attention string `json:"attention,omitempty"`
+	Street    string `json:"street,omitempty"`
+	City      string `json:"city,omitempty"`
+	State     string `json:"state,omitempty"`
+	Country   string `json:"country,omitempty"`
+	Zip       string `json:"zip,omitempty"`
+	Fax       string `json:"fax,omitempty"`
 }
 
 type CustomField struct {
-	Index    int64  `json:"index"`
-	Value    string `json:"value"`
-	Label    string `json:"label"`
-	DataType string `json:"data_type"`
+	Index    int64  `json:"index,omitempty"`
+	Value    string `json:"value,omitempty"`
+	Label    string `json:"label,omitempty"`
+	DataType string `json:"data_type,omitempty"`
 }
