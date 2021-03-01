@@ -111,6 +111,10 @@ func (s *API) CreateSubscription(request SubscriptionCreate) (data SubscriptionR
 // UpdateSubscription will modify subscription by the data provided to request
 // https://www.zoho.com/subscriptions/api/v1/#Subscriptions_Update_a_subscription
 func (s *API) UpdateSubscription(request SubscriptionUpdate, ID string) (data SubscriptionResponse, err error) {
+	if request.Plan.PlanCode == "" {
+		return SubscriptionResponse{}, fmt.Errorf("request.Plan.PlanCode is a required field")
+	}
+
 	endpoint := zoho.Endpoint{
 		Name:         "subscriptions",
 		URL:          fmt.Sprintf("https://subscriptions.zoho.%s/api/v1/subscriptions/%s", s.ZohoTLD, ID),
