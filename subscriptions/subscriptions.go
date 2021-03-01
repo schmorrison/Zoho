@@ -41,7 +41,7 @@ func (s *API) ListSubscriptions(status SubscriptionStatus) (data SubscriptionsRe
 			"filter_by": zoho.Parameter(status),
 		},
 		Headers: map[string]string{
-			ZohoSubscriptionsOriganizationId: s.OrganizationId,
+			ZohoSubscriptionsOriganizationID: s.OrganizationID,
 		},
 	}
 
@@ -66,7 +66,7 @@ func (s *API) GetSubscription(id string) (data SubscriptionResponse, err error) 
 		Method:       zoho.HTTPGet,
 		ResponseData: &SubscriptionResponse{},
 		Headers: map[string]string{
-			ZohoSubscriptionsOriganizationId: s.OrganizationId,
+			ZohoSubscriptionsOriganizationID: s.OrganizationID,
 		},
 	}
 
@@ -84,7 +84,7 @@ func (s *API) GetSubscription(id string) (data SubscriptionResponse, err error) 
 
 // CreateSubscription creates new subscription
 // https://www.zoho.com/subscriptions/api/v1/#Subscriptions_Create_a_subscription
-func (s *API) CreateSubscription(request Subscription) (data SubscriptionResponse, err error) {
+func (s *API) CreateSubscription(request SubscriptionCreate) (data SubscriptionResponse, err error) {
 	endpoint := zoho.Endpoint{
 		Name:         "subscriptions",
 		URL:          fmt.Sprintf("https://subscriptions.zoho.%s/api/v1/subscriptions", s.ZohoTLD),
@@ -92,7 +92,7 @@ func (s *API) CreateSubscription(request Subscription) (data SubscriptionRespons
 		ResponseData: &SubscriptionResponse{},
 		RequestBody:  request,
 		Headers: map[string]string{
-			ZohoSubscriptionsOriganizationId: s.OrganizationId,
+			ZohoSubscriptionsOriganizationID: s.OrganizationID,
 		},
 	}
 
@@ -118,7 +118,7 @@ func (s *API) UpdateSubscription(request SubscriptionUpdate, ID string) (data Su
 		ResponseData: &SubscriptionResponse{},
 		RequestBody:  request,
 		Headers: map[string]string{
-			ZohoSubscriptionsOriganizationId: s.OrganizationId,
+			ZohoSubscriptionsOriganizationID: s.OrganizationID,
 		},
 	}
 
@@ -143,7 +143,7 @@ func (s *API) DeleteSubscription(ID string) (data SubscriptionDeleteResponse, er
 		Method:       zoho.HTTPDelete,
 		ResponseData: &SubscriptionDeleteResponse{},
 		Headers: map[string]string{
-			ZohoSubscriptionsOriganizationId: s.OrganizationId,
+			ZohoSubscriptionsOriganizationID: s.OrganizationID,
 		},
 	}
 
@@ -176,26 +176,126 @@ type SubscriptionDeleteResponse struct {
 	Message string `json:"message"`
 }
 
+type SubscriptionCreate struct {
+	AddToUnbilledCharges bool   `json:"add_to_unbilled_charges,omitempty"`
+	CustomerID           string `json:"customer_id,omitempty"`
+	Customer             struct {
+		DisplayName       string        `json:"display_name,omitempty"`
+		Salutation        string        `json:"salutation,omitempty"`
+		FirstName         string        `json:"first_name,omitempty"`
+		LastName          string        `json:"last_name,omitempty"`
+		Email             string        `json:"email,omitempty"`
+		CompanyName       string        `json:"company_name,omitempty"`
+		BillingAddress    Address       `json:"billing_address,omitempty"`
+		ShippingAddress   Address       `json:"shipping_address,omitempty"`
+		PaymentTerms      int64         `json:"payment_terms,omitempty"`
+		PaymentTermsLabel string        `json:"payment_terms_label,omitempty"`
+		CustomFields      []CustomField `json:"custom_fields,omitempty"`
+		PlaceOfContact    string        `json:"place_of_contact,omitempty"`
+		GstNo             string        `json:"gst_no,omitempty"`
+		GstTreatment      string        `json:"gst_treatment,omitempty"`
+		VatTreatment      string        `json:"vat_treatment,omitempty"`
+		VatRegNo          int64         `json:"vat_reg_no,omitempty"`
+		CountryCode       string        `json:"country_code,omitempty"`
+		IsTaxable         bool          `json:"is_taxable,omitempty"`
+		TaxID             string        `json:"tax_id,omitempty"`
+		TaxAuthorityID    string        `json:"tax_authority_id,omitempty"`
+		TaxAuthorityName  string        `json:"tax_authority_name,omitempty"`
+		TaxExemptionID    string        `json:"tax_exemption_id,omitempty"`
+		TaxExemptionCode  string        `json:"tax_exemption_code,omitempty"`
+	} `json:"customer,omitempty"`
+	PaymentTerms      int64         `json:"payment_terms,omitempty"`
+	PaymentTermsLabel string        `json:"payment_terms_label,omitempty"`
+	CustomFields      []CustomField `json:"custom_fields,omitempty"`
+	Contactpersons    []struct {
+		ContactpersonID string `json:"contactperson_id,omitempty"`
+	} `json:"contactpersons,omitempty"`
+	StartsAt      string `json:"starts_at,omitempty"`
+	ExchangeRate  int64  `json:"exchange_rate,omitempty"`
+	PlaceOfSupply string `json:"place_of_supply,omitempty"`
+	Plan          struct {
+		PlanCode                 string        `json:"plan_code,omitempty"`
+		PlanDescription          string        `json:"plan_description,omitempty"`
+		Price                    float64       `json:"price,omitempty"`
+		SetupFee                 float64       `json:"setup_fee,omitempty"`
+		SetupFeeTaxID            string        `json:"setup_fee_tax_id,omitempty"`
+		Tags                     []Tag         `json:"tags,omitempty"`
+		ItemCustomFields         []CustomField `json:"item_custom_fields,omitempty"`
+		Quantity                 int64         `json:"quantity,omitempty"`
+		TaxExemptionID           string        `json:"tax_exemption_id,omitempty"`
+		TaxExemptionCode         string        `json:"tax_exemption_code,omitempty"`
+		SetupFeeTaxExemptionID   string        `json:"setup_fee_tax_exemption_id,omitempty"`
+		SetupFeeTaxExemptionCode string        `json:"setup_fee_tax_exemption_code,omitempty"`
+		ExcludeTrial             bool          `json:"exclude_trial,omitempty"`
+		ExcludeSetupFee          bool          `json:"exclude_setup_fee,omitempty"`
+		BillingCycles            int64         `json:"billing_cycles,omitempty"`
+		TrialDays                int64         `json:"trial_days,omitempty"`
+	} `json:"plan,omitempty"`
+	Addons []struct {
+		AddonCode        string        `json:"addon_code,omitempty"`
+		AddonDescription string        `json:"addon_description,omitempty"`
+		Price            float64       `json:"price,omitempty"`
+		Tags             []Tag         `json:"tags,omitempty"`
+		ItemCustomFields []CustomField `json:"item_custom_fields,omitempty"`
+		TaxExemptionID   string        `json:"tax_exemption_id,omitempty"`
+		TaxExemptionCode string        `json:"tax_exemption_code,omitempty"`
+	} `json:"addons,omitempty"`
+	CouponCode             string           `json:"coupon_code,omitempty"`
+	AutoCollect            bool             `json:"auto_collect,omitempty"`
+	ReferenceID            string           `json:"reference_id,omitempty"`
+	SalespersonName        string           `json:"salesperson_name,omitempty"`
+	PaymentGateways        []PaymentGateway `json:"payment_gateways,omitempty"`
+	CreateBackdatedInvoice bool             `json:"create_backdated_invoice,omitempty"`
+	TemplateID             int64            `json:"template_id,omitempty"`
+}
+
 type SubscriptionUpdate struct {
-	Plan              Plan             `json:"plan,omitempty"`
-	Addons            []Addon          `json:"addons,omitempty"`
-	ExchangeRate      float64          `json:"exchange_rate,omitempty"`
-	AutoCollect       bool             `json:"auto_collect,omitempty"`
-	ReferenceId       string           `json:"reference_id,omitempty"`
-	SalespersonId     string           `json:"salesperson_id,omitempty"`
-	SalespersonName   string           `json:"salesperson_name,omitempty"`
-	EndOfTerm         bool             `json:"end_of_term,omitempty"`
-	CouponCode        string           `json:"coupon_code,omitempty"`
+	ExchangeRate float64 `json:"exchange_rate,omitempty,omitempty"`
+	Plan         struct {
+		PlanCode                 string        `json:"plan_code,omitempty"`
+		PlanDescription          string        `json:"plan_description,omitempty"`
+		Price                    float64       `json:"price,omitempty"`
+		SetupFee                 float64       `json:"setup_fee,omitempty"`
+		Quantity                 int64         `json:"quantity,omitempty"`
+		Tags                     []Tag         `json:"tags,omitempty"`
+		ItemCustomFields         []CustomField `json:"item_custom_fields,omitempty"`
+		TaxID                    string        `json:"tax_id,omitempty"`
+		TaxExemptionID           string        `json:"tax_exemption_id,omitempty"`
+		TaxExemptionCode         string        `json:"tax_exemption_code,omitempty"`
+		SetupFeeTaxExemptionID   string        `json:"setup_fee_tax_exemption_id,omitempty"`
+		SetupFeeTaxExemptionCode string        `json:"setup_fee_tax_exemption_code,omitempty"`
+		ExcludeTrial             bool          `json:"exclude_trial,omitempty"`
+		ExcludeSetupFee          bool          `json:"exclude_setup_fee,omitempty"`
+		BillingCycles            int64         `json:"billing_cycles,omitempty"`
+		TrialDays                int64         `json:"trial_days,omitempty"`
+	} `json:"plan,omitempty"`
+	Addons []struct {
+		AddonCode        string        `json:"addon_code,omitempty"`
+		AddonDescription string        `json:"addon_description,omitempty"`
+		Price            float64       `json:"price,omitempty"`
+		Tags             []Tag         `json:"tags,omitempty"`
+		ItemCustomFields []CustomField `json:"item_custom_fields,omitempty"`
+		TaxExemptionID   string        `json:"tax_exemption_id,omitempty"`
+		TaxExemptionCode string        `json:"tax_exemption_code,omitempty"`
+	} `json:"addons,omitempty"`
+	AutoCollect     bool   `json:"auto_collect,omitempty"`
+	CouponCode      string `json:"coupon_code,omitempty"`
+	ReferenceID     string `json:"reference_id,omitempty"`
+	SalespersonID   string `json:"salesperson_id,omitempty"`
+	SalespersonName string `json:"salesperson_name,omitempty"`
+	EndOfTerm       bool   `json:"end_of_term,omitempty"`
+	Contactpersons  []struct {
+		ContactpersonID string `json:"contactperson_id,omitempty"`
+	} `json:"contactpersons,omitempty"`
 	PaymentTerms      int64            `json:"payment_terms,omitempty"`
 	PaymentTermsLabel string           `json:"payment_terms_label,omitempty"`
 	PaymentGateways   []PaymentGateway `json:"payment_gateways,omitempty"`
 	CustomFields      []CustomField    `json:"custom_fields,omitempty"`
-	Contactpersons    []ContactPerson  `json:"contactpersons,omitempty"`
-	TemplateId        string           `json:"template_id,omitempty"`
+	TemplateID        int64            `json:"template_id,omitempty"`
 }
 
 type Subscription struct {
-	SubscriptionId      string  `json:"subscription_id,omitempty"`
+	SubscriptionID      string  `json:"subscription_id,omitempty"`
 	Name                string  `json:"name,omitempty"`
 	Status              string  `json:"status,omitempty"`
 	Amount              float64 `json:"amount,omitempty"`
@@ -211,14 +311,14 @@ type Subscription struct {
 	AutoCollect         bool    `json:"auto_collect,omitempty"`
 	CreatedTime         string  `json:"created_time,omitempty"`
 	UpdatedTime         string  `json:"updated_time,omitempty"`
-	ReferenceId         string  `json:"reference_id,omitempty"`
-	SalespersonId       string  `json:"salesperson_id,omitempty"`
+	ReferenceID         string  `json:"reference_id,omitempty"`
+	SalespersonID       string  `json:"salesperson_id,omitempty"`
 	SalespersonName     string  `json:"salesperson_name,omitempty"`
-	ChildInvoiceId      string  `json:"child_invoice_id,omitempty"`
+	ChildInvoiceID      string  `json:"child_invoice_id,omitempty"`
 	CurrencyCode        string  `json:"currency_code,omitempty"`
 	CurrencySymbol      string  `json:"currency_symbol,omitempty"`
 	EndOfTerm           bool    `json:"end_of_term,omitempty"`
-	ProductId           string  `json:"product_id,omitempty"`
+	ProductID           string  `json:"product_id,omitempty"`
 	ProductName         string  `json:"product_name,omitempty"`
 	Plan                Plan    `json:"plan,omitempty"`
 	Addons              []Addon `json:"addons,omitempty"`
@@ -227,7 +327,7 @@ type Subscription struct {
 		DiscountAmount float64 `json:"discount_amount,omitempty"`
 	} `json:"coupon,omitempty"`
 	Card struct {
-		CardId         string `json:"card_id,omitempty"`
+		CardID         string `json:"card_id,omitempty"`
 		LastFourDigits string `json:"last_four_digits,omitempty"`
 		PaymentGateway string `json:"payment_gateway,omitempty"`
 		ExpiryMonth    int64  `json:"expiry_month,omitempty"`
@@ -240,14 +340,14 @@ type Subscription struct {
 	CustomFields      []CustomField   `json:"custom_fields,omitempty"`
 	Contactpersons    []ContactPerson `json:"contactpersons,omitempty"`
 	Notes             []struct {
-		NoteId        string `json:"note_id,omitempty"`
+		NoteID        string `json:"note_id,omitempty"`
 		Description   string `json:"description,omitempty"`
 		CommentedBy   string `json:"commented_by,omitempty"`
 		CommentedTime string `json:"commented_time,omitempty"`
 	} `json:"notes,omitempty"`
 	PaymentGateways        []PaymentGateway `json:"payment_gateways,omitempty"`
 	CreateBackdatedInvoice bool             `json:"create_backdated_invoice,omitempty"`
-	TemplateId             string           `json:"template_id,omitempty"`
+	TemplateID             string           `json:"template_id,omitempty"`
 }
 
 type Addon struct {
@@ -258,7 +358,7 @@ type Addon struct {
 	Price            float64 `json:"price,omitempty"`
 	Discount         float64 `json:"discount,omitempty"`
 	Total            float64 `json:"total,omitempty"`
-	TaxId            string  `json:"tax_id,omitempty"`
+	TaxID            string  `json:"tax_id,omitempty"`
 }
 
 type Plan struct {
@@ -270,12 +370,12 @@ type Plan struct {
 	Total           float64 `json:"total,omitempty"`
 	SetupFee        float64 `json:"setup_fee,omitempty"`
 	PlanDescription string  `json:"plan_description,omitempty"`
-	TaxId           string  `json:"tax_id,omitempty"`
+	TaxID           string  `json:"tax_id,omitempty"`
 	TrialDays       int64   `json:"trial_days,omitempty"`
 }
 
 type Customer struct {
-	CustomerId        string  `json:"customer_id,omitempty"`
+	CustomerID        string  `json:"customer_id,omitempty"`
 	Name              string  `json:"display_name,omitempty"`
 	Salutation        string  `json:"salutation,omitempty"`
 	FirstName         string  `json:"first_name,omitempty"`
@@ -306,7 +406,7 @@ type CustomField struct {
 }
 
 type ContactPerson struct {
-	ContactpersonId string `json:"contactperson_id,omitempty"`
+	ContactpersonID string `json:"contactperson_id,omitempty"`
 }
 
 type PaymentGateway struct {

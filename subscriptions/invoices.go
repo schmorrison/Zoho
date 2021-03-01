@@ -32,7 +32,7 @@ func (s *API) ListInvoices(status InvoiceStatus) (data InvoicesResponse, err err
 			"filter_by": zoho.Parameter(status),
 		},
 		Headers: map[string]string{
-			ZohoSubscriptionsOriganizationId: s.OrganizationId,
+			ZohoSubscriptionsOriganizationID: s.OrganizationID,
 		},
 	}
 
@@ -57,7 +57,7 @@ func (s *API) GetInvoice(id string) (data InvoiceResponse, err error) {
 		Method:       zoho.HTTPGet,
 		ResponseData: &InvoiceResponse{},
 		Headers: map[string]string{
-			ZohoSubscriptionsOriganizationId: s.OrganizationId,
+			ZohoSubscriptionsOriganizationID: s.OrganizationID,
 		},
 	}
 
@@ -88,12 +88,12 @@ type InvoiceResponse struct {
 }
 
 type Invoice struct {
-	InvoiceId            string        `json:"invoice_id,omitempty"`
+	InvoiceID            string        `json:"invoice_id,omitempty"`
 	Number               string        `json:"number,omitempty"`
 	Status               string        `json:"status,omitempty"`
 	InvoiceDate          string        `json:"invoice_date,omitempty"`
 	DueDate              string        `json:"due_date,omitempty"`
-	CustomerId           string        `json:"customer_id,omitempty"`
+	CustomerID           string        `json:"customer_id,omitempty"`
 	CustomerName         string        `json:"customer_name,omitempty"`
 	Email                string        `json:"email,omitempty"`
 	Balance              float64       `json:"balance,omitempty"`
@@ -106,7 +106,7 @@ type Invoice struct {
 	HasAttachment        bool          `json:"has_attachment,omitempty"`
 	CreatedTime          string        `json:"created_time,omitempty"`
 	UpdatedTime          string        `json:"updated_time,omitempty"`
-	SalespersonId        string        `json:"salesperson_id,omitempty"`
+	SalespersonID        string        `json:"salesperson_id,omitempty"`
 	SalespersonName      string        `json:"salesperson_name,omitempty"`
 	InvoiceUrl           string        `json:"invoice_url,omitempty"`
 	PaymentExpectedDate  string        `json:"payment_expected_date,omitempty"`
@@ -125,7 +125,7 @@ type Invoice struct {
 }
 
 type InvoiceItem struct {
-	ItemId           string        `json:"item_id,omitempty"`
+	ItemID           string        `json:"item_id,omitempty"`
 	Name             string        `json:"name,omitempty"`
 	Description      string        `json:"description,omitempty"`
 	Code             string        `json:"code,omitempty"`
@@ -135,8 +135,8 @@ type InvoiceItem struct {
 	Quantity         int64         `json:"quantity,omitempty"`
 	DiscountAmount   float64       `json:"discount_amount,omitempty"`
 	ItemTotal        float64       `json:"item_total,omitempty"`
-	TaxId            string        `json:"tax_id,omitempty"`
-	TaxExemptionId   string        `json:"tax_exemption_id,omitempty"`
+	TaxID            string        `json:"tax_id,omitempty"`
+	TaxExemptionID   string        `json:"tax_exemption_id,omitempty"`
 	TaxExemptionCode string        `json:"tax_exemption_code,omitempty"`
 }
 
@@ -147,18 +147,18 @@ type Coupon struct {
 }
 
 type Credit struct {
-	CreditnoteId      string  `json:"creditnote_id,omitempty"`
+	CreditnoteID      string  `json:"creditnote_id,omitempty"`
 	CreditnotesNumber string  `json:"creditnotes_number,omitempty"`
 	CreditedDate      string  `json:"credited_date,omitempty"`
 	CreditedAmount    float64 `json:"credited_amount,omitempty"`
 }
 
 type Payment struct {
-	PaymentId            string  `json:"payment_id,omitempty"`
+	PaymentID            string  `json:"payment_id,omitempty"`
 	PaymentMode          string  `json:"payment_mode,omitempty"`
-	InvoicePaymentId     string  `json:"invoice_payment_id,omitempty"`
+	InvoicePaymentID     string  `json:"invoice_payment_id,omitempty"`
 	AmountRefunded       float64 `json:"amount_refunded,omitempty"`
-	GatewayTransactionId string  `json:"gateway_transaction_id,omitempty"`
+	GatewayTransactionID string  `json:"gateway_transaction_id,omitempty"`
 	Description          string  `json:"description,omitempty"`
 	Date                 string  `json:"date,omitempty"`
 	ReferenceNumber      string  `json:"reference_number,omitempty"`
@@ -168,14 +168,14 @@ type Payment struct {
 }
 
 type Comment struct {
-	CommentId       string `json:"comment_id,omitempty"`
+	CommentID       string `json:"comment_id,omitempty"`
 	Description     string `json:"description,omitempty"`
-	CommentedById   string `json:"commented_by_id,omitempty"`
+	CommentedByID   string `json:"commented_by_id,omitempty"`
 	CommentedBy     string `json:"commented_by,omitempty"`
 	CommentType     string `json:"comment_type,omitempty"`
 	Time            string `json:"time,omitempty"`
 	OperationType   string `json:"operation_type,omitempty"`
-	TransactionId   string `json:"transaction_id,omitempty"`
+	TransactionID   string `json:"transaction_id,omitempty"`
 	TransactionType string `json:"transaction_type,omitempty"`
 }
 
@@ -184,11 +184,11 @@ type Document struct {
 	FileType          string `json:"file_type,omitempty"`
 	FileSize          int64  `json:"file_size,omitempty"`
 	FileSizeFormatted string `json:"file_size_formatted,omitempty"`
-	DocumentId        string `json:"document_id,omitempty"`
+	DocumentID        string `json:"document_id,omitempty"`
 	AttachmentOrder   int64  `json:"attachment_order,omitempty"`
 }
 
 type Tag struct {
-	TagId       string `json:"tag_id,omitempty"`
-	TagOptionId string `json:"tag_option_id,omitempty"`
+	TagID       string `json:"tag_id,omitempty"`
+	TagOptionID string `json:"tag_option_id,omitempty"`
 }
