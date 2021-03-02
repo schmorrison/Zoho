@@ -85,6 +85,11 @@ func (s *API) GetSubscription(id string) (data SubscriptionResponse, err error) 
 // CreateSubscription creates new subscription
 // https://www.zoho.com/subscriptions/api/v1/#Subscriptions_Create_a_subscription
 func (s *API) CreateSubscription(request SubscriptionCreate) (data SubscriptionResponse, err error) {
+	if request.CustomerID == "" && (request.Customer.DisplayName == "" || request.Customer.Email == "") {
+		err = fmt.Errorf("CustomerID is a required field if subscription is created for existen customer. For new customer Customer.DisplayName and Customer.Email fields are required")
+		return
+	}
+
 	endpoint := zoho.Endpoint{
 		Name:         "subscriptions",
 		URL:          fmt.Sprintf("https://subscriptions.zoho.%s/api/v1/subscriptions", s.ZohoTLD),
@@ -112,7 +117,7 @@ func (s *API) CreateSubscription(request SubscriptionCreate) (data SubscriptionR
 // https://www.zoho.com/subscriptions/api/v1/#Subscriptions_Update_a_subscription
 func (s *API) UpdateSubscription(request SubscriptionUpdate, ID string) (data SubscriptionResponse, err error) {
 	if request.Plan.PlanCode == "" {
-		return SubscriptionResponse{}, fmt.Errorf("request.Plan.PlanCode is a required field")
+		return SubscriptionResponse{}, fmt.Errorf("Plan.PlanCode is a required field")
 	}
 
 	endpoint := zoho.Endpoint{
@@ -380,7 +385,7 @@ type Plan struct {
 
 type Customer struct {
 	CustomerID        string  `json:"customer_id,omitempty"`
-	Name              string  `json:"display_name,omitempty"`
+	DisplayName       string  `json:"display_name,omitempty"`
 	Salutation        string  `json:"salutation,omitempty"`
 	FirstName         string  `json:"first_name,omitempty"`
 	LastName          string  `json:"last_name,omitempty"`
