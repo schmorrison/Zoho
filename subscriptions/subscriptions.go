@@ -263,25 +263,25 @@ type AddChargeResponse struct {
 		InvoiceDate                 string        `json:"invoice_date"`
 		InvoiceID                   string        `json:"invoice_id"`
 		InvoiceItems                []struct {
-			AccountID        string       `json:"account_id"`
-			AccountName      string       `json:"account_name"`
-			Code             string       `json:"code"`
-			Description      string       `json:"description"`
-			DiscountAmount   float64      `json:"discount_amount"`
-			ItemCustomFields []Cusomfield `json:"item_custom_fields"`
-			ItemID           string       `json:"item_id"`
-			ItemTotal        float64      `json:"item_total"`
-			Name             string       `json:"name"`
-			Price            float64      `json:"price"`
-			ProductID        string       `json:"product_id"`
-			ProductType      string       `json:"product_type"`
-			Quantity         float64      `json:"quantity"`
-			Tags             []Tag        `json:"tags"`
-			TaxID            string       `json:"tax_id"`
-			TaxName          string       `json:"tax_name"`
-			TaxPercentage    float64      `json:"tax_percentage"`
-			TaxType          string       `json:"tax_type"`
-			Unit             string       `json:"unit"`
+			AccountID        string        `json:"account_id"`
+			AccountName      string        `json:"account_name"`
+			Code             string        `json:"code"`
+			Description      string        `json:"description"`
+			DiscountAmount   float64       `json:"discount_amount"`
+			ItemCustomFields []CustomField `json:"item_custom_fields"`
+			ItemID           string        `json:"item_id"`
+			ItemTotal        float64       `json:"item_total"`
+			Name             string        `json:"name"`
+			Price            float64       `json:"price"`
+			ProductID        string        `json:"product_id"`
+			ProductType      string        `json:"product_type"`
+			Quantity         float64       `json:"quantity"`
+			Tags             []Tag         `json:"tags"`
+			TaxID            string        `json:"tax_id"`
+			TaxName          string        `json:"tax_name"`
+			TaxPercentage    float64       `json:"tax_percentage"`
+			TaxType          string        `json:"tax_type"`
+			Unit             string        `json:"unit"`
 		} `json:"invoice_items"`
 		InvoiceNumber          string `json:"invoice_number"`
 		InvoiceURL             string `json:"invoice_url"`

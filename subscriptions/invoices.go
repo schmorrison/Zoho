@@ -73,7 +73,51 @@ func (s *API) GetInvoice(id string) (data InvoiceResponse, err error) {
 	return InvoiceResponse{}, fmt.Errorf("Data retrieved was not 'InvoiceResponse'")
 }
 
+// AddAttachment attaches a file to an invoice
+// https://www.zoho.com/subscriptions/api/v1/#Invoices_Retrieve_a_subscription
+func (s *API) AddAttachment(id, file string, canSendInEmail bool) (data AttachementResponse, err error) {
+
+	endpoint := zoho.Endpoint{
+		Name:         "invoices",
+		URL:          fmt.Sprintf("https://subscriptions.zoho.%s/api/v1/invoices/%s/attachment", s.ZohoTLD, id),
+		Method:       zoho.HTTPPost,
+		ResponseData: &AttachementResponse{},
+		RequestBody:  AttachmentRequest{CanSendInEmail: canSendInEmail},
+		Headers: map[string]string{
+			ZohoSubscriptionsOriganizationID: s.OrganizationID,
+		},
+	}
+
+	err = s.Zoho.HTTPRequest(&endpoint)
+	if err != nil {
+		return AttachementResponse{}, fmt.Errorf("Failed to attach file to invoice (%s): %s", id, err)
+	}
+
+	if v, ok := endpoint.ResponseData.(*AttachementResponse); ok {
+		return *v, nil
+	}
+
+	return AttachementResponse{}, fmt.Errorf("Data retrieved was not 'AttachementResponse'")
+}
+
 //type InvoiceResponse map[string]interface{}
+
+type AttachmentRequest struct {
+	CanSendInEmail bool `json:"can_send_in_mail"`
+}
+
+type AttachementResponse struct {
+	Code      int64  `json:"code"`
+	Message   string `json:"message"`
+	Documents []struct {
+		FileName          string `json:"file_name"`
+		FileType          string `json:"file_type"`
+		FileSize          int64  `json:"file_size"`
+		FileSizeFormatted string `json:"file_size_formatted"`
+		DocumentID        string `json:"document_id"`
+		AttachmentOrder   int64  `json:"attachment_order"`
+	} `json:"documents"`
+}
 
 type InvoicesResponse struct {
 	Invoices []Invoice `json:"invoices"`
