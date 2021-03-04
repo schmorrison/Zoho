@@ -209,19 +209,19 @@ type CollectChangeViaBankAccountRequest struct {
 }
 
 type CollectChangeViaBankAccountResponse struct {
-	Code    int    `json:"code"`
+	Code    int64  `json:"code"`
 	Message string `json:"message"`
 	Payment struct {
 		PaymentID       string `json:"payment_id"`
 		PaymentMode     string `json:"payment_mode"`
-		Amount          int    `json:"amount"`
-		AmountRefunded  int    `json:"amount_refunded"`
-		BankCharges     int    `json:"bank_charges"`
+		Amount          int64  `json:"amount"`
+		AmountRefunded  int64  `json:"amount_refunded"`
+		BankCharges     int64  `json:"bank_charges"`
 		Date            string `json:"date"`
 		Status          string `json:"status"`
 		ReferenceNumber string `json:"reference_number"`
 		DueDate         string `json:"due_date"`
-		AmountDue       int    `json:"amount_due"`
+		AmountDue       int64  `json:"amount_due"`
 		Description     string `json:"description"`
 		CustomerID      string `json:"customer_id"`
 		CustomerName    string `json:"customer_name"`
@@ -234,21 +234,18 @@ type CollectChangeViaBankAccountResponse struct {
 			AccountID            string `json:"account_id"`
 		} `json:"autotransaction"`
 		Invoices []struct {
-			InvoiceID     string `json:"invoice_id"`
-			InvoiceNumber string `json:"invoice_number"`
-			Date          string `json:"date"`
-			InvoiceAmount int    `json:"invoice_amount"`
-			AmountApplied int    `json:"amount_applied"`
-			BalanceAmount int    `json:"balance_amount"`
+			InvoiceID     string  `json:"invoice_id"`
+			InvoiceNumber string  `json:"invoice_number"`
+			Date          string  `json:"date"`
+			InvoiceAmount float64 `json:"invoice_amount"`
+			AmountApplied float64 `json:"amount_applied"`
+			BalanceAmount float64 `json:"balance_amount"`
 		} `json:"invoices"`
-		CurrencyCode   string `json:"currency_code"`
-		CurrencySymbol string `json:"currency_symbol"`
-		CustomFields   []struct {
-			Index    int    `json:"index"`
-			DataType string `json:"data_type"`
-		} `json:"custom_fields"`
-		CreatedTime string `json:"created_time"`
-		UpdatedTime string `json:"updated_time"`
+		CurrencyCode   string        `json:"currency_code"`
+		CurrencySymbol string        `json:"currency_symbol"`
+		CustomFields   []CustomField `json:"custom_fields"`
+		CreatedTime    string        `json:"created_time"`
+		UpdatedTime    string        `json:"updated_time"`
 	} `json:"payment"`
 }
 
@@ -257,65 +254,62 @@ type CollectChangeViaCreditCardRequest struct {
 }
 
 type CollectChangeViaCreditCardResponse struct {
-	Code    int    `json:"code"`
+	Code    int64  `json:"code"`
 	Message string `json:"message"`
 	Payment struct {
-		PaymentID       string `json:"payment_id"`
-		PaymentMode     string `json:"payment_mode"`
-		Amount          int    `json:"amount"`
-		AmountRefunded  int    `json:"amount_refunded"`
-		BankCharges     int    `json:"bank_charges"`
-		Date            string `json:"date"`
-		Status          string `json:"status"`
-		ReferenceNumber string `json:"reference_number"`
-		Description     string `json:"description"`
-		CustomerID      string `json:"customer_id"`
-		CustomerName    string `json:"customer_name"`
-		Email           string `json:"email"`
+		PaymentID       string  `json:"payment_id"`
+		PaymentMode     string  `json:"payment_mode"`
+		Amount          float64 `json:"amount"`
+		AmountRefunded  float64 `json:"amount_refunded"`
+		BankCharges     float64 `json:"bank_charges"`
+		Date            string  `json:"date"`
+		Status          string  `json:"status"`
+		ReferenceNumber string  `json:"reference_number"`
+		Description     string  `json:"description"`
+		CustomerID      string  `json:"customer_id"`
+		CustomerName    string  `json:"customer_name"`
+		Email           string  `json:"email"`
 		Autotransaction struct {
 			AutotransactionID    string `json:"autotransaction_id"`
 			PaymentGateway       string `json:"payment_gateway"`
 			GatewayTransactionID string `json:"gateway_transaction_id"`
 			GatewayErrorMessage  string `json:"gateway_error_message"`
 			CardID               string `json:"card_id"`
-			LastFourDigits       int    `json:"last_four_digits"`
-			ExpiryMonth          int    `json:"expiry_month"`
-			ExpiryYear           int    `json:"expiry_year"`
+			LastFourDigits       string `json:"last_four_digits"`
+			ExpiryMonth          int64  `json:"expiry_month"`
+			ExpiryYear           int64  `json:"expiry_year"`
 		} `json:"autotransaction"`
 		Invoices []struct {
-			InvoiceID     string `json:"invoice_id"`
-			InvoiceNumber string `json:"invoice_number"`
-			Date          string `json:"date"`
-			InvoiceAmount int    `json:"invoice_amount"`
-			AmountApplied int    `json:"amount_applied"`
-			BalanceAmount int    `json:"balance_amount"`
+			InvoiceID     string  `json:"invoice_id"`
+			InvoiceNumber string  `json:"invoice_number"`
+			Date          string  `json:"date"`
+			InvoiceAmount float64 `json:"invoice_amount"`
+			AmountApplied float64 `json:"amount_applied"`
+			BalanceAmount float64 `json:"balance_amount"`
 		} `json:"invoices"`
-		CurrencyCode   string `json:"currency_code"`
-		CurrencySymbol string `json:"currency_symbol"`
-		CustomFields   []struct {
-			Index    int    `json:"index"`
-			DataType string `json:"data_type"`
-		} `json:"custom_fields"`
-		CreatedTime string `json:"created_time"`
-		UpdatedTime string `json:"updated_time"`
+		CurrencyCode   string        `json:"currency_code"`
+		CurrencySymbol string        `json:"currency_symbol"`
+		CustomFields   []CustomField `json:"custom_fields"`
+		CreatedTime    string        `json:"created_time"`
+		UpdatedTime    string        `json:"updated_time"`
 	} `json:"payment"`
 }
 
 type AddItemsRequest struct {
 	InvoiceItems []struct {
-		Code           string `json:"code"`
-		ProductID      string `json:"product_id"`
-		Name           string `json:"name"`
-		Description    string `json:"description"`
-		Price          int    `json:"price"`
-		Quantity       int    `json:"quantity"`
-		TaxID          string `json:"tax_id"`
-		TaxExemptionID string `json:"tax_exemption_id"`
+		Code           string  `json:"code"`
+		ProductID      string  `json:"product_id"`
+		Name           string  `json:"name"`
+		Description    string  `json:"description"`
+		Price          float64 `json:"price"`
+		Quantity       float64 `json:"quantity"`
+		TaxID          string  `json:"tax_id"`
+		TaxExemptionID string  `json:"tax_exemption_id"`
 	} `json:"invoice_items"`
 }
 
 type AddItemsResponse struct {
-	Code    int    `json:"code"`
+	Code    int64  `json:"code"`
 	Message string `json:"message"`
 	Invoice struct {
 		InvoiceID           string `json:"invoice_id"`
@@ -336,10 +330,10 @@ type AddItemsResponse struct {
 			Tags             []Tag         `json:"tags"`
 			ItemCustomFields []CustomField `json:"item_custom_fields"`
 			Code             string        `json:"code"`
-			Price            int           `json:"price"`
-			Quantity         int           `json:"quantity"`
-			DiscountAmount   int           `json:"discount_amount"`
-			ItemTotal        int           `json:"item_total"`
+			Price            float64       `json:"price"`
+			Quantity         int64         `json:"quantity"`
+			DiscountAmount   float64       `json:"discount_amount"`
+			ItemTotal        float64       `json:"item_total"`
 			TaxID            string        `json:"tax_id"`
 			ProductType      string        `json:"product_type"`
 			HsnOrSac         string        `json:"hsn_or_sac"`
@@ -347,32 +341,32 @@ type AddItemsResponse struct {
 			TaxExemptionCode string        `json:"tax_exemption_code"`
 		} `json:"invoice_items"`
 		Coupons []struct {
-			CouponCode     string `json:"coupon_code"`
-			CouponName     string `json:"coupon_name"`
-			DiscountAmount int    `json:"discount_amount"`
+			CouponCode     string  `json:"coupon_code"`
+			CouponName     string  `json:"coupon_name"`
+			DiscountAmount float64 `json:"discount_amount"`
 		} `json:"coupons"`
 		Credits []struct {
-			CreditnoteID      string `json:"creditnote_id"`
-			CreditnotesNumber string `json:"creditnotes_number"`
-			CreditedDate      string `json:"credited_date"`
-			CreditedAmount    int    `json:"credited_amount"`
+			CreditnoteID      string  `json:"creditnote_id"`
+			CreditnotesNumber string  `json:"creditnotes_number"`
+			CreditedDate      string  `json:"credited_date"`
+			CreditedAmount    float64 `json:"credited_amount"`
 		} `json:"credits"`
-		Total          int `json:"total"`
-		PaymentMade    int `json:"payment_made"`
-		Balance        int `json:"balance"`
-		CreditsApplied int `json:"credits_applied"`
-		WriteOffAmount int `json:"write_off_amount"`
+		Total          float64 `json:"total"`
+		PaymentMade    int64   `json:"payment_made"`
+		Balance        float64 `json:"balance"`
+		CreditsApplied float64 `json:"credits_applied"`
+		WriteOffAmount float64 `json:"write_off_amount"`
 		Payments       []struct {
-			PaymentID            string `json:"payment_id"`
-			PaymentMode          string `json:"payment_mode"`
-			InvoicePaymentID     string `json:"invoice_payment_id"`
-			GatewayTransactionID string `json:"gateway_transaction_id"`
-			Description          string `json:"description"`
-			Date                 string `json:"date"`
-			ReferenceNumber      string `json:"reference_number"`
-			Amount               int    `json:"amount"`
-			BankCharges          int    `json:"bank_charges"`
-			ExchangeRate         int    `json:"exchange_rate"`
+			PaymentID            string  `json:"payment_id"`
+			PaymentMode          string  `json:"payment_mode"`
+			InvoicePaymentID     string  `json:"invoice_payment_id"`
+			GatewayTransactionID string  `json:"gateway_transaction_id"`
+			Description          string  `json:"description"`
+			Date                 string  `json:"date"`
+			ReferenceNumber      string  `json:"reference_number"`
+			Amount               float64 `json:"amount"`
+			BankCharges          float64 `json:"bank_charges"`
+			ExchangeRate         float64 `json:"exchange_rate"`
 		} `json:"payments"`
 		CurrencyCode    string  `json:"currency_code"`
 		CurrencySymbol  string  `json:"currency_symbol"`
