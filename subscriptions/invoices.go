@@ -74,7 +74,7 @@ func (s *API) GetInvoice(id string) (data InvoiceResponse, err error) {
 }
 
 // AddAttachment attaches a file to an invoice
-// https://www.zoho.com/subscriptions/api/v1/#Invoices_Retrieve_a_subscription
+// https://www.zoho.com/subscriptions/api/v1/#Invoices_Add_attachment_to_an_invoice
 func (s *API) AddAttachment(id, file string, canSendInEmail bool) (data AttachementResponse, err error) {
 
 	endpoint := zoho.Endpoint{
@@ -100,7 +100,166 @@ func (s *API) AddAttachment(id, file string, canSendInEmail bool) (data Attachem
 	return AttachementResponse{}, fmt.Errorf("Data retrieved was not 'AttachementResponse'")
 }
 
-//type InvoiceResponse map[string]interface{}
+// EmailInvoice sends an invoice in email
+// https://www.zoho.com/subscriptions/api/v1/#Invoices_Email_an_invoice
+func (s *API) EmailInvoice(id string, request EmailInvoiceRequest) (data EmailInvoiceResponse, err error) {
+	endpoint := zoho.Endpoint{
+		Name:         "invoices",
+		URL:          fmt.Sprintf("https://subscriptions.zoho.%s/api/v1/invoices/%s/email", s.ZohoTLD, id),
+		Method:       zoho.HTTPPost,
+		ResponseData: &EmailInvoiceResponse{},
+		RequestBody:  request,
+		Headers: map[string]string{
+			ZohoSubscriptionsOriganizationID: s.OrganizationID,
+		},
+	}
+
+	err = s.Zoho.HTTPRequest(&endpoint)
+	if err != nil {
+		return EmailInvoiceResponse{}, fmt.Errorf("Failed to email invoice (%s): %s", id, err)
+	}
+
+	if v, ok := endpoint.ResponseData.(*EmailInvoiceResponse); ok {
+		return *v, nil
+	}
+
+	return EmailInvoiceResponse{}, fmt.Errorf("Data retrieved was not 'EmailInvoiceResponse'")
+}
+
+// AddItems adds items to pending invoice
+// https://www.zoho.com/subscriptions/api/v1/#Invoices_Add_items_to_a_pending_invoice
+func (s *API) AddItems(id string, request AddItemsRequest) (data AddItemsResponse, err error) {
+	endpoint := zoho.Endpoint{
+		Name:         "invoices",
+		URL:          fmt.Sprintf("https://subscriptions.zoho.%s/api/v1/invoices/%s/lineitems", s.ZohoTLD, id),
+		Method:       zoho.HTTPPost,
+		ResponseData: &AddItemsResponse{},
+		RequestBody:  request,
+		Headers: map[string]string{
+			ZohoSubscriptionsOriganizationID: s.OrganizationID,
+		},
+	}
+
+	err = s.Zoho.HTTPRequest(&endpoint)
+	if err != nil {
+		return AddItemsResponse{}, fmt.Errorf("Failed to add items to invoice (%s): %s", id, err)
+	}
+
+	if v, ok := endpoint.ResponseData.(*AddItemsResponse); ok {
+		return *v, nil
+	}
+
+	return AddItemsResponse{}, fmt.Errorf("Data retrieved was not 'AddItemsResponse'")
+}
+
+type AddItemsRequest struct {
+	InvoiceItems []struct {
+		Code           string `json:"code"`
+		ProductID      string `json:"product_id"`
+		Name           string `json:"name"`
+		Description    string `json:"description"`
+		Price          int    `json:"price"`
+		Quantity       int    `json:"quantity"`
+		TaxID          string `json:"tax_id"`
+		TaxExemptionID string `json:"tax_exemption_id"`
+	} `json:"invoice_items"`
+}
+
+type AddItemsResponse struct {
+	Code    int    `json:"code"`
+	Message string `json:"message"`
+	Invoice struct {
+		InvoiceID           string `json:"invoice_id"`
+		Number              string `json:"number"`
+		Status              string `json:"status"`
+		InvoiceDate         string `json:"invoice_date"`
+		DueDate             string `json:"due_date"`
+		PaymentExpectedDate string `json:"payment_expected_date"`
+		AchPaymentInitiated bool   `json:"ach_payment_initiated"`
+		TransactionType     string `json:"transaction_type"`
+		CustomerID          string `json:"customer_id"`
+		CustomerName        string `json:"customer_name"`
+		Email               string `json:"email"`
+		InvoiceItems        []struct {
+			ItemID           string        `json:"item_id"`
+			Name             string        `json:"name"`
+			Description      string        `json:"description"`
+			Tags             []Tag         `json:"tags"`
+			ItemCustomFields []CustomField `json:"item_custom_fields"`
+			Code             string        `json:"code"`
+			Price            int           `json:"price"`
+			Quantity         int           `json:"quantity"`
+			DiscountAmount   int           `json:"discount_amount"`
+			ItemTotal        int           `json:"item_total"`
+			TaxID            string        `json:"tax_id"`
+			ProductType      string        `json:"product_type"`
+			HsnOrSac         string        `json:"hsn_or_sac"`
+			TaxExemptionID   string        `json:"tax_exemption_id"`
+			TaxExemptionCode string        `json:"tax_exemption_code"`
+		} `json:"invoice_items"`
+		Coupons []struct {
+			CouponCode     string `json:"coupon_code"`
+			CouponName     string `json:"coupon_name"`
+			DiscountAmount int    `json:"discount_amount"`
+		} `json:"coupons"`
+		Credits []struct {
+			CreditnoteID      string `json:"creditnote_id"`
+			CreditnotesNumber string `json:"creditnotes_number"`
+			CreditedDate      string `json:"credited_date"`
+			CreditedAmount    int    `json:"credited_amount"`
+		} `json:"credits"`
+		Total          int `json:"total"`
+		PaymentMade    int `json:"payment_made"`
+		Balance        int `json:"balance"`
+		CreditsApplied int `json:"credits_applied"`
+		WriteOffAmount int `json:"write_off_amount"`
+		Payments       []struct {
+			PaymentID            string `json:"payment_id"`
+			PaymentMode          string `json:"payment_mode"`
+			InvoicePaymentID     string `json:"invoice_payment_id"`
+			GatewayTransactionID string `json:"gateway_transaction_id"`
+			Description          string `json:"description"`
+			Date                 string `json:"date"`
+			ReferenceNumber      string `json:"reference_number"`
+			Amount               int    `json:"amount"`
+			BankCharges          int    `json:"bank_charges"`
+			ExchangeRate         int    `json:"exchange_rate"`
+		} `json:"payments"`
+		CurrencyCode    string  `json:"currency_code"`
+		CurrencySymbol  string  `json:"currency_symbol"`
+		CreatedTime     string  `json:"created_time"`
+		UpdatedTime     string  `json:"updated_time"`
+		SalespersonID   string  `json:"salesperson_id"`
+		SalespersonName string  `json:"salesperson_name"`
+		InvoiceURL      string  `json:"invoice_url"`
+		BillingAddress  Address `json:"billing_address"`
+		ShippingAddress Address `json:"shipping_address"`
+		Comments        []struct {
+			CommentID       string `json:"comment_id"`
+			Description     string `json:"description"`
+			CommentedByID   string `json:"commented_by_id"`
+			CommentedBy     string `json:"commented_by"`
+			CommentType     string `json:"comment_type"`
+			Time            string `json:"time"`
+			OperationType   string `json:"operation_type"`
+			TransactionID   string `json:"transaction_id"`
+			TransactionType string `json:"transaction_type"`
+		} `json:"comments"`
+		CustomFields []CustomField `json:"custom_fields"`
+	} `json:"invoice"`
+}
+
+type EmailInvoiceRequest struct {
+	ToMailIds []string `json:"to_mail_ids"`
+	CcMailIds []string `json:"cc_mail_ids"`
+	Subject   string   `json:"subject"`
+	Body      string   `json:"body"`
+}
+
+type EmailInvoiceResponse struct {
+	Code    int64  `json:"code"`
+	Message string `json:"message"`
+}
 
 type AttachmentRequest struct {
 	CanSendInEmail bool `json:"can_send_in_mail"`
