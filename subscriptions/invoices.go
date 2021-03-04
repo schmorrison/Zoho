@@ -152,6 +152,155 @@ func (s *API) AddItems(id string, request AddItemsRequest) (data AddItemsRespons
 	return AddItemsResponse{}, fmt.Errorf("Data retrieved was not 'AddItemsResponse'")
 }
 
+// CollectChargeViaCreditCard collects charge via credit card
+// https://www.zoho.com/subscriptions/api/v1/#Invoices_Collect_charge_via_credit_card
+func (s *API) CollectChargeViaCreditCard(id string, request CollectChangeViaCreditCardRequest) (data CollectChangeViaCreditCardResponse, err error) {
+	endpoint := zoho.Endpoint{
+		Name:         "invoices",
+		URL:          fmt.Sprintf("https://subscriptions.zoho.%s/api/v1/invoices/%s/collect", s.ZohoTLD, id),
+		Method:       zoho.HTTPPost,
+		ResponseData: &CollectChangeViaCreditCardResponse{},
+		RequestBody:  request,
+		Headers: map[string]string{
+			ZohoSubscriptionsOriganizationID: s.OrganizationID,
+		},
+	}
+
+	err = s.Zoho.HTTPRequest(&endpoint)
+	if err != nil {
+		return CollectChangeViaCreditCardResponse{}, fmt.Errorf("Failed to collect charge via credit card (%s): %s", id, err)
+	}
+
+	if v, ok := endpoint.ResponseData.(*CollectChangeViaCreditCardResponse); ok {
+		return *v, nil
+	}
+
+	return CollectChangeViaCreditCardResponse{}, fmt.Errorf("Data retrieved was not 'CollectChangeViaBankCreditCardResponse'")
+}
+
+// CollectChargeViaBankAccount collects charge via bank account
+// https://www.zoho.com/subscriptions/api/v1/#Invoices_Collect_charge_via_bank_account
+func (s *API) CollectChargeViaBankAccount(id string, request CollectChangeViaBankAccountRequest) (data CollectChangeViaBankAccountResponse, err error) {
+	endpoint := zoho.Endpoint{
+		Name:         "invoices",
+		URL:          fmt.Sprintf("https://subscriptions.zoho.%s/api/v1/invoices/%s/collect", s.ZohoTLD, id),
+		Method:       zoho.HTTPPost,
+		ResponseData: &CollectChangeViaBankAccountResponse{},
+		RequestBody:  request,
+		Headers: map[string]string{
+			ZohoSubscriptionsOriganizationID: s.OrganizationID,
+		},
+	}
+
+	err = s.Zoho.HTTPRequest(&endpoint)
+	if err != nil {
+		return CollectChangeViaBankAccountResponse{}, fmt.Errorf("Failed to collect charge via bank account (%s): %s", id, err)
+	}
+
+	if v, ok := endpoint.ResponseData.(*CollectChangeViaBankAccountResponse); ok {
+		return *v, nil
+	}
+
+	return CollectChangeViaBankAccountResponse{}, fmt.Errorf("Data retrieved was not 'CollectChangeViaBankAccountResponse'")
+}
+
+type CollectChangeViaBankAccountRequest struct {
+	AccountID string `json:"account_id"`
+}
+
+type CollectChangeViaBankAccountResponse struct {
+	Code    int    `json:"code"`
+	Message string `json:"message"`
+	Payment struct {
+		PaymentID       string `json:"payment_id"`
+		PaymentMode     string `json:"payment_mode"`
+		Amount          int    `json:"amount"`
+		AmountRefunded  int    `json:"amount_refunded"`
+		BankCharges     int    `json:"bank_charges"`
+		Date            string `json:"date"`
+		Status          string `json:"status"`
+		ReferenceNumber string `json:"reference_number"`
+		DueDate         string `json:"due_date"`
+		AmountDue       int    `json:"amount_due"`
+		Description     string `json:"description"`
+		CustomerID      string `json:"customer_id"`
+		CustomerName    string `json:"customer_name"`
+		Email           string `json:"email"`
+		Autotransaction struct {
+			AutotransactionID    string `json:"autotransaction_id"`
+			PaymentGateway       string `json:"payment_gateway"`
+			GatewayTransactionID string `json:"gateway_transaction_id"`
+			GatewayErrorMessage  string `json:"gateway_error_message"`
+			AccountID            string `json:"account_id"`
+		} `json:"autotransaction"`
+		Invoices []struct {
+			InvoiceID     string `json:"invoice_id"`
+			InvoiceNumber string `json:"invoice_number"`
+			Date          string `json:"date"`
+			InvoiceAmount int    `json:"invoice_amount"`
+			AmountApplied int    `json:"amount_applied"`
+			BalanceAmount int    `json:"balance_amount"`
+		} `json:"invoices"`
+		CurrencyCode   string `json:"currency_code"`
+		CurrencySymbol string `json:"currency_symbol"`
+		CustomFields   []struct {
+			Index    int    `json:"index"`
+			DataType string `json:"data_type"`
+		} `json:"custom_fields"`
+		CreatedTime string `json:"created_time"`
+		UpdatedTime string `json:"updated_time"`
+	} `json:"payment"`
+}
+
+type CollectChangeViaCreditCardRequest struct {
+	CardID string `json:"card_id"`
+}
+
+type CollectChangeViaCreditCardResponse struct {
+	Code    int    `json:"code"`
+	Message string `json:"message"`
+	Payment struct {
+		PaymentID       string `json:"payment_id"`
+		PaymentMode     string `json:"payment_mode"`
+		Amount          int    `json:"amount"`
+		AmountRefunded  int    `json:"amount_refunded"`
+		BankCharges     int    `json:"bank_charges"`
+		Date            string `json:"date"`
+		Status          string `json:"status"`
+		ReferenceNumber string `json:"reference_number"`
+		Description     string `json:"description"`
+		CustomerID      string `json:"customer_id"`
+		CustomerName    string `json:"customer_name"`
+		Email           string `json:"email"`
+		Autotransaction struct {
+			AutotransactionID    string `json:"autotransaction_id"`
+			PaymentGateway       string `json:"payment_gateway"`
+			GatewayTransactionID string `json:"gateway_transaction_id"`
+			GatewayErrorMessage  string `json:"gateway_error_message"`
+			CardID               string `json:"card_id"`
+			LastFourDigits       int    `json:"last_four_digits"`
+			ExpiryMonth          int    `json:"expiry_month"`
+			ExpiryYear           int    `json:"expiry_year"`
+		} `json:"autotransaction"`
+		Invoices []struct {
+			InvoiceID     string `json:"invoice_id"`
+			InvoiceNumber string `json:"invoice_number"`
+			Date          string `json:"date"`
+			InvoiceAmount int    `json:"invoice_amount"`
+			AmountApplied int    `json:"amount_applied"`
+			BalanceAmount int    `json:"balance_amount"`
+		} `json:"invoices"`
+		CurrencyCode   string `json:"currency_code"`
+		CurrencySymbol string `json:"currency_symbol"`
+		CustomFields   []struct {
+			Index    int    `json:"index"`
+			DataType string `json:"data_type"`
+		} `json:"custom_fields"`
+		CreatedTime string `json:"created_time"`
+		UpdatedTime string `json:"updated_time"`
+	} `json:"payment"`
+}
+
 type AddItemsRequest struct {
 	InvoiceItems []struct {
 		Code           string `json:"code"`
