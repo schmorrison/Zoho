@@ -694,10 +694,10 @@ type Address struct {
 }
 
 type CustomField struct {
-	Index    int64  `json:"index,omitempty"`
-	Value    string `json:"value,omitempty"`
-	Label    string `json:"label,omitempty"`
-	DataType string `json:"data_type,omitempty"`
+	Index    int64       `json:"index,omitempty"`
+	Value    interface{} `json:"value,omitempty"`
+	Label    string      `json:"label,omitempty"`
+	DataType string      `json:"data_type,omitempty"`
 }
 
 type ContactPerson struct {
