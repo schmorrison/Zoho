@@ -18,11 +18,13 @@ const (
 	InvoiceStatusPartiallyPaid InvoiceStatus = "Status.PartiallyPaid"
 	InvoiceStatusVoid          InvoiceStatus = "Status.Void"
 	InvoiceStatusUnpaid        InvoiceStatus = "Status.Unpaid"
+	InvoiceStatusPending       InvoiceStatus = "Status.Pending" // Pending status is present in zoho documentation, but works
 )
 
-// ListInvoices will return the list of invoices that match the given invoice status.
+// ListInvoicesWithParams will return the list of invoices that match the given invoice status
+// and additional filter defined by parameter name and value (allows to filter by `customer_id` and `subscription_id`)
 // https://www.zoho.com/subscriptions/api/v1/#Invoices_List_all_invoices
-func (s *API) ListInvoices(status InvoiceStatus) (data InvoicesResponse, err error) {
+func (s *API) ListInvoicesWithParams(status InvoiceStatus, paramName, paramValue string) (data InvoicesResponse, err error) {
 	endpoint := zoho.Endpoint{
 		Name:         "invoices",
 		URL:          fmt.Sprintf("https://subscriptions.zoho.%s/api/v1/invoices", s.ZohoTLD),
@@ -36,6 +38,11 @@ func (s *API) ListInvoices(status InvoiceStatus) (data InvoicesResponse, err err
 		},
 	}
 
+	// Add more filtes if passed in
+	if paramName != "" {
+		endpoint.URLParameters[paramName] = zoho.Parameter(paramValue)
+	}
+
 	err = s.Zoho.HTTPRequest(&endpoint)
 	if err != nil {
 		return InvoicesResponse{}, fmt.Errorf("Failed to retrieve invoices: %s", err)
@@ -46,6 +53,24 @@ func (s *API) ListInvoices(status InvoiceStatus) (data InvoicesResponse, err err
 	}
 
 	return InvoicesResponse{}, fmt.Errorf("Data retrieved was not 'InvoicesResponse'")
+}
+
+// ListInvoices will return the list of invoices that match the given invoice status
+// https://www.zoho.com/subscriptions/api/v1/#Invoices_List_all_invoices
+func (s *API) ListInvoices(status InvoiceStatus) (data InvoicesResponse, err error) {
+	return s.ListInvoicesWithParams(status, "", "")
+}
+
+// ListInvoicesForSubscription will return the list of invoices that match the given invoice status and subscription ID
+// https://www.zoho.com/subscriptions/api/v1/#Invoices_List_all_invoices
+func (s *API) ListInvoicesForSubscription(status InvoiceStatus, subscriptionID string) (data InvoicesResponse, err error) {
+	return s.ListInvoicesWithParams(status, "subscription_id", subscriptionID)
+}
+
+// ListInvoicesForSubscription will return the list of invoices that match the given invoice status and customer ID
+// https://www.zoho.com/subscriptions/api/v1/#Invoices_List_all_invoices
+func (s *API) ListInvoicesForCustomer(status InvoiceStatus, customerID string) (data InvoicesResponse, err error) {
+	return s.ListInvoicesWithParams(status, "customer_id", customerID)
 }
 
 // GetInvoice will return the subscription specified by id
@@ -458,7 +483,7 @@ type Invoice struct {
 	SalespersonName      string        `json:"salesperson_name,omitempty"`
 	InvoiceUrl           string        `json:"invoice_url,omitempty"`
 	PaymentExpectedDate  string        `json:"payment_expected_date,omitempty"`
-	ArchPaymentInitiated bool          `json:"ach_payment_initiated,omitempty"`
+	ArchPaymentInitiated string        `json:"ach_payment_initiated,omitempty"`
 	TransactionType      string        `json:"transaction_type,omitempty"`
 	InvoiceItems         []InvoiceItem `json:"invoice_items,omitempty"`
 	Coupons              []Coupon      `json:"coupons,omitempty"`
