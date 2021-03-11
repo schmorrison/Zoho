@@ -506,7 +506,7 @@ type SubscriptionCreate struct {
 		SetupFeeTaxID            string        `json:"setup_fee_tax_id,omitempty"`
 		Tags                     []Tag         `json:"tags,omitempty"`
 		ItemCustomFields         []CustomField `json:"item_custom_fields,omitempty"`
-		Quantity                 int64         `json:"quantity,omitempty"`
+		Quantity                 float64       `json:"quantity,omitempty"`
 		TaxExemptionID           string        `json:"tax_exemption_id,omitempty"`
 		TaxExemptionCode         string        `json:"tax_exemption_code,omitempty"`
 		SetupFeeTaxExemptionID   string        `json:"setup_fee_tax_exemption_id,omitempty"`
@@ -541,7 +541,7 @@ type SubscriptionUpdate struct {
 		PlanDescription          string        `json:"plan_description,omitempty"`
 		Price                    float64       `json:"price,omitempty"`
 		SetupFee                 float64       `json:"setup_fee,omitempty"`
-		Quantity                 int64         `json:"quantity,omitempty"`
+		Quantity                 float64       `json:"quantity,omitempty"`
 		Tags                     []Tag         `json:"tags,omitempty"`
 		ItemCustomFields         []CustomField `json:"item_custom_fields,omitempty"`
 		TaxID                    string        `json:"tax_id,omitempty"`
@@ -648,7 +648,7 @@ type Addon struct {
 	AddonCode        string  `json:"addon_code,omitempty"`
 	Name             string  `json:"name,omitempty"`
 	AddonDescription string  `json:"addon_description,omitempty"`
-	Quantity         int64   `json:"quantity,omitempty"`
+	Quantity         float64 `json:"quantity,omitempty"`
 	Price            float64 `json:"price,omitempty"`
 	Discount         float64 `json:"discount,omitempty"`
 	Total            float64 `json:"total,omitempty"`
@@ -658,7 +658,7 @@ type Addon struct {
 type Plan struct {
 	PlanCode        string  `json:"plan_code,omitempty"`
 	Name            string  `json:"name,omitempty"`
-	Quantity        int64   `json:"quantity,omitempty"`
+	Quantity        float64 `json:"quantity,omitempty"`
 	Price           float64 `json:"price,omitempty"`
 	Discount        float64 `json:"discount,omitempty"`
 	Total           float64 `json:"total,omitempty"`

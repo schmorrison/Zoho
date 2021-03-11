@@ -296,16 +296,18 @@ type CollectChangeViaCreditCardResponse struct {
 }
 
 type AddItemsRequest struct {
-	InvoiceItems []struct {
-		Code           string  `json:"code"`
-		ProductID      string  `json:"product_id"`
-		Name           string  `json:"name"`
-		Description    string  `json:"description"`
-		Price          float64 `json:"price"`
-		Quantity       float64 `json:"quantity"`
-		TaxID          string  `json:"tax_id"`
-		TaxExemptionID string  `json:"tax_exemption_id"`
-	} `json:"invoice_items"`
+	InvoiceItems []InvoiceItemRequest `json:"invoice_items,omitempty"`
+}
+
+type InvoiceItemRequest struct {
+	Code           string  `json:"code,omitempty"`
+	ProductID      string  `json:"product_id,omitempty"`
+	Name           string  `json:"name,omitempty"`
+	Description    string  `json:"description,omitempty"`
+	Price          float64 `json:"price,omitempty"`
+	Quantity       float64 `json:"quantity,omitempty"`
+	TaxID          string  `json:"tax_id,omitempty"`
+	TaxExemptionID string  `json:"tax_exemption_id,omitempty"`
 }
 
 type AddItemsResponse struct {
@@ -331,7 +333,7 @@ type AddItemsResponse struct {
 			ItemCustomFields []CustomField `json:"item_custom_fields"`
 			Code             string        `json:"code"`
 			Price            float64       `json:"price"`
-			Quantity         int64         `json:"quantity"`
+			Quantity         float64       `json:"quantity"`
 			DiscountAmount   float64       `json:"discount_amount"`
 			ItemTotal        float64       `json:"item_total"`
 			TaxID            string        `json:"tax_id"`
@@ -352,7 +354,7 @@ type AddItemsResponse struct {
 			CreditedAmount    float64 `json:"credited_amount"`
 		} `json:"credits"`
 		Total          float64 `json:"total"`
-		PaymentMade    int64   `json:"payment_made"`
+		PaymentMade    float64 `json:"payment_made"`
 		Balance        float64 `json:"balance"`
 		CreditsApplied float64 `json:"credits_applied"`
 		WriteOffAmount float64 `json:"write_off_amount"`
@@ -478,7 +480,7 @@ type InvoiceItem struct {
 	Tags             []Tag         `json:"tags,omitempty"`
 	ItemCustomFields []CustomField `json:"item_custom_fields,omitempty"`
 	Price            float64       `json:"price,omitempty"`
-	Quantity         int64         `json:"quantity,omitempty"`
+	Quantity         float64       `json:"quantity,omitempty"`
 	DiscountAmount   float64       `json:"discount_amount,omitempty"`
 	ItemTotal        float64       `json:"item_total,omitempty"`
 	TaxID            string        `json:"tax_id,omitempty"`
