@@ -9,19 +9,22 @@ import (
 	"mime/multipart"
 	"net/http"
 	"net/url"
+	"os"
+	"path/filepath"
 	"reflect"
 )
 
 // Endpoint defines the data required to interact with most Zoho REST api endpoints
 type Endpoint struct {
-	Method        HTTPMethod
-	URL           string
-	Name          string
-	ResponseData  interface{}
-	RequestBody   interface{}
-	URLParameters map[string]Parameter
-	Headers       map[string]string
-	JSONString    bool
+	Method         HTTPMethod
+	URL            string
+	Name           string
+	ResponseData   interface{}
+	RequestBody    interface{}
+	URLParameters  map[string]Parameter
+	Headers        map[string]string
+	JSONString     bool
+	AttachmentFile string
 }
 
 // Parameter is used to provide URL Parameters to zoho endpoints
@@ -76,6 +79,21 @@ func (z *Zoho) HTTPRequest(endpoint *Endpoint) (err error) {
 			}
 			if _, err = io.Copy(fw, reqBody); err != nil {
 				return err
+			}
+
+			if endpoint.AttachmentFile != "" {
+				fileReader, err := os.Open(endpoint.AttachmentFile)
+				if err != nil {
+					return err
+				}
+				defer fileReader.Close()
+				part, err := w.CreateFormFile("attachment", filepath.Base(endpoint.AttachmentFile))
+				if err != nil {
+					return err
+				}
+				if _, err = io.Copy(part, fileReader); err != nil {
+					return err
+				}
 			}
 			// Close the multipart writer to set the terminating boundary
 			err = w.Close()

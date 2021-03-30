@@ -32,6 +32,9 @@ const (
 // ListSubscriptions will return the list of subscriptions that match the given subscription status.
 // https://www.zoho.com/subscriptions/api/v1/#Subscriptions_List_all_subscriptions
 func (s *API) ListSubscriptions(status SubscriptionStatus) (data SubscriptionsResponse, err error) {
+	if status == "" {
+		status = SubscriptionStatusAll
+	}
 	endpoint := zoho.Endpoint{
 		Name:         "subscriptions",
 		URL:          fmt.Sprintf("https://subscriptions.zoho.%s/api/v1/subscriptions", s.ZohoTLD),
@@ -85,9 +88,11 @@ func (s *API) GetSubscription(id string) (data SubscriptionResponse, err error) 
 // CreateSubscription creates new subscription
 // https://www.zoho.com/subscriptions/api/v1/#Subscriptions_Create_a_subscription
 func (s *API) CreateSubscription(request SubscriptionCreate) (data SubscriptionResponse, err error) {
-	if request.CustomerID == "" && (request.Customer.DisplayName == "" || request.Customer.Email == "") {
-		err = fmt.Errorf("CustomerID is a required field if subscription is created for existen customer. For new customer Customer.DisplayName and Customer.Email fields are required")
-		return
+	if request.CustomerID == "" {
+		if request.Customer.DisplayName == "" || request.Customer.Email == "" {
+			err = fmt.Errorf("CustomerID is a required field if subscription is created for existen customer. For new customer Customer.DisplayName and Customer.Email fields are required")
+			return
+		}
 	}
 
 	endpoint := zoho.Endpoint{
