@@ -110,6 +110,7 @@ func (s *API) AddAttachment(id, file string, canSendInEmail bool) (data Attachem
 		Method:       zoho.HTTPPost,
 		ResponseData: &AttachementResponse{},
 		Attachment:   file,
+		BodyFormat:   zoho.FILE,
 		URLParameters: map[string]zoho.Parameter{
 			"can_send_in_mail": zoho.Parameter(strconv.FormatBool(canSendInEmail)),
 		},
