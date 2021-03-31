@@ -2,6 +2,7 @@ package subscriptions
 
 import (
 	"fmt"
+	"strconv"
 
 	zoho "github.com/schmorrison/Zoho"
 )
@@ -104,13 +105,14 @@ func (s *API) GetInvoice(id string) (data InvoiceResponse, err error) {
 // https://www.zoho.com/subscriptions/api/v1/#Invoices_Add_attachment_to_an_invoice
 func (s *API) AddAttachment(id, file string, canSendInEmail bool) (data AttachementResponse, err error) {
 	endpoint := zoho.Endpoint{
-		Name:           "invoices",
-		URL:            fmt.Sprintf("https://subscriptions.zoho.%s/api/v1/invoices/%s/attachment", s.ZohoTLD, id),
-		Method:         zoho.HTTPPost,
-		ResponseData:   &AttachementResponse{},
-		RequestBody:    AttachmentRequest{CanSendInEmail: canSendInEmail},
-		JSONString:     true,
-		AttachmentFile: file,
+		Name:         "invoices",
+		URL:          fmt.Sprintf("https://subscriptions.zoho.%s/api/v1/invoices/%s/attachment", s.ZohoTLD, id),
+		Method:       zoho.HTTPPost,
+		ResponseData: &AttachementResponse{},
+		Attachment:   file,
+		URLParameters: map[string]zoho.Parameter{
+			"can_send_in_mail": zoho.Parameter(strconv.FormatBool(canSendInEmail)),
+		},
 		Headers: map[string]string{
 			ZohoSubscriptionsOriganizationID: s.OrganizationID,
 		},
