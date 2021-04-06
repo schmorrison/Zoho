@@ -44,7 +44,7 @@ func (s *API) ListSubscriptions(status SubscriptionStatus) (data SubscriptionsRe
 			"filter_by": zoho.Parameter(status),
 		},
 		Headers: map[string]string{
-			ZohoSubscriptionsOriganizationID: s.OrganizationID,
+			ZohoSubscriptionsEndpointHeader: s.OrganizationID,
 		},
 	}
 
@@ -69,7 +69,7 @@ func (s *API) GetSubscription(id string) (data SubscriptionResponse, err error) 
 		Method:       zoho.HTTPGet,
 		ResponseData: &SubscriptionResponse{},
 		Headers: map[string]string{
-			ZohoSubscriptionsOriganizationID: s.OrganizationID,
+			ZohoSubscriptionsEndpointHeader: s.OrganizationID,
 		},
 	}
 
@@ -102,7 +102,7 @@ func (s *API) CreateSubscription(request SubscriptionCreate) (data SubscriptionR
 		ResponseData: &SubscriptionResponse{},
 		RequestBody:  request,
 		Headers: map[string]string{
-			ZohoSubscriptionsOriganizationID: s.OrganizationID,
+			ZohoSubscriptionsEndpointHeader: s.OrganizationID,
 		},
 	}
 
@@ -132,7 +132,7 @@ func (s *API) UpdateSubscription(request SubscriptionUpdate, ID string) (data Su
 		ResponseData: &SubscriptionResponse{},
 		RequestBody:  request,
 		Headers: map[string]string{
-			ZohoSubscriptionsOriganizationID: s.OrganizationID,
+			ZohoSubscriptionsEndpointHeader: s.OrganizationID,
 		},
 	}
 
@@ -157,7 +157,7 @@ func (s *API) DeleteSubscription(ID string) (data SubscriptionDeleteResponse, er
 		Method:       zoho.HTTPDelete,
 		ResponseData: &SubscriptionDeleteResponse{},
 		Headers: map[string]string{
-			ZohoSubscriptionsOriganizationID: s.OrganizationID,
+			ZohoSubscriptionsEndpointHeader: s.OrganizationID,
 		},
 	}
 
@@ -183,7 +183,7 @@ func (s *API) AddChargeToSubscription(request SubscriptionAddCharge, ID string) 
 		ResponseData: &AddChargeResponse{},
 		RequestBody:  request,
 		Headers: map[string]string{
-			ZohoSubscriptionsOriganizationID: s.OrganizationID,
+			ZohoSubscriptionsEndpointHeader: s.OrganizationID,
 		},
 	}
 

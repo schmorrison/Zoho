@@ -61,24 +61,26 @@ func (z *Zoho) HTTPRequest(endpoint *Endpoint) (err error) {
 		}
 	}
 
-	var req *http.Request
-	// In case of file upload RequestBody would be blank
-	if endpoint.RequestBody == nil && endpoint.BodyFormat != FILE {
-		req, err = http.NewRequest(string(endpoint.Method), fmt.Sprintf("%s?%s", endpointURL, q.Encode()), nil)
-		if err != nil {
-			return fmt.Errorf("Failed to create a request for %s: %s", endpoint.Name, err)
-		}
+	var (
+		req         *http.Request
+		reqBody     io.Reader
+		contentType string
+	)
 
-		req.Header.Set("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8")
-	} else {
+	// Has a body, likely a CRUD operation (still possibly JSONString)
+	if endpoint.RequestBody != nil {
 		// JSON Marshal the body
 		marshalledBody, err := json.Marshal(endpoint.RequestBody)
 		if err != nil {
 			return fmt.Errorf("Failed to create json from request body")
 		}
-		reqBody := bytes.NewReader(marshalledBody)
 
-		// Create a multipart form just incase
+		reqBody = bytes.NewReader(marshalledBody)
+		contentType = "application/x-www-form-urlencoded; charset=UTF-8"
+	}
+
+	if endpoint.BodyFormat != "" {
+		// Create a multipart form
 		var b bytes.Buffer
 		w := multipart.NewWriter(&b)
 
@@ -93,7 +95,18 @@ func (z *Zoho) HTTPRequest(endpoint *Endpoint) (err error) {
 			if _, err = io.Copy(fw, reqBody); err != nil {
 				return err
 			}
-		} else if endpoint.BodyFormat == FILE {
+
+			// Close the multipart writer to set the terminating boundary
+			err = w.Close()
+			if err != nil {
+				return err
+			}
+
+			reqBody = &b
+			contentType = w.FormDataContentType()
+		}
+
+		if endpoint.BodyFormat == FILE {
 			// Retreive the file contents
 			fileReader, err := os.Open(endpoint.Attachment)
 			if err != nil {
@@ -109,32 +122,23 @@ func (z *Zoho) HTTPRequest(endpoint *Endpoint) (err error) {
 			if _, err = io.Copy(part, fileReader); err != nil {
 				return err
 			}
-		}
 
-		// Close the multipart writer to set the terminating boundary
-		err = w.Close()
-		if err != nil {
-			return err
-		}
+			err = w.Close()
+			if err != nil {
+				return err
+			}
 
-		// Choose which body/content type we are sending
-		var body io.Reader
-		var contentType string
-		if endpoint.BodyFormat == JSON_STRING || endpoint.BodyFormat == FILE {
-			body = &b
-			contentType = w.FormDataContentType()
-		} else {
-			body = reqBody
+			reqBody = &b
 			contentType = "application/x-www-form-urlencoded; charset=UTF-8"
 		}
-
-		req, err = http.NewRequest(string(endpoint.Method), fmt.Sprintf("%s?%s", endpointURL, q.Encode()), body)
-		if err != nil {
-			return fmt.Errorf("Failed to create a request for %s: %s", endpoint.Name, err)
-		}
-
-		req.Header.Set("Content-Type", contentType)
 	}
+
+	req, err = http.NewRequest(string(endpoint.Method), fmt.Sprintf("%s?%s", endpointURL, q.Encode()), reqBody)
+	if err != nil {
+		return fmt.Errorf("Failed to create a request for %s: %s", endpoint.Name, err)
+	}
+
+	req.Header.Set("Content-Type", contentType)
 
 	// Add global authorization header
 	req.Header.Add("Authorization", "Zoho-oauthtoken "+z.oauth.token.AccessToken)

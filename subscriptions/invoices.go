@@ -38,7 +38,7 @@ func (s *API) listInvoicesWithParams(status InvoiceStatus, paramName, paramValue
 			"filter_by": zoho.Parameter(status),
 		},
 		Headers: map[string]string{
-			ZohoSubscriptionsOriganizationID: s.OrganizationID,
+			ZohoSubscriptionsEndpointHeader: s.OrganizationID,
 		},
 	}
 
@@ -85,7 +85,7 @@ func (s *API) GetInvoice(id string) (data InvoiceResponse, err error) {
 		Method:       zoho.HTTPGet,
 		ResponseData: &InvoiceResponse{},
 		Headers: map[string]string{
-			ZohoSubscriptionsOriganizationID: s.OrganizationID,
+			ZohoSubscriptionsEndpointHeader: s.OrganizationID,
 		},
 	}
 
@@ -115,7 +115,7 @@ func (s *API) AddAttachment(id, file string, canSendInEmail bool) (data Attachem
 			"can_send_in_mail": zoho.Parameter(strconv.FormatBool(canSendInEmail)),
 		},
 		Headers: map[string]string{
-			ZohoSubscriptionsOriganizationID: s.OrganizationID,
+			ZohoSubscriptionsEndpointHeader: s.OrganizationID,
 		},
 	}
 
@@ -141,7 +141,7 @@ func (s *API) EmailInvoice(id string, request EmailInvoiceRequest) (data EmailIn
 		ResponseData: &EmailInvoiceResponse{},
 		RequestBody:  request,
 		Headers: map[string]string{
-			ZohoSubscriptionsOriganizationID: s.OrganizationID,
+			ZohoSubscriptionsEndpointHeader: s.OrganizationID,
 		},
 	}
 
@@ -167,7 +167,7 @@ func (s *API) AddItems(id string, request AddItemsRequest) (data AddItemsRespons
 		ResponseData: &AddItemsResponse{},
 		RequestBody:  request,
 		Headers: map[string]string{
-			ZohoSubscriptionsOriganizationID: s.OrganizationID,
+			ZohoSubscriptionsEndpointHeader: s.OrganizationID,
 		},
 	}
 
@@ -193,7 +193,7 @@ func (s *API) CollectChargeViaCreditCard(id string, request CollectChangeViaCred
 		ResponseData: &CollectChangeViaCreditCardResponse{},
 		RequestBody:  request,
 		Headers: map[string]string{
-			ZohoSubscriptionsOriganizationID: s.OrganizationID,
+			ZohoSubscriptionsEndpointHeader: s.OrganizationID,
 		},
 	}
 
@@ -219,7 +219,7 @@ func (s *API) CollectChargeViaBankAccount(id string, request CollectChangeViaBan
 		ResponseData: &CollectChangeViaBankAccountResponse{},
 		RequestBody:  request,
 		Headers: map[string]string{
-			ZohoSubscriptionsOriganizationID: s.OrganizationID,
+			ZohoSubscriptionsEndpointHeader: s.OrganizationID,
 		},
 	}
 
