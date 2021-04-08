@@ -129,7 +129,7 @@ func (z *Zoho) HTTPRequest(endpoint *Endpoint) (err error) {
 			}
 
 			reqBody = &b
-			contentType = "application/x-www-form-urlencoded; charset=UTF-8"
+			contentType = w.FormDataContentType()
 		}
 	}
 
