@@ -240,8 +240,9 @@ type CollectChangeViaBankAccountRequest struct {
 }
 
 type CollectChangeViaBankAccountResponse struct {
-	Code    int64  `json:"code"`
-	Message string `json:"message"`
+	Code    int64                         `json:"code"`
+	Message string                        `json:"message"`
+	Invoice CollectChardgeInvoiceResponse `json:"invoice"`
 	Payment struct {
 		PaymentID       string `json:"payment_id"`
 		PaymentMode     string `json:"payment_mode"`
@@ -285,8 +286,9 @@ type CollectChangeViaCreditCardRequest struct {
 }
 
 type CollectChangeViaCreditCardResponse struct {
-	Code    int64  `json:"code"`
-	Message string `json:"message"`
+	Code    int64                         `json:"code"`
+	Message string                        `json:"message"`
+	Invoice CollectChardgeInvoiceResponse `json:"invoice"`
 	Payment struct {
 		PaymentID       string  `json:"payment_id"`
 		PaymentMode     string  `json:"payment_mode"`
@@ -324,6 +326,179 @@ type CollectChangeViaCreditCardResponse struct {
 		CreatedTime    string        `json:"created_time"`
 		UpdatedTime    string        `json:"updated_time"`
 	} `json:"payment"`
+}
+
+type CollectChardgeInvoiceResponse struct {
+	AchPaymentInitiated     bool   `json:"ach_payment_initiated"`
+	Adjustment              int64  `json:"adjustment"`
+	AdjustmentDescription   string `json:"adjustment_description"`
+	AllowPartialPayments    bool   `json:"allow_partial_payments"`
+	ApproverID              string `json:"approver_id"`
+	AutoRemindersConfigured bool   `json:"auto_reminders_configured"`
+	Balance                 int64  `json:"balance"`
+	BcyAdjustment           int64  `json:"bcy_adjustment"`
+	BcyDiscountTotal        int64  `json:"bcy_discount_total"`
+	BcyShippingCharge       int64  `json:"bcy_shipping_charge"`
+	BcySubTotal             int64  `json:"bcy_sub_total"`
+	BcyTaxTotal             int64  `json:"bcy_tax_total"`
+	BcyTotal                int64  `json:"bcy_total"`
+	BillingAddress          struct {
+		Address   string `json:"address"`
+		Attention string `json:"attention"`
+		City      string `json:"city"`
+		Country   string `json:"country"`
+		Fax       string `json:"fax"`
+		Phone     string `json:"phone"`
+		State     string `json:"state"`
+		Street    string `json:"street"`
+		Street2   string `json:"street2"`
+		Zip       string `json:"zip"`
+	} `json:"billing_address"`
+	CanEditItems       bool   `json:"can_edit_items"`
+	CanSendInMail      bool   `json:"can_send_in_mail"`
+	CanSendInvoiceSms  bool   `json:"can_send_invoice_sms"`
+	CanSkipPaymentInfo bool   `json:"can_skip_payment_info"`
+	ClientViewedTime   string `json:"client_viewed_time"`
+	Contactpersons     []struct {
+		ContactpersonID string `json:"contactperson_id"`
+		Email           string `json:"email"`
+		Mobile          string `json:"mobile"`
+		Phone           string `json:"phone"`
+		ZcrmContactID   string `json:"zcrm_contact_id"`
+	} `json:"contactpersons"`
+	Coupons         []Coupon `json:"coupons"`
+	CreatedByID     string   `json:"created_by_id"`
+	CreatedDate     string   `json:"created_date"`
+	CreatedTime     string   `json:"created_time"`
+	Credits         []Credit `json:"credits"`
+	CreditsApplied  float64  `json:"credits_applied"`
+	CurrencyCode    string   `json:"currency_code"`
+	CurrencyID      string   `json:"currency_id"`
+	CurrencySymbol  string   `json:"currency_symbol"`
+	CustomFieldHash struct {
+	} `json:"custom_field_hash"`
+	CustomFields            []CustomField `json:"custom_fields"`
+	CustomerCustomFieldHash struct {
+	} `json:"customer_custom_field_hash"`
+	CustomerCustomFields        []CustomField `json:"customer_custom_fields"`
+	CustomerID                  string        `json:"customer_id"`
+	CustomerName                string        `json:"customer_name"`
+	Date                        string        `json:"date"`
+	DiscountPercent             float64       `json:"discount_percent"`
+	DiscountTotal               float64       `json:"discount_total"`
+	Documents                   []interface{} `json:"documents"`
+	DueDate                     string        `json:"due_date"`
+	Email                       string        `json:"email"`
+	ExchangeRate                float64       `json:"exchange_rate"`
+	InprocessTransactionPresent bool          `json:"inprocess_transaction_present"`
+	InvoiceDate                 string        `json:"invoice_date"`
+	InvoiceID                   string        `json:"invoice_id"`
+	InvoiceItems                []struct {
+		AccountID        string        `json:"account_id"`
+		AccountName      string        `json:"account_name"`
+		Code             string        `json:"code"`
+		Description      string        `json:"description"`
+		DiscountAmount   float64       `json:"discount_amount"`
+		ItemCustomFields []interface{} `json:"item_custom_fields"`
+		ItemID           string        `json:"item_id"`
+		ItemTotal        int64         `json:"item_total"`
+		Name             string        `json:"name"`
+		Price            float64       `json:"price"`
+		ProductID        string        `json:"product_id"`
+		ProductType      string        `json:"product_type"`
+		Quantity         int64         `json:"quantity"`
+		Tags             []interface{} `json:"tags"`
+		TaxID            string        `json:"tax_id"`
+		TaxName          string        `json:"tax_name"`
+		TaxPercentage    float64       `json:"tax_percentage"`
+		TaxType          string        `json:"tax_type"`
+		Unit             string        `json:"unit"`
+	} `json:"invoice_items"`
+	InvoiceNumber          string `json:"invoice_number"`
+	InvoiceURL             string `json:"invoice_url"`
+	IsInclusiveTax         bool   `json:"is_inclusive_tax"`
+	IsReverseChargeApplied bool   `json:"is_reverse_charge_applied"`
+	IsViewedByClient       bool   `json:"is_viewed_by_client"`
+	IsViewedInMail         bool   `json:"is_viewed_in_mail"`
+	LastModifiedByID       string `json:"last_modified_by_id"`
+	MailFirstViewedTime    string `json:"mail_first_viewed_time"`
+	MailLastViewedTime     string `json:"mail_last_viewed_time"`
+	Notes                  string `json:"notes"`
+	Number                 string `json:"number"`
+	PageWidth              string `json:"page_width"`
+	PaymentExpectedDate    string `json:"payment_expected_date"`
+	PaymentGateways        []struct {
+		PaymentGateway string `json:"payment_gateway"`
+	} `json:"payment_gateways"`
+	PaymentMade            int64  `json:"payment_made"`
+	PaymentReminderEnabled bool   `json:"payment_reminder_enabled"`
+	PaymentTerms           int64  `json:"payment_terms"`
+	PaymentTermsLabel      string `json:"payment_terms_label"`
+	Payments               []struct {
+		Amount               float64 `json:"amount"`
+		AmountRefunded       float64 `json:"amount_refunded"`
+		BankCharges          float64 `json:"bank_charges"`
+		CardType             string  `json:"card_type"`
+		Date                 string  `json:"date"`
+		Description          string  `json:"description"`
+		ExchangeRate         float64 `json:"exchange_rate"`
+		GatewayTransactionID string  `json:"gateway_transaction_id"`
+		InvoicePaymentID     string  `json:"invoice_payment_id"`
+		LastFourDigits       string  `json:"last_four_digits"`
+		PaymentID            string  `json:"payment_id"`
+		PaymentMode          string  `json:"payment_mode"`
+		ReferenceNumber      string  `json:"reference_number"`
+		SettlementStatus     string  `json:"settlement_status"`
+	} `json:"payments"`
+	PricePrecision  int64  `json:"price_precision"`
+	PricebookID     string `json:"pricebook_id"`
+	ReferenceID     string `json:"reference_id"`
+	ReferenceNumber string `json:"reference_number"`
+	SalespersonID   string `json:"salesperson_id"`
+	SalespersonName string `json:"salesperson_name"`
+	ShippingAddress struct {
+		Address   string `json:"address"`
+		Attention string `json:"attention"`
+		City      string `json:"city"`
+		Country   string `json:"country"`
+		Fax       string `json:"fax"`
+		Phone     string `json:"phone"`
+		State     string `json:"state"`
+		Street    string `json:"street"`
+		Street2   string `json:"street2"`
+		Zip       string `json:"zip"`
+	} `json:"shipping_address"`
+	ShippingCharge                        float64       `json:"shipping_charge"`
+	ShippingChargeExclusiveOfTax          float64       `json:"shipping_charge_exclusive_of_tax"`
+	ShippingChargeExclusiveOfTaxFormatted string        `json:"shipping_charge_exclusive_of_tax_formatted"`
+	ShippingChargeInclusiveOfTax          float64       `json:"shipping_charge_inclusive_of_tax"`
+	ShippingChargeInclusiveOfTaxFormatted string        `json:"shipping_charge_inclusive_of_tax_formatted"`
+	ShippingChargeTax                     string        `json:"shipping_charge_tax"`
+	ShippingChargeTaxFormatted            string        `json:"shipping_charge_tax_formatted"`
+	ShippingChargeTaxID                   string        `json:"shipping_charge_tax_id"`
+	ShippingChargeTaxName                 string        `json:"shipping_charge_tax_name"`
+	ShippingChargeTaxPercentage           string        `json:"shipping_charge_tax_percentage"`
+	ShippingChargeTaxType                 string        `json:"shipping_charge_tax_type"`
+	Status                                string        `json:"status"`
+	StopReminderUntilPaymentExpectedDate  bool          `json:"stop_reminder_until_payment_expected_date"`
+	SubTotal                              float64       `json:"sub_total"`
+	SubmitterID                           string        `json:"submitter_id"`
+	Subscriptions                         []interface{} `json:"subscriptions"`
+	TaxRounding                           string        `json:"tax_rounding"`
+	TaxTotal                              float64       `json:"tax_total"`
+	Taxes                                 []interface{} `json:"taxes"`
+	TemplateID                            string        `json:"template_id"`
+	TemplateName                          string        `json:"template_name"`
+	TemplateType                          string        `json:"template_type"`
+	Terms                                 string        `json:"terms"`
+	Total                                 float64       `json:"total"`
+	TransactionType                       string        `json:"transaction_type"`
+	UnbilledChargesID                     string        `json:"unbilled_charges_id"`
+	UnusedCreditsReceivableAmount         float64       `json:"unused_credits_receivable_amount"`
+	UpdatedTime                           string        `json:"updated_time"`
+	VatTreatment                          string        `json:"vat_treatment"`
+	WriteOffAmount                        float64       `json:"write_off_amount"`
+	ZcrmPotentialID                       string        `json:"zcrm_potential_id"`
 }
 
 type AddItemsRequest struct {
