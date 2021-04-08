@@ -77,33 +77,28 @@ type CustomerResponse struct {
 			StateCode   string `json:"state_code"`
 			Fax         string `json:"fax"`
 		} `json:"shipping_address"`
-		CurrencyCode   string  `json:"currency_code"`
-		CurrencyID     string  `json:"currency_id"`
-		AchSupported   bool    `json:"ach_supported"`
-		GstNo          string  `json:"gst_no"`
-		GstTreatment   string  `json:"gst_treatment"`
-		PlaceOfContact string  `json:"place_of_contact"`
-		PricePrecision int64   `json:"price_precision"`
-		UnusedCredits  float64 `json:"unused_credits"`
-		Outstanding    float64 `json:"outstanding"`
-		Notes          string  `json:"notes"`
-		Status         string  `json:"status"`
-		CustomFields   []struct {
-			Index    int64  `json:"index"`
-			Value    string `json:"value"`
-			DataType string `json:"data_type"`
-			Label    string `json:"label"`
-		} `json:"custom_fields"`
-		ZcrmAccountID          string `json:"zcrm_account_id"`
-		ZcrmContactID          string `json:"zcrm_contact_id"`
-		UpdatedTime            string `json:"updated_time"`
-		CreatedTime            string `json:"created_time"`
-		Source                 string `json:"source"`
-		PaymentTermsLabel      string `json:"payment_terms_label"`
-		IsLinkedWithZohocrm    bool   `json:"is_linked_with_zohocrm"`
-		PrimaryContactpersonID string `json:"primary_contactperson_id"`
-		CanAddCard             bool   `json:"can_add_card"`
-		CanAddBankAccount      bool   `json:"can_add_bank_account"`
+		CurrencyCode           string        `json:"currency_code"`
+		CurrencyID             string        `json:"currency_id"`
+		AchSupported           bool          `json:"ach_supported"`
+		GstNo                  string        `json:"gst_no"`
+		GstTreatment           string        `json:"gst_treatment"`
+		PlaceOfContact         string        `json:"place_of_contact"`
+		PricePrecision         int64         `json:"price_precision"`
+		UnusedCredits          float64       `json:"unused_credits"`
+		Outstanding            float64       `json:"outstanding"`
+		Notes                  string        `json:"notes"`
+		Status                 string        `json:"status"`
+		CustomFields           []CustomField `json:"custom_fields"`
+		ZcrmAccountID          string        `json:"zcrm_account_id"`
+		ZcrmContactID          string        `json:"zcrm_contact_id"`
+		UpdatedTime            string        `json:"updated_time"`
+		CreatedTime            string        `json:"created_time"`
+		Source                 string        `json:"source"`
+		PaymentTermsLabel      string        `json:"payment_terms_label"`
+		IsLinkedWithZohocrm    bool          `json:"is_linked_with_zohocrm"`
+		PrimaryContactpersonID string        `json:"primary_contactperson_id"`
+		CanAddCard             bool          `json:"can_add_card"`
+		CanAddBankAccount      bool          `json:"can_add_bank_account"`
 		DefaultTemplates       struct {
 			InvoiceTemplateID    string `json:"invoice_template_id"`
 			CreditnoteTemplateID string `json:"creditnote_template_id"`
