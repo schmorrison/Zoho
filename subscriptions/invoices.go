@@ -329,19 +329,19 @@ type CollectChangeViaCreditCardResponse struct {
 }
 
 type CollectChardgeInvoiceResponse struct {
-	AchPaymentInitiated     bool   `json:"ach_payment_initiated"`
-	Adjustment              int64  `json:"adjustment"`
-	AdjustmentDescription   string `json:"adjustment_description"`
-	AllowPartialPayments    bool   `json:"allow_partial_payments"`
-	ApproverID              string `json:"approver_id"`
-	AutoRemindersConfigured bool   `json:"auto_reminders_configured"`
-	Balance                 int64  `json:"balance"`
-	BcyAdjustment           int64  `json:"bcy_adjustment"`
-	BcyDiscountTotal        int64  `json:"bcy_discount_total"`
-	BcyShippingCharge       int64  `json:"bcy_shipping_charge"`
-	BcySubTotal             int64  `json:"bcy_sub_total"`
-	BcyTaxTotal             int64  `json:"bcy_tax_total"`
-	BcyTotal                int64  `json:"bcy_total"`
+	AchPaymentInitiated     bool    `json:"ach_payment_initiated"`
+	Adjustment              float64 `json:"adjustment"`
+	AdjustmentDescription   string  `json:"adjustment_description"`
+	AllowPartialPayments    bool    `json:"allow_partial_payments"`
+	ApproverID              string  `json:"approver_id"`
+	AutoRemindersConfigured bool    `json:"auto_reminders_configured"`
+	Balance                 float64 `json:"balance"`
+	BcyAdjustment           float64 `json:"bcy_adjustment"`
+	BcyDiscountTotal        float64 `json:"bcy_discount_total"`
+	BcyShippingCharge       float64 `json:"bcy_shipping_charge"`
+	BcySubTotal             float64 `json:"bcy_sub_total"`
+	BcyTaxTotal             float64 `json:"bcy_tax_total"`
+	BcyTotal                float64 `json:"bcy_total"`
 	BillingAddress          struct {
 		Address   string `json:"address"`
 		Attention string `json:"attention"`
@@ -399,15 +399,15 @@ type CollectChardgeInvoiceResponse struct {
 		Code             string        `json:"code"`
 		Description      string        `json:"description"`
 		DiscountAmount   float64       `json:"discount_amount"`
-		ItemCustomFields []interface{} `json:"item_custom_fields"`
+		ItemCustomFields []CustomField `json:"item_custom_fields"`
 		ItemID           string        `json:"item_id"`
-		ItemTotal        int64         `json:"item_total"`
+		ItemTotal        float64       `json:"item_total"`
 		Name             string        `json:"name"`
 		Price            float64       `json:"price"`
 		ProductID        string        `json:"product_id"`
 		ProductType      string        `json:"product_type"`
 		Quantity         int64         `json:"quantity"`
-		Tags             []interface{} `json:"tags"`
+		Tags             []Tag         `json:"tags"`
 		TaxID            string        `json:"tax_id"`
 		TaxName          string        `json:"tax_name"`
 		TaxPercentage    float64       `json:"tax_percentage"`
