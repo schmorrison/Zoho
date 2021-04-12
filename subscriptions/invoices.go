@@ -185,12 +185,16 @@ func (s *API) AddItems(id string, request AddItemsRequest) (data AddItemsRespons
 
 // CollectChargeViaCreditCard collects charge via credit card
 // https://www.zoho.com/subscriptions/api/v1/#Invoices_Collect_charge_via_credit_card
-func (s *API) CollectChargeViaCreditCard(id string, request CollectChangeViaCreditCardRequest) (data CollectChangeViaCreditCardResponse, err error) {
+// Note: Real life reply for this request differs from Zoho documentation,
+// so CollectChargeViaCreditCardResponse was updated to include both top level objects:
+// - 'payment' per documentation
+// - 'invoice' per real life reply
+func (s *API) CollectChargeViaCreditCard(id string, request CollectChargeViaCreditCardRequest) (data CollectChargeViaCreditCardResponse, err error) {
 	endpoint := zoho.Endpoint{
 		Name:         "invoices",
 		URL:          fmt.Sprintf("https://subscriptions.zoho.%s/api/v1/invoices/%s/collect", s.ZohoTLD, id),
 		Method:       zoho.HTTPPost,
-		ResponseData: &CollectChangeViaCreditCardResponse{},
+		ResponseData: &CollectChargeViaCreditCardResponse{},
 		RequestBody:  request,
 		Headers: map[string]string{
 			ZohoSubscriptionsEndpointHeader: s.OrganizationID,
@@ -199,24 +203,24 @@ func (s *API) CollectChargeViaCreditCard(id string, request CollectChangeViaCred
 
 	err = s.Zoho.HTTPRequest(&endpoint)
 	if err != nil {
-		return CollectChangeViaCreditCardResponse{}, fmt.Errorf("Failed to collect charge via credit card (%s): %s", id, err)
+		return CollectChargeViaCreditCardResponse{}, fmt.Errorf("Failed to collect charge via credit card (%s): %s", id, err)
 	}
 
-	if v, ok := endpoint.ResponseData.(*CollectChangeViaCreditCardResponse); ok {
+	if v, ok := endpoint.ResponseData.(*CollectChargeViaCreditCardResponse); ok {
 		return *v, nil
 	}
 
-	return CollectChangeViaCreditCardResponse{}, fmt.Errorf("Data retrieved was not 'CollectChangeViaBankCreditCardResponse'")
+	return CollectChargeViaCreditCardResponse{}, fmt.Errorf("Data retrieved was not 'CollectChargeViaCreditCardResponse'")
 }
 
 // CollectChargeViaBankAccount collects charge via bank account
 // https://www.zoho.com/subscriptions/api/v1/#Invoices_Collect_charge_via_bank_account
-func (s *API) CollectChargeViaBankAccount(id string, request CollectChangeViaBankAccountRequest) (data CollectChangeViaBankAccountResponse, err error) {
+func (s *API) CollectChargeViaBankAccount(id string, request CollectChargeViaBankAccountRequest) (data CollectChargeViaBankAccountResponse, err error) {
 	endpoint := zoho.Endpoint{
 		Name:         "invoices",
 		URL:          fmt.Sprintf("https://subscriptions.zoho.%s/api/v1/invoices/%s/collect", s.ZohoTLD, id),
 		Method:       zoho.HTTPPost,
-		ResponseData: &CollectChangeViaBankAccountResponse{},
+		ResponseData: &CollectChargeViaBankAccountResponse{},
 		RequestBody:  request,
 		Headers: map[string]string{
 			ZohoSubscriptionsEndpointHeader: s.OrganizationID,
@@ -225,39 +229,39 @@ func (s *API) CollectChargeViaBankAccount(id string, request CollectChangeViaBan
 
 	err = s.Zoho.HTTPRequest(&endpoint)
 	if err != nil {
-		return CollectChangeViaBankAccountResponse{}, fmt.Errorf("Failed to collect charge via bank account (%s): %s", id, err)
+		return CollectChargeViaBankAccountResponse{}, fmt.Errorf("Failed to collect charge via bank account (%s): %s", id, err)
 	}
 
-	if v, ok := endpoint.ResponseData.(*CollectChangeViaBankAccountResponse); ok {
+	if v, ok := endpoint.ResponseData.(*CollectChargeViaBankAccountResponse); ok {
 		return *v, nil
 	}
 
-	return CollectChangeViaBankAccountResponse{}, fmt.Errorf("Data retrieved was not 'CollectChangeViaBankAccountResponse'")
+	return CollectChargeViaBankAccountResponse{}, fmt.Errorf("Data retrieved was not 'CollectChargeViaBankAccountResponse'")
 }
 
-type CollectChangeViaBankAccountRequest struct {
+type CollectChargeViaBankAccountRequest struct {
 	AccountID string `json:"account_id"`
 }
 
-type CollectChangeViaBankAccountResponse struct {
-	Code    int64                         `json:"code"`
-	Message string                        `json:"message"`
-	Invoice CollectChardgeInvoiceResponse `json:"invoice"`
+type CollectChargeViaBankAccountResponse struct {
+	Code    int64                        `json:"code"`
+	Message string                       `json:"message"`
+	Invoice CollectChargeInvoiceResponse `json:"invoice,omitempty"`
 	Payment struct {
-		PaymentID       string `json:"payment_id"`
-		PaymentMode     string `json:"payment_mode"`
-		Amount          int64  `json:"amount"`
-		AmountRefunded  int64  `json:"amount_refunded"`
-		BankCharges     int64  `json:"bank_charges"`
-		Date            string `json:"date"`
-		Status          string `json:"status"`
-		ReferenceNumber string `json:"reference_number"`
-		DueDate         string `json:"due_date"`
-		AmountDue       int64  `json:"amount_due"`
-		Description     string `json:"description"`
-		CustomerID      string `json:"customer_id"`
-		CustomerName    string `json:"customer_name"`
-		Email           string `json:"email"`
+		PaymentID       string  `json:"payment_id"`
+		PaymentMode     string  `json:"payment_mode"`
+		Amount          float64 `json:"amount"`
+		AmountRefunded  float64 `json:"amount_refunded"`
+		BankCharges     float64 `json:"bank_charges"`
+		Date            string  `json:"date"`
+		Status          string  `json:"status"`
+		ReferenceNumber string  `json:"reference_number"`
+		DueDate         string  `json:"due_date"`
+		AmountDue       float64 `json:"amount_due"`
+		Description     string  `json:"description"`
+		CustomerID      string  `json:"customer_id"`
+		CustomerName    string  `json:"customer_name"`
+		Email           string  `json:"email"`
 		Autotransaction struct {
 			AutotransactionID    string `json:"autotransaction_id"`
 			PaymentGateway       string `json:"payment_gateway"`
@@ -278,17 +282,17 @@ type CollectChangeViaBankAccountResponse struct {
 		CustomFields   []CustomField `json:"custom_fields"`
 		CreatedTime    string        `json:"created_time"`
 		UpdatedTime    string        `json:"updated_time"`
-	} `json:"payment"`
+	} `json:"payment,omitempty"`
 }
 
-type CollectChangeViaCreditCardRequest struct {
+type CollectChargeViaCreditCardRequest struct {
 	CardID string `json:"card_id"`
 }
 
-type CollectChangeViaCreditCardResponse struct {
-	Code    int64                         `json:"code"`
-	Message string                        `json:"message"`
-	Invoice CollectChardgeInvoiceResponse `json:"invoice"`
+type CollectChargeViaCreditCardResponse struct {
+	Code    int64                        `json:"code"`
+	Message string                       `json:"message"`
+	Invoice CollectChargeInvoiceResponse `json:"invoice,omitempty"`
 	Payment struct {
 		PaymentID       string  `json:"payment_id"`
 		PaymentMode     string  `json:"payment_mode"`
@@ -325,10 +329,10 @@ type CollectChangeViaCreditCardResponse struct {
 		CustomFields   []CustomField `json:"custom_fields"`
 		CreatedTime    string        `json:"created_time"`
 		UpdatedTime    string        `json:"updated_time"`
-	} `json:"payment"`
+	} `json:"payment,omitempty"`
 }
 
-type CollectChardgeInvoiceResponse struct {
+type CollectChargeInvoiceResponse struct {
 	AchPaymentInitiated     bool    `json:"ach_payment_initiated"`
 	Adjustment              float64 `json:"adjustment"`
 	AdjustmentDescription   string  `json:"adjustment_description"`
