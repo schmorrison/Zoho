@@ -2,7 +2,6 @@ package invoice
 
 import (
 	"fmt"
-
 	zoho "github.com/schmorrison/Zoho"
 )
 
@@ -19,7 +18,7 @@ func (c *API) CreateContactPerson(request interface{}) (data CreateContactPerson
 			"filter_by": "",
 		},
 		RequestBody: &request,
-		BodyFormat:  zoho.JSON_STRING,
+		JSONString:  true,
 		Headers: map[string]string{
 			InvoiceAPIEndpointHeader: c.OrganizationID,
 		},

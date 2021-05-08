@@ -2,7 +2,6 @@ package invoice
 
 import (
 	"fmt"
-
 	zoho "github.com/schmorrison/Zoho"
 )
 
@@ -19,7 +18,7 @@ func (c *API) CreateInvoice(request interface{}) (data CreateInvoiceResponse, er
 			"filter_by": "",
 		},
 		RequestBody: request,
-		BodyFormat:  zoho.JSON_STRING,
+		JSONString:  true,
 		Headers: map[string]string{
 			InvoiceAPIEndpointHeader: c.OrganizationID,
 		},
@@ -45,7 +44,7 @@ func (c *API) CreateInvoice(request interface{}) (data CreateInvoiceResponse, er
 			URL:          fmt.Sprintf(InvoiceAPIEndpoint+"%s/%s/status/sent", InvoicesModule, v.Invoice.InvoiceId),
 			Method:       zoho.HTTPPost,
 			ResponseData: &InvoiceSent{},
-			BodyFormat:   zoho.JSON_STRING,
+			JSONString:   true,
 			Headers: map[string]string{
 				InvoiceAPIEndpointHeader: c.OrganizationID,
 			},

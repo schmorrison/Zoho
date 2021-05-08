@@ -9,8 +9,6 @@ import (
 	"mime/multipart"
 	"net/http"
 	"net/url"
-	"os"
-	"path/filepath"
 	"reflect"
 )
 
@@ -23,19 +21,11 @@ type Endpoint struct {
 	RequestBody   interface{}
 	URLParameters map[string]Parameter
 	Headers       map[string]string
-	BodyFormat    BodyFormat
-	Attachment    string
+	JSONString    bool
 }
 
 // Parameter is used to provide URL Parameters to zoho endpoints
 type Parameter string
-type BodyFormat string
-
-const (
-	JSON        = ""
-	JSON_STRING = "jsonString"
-	FILE        = "file"
-)
 
 // HTTPRequest is the function which actually performs the request to a Zoho endpoint as specified by the provided endpoint
 func (z *Zoho) HTTPRequest(endpoint *Endpoint) (err error) {
@@ -61,84 +51,51 @@ func (z *Zoho) HTTPRequest(endpoint *Endpoint) (err error) {
 		}
 	}
 
-	var (
-		req         *http.Request
-		reqBody     io.Reader
-		contentType string
-	)
-
-	// Has a body, likely a CRUD operation (still possibly JSONString)
-	if endpoint.RequestBody != nil {
-		// JSON Marshal the body
+	// Create the request
+	var req *http.Request
+	if endpoint.RequestBody == nil {
+		req, err = http.NewRequest(string(endpoint.Method), fmt.Sprintf("%s?%s", endpointURL, q.Encode()), nil)
+		if err != nil {
+			return fmt.Errorf("Failed to create a request for %s: %s", endpoint.Name, err)
+		}
+		req.Header.Add("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8")
+	} else {
 		marshalledBody, err := json.Marshal(endpoint.RequestBody)
 		if err != nil {
 			return fmt.Errorf("Failed to create json from request body")
 		}
+		reqBody := bytes.NewReader(marshalledBody)
 
-		reqBody = bytes.NewReader(marshalledBody)
-		contentType = "application/x-www-form-urlencoded; charset=UTF-8"
-	}
-
-	if endpoint.BodyFormat != "" {
-		// Create a multipart form
-		var b bytes.Buffer
-		w := multipart.NewWriter(&b)
-
-		// Check the expect BodyFormat
-		if endpoint.BodyFormat == JSON_STRING {
-			// Use the form to create the proper field
+		// Choose whether to send a multipart encoded data or a simple payload
+		if endpoint.JSONString {
+			var b bytes.Buffer
+			w := multipart.NewWriter(&b)
 			fw, err := w.CreateFormField("JSONString")
 			if err != nil {
 				return err
 			}
-			// Copy the request body JSON into the field
 			if _, err = io.Copy(fw, reqBody); err != nil {
 				return err
 			}
-
 			// Close the multipart writer to set the terminating boundary
 			err = w.Close()
 			if err != nil {
 				return err
 			}
-
-			reqBody = &b
-			contentType = w.FormDataContentType()
-		}
-
-		if endpoint.BodyFormat == FILE {
-			// Retreive the file contents
-			fileReader, err := os.Open(endpoint.Attachment)
+			req, err = http.NewRequest(string(endpoint.Method), fmt.Sprintf("%s?%s", endpointURL, q.Encode()), &b)
 			if err != nil {
-				return err
+				return fmt.Errorf("Failed to create a request for %s: %s", endpoint.Name, err)
 			}
-			defer fileReader.Close()
-			// Create the correct form field
-			part, err := w.CreateFormFile("attachment", filepath.Base(endpoint.Attachment))
+			// Set the content type which contains the multipart boundary
+			req.Header.Set("Content-Type", w.FormDataContentType())
+		} else {
+			req, err = http.NewRequest(string(endpoint.Method), fmt.Sprintf("%s?%s", endpointURL, q.Encode()), reqBody)
 			if err != nil {
-				return err
+				return fmt.Errorf("Failed to create a request for %s: %s", endpoint.Name, err)
 			}
-			// copy the file contents to the form
-			if _, err = io.Copy(part, fileReader); err != nil {
-				return err
-			}
-
-			err = w.Close()
-			if err != nil {
-				return err
-			}
-
-			reqBody = &b
-			contentType = w.FormDataContentType()
+			req.Header.Add("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8")
 		}
 	}
-
-	req, err = http.NewRequest(string(endpoint.Method), fmt.Sprintf("%s?%s", endpointURL, q.Encode()), reqBody)
-	if err != nil {
-		return fmt.Errorf("Failed to create a request for %s: %s", endpoint.Name, err)
-	}
-
-	req.Header.Set("Content-Type", contentType)
 
 	// Add global authorization header
 	req.Header.Add("Authorization", "Zoho-oauthtoken "+z.oauth.token.AccessToken)

@@ -2,7 +2,6 @@ package invoice
 
 import (
 	"fmt"
-
 	zoho "github.com/schmorrison/Zoho"
 )
 
@@ -18,7 +17,7 @@ func (c *API) GetRecurringInvoice(recurringInvoiceId string) (data RecurringInvo
 		URLParameters: map[string]zoho.Parameter{
 			"filter_by": "",
 		},
-		BodyFormat: zoho.JSON_STRING,
+		JSONString:  true,
 		Headers: map[string]string{
 			InvoiceAPIEndpointHeader: c.OrganizationID,
 		},

@@ -17,7 +17,7 @@ func (c *API) ListRecurringInvoices() (data ListRecurringInvoicesResponse, err e
 		URLParameters: map[string]zoho.Parameter{
 			//"filter_by": "",
 		},
-		BodyFormat: zoho.JSON_STRING,
+		JSONString:  true,
 		Headers: map[string]string{
 			InvoiceAPIEndpointHeader: c.OrganizationID,
 		},
