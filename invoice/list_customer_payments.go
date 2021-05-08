@@ -2,6 +2,7 @@ package invoice
 
 import (
 	"fmt"
+
 	zoho "github.com/schmorrison/Zoho"
 )
 
@@ -10,14 +11,14 @@ import (
 func (c *API) ListCustomerPayments() (data ListCustomerPaymentsResponse, err error) {
 
 	endpoint := zoho.Endpoint{
-		Name:         CustomerPaymentsModule,
-		URL:          fmt.Sprintf(InvoiceAPIEndpoint + "%s", CustomerPaymentsModule),
-		Method:       zoho.HTTPGet,
-		ResponseData: &ListCustomerPaymentsResponse{},
+		Name:          CustomerPaymentsModule,
+		URL:           fmt.Sprintf(InvoiceAPIEndpoint+"%s", CustomerPaymentsModule),
+		Method:        zoho.HTTPGet,
+		ResponseData:  &ListCustomerPaymentsResponse{},
 		URLParameters: map[string]zoho.Parameter{
 			//"filter_by": "",
 		},
-		JSONString:  true,
+		BodyFormat: zoho.JSON_STRING,
 		Headers: map[string]string{
 			InvoiceAPIEndpointHeader: c.OrganizationID,
 		},

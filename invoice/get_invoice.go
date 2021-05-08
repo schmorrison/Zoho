@@ -2,6 +2,7 @@ package invoice
 
 import (
 	"fmt"
+
 	zoho "github.com/schmorrison/Zoho"
 )
 
@@ -17,7 +18,7 @@ func (c *API) GetInvoice(invoiceId string) (data GetInvoiceResponse, err error) 
 		URLParameters: map[string]zoho.Parameter{
 			"filter_by": "",
 		},
-		JSONString:  true,
+		BodyFormat: zoho.JSON_STRING,
 		Headers: map[string]string{
 			InvoiceAPIEndpointHeader: c.OrganizationID,
 		},
@@ -109,19 +110,19 @@ type GetInvoiceResponse struct {
 			TaxName   string  `json:"tax_name"`
 			TaxAmount float64 `json:"tax_amount"`
 		} `json:"taxes"`
-		PaymentReminderEnabled bool    `json:"payment_reminder_enabled"`
-		PaymentMade            float64 `json:"payment_made"`
-		CreditsApplied         float64 `json:"credits_applied"`
-		TaxAmountWithheld      float64 `json:"tax_amount_withheld"`
-		Balance                float64 `json:"balance"`
-		WriteOffAmount         float64 `json:"write_off_amount"`
-		AllowPartialPayments   bool    `json:"allow_partial_payments"`
-		PricePrecision         int64   `json:"price_precision"`
-		PaymentOptions PaymentOptions `json:"payment_options"`
-		IsEmailed            bool   `json:"is_emailed"`
-		RemindersSent        int64  `json:"reminders_sent"`
-		LastReminderSentDate string `json:"last_reminder_sent_date"`
-		BillingAddress       struct {
+		PaymentReminderEnabled bool           `json:"payment_reminder_enabled"`
+		PaymentMade            float64        `json:"payment_made"`
+		CreditsApplied         float64        `json:"credits_applied"`
+		TaxAmountWithheld      float64        `json:"tax_amount_withheld"`
+		Balance                float64        `json:"balance"`
+		WriteOffAmount         float64        `json:"write_off_amount"`
+		AllowPartialPayments   bool           `json:"allow_partial_payments"`
+		PricePrecision         int64          `json:"price_precision"`
+		PaymentOptions         PaymentOptions `json:"payment_options"`
+		IsEmailed              bool           `json:"is_emailed"`
+		RemindersSent          int64          `json:"reminders_sent"`
+		LastReminderSentDate   string         `json:"last_reminder_sent_date"`
+		BillingAddress         struct {
 			Address string `json:"address"`
 			Street2 string `json:"street2"`
 			City    string `json:"city"`

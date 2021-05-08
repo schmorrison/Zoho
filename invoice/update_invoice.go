@@ -2,6 +2,7 @@ package invoice
 
 import (
 	"fmt"
+
 	zoho "github.com/schmorrison/Zoho"
 )
 
@@ -17,7 +18,7 @@ func (c *API) UpdateInvoice(request interface{}, invoiceId string) (data UpdateI
 			"filter_by": "",
 		},
 		RequestBody: &request,
-		JSONString:  true,
+		BodyFormat:  zoho.JSON_STRING,
 		Headers: map[string]string{
 			InvoiceAPIEndpointHeader: c.OrganizationID,
 		},
