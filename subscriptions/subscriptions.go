@@ -2,6 +2,7 @@ package subscriptions
 
 import (
 	"fmt"
+	"strconv"
 
 	zoho "github.com/schmorrison/Zoho"
 )
@@ -146,6 +147,34 @@ func (s *API) UpdateSubscription(request SubscriptionUpdate, ID string) (data Su
 	}
 
 	return SubscriptionResponse{}, fmt.Errorf("Data returned was nil")
+}
+
+// CancelSubscription will cancel subscription by id
+// https://www.zoho.com/subscriptions/api/v1/#Subscriptions_Cancel_a_subscription
+func (s *API) CancelSubscription(ID string, cancelAtEnd bool) (data SubscriptionCancelResponse, err error) {
+	endpoint := zoho.Endpoint{
+		Name:         "subscriptions",
+		URL:          fmt.Sprintf("https://subscriptions.zoho.%s/api/v1/subscriptions/%s/cancel", s.ZohoTLD, ID),
+		Method:       zoho.HTTPPost,
+		ResponseData: &SubscriptionCancelResponse{},
+		URLParameters: map[string]zoho.Parameter{
+			"cancel_at_end": zoho.Parameter(strconv.FormatBool(cancelAtEnd)),
+		},
+		Headers: map[string]string{
+			ZohoSubscriptionsEndpointHeader: s.OrganizationID,
+		},
+	}
+
+	err = s.Zoho.HTTPRequest(&endpoint)
+	if err != nil {
+		return SubscriptionCancelResponse{}, fmt.Errorf("Failed to cancel subscription %s: %s", ID, err)
+	}
+
+	if v, ok := endpoint.ResponseData.(*SubscriptionCancelResponse); ok {
+		return *v, nil
+	}
+
+	return SubscriptionCancelResponse{}, fmt.Errorf("Data returned was nil")
 }
 
 // DeleteSubscription will delete subscription by id
@@ -456,6 +485,12 @@ type SubscriptionsResponse struct {
 }
 
 type SubscriptionResponse struct {
+	Subscription Subscription `json:"subscription"`
+	Code         int64        `json:"code"`
+	Message      string       `json:"message"`
+}
+
+type SubscriptionCancelResponse struct {
 	Subscription Subscription `json:"subscription"`
 	Code         int64        `json:"code"`
 	Message      string       `json:"message"`
