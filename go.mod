@@ -1,4 +1,4 @@
-module github.com/schmorrison/Zoho
+module github.com/ysahil97/Zoho
 
 go 1.13
 

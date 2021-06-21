@@ -268,7 +268,11 @@ type ScopeString string
 
 // BuildScope is used to generate a scope string for oAuth2 flow
 func BuildScope(service Service, scope Scope, method Method, operation Operation) ScopeString {
-	built := fmt.Sprintf("%s.%s.%s", service, scope, method)
+	if method != "" {
+		built := fmt.Sprintf("%s.%s.%s", service, scope, method)
+	} else {
+		build := fmt.Sprintf("%s.%s", service, scope)
+	}
 	if operation != "" {
 		built += "." + string(operation)
 	}
@@ -283,6 +287,8 @@ const (
 	Crm Service = "ZohoCRM"
 	// Expense is the Service portion of the scope string
 	Expense Service = "ZohoExpense"
+	// Bookings is the Service portion of the scope string
+	Bookings Service = "zohobookings"
 )
 
 // Scope is a type for building scopes
@@ -310,6 +316,8 @@ const (
 	ReimbursementScope Scope = "reimbursement"
 	// AdvanceScope is a possible Method portion of the scope string
 	AdvanceScope Scope = "advance"
+	// DataScope is a possible Method portion of the scope string
+	DataScope Scope = "data"
 )
 
 // Method is a type for building scopes
