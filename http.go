@@ -54,6 +54,7 @@ func (z *Zoho) HTTPRequest(endpoint *Endpoint) (err error) {
 
 	// Retrieve URL parameters
 	endpointURL := endpoint.URL
+	fmt.Printf(endpointURL)
 	q := url.Values{}
 	for k, v := range endpoint.URLParameters {
 		if v != "" {
@@ -162,7 +163,7 @@ func (z *Zoho) HTTPRequest(endpoint *Endpoint) (err error) {
 
 	dataType := reflect.TypeOf(endpoint.ResponseData).Elem()
 	data := reflect.New(dataType).Interface()
-
+	fmt.Printf(string(body))
 	err = json.Unmarshal(body, data)
 	if err != nil {
 		return fmt.Errorf("Failed to unmarshal data from response for %s: got status %s: %s", endpoint.Name, resolveStatus(resp), err)

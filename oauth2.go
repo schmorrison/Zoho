@@ -100,6 +100,7 @@ func (z *Zoho) GenerateTokenRequest(clientID, clientSecret, code, redirectURI st
 	q.Set("grant_type", "authorization_code")
 
 	tokenURL := fmt.Sprintf("%s%s?%s", z.oauth.baseURL, oauthGenerateTokenRequestSlug, q.Encode())
+	fmt.Printf(tokenURL)
 	resp, err := z.client.Post(tokenURL, "application/x-www-form-urlencoded", nil)
 	if err != nil {
 		return fmt.Errorf("Failed while requesting generate token: %s", err)
@@ -110,7 +111,7 @@ func (z *Zoho) GenerateTokenRequest(clientID, clientSecret, code, redirectURI st
 			fmt.Printf("Failed to close request body: %s\n", err)
 		}
 	}()
-
+	fmt.Printf(tokenURL)
 	body, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
 		return fmt.Errorf("Failed to read request body on request to %s%s: %s", z.oauth.baseURL, oauthGenerateTokenRequestSlug, err)
@@ -180,6 +181,7 @@ func (z *Zoho) AuthorizationCodeRequest(clientID, clientSecret string, scopes []
 
 	srvChan := make(chan int)
 	codeChan := make(chan string)
+	locChan := make(chan string)
 	var srv *http.Server
 
 	localRedirect := strings.Contains(redirectURI, "localhost")
@@ -199,6 +201,7 @@ func (z *Zoho) AuthorizationCodeRequest(clientID, clientSecret string, scopes []
 			w.Write([]byte("Code retrieved, you can close this window to continue"))
 
 			codeChan <- r.URL.Query().Get("code")
+			locChan <- r.URL.Query().Get("location")
 		})
 
 		go func() {
@@ -216,11 +219,12 @@ func (z *Zoho) AuthorizationCodeRequest(clientID, clientSecret string, scopes []
 	fmt.Printf("Go to the following authentication URL to begin oAuth2 flow:\n %s\n\n", authURL)
 
 	code := ""
-
+	location := ""
 	if localRedirect {
 		// wait for code to be returned by the server
 		code = <-codeChan
-		ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+		location = <-locChan
+		ctx, cancel := context.WithTimeout(context.Background(), 15*time.Second)
 		defer func() {
 			cancel()
 		}()
@@ -238,7 +242,8 @@ func (z *Zoho) AuthorizationCodeRequest(clientID, clientSecret string, scopes []
 	if code == "" {
 		return fmt.Errorf("No code was recieved from oAuth2 flow")
 	}
-
+	fmt.Printf(code)
+	z.SetZohoTLD(location)
 	err = z.GenerateTokenRequest(clientID, clientSecret, code, redirectURI)
 	if err != nil {
 		return fmt.Errorf("Failed to retrieve oAuth2 token: %s", err)
@@ -268,10 +273,11 @@ type ScopeString string
 
 // BuildScope is used to generate a scope string for oAuth2 flow
 func BuildScope(service Service, scope Scope, method Method, operation Operation) ScopeString {
+	var built string = ""
 	if method != "" {
-		built := fmt.Sprintf("%s.%s.%s", service, scope, method)
+		built += fmt.Sprintf("%s.%s.%s", service, scope, method)
 	} else {
-		build := fmt.Sprintf("%s.%s", service, scope)
+		built += fmt.Sprintf("%s.%s", service, scope)
 	}
 	if operation != "" {
 		built += "." + string(operation)
