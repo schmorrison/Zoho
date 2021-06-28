@@ -5,12 +5,12 @@ import (
 	zoho "github.com/schmorrison/Zoho"
 )
 
-func (c *API) FetchWorkspaces(request interface{}, params map[string]zoho.Parameter) (data WorkspaceResponse, err error) {
+func (c *API) FetchStaff(request interface{}, params map[string]zoho.Parameter) (data StaffResponse, err error) {
 	endpoint := zoho.Endpoint{
-		Name:         FetchWorkspacesModule,
-		URL:          fmt.Sprintf(BookingsAPIEndpoint+"%s", FetchWorkspacesModule),
+		Name:         FetchStaffModule,
+		URL:          fmt.Sprintf(BookingsAPIEndpoint+"%s", FetchStaffModule),
 		Method:       zoho.HTTPGet,
-		ResponseData: &WorkspaceResponse{},
+		ResponseData: &StaffResponse{},
 		URLParameters: map[string]zoho.Parameter{
 			"filter_by": "",
 		},
@@ -23,16 +23,16 @@ func (c *API) FetchWorkspaces(request interface{}, params map[string]zoho.Parame
 
 	err = c.Zoho.HTTPRequest(&endpoint)
 	if err != nil {
-		return WorkspaceResponse{}, fmt.Errorf("Failed to retrieve workspaces: %s", err)
+		return StaffResponse{}, fmt.Errorf("Failed to retrieve staffs: %s", err)
 	}
 
-	if v,ok := endpoint.ResponseData.(*WorkspaceResponse); ok {
+	if v,ok := endpoint.ResponseData.(*StaffResponse); ok {
 		return *v, nil
 	}
-	return WorkspaceResponse{}, fmt.Errorf("Data retrieved was not 'Workspace Response'")
+	return StaffResponse{}, fmt.Errorf("Data retrieved was not 'Staff Response'")
 }
 
-type WorkspaceResponse struct {
+type StaffResponse struct {
 	response struct {
 		returnValue struct {
 			data []struct {

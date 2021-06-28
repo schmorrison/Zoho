@@ -11,6 +11,9 @@ const (
 	BookingsAPIEndpoint string = "https://www.zohoapis.in/bookings/v1/json/"
 	GetAppointmentModule string = "getappointment"
 	FetchWorkspacesModule string = "workspaces"
+	FetchServicesModule string = "services"
+	FetchStaffModule string = "staffs"
+	FetchResourceModule string = "resources"
 )
 
 // API is used for interacting with the Zoho expense API
