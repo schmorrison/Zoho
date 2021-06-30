@@ -14,6 +14,9 @@ const (
 	FetchServicesModule string = "services"
 	FetchStaffModule string = "staffs"
 	FetchResourceModule string = "resources"
+	BookAppointmentModule string = "appointment"
+	RescheduleAppointmentModule string = "rescheduleappointment"
+	UpdateAppointmentModule string = "updateappointment"
 )
 
 // API is used for interacting with the Zoho expense API

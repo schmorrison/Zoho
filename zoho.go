@@ -18,6 +18,9 @@ func New() *Zoho {
 				}).Dial,
 				TLSHandshakeTimeout: 5 * time.Second,
 			},
+			CheckRedirect: func(req *http.Request, via []*http.Request) error {
+		        return http.ErrUseLastResponse
+		    },
 		},
 		ZohoTLD:    "com",
 		tokensFile: "./.tokens.zoho",
