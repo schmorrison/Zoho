@@ -69,7 +69,6 @@ func (z *Zoho) HTTPRequest(endpoint *Endpoint) (err error) {
 	)
 
 	// Has a body, likely a CRUD operation (still possibly JSONString)
-	// if len(endpoint.RequestBody) != 0 {
 	if endpoint.RequestBody != nil{
 
 		// TODO: Decide whether JSON.marshal is required or not for
@@ -77,7 +76,6 @@ func (z *Zoho) HTTPRequest(endpoint *Endpoint) (err error) {
 
 		// JSON Marshal the body
 		switch v := endpoint.RequestBody.(type) {
-			// case url.Values:
 			case map[string]string:
 				body := url.Values{}
 				for k, val := range v {

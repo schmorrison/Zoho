@@ -220,7 +220,7 @@ func (z *Zoho) AuthorizationCodeRequest(clientID, clientSecret string, scopes []
 	if localRedirect {
 		// wait for code to be returned by the server
 		code = <-codeChan
-		ctx, cancel := context.WithTimeout(context.Background(), 15*time.Second)
+		ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 		defer func() {
 			cancel()
 		}()
