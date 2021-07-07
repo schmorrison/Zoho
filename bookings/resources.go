@@ -33,13 +33,13 @@ func (c *API) FetchResources(request interface{}, params map[string]zoho.Paramet
 }
 
 type ResourceResponse struct {
-	response struct {
-		returnValue struct {
-			data []struct {
-				name string `json:"name"`
-				id string `json:"id"`
+	Response struct {
+		ReturnValue struct {
+			Data []struct {
+				Name string `json:"name"`
+				Id string `json:"id"`
 			} `json:"data"`
 		} `json:"returnvalue"`
-		status string `json:"status"`
+		Status string `json:"status"`
 	} `json:"response"`
 }

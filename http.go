@@ -21,7 +21,7 @@ type Endpoint struct {
 	URL           string
 	Name          string
 	ResponseData  interface{}
-	RequestBody	  interface{}
+	RequestBody   interface{}
 	URLParameters map[string]Parameter
 	Headers       map[string]string
 	BodyFormat    BodyFormat
@@ -55,7 +55,6 @@ func (z *Zoho) HTTPRequest(endpoint *Endpoint) (err error) {
 
 	// Retrieve URL parameters
 	endpointURL := endpoint.URL
-	// fmt.Printf(endpointURL)
 	q := url.Values{}
 	for k, v := range endpoint.URLParameters {
 		if v != "" {
@@ -71,13 +70,12 @@ func (z *Zoho) HTTPRequest(endpoint *Endpoint) (err error) {
 
 	// Has a body, likely a CRUD operation (still possibly JSONString)
 	// if len(endpoint.RequestBody) != 0 {
-	if endpoint.RequestBody != ""{
+	if endpoint.RequestBody != nil{
 
 		// TODO: Decide whether JSON.marshal is required or not for
 		// Bookings or CRM
 
 		// JSON Marshal the body
-		fmt.Println(reflect.TypeOf(endpoint.RequestBody))
 		switch v := endpoint.RequestBody.(type) {
 			// case url.Values:
 			case map[string]string:
@@ -85,24 +83,16 @@ func (z *Zoho) HTTPRequest(endpoint *Endpoint) (err error) {
 				for k, val := range v {
 					body.Add(k,val)
 				}
-				// body.Set("name", "Ava")
-				// body.Add("friend", "Jess")
-				// body.Add("friend", "Sarah")
-				// body.Add("friend", "Zoe")
-				// body, _ := v.(url.Values)
+
 				reqBody = strings.NewReader(body.Encode())
 				contentType = "application/x-www-form-urlencoded; charset=UTF-8"
 			default:
 				marshalledBody, err := json.Marshal(v)
-				// marshalledBody := endpoint.RequestBody
 				if err != nil {
 					return fmt.Errorf("Failed to create json from request body")
 				}
-				// fmt.Printf("Marshalled body: ")
-				fmt.Println(marshalledBody)
-				reqBody = bytes.NewBuffer(marshalledBody)
 
-				// reqBody = strings.NewReader(endpoint.RequestBody.Encode())
+				reqBody = bytes.NewBuffer(marshalledBody)
 				contentType = "application/x-www-form-urlencoded; charset=UTF-8"
 		}
 	}
@@ -190,13 +180,14 @@ func (z *Zoho) HTTPRequest(endpoint *Endpoint) (err error) {
 
 	dataType := reflect.TypeOf(endpoint.ResponseData).Elem()
 	data := reflect.New(dataType).Interface()
-	err = json.Unmarshal(body, data)
 
+	err = json.Unmarshal(body, data)
 	if err != nil {
 		return fmt.Errorf("Failed to unmarshal data from response for %s: got status %s: %s", endpoint.Name, resolveStatus(resp), err)
 	}
 
 	endpoint.ResponseData = data
+
 	return nil
 }
 

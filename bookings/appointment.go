@@ -39,7 +39,6 @@ func (c *API) BookAppointment(request map[string]string) (data AppointmentRespon
 		Method:       zoho.HTTPPost,
 		ResponseData: &AppointmentResponse{},
 		RequestBody: request,
-		// BodyFormat: "jsonString",
 	}
 
 	err = c.Zoho.HTTPRequest(&endpoint)
@@ -60,7 +59,6 @@ func (c *API) UpdateAppointment(request map[string]string) (data AppointmentResp
 		Method:       zoho.HTTPPost,
 		ResponseData: &AppointmentResponse{},
 		RequestBody: request,
-		// BodyFormat: "jsonString",
 	}
 
 	err = c.Zoho.HTTPRequest(&endpoint)
@@ -81,7 +79,6 @@ func (c *API) RescheduleAppointment(params map[string]string) (data AppointmentR
 		Method:       zoho.HTTPPost,
 		ResponseData: &AppointmentResponse{},
 		RequestBody: params,
-		// BodyFormat: "jsonString"	,
 	}
 
 	err = c.Zoho.HTTPRequest(&endpoint)

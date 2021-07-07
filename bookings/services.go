@@ -33,17 +33,17 @@ func (c *API) FetchServices(request interface{}, params map[string]zoho.Paramete
 }
 
 type ServiceResponse struct {
-	response struct {
-		returnValue struct {
-			data []struct {
-				duration string `json:"duration"`
-				buffertime string `json:"buffertime"`
-				price string `json:"price"`
-				name string `json:"name"`
-				currency string `json:"currency"`
-				id string `json:"id"`
+	Response struct {
+		ReturnValue struct {
+			Data []struct {
+				Duration string `json:"duration"`
+				Buffertime string `json:"buffertime"`
+				Price string `json:"price"`
+				Name string `json:"name"`
+				Currency string `json:"currency"`
+				Id string `json:"id"`
 			} `json:"data"`
 		} `json:"returnvalue"`
-		status string `json:"status"`
+		Status string `json:"status"`
 	} `json:"response"`
 }
