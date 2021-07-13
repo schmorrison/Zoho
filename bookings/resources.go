@@ -5,20 +5,22 @@ import (
 	zoho "github.com/schmorrison/Zoho"
 )
 
-func (c *API) FetchResources(request interface{}, params map[string]zoho.Parameter) (data ResourceResponse, err error) {
+func (c *API) FetchResources(resourceID zoho.Parameter, serviceID zoho.Parameter) (data ResourceResponse, err error) {
 	endpoint := zoho.Endpoint{
 		Name:         FetchResourceModule,
-		URL:          fmt.Sprintf(BookingsAPIEndpoint+"%s", FetchResourceModule),
+		URL:          fmt.Sprintf("https://www.zohoapis.%s/bookings/v1/json/%s", c.ZohoTLD, FetchResourceModule),
 		Method:       zoho.HTTPGet,
 		ResponseData: &ResourceResponse{},
 		URLParameters: map[string]zoho.Parameter{
 			"filter_by": "",
 		},
 	}
-	if len(params) != 0 {
-		for k, v := range params {
-			endpoint.URLParameters[k] = v
-		}
+
+	if resourceID != "" {
+		endpoint.URLParameters["resource_id"] = resourceID
+	}
+	if serviceID != "" {
+		endpoint.URLParameters["service_id"] = serviceID
 	}
 
 	err = c.Zoho.HTTPRequest(&endpoint)

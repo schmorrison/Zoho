@@ -5,20 +5,21 @@ import (
 	zoho "github.com/schmorrison/Zoho"
 )
 
-func (c *API) FetchStaff(request interface{}, params map[string]zoho.Parameter) (data StaffResponse, err error) {
+func (c *API) FetchStaff(serviceID zoho.Parameter, staffID zoho.Parameter) (data StaffResponse, err error) {
 	endpoint := zoho.Endpoint{
 		Name:         FetchStaffModule,
-		URL:          fmt.Sprintf(BookingsAPIEndpoint+"%s", FetchStaffModule),
+		URL:          fmt.Sprintf("https://www.zohoapis.%s/bookings/v1/json/%s", c.ZohoTLD,FetchStaffModule),
 		Method:       zoho.HTTPGet,
 		ResponseData: &StaffResponse{},
 		URLParameters: map[string]zoho.Parameter{
 			"filter_by": "",
 		},
 	}
-	if len(params) != 0 {
-		for k, v := range params {
-			endpoint.URLParameters[k] = v
-		}
+	if serviceID != "" {
+		endpoint.URLParameters["service_id"] = serviceID
+	}
+	if staffID != "" {
+		endpoint.URLParameters["staff_id"] = staffID
 	}
 
 	err = c.Zoho.HTTPRequest(&endpoint)

@@ -268,14 +268,12 @@ type ScopeString string
 
 // BuildScope is used to generate a scope string for oAuth2 flow
 func BuildScope(service Service, scope Scope, method Method, operation Operation) ScopeString {
-	var built string = ""
+	built := fmt.Sprintf("%s.%s", service, scope)
 	if method != "" {
-		built += fmt.Sprintf("%s.%s.%s", service, scope, method)
-	} else {
-		built += fmt.Sprintf("%s.%s", service, scope)
+	    built += fmt.Sprintf(".%s", method)
 	}
 	if operation != "" {
-		built += "." + string(operation)
+	    built += fmt.Sprintf(".%s", operation)
 	}
 	return ScopeString(built)
 }

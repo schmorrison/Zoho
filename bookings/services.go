@@ -5,20 +5,25 @@ import (
 	zoho "github.com/schmorrison/Zoho"
 )
 
-func (c *API) FetchServices(request interface{}, params map[string]zoho.Parameter) (data ServiceResponse, err error) {
+func (c *API) FetchServices(workspacesID zoho.Parameter, serviceID zoho.Parameter, staffID zoho.Parameter) (data ServiceResponse, err error) {
 	endpoint := zoho.Endpoint{
 		Name:         FetchServicesModule,
-		URL:          fmt.Sprintf(BookingsAPIEndpoint+"%s", FetchServicesModule),
+		URL:          fmt.Sprintf("https://www.zohoapis.%s/bookings/v1/json/%s", c.ZohoTLD, FetchServicesModule),
 		Method:       zoho.HTTPGet,
 		ResponseData: &ServiceResponse{},
 		URLParameters: map[string]zoho.Parameter{
 			"filter_by": "",
 		},
 	}
-	if len(params) != 0 {
-		for k, v := range params {
-			endpoint.URLParameters[k] = v
-		}
+	if workspacesID == ""{
+		return ServiceResponse{}, fmt.Errorf("Failed to execute FetchServices due to non-availability of workspace_id")
+	}
+	endpoint.URLParameters["workspace_id"] = workspacesID
+	if serviceID != "" {
+		endpoint.URLParameters["service_id"] = serviceID
+	}
+	if staffID != "" {
+		endpoint.URLParameters["staff_id"] = staffID
 	}
 
 	err = c.Zoho.HTTPRequest(&endpoint)
@@ -38,7 +43,7 @@ type ServiceResponse struct {
 			Data []struct {
 				Duration string `json:"duration"`
 				Buffertime string `json:"buffertime"`
-				Price string `json:"price"`
+				Price int `json:"price"`
 				Name string `json:"name"`
 				Currency string `json:"currency"`
 				Id string `json:"id"`

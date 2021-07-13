@@ -8,7 +8,6 @@ import (
 )
 
 const (
-	BookingsAPIEndpoint string = "https://www.zohoapis.in/bookings/v1/json/"
 	GetAppointmentModule string = "getappointment"
 	FetchWorkspacesModule string = "workspaces"
 	FetchServicesModule string = "services"

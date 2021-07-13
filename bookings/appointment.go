@@ -6,10 +6,10 @@ import (
 	zoho "github.com/schmorrison/Zoho"
 )
 
-func (c *API) GetAppointment(request interface{}, params map[string]zoho.Parameter) (data AppointmentResponse, err error) {
+func (c *API) GetAppointment(bookingID zoho.Parameter) (data AppointmentResponse, err error) {
 	endpoint := zoho.Endpoint{
 		Name:         GetAppointmentModule,
-		URL:          fmt.Sprintf(BookingsAPIEndpoint+"%s",GetAppointmentModule),
+		URL:          fmt.Sprintf("https://www.zohoapis.%s/bookings/v1/json/%s",c.ZohoTLD, GetAppointmentModule),
 		Method:       zoho.HTTPGet,
 		ResponseData: &AppointmentResponse{},
 		URLParameters: map[string]zoho.Parameter{
@@ -17,10 +17,10 @@ func (c *API) GetAppointment(request interface{}, params map[string]zoho.Paramet
 		},
 
 	}
-
-	for k,v := range params {
-		endpoint.URLParameters[k] = v;
+	if bookingID == "" {
+		return AppointmentResponse{}, fmt.Errorf("Failed to get appointment due to non-availability of booking_id")
 	}
+	endpoint.URLParameters["booking_id"] = bookingID
 
 	err = c.Zoho.HTTPRequest(&endpoint)
 	if err != nil {
@@ -35,7 +35,7 @@ func (c *API) GetAppointment(request interface{}, params map[string]zoho.Paramet
 func (c *API) BookAppointment(request map[string]string) (data AppointmentResponse, err error) {
 	endpoint := zoho.Endpoint{
 		Name:         BookAppointmentModule,
-		URL:          fmt.Sprintf(BookingsAPIEndpoint+"%s",BookAppointmentModule),
+		URL:          fmt.Sprintf("https://www.zohoapis.%s/bookings/v1/json/%s",c.ZohoTLD,BookAppointmentModule),
 		Method:       zoho.HTTPPost,
 		ResponseData: &AppointmentResponse{},
 		RequestBody: request,
@@ -55,7 +55,7 @@ func (c *API) BookAppointment(request map[string]string) (data AppointmentRespon
 func (c *API) UpdateAppointment(request map[string]string) (data AppointmentResponse, err error) {
 	endpoint := zoho.Endpoint{
 		Name:         UpdateAppointmentModule,
-		URL:          fmt.Sprintf(BookingsAPIEndpoint+"%s",UpdateAppointmentModule),
+		URL:          fmt.Sprintf("https://www.zohoapis.%s/bookings/v1/json/%s",c.ZohoTLD,UpdateAppointmentModule),
 		Method:       zoho.HTTPPost,
 		ResponseData: &AppointmentResponse{},
 		RequestBody: request,
@@ -75,7 +75,7 @@ func (c *API) UpdateAppointment(request map[string]string) (data AppointmentResp
 func (c *API) RescheduleAppointment(params map[string]string) (data AppointmentResponse, err error) {
 	endpoint := zoho.Endpoint{
 		Name:         RescheduleAppointmentModule,
-		URL:          fmt.Sprintf(BookingsAPIEndpoint+"%s",RescheduleAppointmentModule),
+		URL:          fmt.Sprintf("https://www.zohoapis.%s/bookings/v1/json/%s",c.ZohoTLD,RescheduleAppointmentModule),
 		Method:       zoho.HTTPPost,
 		ResponseData: &AppointmentResponse{},
 		RequestBody: params,
