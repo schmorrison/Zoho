@@ -9,6 +9,7 @@ import (
 
 const (
 	GetAppointmentModule string = "getappointment"
+	GetAvailabilityModule string = "availableslots"
 	FetchWorkspacesModule string = "workspaces"
 	FetchServicesModule string = "services"
 	FetchStaffModule string = "staffs"
