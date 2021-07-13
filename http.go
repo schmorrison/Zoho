@@ -12,6 +12,7 @@ import (
 	"os"
 	"path/filepath"
 	"reflect"
+	"strings"
 )
 
 // Endpoint defines the data required to interact with most Zoho REST api endpoints
@@ -68,15 +69,30 @@ func (z *Zoho) HTTPRequest(endpoint *Endpoint) (err error) {
 	)
 
 	// Has a body, likely a CRUD operation (still possibly JSONString)
-	if endpoint.RequestBody != nil {
-		// JSON Marshal the body
-		marshalledBody, err := json.Marshal(endpoint.RequestBody)
-		if err != nil {
-			return fmt.Errorf("Failed to create json from request body")
-		}
+	if endpoint.RequestBody != nil{
 
-		reqBody = bytes.NewReader(marshalledBody)
-		contentType = "application/x-www-form-urlencoded; charset=UTF-8"
+		// TODO: Decide whether JSON.marshal is required or not for
+		// Bookings or CRM
+
+		// JSON Marshal the body
+		switch v := endpoint.RequestBody.(type) {
+			case map[string]string:
+				body := url.Values{}
+				for k, val := range v {
+					body.Add(k,val)
+				}
+
+				reqBody = strings.NewReader(body.Encode())
+				contentType = "application/x-www-form-urlencoded; charset=UTF-8"
+			default:
+				marshalledBody, err := json.Marshal(v)
+				if err != nil {
+					return fmt.Errorf("Failed to create json from request body")
+				}
+
+				reqBody = bytes.NewBuffer(marshalledBody)
+				contentType = "application/x-www-form-urlencoded; charset=UTF-8"
+		}
 	}
 
 	if endpoint.BodyFormat != "" {
