@@ -4,11 +4,12 @@ import (
 	"encoding/gob"
 	"errors"
 	"fmt"
-	"google.golang.org/appengine"
-	"google.golang.org/appengine/datastore"
 	"net/http"
 	"os"
 	"time"
+
+	"google.golang.org/appengine"
+	"google.golang.org/appengine/datastore"
 )
 
 // TokenLoaderSaver is an interface that can be implemented when using a system that does
@@ -29,18 +30,19 @@ func (z Zoho) SaveTokens(t AccessTokenResponse) error {
 	// Save the token response as GOB to file
 	file, err := os.OpenFile(z.tokensFile, os.O_WRONLY|os.O_CREATE, 0666)
 	if err != nil {
-		return fmt.Errorf("Failed to open file '%s': %s", z.tokensFile, err)
+		return fmt.Errorf("failed to open file '%s': %s", z.tokensFile, err)
 	}
+	defer file.Close()
 	enc := gob.NewEncoder(file)
 
 	v := TokenWrapper{
-		Token: z.oauth.token,
+		Token: t,
 	}
 	v.SetExpiry()
 
 	err = enc.Encode(v)
 	if err != nil {
-		return fmt.Errorf("Failed to encode tokens to file '%s': %s", z.tokensFile, err)
+		return fmt.Errorf("failed to encode tokens to file '%s': %s", z.tokensFile, err)
 	}
 
 	return nil
@@ -56,14 +58,16 @@ func (z Zoho) LoadAccessAndRefreshToken() (AccessTokenResponse, error) {
 	// Load the GOB and decode to AccessToken
 	file, err := os.OpenFile(z.tokensFile, os.O_RDONLY|os.O_CREATE, 0666)
 	if err != nil {
-		return AccessTokenResponse{}, fmt.Errorf("Failed to open file '%s': %s", z.tokensFile, err)
+		return AccessTokenResponse{}, fmt.Errorf("failed to open file '%s': %s", z.tokensFile, err)
 	}
+	defer file.Close()
+
 	dec := gob.NewDecoder(file)
 
 	var v TokenWrapper
 	err = dec.Decode(&v)
 	if err != nil {
-		return AccessTokenResponse{}, fmt.Errorf("Failed to decode tokens from file '%s': %s", z.tokensFile, err)
+		return AccessTokenResponse{}, fmt.Errorf("failed to decode tokens from file '%s': %s", z.tokensFile, err)
 	}
 
 	if v.CheckExpiry() {
@@ -106,7 +110,7 @@ func (z *Zoho) CheckForSavedTokens() error {
 	if (t != AccessTokenResponse{}) && err != ErrTokenExpired {
 		return nil
 	}
-	return fmt.Errorf("No saved tokens")
+	return fmt.Errorf("no saved tokens")
 }
 
 // DatastoreManager is an example TokenManager that satisfies the TokenManager interface
@@ -123,7 +127,7 @@ type DatastoreManager struct {
 func (d DatastoreManager) LoadAccessAndRefreshToken() (AccessTokenResponse, error) {
 	t := TokenWrapper{}
 	if d.Request == nil || d.TokensKey == "" {
-		return AccessTokenResponse{}, fmt.Errorf("Must provide the *http.Request for the current request and a valid token key")
+		return AccessTokenResponse{}, fmt.Errorf("must provide the *http.Request for the current request and a valid token key")
 	}
 
 	entity := "ZohoAccessTokens"
@@ -135,7 +139,7 @@ func (d DatastoreManager) LoadAccessAndRefreshToken() (AccessTokenResponse, erro
 	k := datastore.NewKey(ctx, entity, d.TokensKey, 0, nil)
 
 	if err := datastore.Get(ctx, k, &t); err != nil {
-		return AccessTokenResponse{}, fmt.Errorf("Failed to retrieve tokens from datastore: %s", err)
+		return AccessTokenResponse{}, fmt.Errorf("failed to retrieve tokens from datastore: %s", err)
 	}
 
 	if t.CheckExpiry() {
@@ -149,7 +153,7 @@ func (d DatastoreManager) LoadAccessAndRefreshToken() (AccessTokenResponse, erro
 // 'ZohoAccessTokens' unless a value is provided to the EntityNamespace field
 func (d DatastoreManager) SaveTokens(t AccessTokenResponse) error {
 	if d.Request == nil || d.TokensKey == "" {
-		return fmt.Errorf("Must provide the *http.Request for the current request and a valid token key")
+		return fmt.Errorf("must provide the *http.Request for the current request and a valid token key")
 	}
 
 	entity := "ZohoAccessTokens"
@@ -166,7 +170,7 @@ func (d DatastoreManager) SaveTokens(t AccessTokenResponse) error {
 	v.SetExpiry()
 
 	if _, err := datastore.Put(ctx, k, v); err != nil {
-		return fmt.Errorf("Failed to save tokens to datastore: %s", err)
+		return fmt.Errorf("failed to save tokens to datastore: %s", err)
 	}
 
 	return nil

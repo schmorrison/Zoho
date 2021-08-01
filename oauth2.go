@@ -10,20 +10,7 @@ import (
 	"net/url"
 	"strings"
 	"time"
-
 )
-
-func (z *Zoho) SetRefreshToken(refreshToken string) {
-	z.oauth.token.RefreshToken = refreshToken
-}
-
-func (z *Zoho) SetClientID(clientID string) {
-	z.oauth.clientID = clientID
-}
-
-func (z *Zoho) SetClientSecret(clientSecret string) {
-	z.oauth.clientSecret = clientSecret
-}
 
 // RefreshTokenRequest is used to refresh the oAuth2 access token
 func (z *Zoho) RefreshTokenRequest() (err error) {
@@ -36,28 +23,28 @@ func (z *Zoho) RefreshTokenRequest() (err error) {
 	tokenURL := fmt.Sprintf("%s%s?%s", z.oauth.baseURL, oauthGenerateTokenRequestSlug, q.Encode())
 	resp, err := z.client.Post(tokenURL, "application/x-www-form-urlencoded", nil)
 	if err != nil {
-		return fmt.Errorf("Failed while requesting refresh token: %s", err)
+		return fmt.Errorf("failed while requesting refresh token: %s", err)
 	}
 
 	defer func() {
 		if err := resp.Body.Close(); err != nil {
-			fmt.Printf("Failed to close request body: %s\n", err)
+			fmt.Printf("failed to close request body: %s\n", err)
 		}
 	}()
 
 	body, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
-		return fmt.Errorf("Failed to read request body on request to %s%s: %s", z.oauth.baseURL, oauthGenerateTokenRequestSlug, err)
+		return fmt.Errorf("failed to read request body on request to %s%s: %s", z.oauth.baseURL, oauthGenerateTokenRequestSlug, err)
 	}
 
 	if resp.StatusCode != 200 {
-		return fmt.Errorf("Got non-200 status code from request to refresh token: %s\n%s", resp.Status, string(body))
+		return fmt.Errorf("got non-200 status code from request to refresh token: %s\n%s", resp.Status, string(body))
 	}
 
 	tokenResponse := AccessTokenResponse{}
 	err = json.Unmarshal(body, &tokenResponse)
 	if err != nil {
-		return fmt.Errorf("Failed to unmarshal access token response from request to refresh token: %s", err)
+		return fmt.Errorf("failed to unmarshal access token response from request to refresh token: %s", err)
 	}
 	//If the tokenResponse is not valid it should not update local tokens
 	if tokenResponse.Error == "invalid_code" {
@@ -71,7 +58,7 @@ func (z *Zoho) RefreshTokenRequest() (err error) {
 
 	err = z.SaveTokens(z.oauth.token)
 	if err != nil {
-		return fmt.Errorf("Failed to save access tokens: %s", err)
+		return fmt.Errorf("failed to save access tokens: %s", err)
 	}
 
 	return nil
@@ -102,28 +89,28 @@ func (z *Zoho) GenerateTokenRequest(clientID, clientSecret, code, redirectURI st
 	tokenURL := fmt.Sprintf("%s%s?%s", z.oauth.baseURL, oauthGenerateTokenRequestSlug, q.Encode())
 	resp, err := z.client.Post(tokenURL, "application/x-www-form-urlencoded", nil)
 	if err != nil {
-		return fmt.Errorf("Failed while requesting generate token: %s", err)
+		return fmt.Errorf("failed while requesting generate token: %s", err)
 	}
 
 	defer func() {
 		if err := resp.Body.Close(); err != nil {
-			fmt.Printf("Failed to close request body: %s\n", err)
+			fmt.Printf("failed to close request body: %s\n", err)
 		}
 	}()
 
 	body, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
-		return fmt.Errorf("Failed to read request body on request to %s%s: %s", z.oauth.baseURL, oauthGenerateTokenRequestSlug, err)
+		return fmt.Errorf("failed to read request body on request to %s%s: %s", z.oauth.baseURL, oauthGenerateTokenRequestSlug, err)
 	}
 
 	if resp.StatusCode != 200 {
-		return fmt.Errorf("Got non-200 status code from request to generate token: %s\n%s", resp.Status, string(body))
+		return fmt.Errorf("got non-200 status code from request to generate token: %s\n%s", resp.Status, string(body))
 	}
 
 	tokenResponse := AccessTokenResponse{}
 	err = json.Unmarshal(body, &tokenResponse)
 	if err != nil {
-		return fmt.Errorf("Failed to unmarshal access token response from request to generate token: %s", err)
+		return fmt.Errorf("failed to unmarshal access token response from request to generate token: %s", err)
 	}
 
 	//If the tokenResponse is not valid it should not update local tokens
@@ -138,7 +125,7 @@ func (z *Zoho) GenerateTokenRequest(clientID, clientSecret, code, redirectURI st
 
 	err = z.SaveTokens(z.oauth.token)
 	if err != nil {
-		return fmt.Errorf("Failed to save access tokens: %s", err)
+		return fmt.Errorf("failed to save access tokens: %s", err)
 	}
 
 	return nil
@@ -187,11 +174,11 @@ func (z *Zoho) AuthorizationCodeRequest(clientID, clientSecret string, scopes []
 		// start a localhost server that will handle the redirect url
 		u, err := url.Parse(redirectURI)
 		if err != nil {
-			return fmt.Errorf("Failed to parse redirect URI: %s", err)
+			return fmt.Errorf("failed to parse redirect URI: %s", err)
 		}
 		_, port, err := net.SplitHostPort(u.Host)
 		if err != nil {
-			return fmt.Errorf("Failed to split redirect URI into host and port segments: %s", err)
+			return fmt.Errorf("failed to split redirect URI into host and port segments: %s", err)
 		}
 		srv = &http.Server{Addr: ":" + port}
 
@@ -205,7 +192,7 @@ func (z *Zoho) AuthorizationCodeRequest(clientID, clientSecret string, scopes []
 			srvChan <- 1
 			err := srv.ListenAndServe()
 			if err != nil && err != http.ErrServerClosed {
-				fmt.Printf("Error while serving locally: %s\n", err)
+				fmt.Printf("error while serving locally: %s\n", err)
 			}
 		}()
 
@@ -225,23 +212,23 @@ func (z *Zoho) AuthorizationCodeRequest(clientID, clientSecret string, scopes []
 			cancel()
 		}()
 		if err := srv.Shutdown(ctx); err != nil {
-			fmt.Printf("Error while shutting down local server: %s\n", err)
+			fmt.Printf("error while shutting down local server: %s\n", err)
 		}
 	} else {
 		fmt.Printf("Paste code and press enter:\n")
 		_, err := fmt.Scan(&code)
 		if err != nil {
-			return fmt.Errorf("Failed to read code from input: %s", err)
+			return fmt.Errorf("failed to read code from input: %s", err)
 		}
 	}
 
 	if code == "" {
-		return fmt.Errorf("No code was recieved from oAuth2 flow")
+		return fmt.Errorf("no code was recieved from oAuth2 flow")
 	}
 
 	err = z.GenerateTokenRequest(clientID, clientSecret, code, redirectURI)
 	if err != nil {
-		return fmt.Errorf("Failed to retrieve oAuth2 token: %s", err)
+		return fmt.Errorf("failed to retrieve oAuth2 token: %s", err)
 	}
 
 	return nil

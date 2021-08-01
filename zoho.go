@@ -41,6 +41,18 @@ func (z *Zoho) SetTokensFile(s string) {
 	z.tokensFile = s
 }
 
+func (z *Zoho) SetRefreshToken(refreshToken string) {
+	z.oauth.token.RefreshToken = refreshToken
+}
+
+func (z *Zoho) SetClientID(clientID string) {
+	z.oauth.clientID = clientID
+}
+
+func (z *Zoho) SetClientSecret(clientSecret string) {
+	z.oauth.clientSecret = clientSecret
+}
+
 // SetZohoTLD can be used to set the TLD extension for API calls for example for Zoho in EU and China.
 // by default this is set to "com", other options are "eu" and "ch"
 func (z *Zoho) SetZohoTLD(s string) {

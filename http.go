@@ -40,7 +40,7 @@ const (
 // HTTPRequest is the function which actually performs the request to a Zoho endpoint as specified by the provided endpoint
 func (z *Zoho) HTTPRequest(endpoint *Endpoint) (err error) {
 	if reflect.TypeOf(endpoint.ResponseData).Kind() != reflect.Ptr {
-		return fmt.Errorf("Failed, you must pass a pointer in the ResponseData field of endpoint")
+		return fmt.Errorf("failed, you must pass a pointer in the ResponseData field of endpoint")
 	}
 
 	// Load and renew access token if expired
@@ -48,7 +48,7 @@ func (z *Zoho) HTTPRequest(endpoint *Endpoint) (err error) {
 	if err == ErrTokenExpired {
 		err := z.RefreshTokenRequest()
 		if err != nil {
-			return fmt.Errorf("Failed to refresh the access token: %s: %s", endpoint.Name, err)
+			return fmt.Errorf("failed to refresh the access token: %s: %s", endpoint.Name, err)
 		}
 	}
 
@@ -72,7 +72,7 @@ func (z *Zoho) HTTPRequest(endpoint *Endpoint) (err error) {
 		// JSON Marshal the body
 		marshalledBody, err := json.Marshal(endpoint.RequestBody)
 		if err != nil {
-			return fmt.Errorf("Failed to create json from request body")
+			return fmt.Errorf("failed to create json from request body")
 		}
 
 		reqBody = bytes.NewReader(marshalledBody)
@@ -135,7 +135,7 @@ func (z *Zoho) HTTPRequest(endpoint *Endpoint) (err error) {
 
 	req, err = http.NewRequest(string(endpoint.Method), fmt.Sprintf("%s?%s", endpointURL, q.Encode()), reqBody)
 	if err != nil {
-		return fmt.Errorf("Failed to create a request for %s: %s", endpoint.Name, err)
+		return fmt.Errorf("failed to create a request for %s: %s", endpoint.Name, err)
 	}
 
 	req.Header.Set("Content-Type", contentType)
@@ -150,14 +150,14 @@ func (z *Zoho) HTTPRequest(endpoint *Endpoint) (err error) {
 
 	resp, err := z.client.Do(req)
 	if err != nil {
-		return fmt.Errorf("Failed to perform request for %s: %s", endpoint.Name, err)
+		return fmt.Errorf("failed to perform request for %s: %s", endpoint.Name, err)
 	}
 
 	defer resp.Body.Close()
 
 	body, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
-		return fmt.Errorf("Failed to read body of response for %s: got status %s: %s", endpoint.Name, resolveStatus(resp), err)
+		return fmt.Errorf("failed to read body of response for %s: got status %s: %s", endpoint.Name, resolveStatus(resp), err)
 	}
 
 	dataType := reflect.TypeOf(endpoint.ResponseData).Elem()
@@ -165,7 +165,7 @@ func (z *Zoho) HTTPRequest(endpoint *Endpoint) (err error) {
 
 	err = json.Unmarshal(body, data)
 	if err != nil {
-		return fmt.Errorf("Failed to unmarshal data from response for %s: got status %s: %s", endpoint.Name, resolveStatus(resp), err)
+		return fmt.Errorf("failed to unmarshal data from response for %s: got status %s: %s", endpoint.Name, resolveStatus(resp), err)
 	}
 
 	endpoint.ResponseData = data
