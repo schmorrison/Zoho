@@ -74,13 +74,13 @@ func (c *API) UpdateAppointment(request UpdateAppointmentData) (data Appointment
 	return AppointmentResponse{}, fmt.Errorf("Data retrieved was not 'AppointmentResponse'")
 }
 
-func (c *API) RescheduleAppointment(params RescheduleAppointmentData) (data AppointmentResponse, err error) {
+func (c *API) RescheduleAppointment(request RescheduleAppointmentData) (data AppointmentResponse, err error) {
 	endpoint := zoho.Endpoint{
 		Name:         RescheduleAppointmentModule,
 		URL:          fmt.Sprintf("https://www.zohoapis.%s/bookings/v1/json/%s",c.ZohoTLD,RescheduleAppointmentModule),
 		Method:       zoho.HTTPPost,
 		ResponseData: &AppointmentResponse{},
-		RequestBody: params,
+		RequestBody: request,
 		BodyFormat: zoho.URL,
 	}
 

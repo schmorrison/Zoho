@@ -7,16 +7,18 @@ import (
 	"math/rand"
 )
 
+type BookingsModule = string
+
 const (
-	GetAppointmentModule string = "getappointment"
-	GetAvailabilityModule string = "availableslots"
-	FetchWorkspacesModule string = "workspaces"
-	FetchServicesModule string = "services"
-	FetchStaffModule string = "staffs"
-	FetchResourceModule string = "resources"
-	BookAppointmentModule string = "appointment"
-	RescheduleAppointmentModule string = "rescheduleappointment"
-	UpdateAppointmentModule string = "updateappointment"
+	GetAppointmentModule BookingsModule = "getappointment"
+	GetAvailabilityModule BookingsModule = "availableslots"
+	FetchWorkspacesModule BookingsModule = "workspaces"
+	FetchServicesModule BookingsModule = "services"
+	FetchStaffModule BookingsModule = "staffs"
+	FetchResourceModule BookingsModule = "resources"
+	BookAppointmentModule BookingsModule = "appointment"
+	RescheduleAppointmentModule BookingsModule = "rescheduleappointment"
+	UpdateAppointmentModule BookingsModule = "updateappointment"
 )
 
 // API is used for interacting with the Zoho expense API

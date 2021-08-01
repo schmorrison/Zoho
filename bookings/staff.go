@@ -28,7 +28,6 @@ func (c *API) FetchStaff(serviceID zoho.Parameter, staffID zoho.Parameter) (data
 	}
 
 	if v,ok := endpoint.ResponseData.(*StaffResponse); ok {
-		fmt.Printf("okay")
 		return *v, nil
 	}
 	return StaffResponse{}, fmt.Errorf("Data retrieved was not 'Staff Response'")
