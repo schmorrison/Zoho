@@ -2,7 +2,6 @@ package bookings
 
 import (
 	"fmt"
-	// "net/url"
 	zoho "github.com/schmorrison/Zoho"
 )
 
