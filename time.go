@@ -24,14 +24,12 @@ func (t *Time) MarshalJSON() ([]byte, error) {
 func (t *Time) UnmarshalJSON(b []byte) error {
 	s := strings.Trim(string(b), "\"")
 	if s == "null" {
-		blank := Time(time.Time{})
-		t = &blank
+		*t = Time(time.Time{})
 		return nil
 	}
 	pTime, err := time.Parse(zohoTimeLayout, s)
 	if err == nil {
-		ref := Time(pTime)
-		t = &ref
+		*t = Time(pTime)
 	}
 	return err
 }
@@ -54,14 +52,12 @@ func (d *Date) MarshalJSON() ([]byte, error) {
 func (d *Date) UnmarshalJSON(b []byte) error {
 	s := strings.Trim(string(b), "\"")
 	if s == "null" {
-		blank := Date(time.Time{})
-		d = &blank
+		*d = Date(time.Time{})
 		return nil
 	}
 	pTime, err := time.Parse(zohoDateLayout, s)
 	if err == nil {
-		ref := Date(pTime)
-		d = &ref
+		*d = Date(pTime)
 	}
 	return err
 }
