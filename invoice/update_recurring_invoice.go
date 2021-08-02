@@ -12,7 +12,7 @@ func (c *API) UpdateRecurringInvoice(request interface{}, recurringInvoiceId str
 
 	endpoint := zoho.Endpoint{
 		Name:         ContactsModule,
-		URL:          fmt.Sprintf(InvoiceAPIEndpoint+"%s/%s", RecurringInvoicesModule, recurringInvoiceId),
+		URL:          fmt.Sprintf("https://invoice.zoho.%s/api/v3/%s/%s", c.ZohoTLD, RecurringInvoicesModule, recurringInvoiceId),
 		Method:       zoho.HTTPPut,
 		ResponseData: &UpdateRecurringInvoiceResponse{},
 		URLParameters: map[string]zoho.Parameter{
