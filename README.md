@@ -7,6 +7,7 @@ This repo is an attempt to build a comprehensive API wrapper for Zoho Services.
 This will be a long project, with alot of boilerplate code that may benefit from code generation. Pull requests would be appreciated.
 
 - [ ] [Books](https://github.com/schmorrison/Zoho/tree/master/books)
+- [ ] [Bookings](https://github.com/schmorrison/Zoho/tree/master/bookings)
 - [ ] Campaigns
 - [ ] Cliq
 - [ ] Creator
