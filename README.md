@@ -34,14 +34,7 @@ I will try to comment the code religously, and will read up on Go Doc so the gen
 - [ ] Start versioning commits to prevent major breaks
 
 ## A special thanks to Contributors
-- Thanks to @ashishsnigam for pull request #7.
-- Thanks to @beatscode for pull requests #10, #11, #12, #13, #18, & #19.
-- Thanks to @meyskens for pull request #14.
-- Thanks to @vazha for pull request #17.
-- Thanks to @VincentK-Titandc for pull request #21
-- Thanks to @rollulus for pull request #23
-- Thanks to @bondar-pavel for pull request #25 & #27
-- Thanks to @ysahil97 for PR #28
+@all-contributors bot
 
 ## Requirements
 
