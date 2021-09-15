@@ -10,7 +10,7 @@ func (c *API) ListItems() (data ListItemsResponse, err error) {
 
 	endpoint := zoho.Endpoint{
 		Name:         ItemsModule,
-		URL:          fmt.Sprintf(InvoiceAPIEndpoint+"%s", ItemsModule),
+		URL:          fmt.Sprintf("https://invoice.zoho.%s/api/v3/%s", c.ZohoTLD, ItemsModule),
 		Method:       zoho.HTTPGet,
 		ResponseData: &ListItemsResponse{},
 		URLParameters: map[string]zoho.Parameter{

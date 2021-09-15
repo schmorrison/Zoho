@@ -7,6 +7,7 @@ This repo is an attempt to build a comprehensive API wrapper for Zoho Services.
 This will be a long project, with alot of boilerplate code that may benefit from code generation. Pull requests would be appreciated.
 
 - [ ] [Books](https://github.com/schmorrison/Zoho/tree/master/books)
+- [ ] [Bookings](https://github.com/schmorrison/Zoho/tree/master/bookings)
 - [ ] Campaigns
 - [ ] Cliq
 - [ ] Creator
@@ -21,7 +22,7 @@ This will be a long project, with alot of boilerplate code that may benefit from
 - [ ] People
 - [ ] Recruit
 - [ ] Reports
-- [ ] Subscriptions
+- [ ] [Subscriptions](https://github.com/schmorrison/Zoho/tree/master/subscriptions)
 
 The API's should ideally be useful and obvious. However, as it stands, the Zoho CRM API returns alot of dynamically typed fields which became incredibly difficult to parse, which eventually resulted in an implementation using reflect and a type switch to cast/convert the value from Zoho into the expected value for the struct. I expect this to be the case for alot of Zoho services.
 
@@ -40,6 +41,7 @@ I will try to comment the code religously, and will read up on Go Doc so the gen
 - Thanks to @VincentK-Titandc for pull request #21
 - Thanks to @rollulus for pull request #23
 - Thanks to @bondar-pavel for pull request #25 & #27
+- Thanks to @ysahil97 for PR #28
 
 ## Requirements
 

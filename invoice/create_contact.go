@@ -12,7 +12,7 @@ func (c *API) CreateContact(request interface{}, enablePortal bool) (data Create
 
 	endpoint := zoho.Endpoint{
 		Name:         ContactsModule,
-		URL:          fmt.Sprintf(InvoiceAPIEndpoint+"%s", ContactsModule),
+		URL:          fmt.Sprintf("https://invoice.zoho.%s/api/v3/%s", c.ZohoTLD, ContactsModule),
 		Method:       zoho.HTTPPost,
 		ResponseData: &CreateContactResponse{},
 		URLParameters: map[string]zoho.Parameter{
@@ -43,7 +43,7 @@ func (c *API) CreateContact(request interface{}, enablePortal bool) (data Create
 		if enablePortal {
 			endpoint := zoho.Endpoint{
 				Name:         ContactsModule,
-				URL:          fmt.Sprintf(InvoiceAPIEndpoint+"%s/%s/portal/enable", ContactsModule, v.Contact.ContactID),
+				URL:          fmt.Sprintf("https://invoice.zoho.%s/api/v3/%s/%s/portal/enable", c.ZohoTLD, ContactsModule, v.Contact.ContactID),
 				Method:       zoho.HTTPPost,
 				ResponseData: &EnableContactDashboardResponse{},
 				URLParameters: map[string]zoho.Parameter{

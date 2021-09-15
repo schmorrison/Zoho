@@ -12,6 +12,8 @@ import (
 	"os"
 	"path/filepath"
 	"reflect"
+	"strings"
+	"github.com/schmorrison/go-querystring/query"
 )
 
 // Endpoint defines the data required to interact with most Zoho REST api endpoints
@@ -35,6 +37,7 @@ const (
 	JSON        = ""
 	JSON_STRING = "jsonString"
 	FILE        = "file"
+	URL                     = "url" // Added new BodyFormat option
 )
 
 // HTTPRequest is the function which actually performs the request to a Zoho endpoint as specified by the provided endpoint
@@ -68,24 +71,27 @@ func (z *Zoho) HTTPRequest(endpoint *Endpoint) (err error) {
 	)
 
 	// Has a body, likely a CRUD operation (still possibly JSONString)
-	if endpoint.RequestBody != nil {
-		// JSON Marshal the body
-		marshalledBody, err := json.Marshal(endpoint.RequestBody)
-		if err != nil {
-			return fmt.Errorf("Failed to create json from request body")
-		}
+	if endpoint.BodyFormat == JSON || endpoint.BodyFormat == JSON_STRING {
+	       if endpoint.RequestBody != nil {
+	               // JSON Marshal the body
+	               marshalledBody, err := json.Marshal(endpoint.RequestBody)
+	               if err != nil {
+	                       return fmt.Errorf("Failed to create json from request body")
+	               }
 
-		reqBody = bytes.NewReader(marshalledBody)
-		contentType = "application/x-www-form-urlencoded; charset=UTF-8"
+	               reqBody = bytes.NewReader(marshalledBody)
+	               contentType = "application/x-www-form-urlencoded; charset=UTF-8"
+	        }
 	}
 
-	if endpoint.BodyFormat != "" {
+
+	if endpoint.BodyFormat == JSON_STRING || endpoint.BodyFormat == FILE {
 		// Create a multipart form
 		var b bytes.Buffer
 		w := multipart.NewWriter(&b)
 
-		// Check the expect BodyFormat
-		if endpoint.BodyFormat == JSON_STRING {
+		switch endpoint.BodyFormat {
+		case JSON_STRING:
 			// Use the form to create the proper field
 			fw, err := w.CreateFormField("JSONString")
 			if err != nil {
@@ -102,11 +108,7 @@ func (z *Zoho) HTTPRequest(endpoint *Endpoint) (err error) {
 				return err
 			}
 
-			reqBody = &b
-			contentType = w.FormDataContentType()
-		}
-
-		if endpoint.BodyFormat == FILE {
+		case FILE:
 			// Retreive the file contents
 			fileReader, err := os.Open(endpoint.Attachment)
 			if err != nil {
@@ -127,10 +129,21 @@ func (z *Zoho) HTTPRequest(endpoint *Endpoint) (err error) {
 			if err != nil {
 				return err
 			}
-
-			reqBody = &b
-			contentType = w.FormDataContentType()
 		}
+
+		reqBody = &b
+		contentType = w.FormDataContentType()
+	}
+
+	   // New BodyFormat encoding option
+	if endpoint.BodyFormat == URL {
+		body, err := query.Values(endpoint.RequestBody) // send struct into the newly imported package
+		if err != nil {
+			return err
+		}
+
+		reqBody = strings.NewReader(body.Encode()) // write to body
+		contentType = "application/x-www-form-urlencoded; charset=UTF-8"
 	}
 
 	req, err = http.NewRequest(string(endpoint.Method), fmt.Sprintf("%s?%s", endpointURL, q.Encode()), reqBody)
