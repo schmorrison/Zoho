@@ -12,7 +12,7 @@ func (c *API) CreateInvoice(request interface{}) (data CreateInvoiceResponse, er
 
 	endpoint := zoho.Endpoint{
 		Name:         InvoicesModule,
-		URL:          fmt.Sprintf(InvoiceAPIEndpoint+"%s", InvoicesModule),
+		URL:          fmt.Sprintf("https://invoice.zoho.%s/api/v3/%s", c.ZohoTLD, InvoicesModule),
 		Method:       zoho.HTTPPost,
 		ResponseData: &CreateInvoiceResponse{},
 		URLParameters: map[string]zoho.Parameter{
@@ -42,7 +42,7 @@ func (c *API) CreateInvoice(request interface{}) (data CreateInvoiceResponse, er
 		}
 		endpointSent := zoho.Endpoint{
 			Name:         InvoicesModule,
-			URL:          fmt.Sprintf(InvoiceAPIEndpoint+"%s/%s/status/sent", InvoicesModule, v.Invoice.InvoiceId),
+			URL:          fmt.Sprintf("https://invoice.zoho.%s/api/v3/%s/%s/status/sent", c.ZohoTLD, InvoicesModule, v.Invoice.InvoiceId),
 			Method:       zoho.HTTPPost,
 			ResponseData: &InvoiceSent{},
 			BodyFormat:   zoho.JSON_STRING,
