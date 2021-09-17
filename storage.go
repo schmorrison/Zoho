@@ -4,11 +4,12 @@ import (
 	"encoding/gob"
 	"errors"
 	"fmt"
-	"google.golang.org/appengine"
-	"google.golang.org/appengine/datastore"
 	"net/http"
 	"os"
 	"time"
+
+	"google.golang.org/appengine"
+	"google.golang.org/appengine/datastore"
 )
 
 // TokenLoaderSaver is an interface that can be implemented when using a system that does
@@ -78,6 +79,9 @@ var ErrTokenExpired = errors.New("zoho: oAuth2 token already expired")
 
 // ErrTokenInvalidCode is turned when the autorization code in a request is invalid
 var ErrTokenInvalidCode = errors.New("zoho: authorization-code is invalid ")
+
+// ErrClientSecretInvalidCode is turned when the client secret used is invalid
+var ErrClientSecretInvalidCode = errors.New("zoho: client secret used in authorization is invalid")
 
 // TokenWrapper should be used to provide the time.Time corresponding to the expiry of an access token
 type TokenWrapper struct {

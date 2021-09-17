@@ -10,7 +10,6 @@ import (
 	"net/url"
 	"strings"
 	"time"
-
 )
 
 func (z *Zoho) SetRefreshToken(refreshToken string) {
@@ -62,6 +61,11 @@ func (z *Zoho) RefreshTokenRequest() (err error) {
 	//If the tokenResponse is not valid it should not update local tokens
 	if tokenResponse.Error == "invalid_code" {
 		return ErrTokenInvalidCode
+	}
+
+	//If the tokenResponse is not obtained from proper client secret it should not update local tokens
+	if tokenResponse.Error == "invalid_client_secret" {
+		return ErrClientSecretInvalidCode
 	}
 
 	z.oauth.token.AccessToken = tokenResponse.AccessToken
@@ -129,6 +133,11 @@ func (z *Zoho) GenerateTokenRequest(clientID, clientSecret, code, redirectURI st
 	//If the tokenResponse is not valid it should not update local tokens
 	if tokenResponse.Error == "invalid_code" {
 		return ErrTokenInvalidCode
+	}
+
+	//If the tokenResponse is not obtained from proper client secret it should not update local tokens
+	if tokenResponse.Error == "invalid_client_secret" {
+		return ErrClientSecretInvalidCode
 	}
 
 	z.oauth.clientID = clientID
@@ -270,10 +279,10 @@ type ScopeString string
 func BuildScope(service Service, scope Scope, method Method, operation Operation) ScopeString {
 	built := fmt.Sprintf("%s.%s", service, scope)
 	if method != "" {
-	    built += fmt.Sprintf(".%s", method)
+		built += fmt.Sprintf(".%s", method)
 	}
 	if operation != "" {
-	    built += fmt.Sprintf(".%s", operation)
+		built += fmt.Sprintf(".%s", operation)
 	}
 	return ScopeString(built)
 }
