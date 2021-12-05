@@ -89,6 +89,12 @@ type TokenWrapper struct {
 	Expires time.Time
 }
 
+func newTokenWrapper(t AccessTokenResponse) (w TokenWrapper) {
+	w.Token = t
+	w.SetExpiry()
+	return
+}
+
 // SetExpiry sets the TokenWrappers expiry time to now + seconds until expiry
 func (t *TokenWrapper) SetExpiry() {
 	t.Expires = time.Now().Add(time.Duration(t.Token.ExpiresIn) * time.Second)
@@ -96,10 +102,15 @@ func (t *TokenWrapper) SetExpiry() {
 
 // CheckExpiry if the token expired before this instant
 func (t *TokenWrapper) CheckExpiry() bool {
-	return t.Expires.Before(time.Now())
+	return t.Expires.Before(time.Now()) || t.Expires.IsZero()
 }
 
 func (z *Zoho) CheckForSavedTokens() error {
+	w := newTokenWrapper(z.oauth.token)
+	if !w.CheckExpiry() {
+		return nil
+	}
+
 	t, err := z.LoadAccessAndRefreshToken()
 	z.oauth.token = t
 

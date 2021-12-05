@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"net"
 	"net/http"
+	"os"
 	"time"
 )
 
@@ -73,6 +74,22 @@ func (z *Zoho) CustomHTTPClient(c *http.Client) {
 // which is needed for expense apis
 func (z *Zoho) SetOrganizationID(orgID string) {
 	z.OrganizationID = orgID
+}
+
+// clean all values in zoho struct
+func (z *Zoho) clean() {
+	if err := os.Remove(z.tokensFile); err != nil {
+		fmt.Printf("failed to delete tokens file: %s\n", err)
+	}
+
+	z.OrganizationID = ""
+	z.oauth.clientID = ""
+	z.oauth.clientSecret = ""
+	z.oauth.redirectURI = ""
+	z.oauth.token.AccessToken = ""
+	z.oauth.token.RefreshToken = ""
+	z.oauth.token.ExpiresIn = 0
+	z.oauth.token.TokenType = ""
 }
 
 // Zoho is for accessing all APIs. It is used by subpackages to simplify passing authentication

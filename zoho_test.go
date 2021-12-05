@@ -9,8 +9,8 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestZoho(t *testing.T) {
-	v := TokenWrapper{
+var (
+	testTokenWrapper = TokenWrapper{
 		Token: AccessTokenResponse{
 			AccessToken:  "access_token:12345",
 			RefreshToken: "refresh_token:12345",
@@ -21,16 +21,19 @@ func TestZoho(t *testing.T) {
 		},
 		Expires: time.Now(),
 	}
-	tokensFile := "./_testdata/tmp/tokensfile.gob"
+	testTokensFile = "./_testdata/tmp/tokensfile.gob"
+)
+
+func TestZoho(t *testing.T) {
 	z := New()
 
 	t.Run("set-tokens", func(t *testing.T) {
-		z.SetTokensFile(tokensFile)
-		assert.Equalf(t, tokensFile, z.tokensFile, "SetTokensFile failed: %s", z.tokensFile)
+		z.SetTokensFile(testTokensFile)
+		assert.Equalf(t, testTokensFile, z.tokensFile, "SetTokensFile failed: %s", z.tokensFile)
 	})
 
 	t.Run("save-tokens-file", func(t *testing.T) {
-		err := z.SaveTokens(v.Token)
+		err := z.SaveTokens(testTokenWrapper.Token)
 		if err != nil {
 			t.Errorf("save-tokens-file: SaveTokens failed: %s", err)
 		}
@@ -39,11 +42,11 @@ func TestZoho(t *testing.T) {
 	t.Run("read-tokens-file", func(t *testing.T) {
 		err := z.CheckForSavedTokens()
 		if err != nil {
-			t.Errorf("LoadAccessAndRefreshToken failed: %s", err)
+			t.Errorf("CheckForSavedTokens failed: %s", err)
 		}
 
-		assert.Equalf(t, v.Token.AccessToken, z.oauth.token.AccessToken, "LoadAccessAndRefreshToken failed: '%s' == '%s'", v.Token.AccessToken, z.oauth.token.AccessToken)
-		assert.Equalf(t, v.Token.RefreshToken, z.oauth.token.RefreshToken, "LoadAccessAndRefreshToken failed: '%s' == '%s'", v.Token.RefreshToken, z.oauth.token.RefreshToken)
+		assert.Equalf(t, testTokenWrapper.Token.AccessToken, z.oauth.token.AccessToken, "LoadAccessAndRefreshToken failed: '%s' == '%s'", testTokenWrapper.Token.AccessToken, z.oauth.token.AccessToken)
+		assert.Equalf(t, testTokenWrapper.Token.RefreshToken, z.oauth.token.RefreshToken, "LoadAccessAndRefreshToken failed: '%s' == '%s'", testTokenWrapper.Token.RefreshToken, z.oauth.token.RefreshToken)
 	})
 
 	t.Run("set-token-manager", func(t *testing.T) {

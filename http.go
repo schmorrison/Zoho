@@ -12,6 +12,7 @@ import (
 	"os"
 	"path/filepath"
 	"reflect"
+	"strings"
 )
 
 // Endpoint defines the data required to interact with most Zoho REST api endpoints
@@ -30,6 +31,126 @@ type Endpoint struct {
 // Parameter is used to provide URL Parameters to zoho endpoints
 type Parameter string
 type BodyFormat string
+
+type NullFormatter struct{}
+
+func (f *NullFormatter) Format(body interface{}) (io.Reader, string, error) {
+	return strings.NewReader(""), "application/x-www-form-urlencoded", nil
+}
+
+type JSONFormatter struct{}
+
+func (f *JSONFormatter) Format(body interface{}) (io.Reader, string, error) {
+	b, err := json.Marshal(body)
+	if err != nil {
+		return nil, "", fmt.Errorf("failed to marshal JSON from body: %s", err)
+	}
+	return bytes.NewReader(b), "application/x-www-form-urlencoded", nil
+}
+
+type JSONStringFormatter struct{}
+
+func (f *JSONStringFormatter) Format(body interface{}) (io.Reader, string, error) {
+	j := JSONFormatter{}
+	reader, _, err := j.Format(body)
+	if err != nil {
+		return nil, "", err
+	}
+
+	// Create a multipart form
+	var buf bytes.Buffer
+	writer := multipart.NewWriter(&buf)
+	fw, err := writer.CreateFormField("JSONString")
+	if err != nil {
+		return nil, "", fmt.Errorf("failed to create JSONString form field: %s", err)
+	}
+	// Copy the request body JSON into the field
+	if _, err = io.Copy(fw, reader); err != nil {
+		return nil, "", fmt.Errorf("failed to copy the JSON body to the form field: %s", err)
+	}
+
+	// Close the multipart writer to set the terminating boundary
+	err = writer.Close()
+	if err != nil {
+		return nil, "", fmt.Errorf("failed closing the form field writer: %s", err)
+	}
+
+	return &buf, writer.FormDataContentType(), nil
+}
+
+type FileFormatter struct {
+	filename string
+}
+
+func (f *FileFormatter) Filename(name string) {
+	f.filename = name
+}
+func (f *FileFormatter) Format(body interface{}) (io.Reader, string, error) {
+	var buf bytes.Buffer
+	switch bt := body.(type) {
+	case string:
+		f.filename = bt
+		// Retreive the file contents
+		var fileReader *os.File
+		fileReader, err := os.Open(f.filename)
+		if err != nil {
+			return nil, "", fmt.Errorf("failed to open file '%s': %s", f.filename, err)
+		}
+		_, err = buf.ReadFrom(fileReader)
+		if err != nil {
+			return nil, "", fmt.Errorf("failed to read file into buffer '%s': %s", f.filename, err)
+		}
+
+		fileReader.Close()
+	case []byte:
+		if f.filename == "" {
+			f.filename = "test_attachment.png"
+		}
+		_, err := buf.Write(bt)
+		if err != nil {
+			return nil, "", fmt.Errorf("failed to read body into buffer: %s", err)
+		}
+	default:
+		return nil, "", fmt.Errorf("unsupported body type, expect string(filename) or []byte(filecontents): %s", reflect.TypeOf(body))
+	}
+
+	writer := multipart.NewWriter(&buf)
+	// Create the correct form field
+	part, err := writer.CreateFormFile("attachment", filepath.Base(f.filename))
+	if err != nil {
+		return nil, "", fmt.Errorf("failed to create attachment form field: %s: %s", f.filename, err)
+	}
+	// copy the file contents to the form
+	if _, err = io.Copy(part, bytes.NewReader(buf.Bytes())); err != nil {
+		return nil, "", fmt.Errorf("failed to copy the attachment body into the form field: %s", err)
+	}
+
+	err = writer.Close()
+	if err != nil {
+		return nil, "", fmt.Errorf("failed closing the form field writer: %s", err)
+	}
+
+	return &buf, writer.FormDataContentType(), nil
+}
+
+func (b BodyFormat) Format(body interface{}) (reader io.Reader, contentType string, err error) {
+	switch b {
+	case JSON:
+		j := &JSONFormatter{}
+		return j.Format(body)
+	case JSON_STRING:
+		j := &JSONStringFormatter{}
+		return j.Format(body)
+	case FILE:
+		j := &FileFormatter{}
+		return j.Format(body)
+	}
+	return reader, contentType, fmt.Errorf("unsupported body format: %s", string(b))
+}
+
+type BodyFormatter interface {
+	Format(body interface{}) (reader io.Reader, contentType string, err error)
+}
 
 const (
 	JSON        = ""

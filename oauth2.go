@@ -183,9 +183,13 @@ func (z *Zoho) AuthorizationCodeRequest(clientID, clientSecret string, scopes []
 		srv = &http.Server{Addr: ":" + port}
 
 		http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-			w.Write([]byte("Code retrieved, you can close this window to continue"))
-
-			codeChan <- r.URL.Query().Get("code")
+			code := r.URL.Query().Get("code")
+			if code != "" {
+				w.Write([]byte(fmt.Sprintf("Code [%s] retrieved, you can close this window to continue", code)))
+			} else {
+				w.Write([]byte("Failed to retrieve code, please close this window to continue"))
+			}
+			codeChan <- code
 		})
 
 		go func() {

@@ -23,15 +23,15 @@ func (t *Time) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON is the json unmarshalling function for Time internal type
 func (t *Time) UnmarshalJSON(b []byte) error {
 	s := strings.Trim(string(b), "\"")
-	if s == "null" {
+	if s == "null" || s == "" {
 		blank := Time(time.Time{})
-		t = &blank
+		*t = blank
 		return nil
 	}
 	pTime, err := time.Parse(zohoTimeLayout, s)
 	if err == nil {
 		ref := Time(pTime)
-		t = &ref
+		*t = ref
 	}
 	return err
 }
@@ -53,15 +53,15 @@ func (d *Date) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON is the json unmarshalling function for Date internal type
 func (d *Date) UnmarshalJSON(b []byte) error {
 	s := strings.Trim(string(b), "\"")
-	if s == "null" {
+	if s == "null" || s == "" {
 		blank := Date(time.Time{})
-		d = &blank
+		*d = blank
 		return nil
 	}
 	pTime, err := time.Parse(zohoDateLayout, s)
 	if err == nil {
 		ref := Date(pTime)
-		d = &ref
+		*d = ref
 	}
 	return err
 }
