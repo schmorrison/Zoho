@@ -2,6 +2,7 @@ package zoho
 
 import (
 	"fmt"
+	"github.com/hashicorp/go-retryablehttp"
 	"net"
 	"net/http"
 	"time"
@@ -9,16 +10,20 @@ import (
 
 // New initializes a Zoho structure
 func New() *Zoho {
-	z := Zoho{
-		client: &http.Client{
-			Timeout: time.Second * 10,
-			Transport: &http.Transport{
-				Dial: (&net.Dialer{
-					Timeout: 5 * time.Second,
-				}).Dial,
-				TLSHandshakeTimeout: 5 * time.Second,
-			},
+	retryClient := retryablehttp.NewClient()
+	retryClient.RetryMax = 1
+	retryClient.HTTPClient = &http.Client{
+		Timeout: time.Second * 10,
+		Transport: &http.Transport{
+			Dial: (&net.Dialer{
+				Timeout: 5 * time.Second,
+			}).Dial,
+			TLSHandshakeTimeout: 5 * time.Second,
 		},
+	}
+
+	z := Zoho{
+		client:     retryClient,
 		ZohoTLD:    "com",
 		tokensFile: "./.tokens.zoho",
 		oauth: OAuth{
@@ -53,7 +58,7 @@ func (z *Zoho) SetZohoTLD(s string) {
 //
 // A notable use case is AppEngine where a user must use the appengine/urlfetch packages provided http client
 // when performing outbound http requests.
-func (z *Zoho) CustomHTTPClient(c *http.Client) {
+func (z *Zoho) CustomHTTPClient(c *retryablehttp.Client) {
 	z.client = c
 }
 
@@ -68,7 +73,7 @@ func (z *Zoho) SetOrganizationID(orgID string) {
 type Zoho struct {
 	oauth OAuth
 
-	client         *http.Client
+	client         *retryablehttp.Client
 	tokenManager   TokenLoaderSaver
 	tokensFile     string
 	OrganizationID string
