@@ -1,9 +1,9 @@
-module github.com/schmorrison/Zoho 
+module github.com/schmorrison/Zoho
 
 go 1.13
 
 require (
-	github.com/schmorrison/go-querystring v1.1.1 // indirect
-	google.golang.org/appengine v1.6.6
 	github.com/hashicorp/go-retryablehttp v0.7.0
+	github.com/schmorrison/go-querystring v1.1.1
+	google.golang.org/appengine v1.6.6
 )
