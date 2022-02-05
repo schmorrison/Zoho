@@ -2,10 +2,11 @@ package zoho
 
 import (
 	"fmt"
-	"github.com/hashicorp/go-retryablehttp"
 	"net"
 	"net/http"
 	"time"
+
+	"github.com/hashicorp/go-retryablehttp"
 )
 
 // New initializes a Zoho structure
@@ -23,7 +24,7 @@ func New() *Zoho {
 	}
 
 	z := Zoho{
-		client:     retryClient,
+		client:     retryClient.StandardClient(),
 		ZohoTLD:    "com",
 		tokensFile: "./.tokens.zoho",
 		oauth: OAuth{
@@ -58,7 +59,7 @@ func (z *Zoho) SetZohoTLD(s string) {
 //
 // A notable use case is AppEngine where a user must use the appengine/urlfetch packages provided http client
 // when performing outbound http requests.
-func (z *Zoho) CustomHTTPClient(c *retryablehttp.Client) {
+func (z *Zoho) CustomHTTPClient(c *http.Client) {
 	z.client = c
 }
 
@@ -73,7 +74,7 @@ func (z *Zoho) SetOrganizationID(orgID string) {
 type Zoho struct {
 	oauth OAuth
 
-	client         *retryablehttp.Client
+	client         *http.Client
 	tokenManager   TokenLoaderSaver
 	tokensFile     string
 	OrganizationID string
