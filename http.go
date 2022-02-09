@@ -161,11 +161,6 @@ func (z *Zoho) HTTPRequest(endpoint *Endpoint) (err error) {
 		req.Header.Add(k, v)
 	}
 
-	// req_retry, err_retry := retryablehttp.FromRequest(req)
-	// if err_retry != nil {
-	// 	return fmt.Errorf("Failed to create retry request for %s: %s", endpoint.Name, err)
-	// }
-
 	resp, err := z.client.Do(req)
 	if err != nil {
 		return fmt.Errorf("Failed to perform request for %s: %s", endpoint.Name, err)
