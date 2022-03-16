@@ -37,7 +37,6 @@ type CreateItemRequest struct {
 }
 
 func (c *API) CreateItem(request CreateItemRequest) (data CreateItemResponse, err error) {
-
 	endpoint := zoho.Endpoint{
 		Name:         ItemsModule,
 		URL:          fmt.Sprintf("https://invoice.zoho.%s/api/v3/%s", c.ZohoTLD, ItemsModule),
@@ -50,8 +49,7 @@ func (c *API) CreateItem(request CreateItemRequest) (data CreateItemResponse, er
 		},
 	}
 
-	err = c.Zoho.HTTPRequest(&endpoint)
-	if err != nil {
+	if err = c.Zoho.HTTPRequest(&endpoint); err != nil {
 		return CreateItemResponse{}, fmt.Errorf("Failed to create item: %s", err)
 	}
 
@@ -62,5 +60,6 @@ func (c *API) CreateItem(request CreateItemRequest) (data CreateItemResponse, er
 		}
 		return *v, nil
 	}
+
 	return CreateItemResponse{}, fmt.Errorf("Data retrieved was not 'CreateItemResponse'")
 }
