@@ -482,7 +482,7 @@ func (c *API) ConvertLead(request ConvertLeadData, ID string) (data ConvertLeadR
 		URL:          fmt.Sprintf("https://www.zohoapis.%s/crm/v2/%s/%s/actions/convert", c.ZohoTLD, LeadsModule, ID),
 		Method:       zoho.HTTPPost,
 		ResponseData: &ConvertLeadResponse{},
-		RequestBody:  data,
+		RequestBody:  request,
 	}
 
 	err = c.Zoho.HTTPRequest(&endpoint)
