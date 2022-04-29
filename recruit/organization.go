@@ -1,10 +1,9 @@
-package zohorecruit
+package recruit
 
 import (
-	"fmt"
-	"time"
+	"encoding/json"
 
-	"git.ejobs.ro/core/mono/ejobs-zoho/zohoutils"
+	zoho "github.com/schmorrison/Zoho"
 )
 
 // GetOrganizationDetails returns organization's data

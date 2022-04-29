@@ -287,7 +287,7 @@ func (c *API) XMLSearchJobOpenings(params map[string]zohoutils.Parameter) (data 
 			"version":         "2",     // This will fetch responses based on the latest API implementation.
 			"newFormat":       "1",     // 1 - To exclude fields with "null" values while inserting data from your Recruit account.
 			"selectColumns":   "(ALL)", // mandatory eg: (Job Description) | Module(Job Description)
-			"searchCondition": "",      // mandatory eg: (Associated Tags|=|eJobs-test_job_published)
+			"searchCondition": "",      // mandatory eg: (Associated Tags|=|JobIsPublished)
 		},
 	}
 
