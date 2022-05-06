@@ -34,11 +34,7 @@ func (c *API) InsertCandidates(request InsertCandidateRequest) (data InsertCandi
 	return InsertCandidateResponse{}, fmt.Errorf("no 'InsertCandidateResponse' returned")
 }
 
-type InsertCandidateRequest struct {
-	Data    []ICRData `json:"data"`
-	Trigger []string  `json:"trigger"`
-}
-type ICRData struct {
+type CandidateRequestData struct {
 	CandidateId       string `json:"CandidateId,omitempty"`
 	ApplicationDate   string `json:"ApplicationDate,omitempty"`
 	FirstName         string `json:"First_Name,omitempty"`
@@ -54,6 +50,11 @@ type ICRData struct {
 	ExperienceInYears string `json:"Experience_in_Years,omitempty"`
 	CandidateStatus   string `json:"Candidate_Status,omitempty"`
 	Source            string `json:"Source,omitempty"`
+}
+
+type InsertCandidateRequest struct {
+	Data    []CandidateRequestData `json:"data"`
+	Trigger []string               `json:"trigger"`
 }
 
 type InsertCandidateResponse struct {
@@ -101,9 +102,9 @@ func (c *API) UpsertCandidates(request UpsertCandidateRequest) (data UpsertCandi
 }
 
 type UpsertCandidateRequest struct {
-	Data                 []ICRData `json:"data"`
-	DuplicateCheckFields []string  `json:"duplicate_check_fields"`
-	Trigger              []string  `json:"trigger"`
+	Data                 []CandidateRequestData `json:"data"`
+	DuplicateCheckFields []string               `json:"duplicate_check_fields"`
+	Trigger              []string               `json:"trigger"`
 }
 type UpsertCandidateResponse struct {
 	Data []struct {
