@@ -50,7 +50,7 @@ type SingleLine string
 func (s *SingleLine) UnmarshalJSON(data []byte) error {
 	if string(data) == "null" {
 		t := SingleLine("")
-		s = &t
+		*s = t
 		return nil
 	}
 

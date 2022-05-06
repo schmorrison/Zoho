@@ -448,12 +448,7 @@ type DeletedCandidatesResponse struct {
 		} `json:"created_by,omitempty"`
 		DeletedTime Time `json:"deleted_time,omitempty"`
 	} `json:"data,omitempty"`
-	Info struct {
-		PerPage     int  `json:"per_page,omitempty"`
-		Count       int  `json:"count,omitempty"`
-		Page        int  `json:"page,omitempty"`
-		MoreRecords bool `json:"more_records,omitempty"`
-	} `json:"info,omitempty"`
+	Info PageInfo `json:"info,omitempty"`
 }
 
 // https://www.zoho.com/recruit/developer-guide/apiv2/associate-candidate.html
@@ -478,13 +473,13 @@ func (c *API) AssociateCandidates(request AssociateCandidatesRequest) (data Asso
 	return AssociateCandidatesResponse{}, fmt.Errorf("no 'AssociateCandidatesResponse' returned")
 }
 
-type ACRData struct {
+type AssociateCandidatesResponseData struct {
 	Jobids   []string `json:"jobids"`
 	Ids      []string `json:"ids"`
 	Comments string   `json:"comments"`
 }
 type AssociateCandidatesRequest struct {
-	Data []ACRData `json:"data"`
+	Data []AssociateCandidatesResponseData `json:"data"`
 }
 type AssociateCandidatesResponse struct {
 	Data []struct {

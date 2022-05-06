@@ -123,10 +123,5 @@ type ClientsRecordsResponse struct {
 		IsAttachmentPresent bool   `json:"Is_Attachment_Present,omitempty"`
 		ShippingStreet      string `json:"Shipping_Street,omitempty"`
 	} `json:"data,omitempty"`
-	Info struct {
-		PerPage     int  `json:"per_page,omitempty"`
-		Count       int  `json:"count,omitempty"`
-		Page        int  `json:"page,omitempty"`
-		MoreRecords bool `json:"more_records,omitempty"`
-	} `json:"info,omitempty"`
+	Info PageInfo `json:"info,omitempty"`
 }
