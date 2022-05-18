@@ -60,7 +60,7 @@ func (s *SingleLine) UnmarshalJSON(data []byte) error {
 	}
 
 	tp := SingleLine(t)
-	s = &tp
+	*s = tp
 	return nil
 }
 
@@ -77,7 +77,7 @@ type MultiLine string
 func (s *MultiLine) UnmarshalJSON(data []byte) error {
 	if string(data) == "null" {
 		t := MultiLine("")
-		s = &t
+		*s = t
 		return nil
 	}
 
@@ -87,7 +87,7 @@ func (s *MultiLine) UnmarshalJSON(data []byte) error {
 	}
 
 	tp := MultiLine(t)
-	s = &tp
+	*s = tp
 	return nil
 }
 
@@ -104,7 +104,7 @@ type Email string
 func (s *Email) UnmarshalJSON(data []byte) error {
 	if string(data) == "null" {
 		t := Email("")
-		s = &t
+		*s = t
 		return nil
 	}
 
@@ -114,7 +114,7 @@ func (s *Email) UnmarshalJSON(data []byte) error {
 	}
 
 	tp := Email(t)
-	s = &tp
+	*s = tp
 	return nil
 }
 
@@ -131,7 +131,7 @@ type Phone string
 func (s *Phone) UnmarshalJSON(data []byte) error {
 	if string(data) == "null" {
 		t := Phone("")
-		s = &t
+		*s = t
 		return nil
 	}
 
@@ -141,7 +141,7 @@ func (s *Phone) UnmarshalJSON(data []byte) error {
 	}
 
 	tp := Phone(t)
-	s = &tp
+	*s = tp
 	return nil
 }
 
@@ -158,7 +158,7 @@ type PickList string
 func (s *PickList) UnmarshalJSON(data []byte) error {
 	if string(data) == "null" {
 		t := PickList("")
-		s = &t
+		*s = t
 		return nil
 	}
 
@@ -168,7 +168,7 @@ func (s *PickList) UnmarshalJSON(data []byte) error {
 	}
 
 	tp := PickList(t)
-	s = &tp
+	*s = tp
 	return nil
 }
 

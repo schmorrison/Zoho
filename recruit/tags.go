@@ -189,8 +189,8 @@ type DeleteTagResponse struct {
 }
 
 // https://www.zoho.com/recruit/developer-guide/apiv2/get-tag-list.html
-func (c *API) GetTagsList(params map[string]zoho.Parameter) (data TagsListResponse, err error) {
-	if len(params["module"]) == 0 {
+func (c *API) GetTagsList(module Module, params map[string]zoho.Parameter) (data TagsListResponse, err error) {
+	if len(module) == 0 {
 		return TagsListResponse{}, fmt.Errorf("failed to list Tags, module name is missing")
 	}
 	endpoint := zoho.Endpoint{
@@ -199,7 +199,7 @@ func (c *API) GetTagsList(params map[string]zoho.Parameter) (data TagsListRespon
 		Method:       zoho.HTTPGet,
 		ResponseData: &TagsListResponse{},
 		URLParameters: map[string]zoho.Parameter{
-			"module":  "", // mandatory
+			"module":  zoho.Parameter(module), // mandatory
 			"my_tags": "",
 		},
 	}
@@ -240,14 +240,7 @@ type TagsListResponse struct {
 				ID   string `json:"id"`
 			} `json:"created_by"`
 		} `json:"tags"`
-		Info struct {
-			PerPage      int  `json:"per_page"`
-			Count        int  `json:"count"`
-			CreatedCount int  `json:"created_count"`
-			Page         int  `json:"page"`
-			AllowedCount int  `json:"allowed_count"`
-			MoreRecords  bool `json:"more_records"`
-		} `json:"info"`
+		Info PageInfo `json:"info"`
 	} `json:"data"`
 }
 
