@@ -176,9 +176,16 @@ func (z *Zoho) HTTPRequest(endpoint *Endpoint) (err error) {
 	dataType := reflect.TypeOf(endpoint.ResponseData).Elem()
 	data := reflect.New(dataType).Interface()
 
-	err = json.Unmarshal(body, data)
-	if err != nil {
-		return fmt.Errorf("Failed to unmarshal data from response for %s: got status %s: %s", endpoint.Name, resolveStatus(resp), err)
+	if len(body) > 0 { // Avoid failed to unmarshal if there is no result
+		err = json.Unmarshal(body, data)
+		if err != nil {
+			return fmt.Errorf("Failed to unmarshal data from response for %s: got status %s: %s", endpoint.Name, resolveStatus(resp), err)
+		}
+
+		// Search for hidden errors (appears on success response)
+		if bytes.Contains(body, []byte(`"status":"error"`)) {
+			return fmt.Errorf("%s", string(body))
+		}
 	}
 
 	endpoint.ResponseData = data
