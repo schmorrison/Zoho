@@ -20,7 +20,7 @@ This will be a long project, with alot of boilerplate code that may benefit from
 - [ ] Mail
 - [ ] Meeting
 - [ ] People
-- [ ] Recruit
+- [ ] [Recruit](https://github.com/schmorrison/Zoho/tree/master/recruit)
 - [ ] Reports
 - [ ] [Subscriptions](https://github.com/schmorrison/Zoho/tree/master/subscriptions)
 
