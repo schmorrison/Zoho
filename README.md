@@ -22,11 +22,13 @@ This will be a long project, with alot of boilerplate code that may benefit from
 - [ ] People
 - [ ] [Recruit](https://github.com/schmorrison/Zoho/tree/master/recruit)
 - [ ] Reports
+- [x] [Shifts](https://github.com/schmorrison/Zoho/tree/master/shifts)
 - [ ] [Subscriptions](https://github.com/schmorrison/Zoho/tree/master/subscriptions)
 
 The API's should ideally be useful and obvious. However, as it stands, the Zoho CRM API returns alot of dynamically typed fields which became incredibly difficult to parse, which eventually resulted in an implementation using reflect and a type switch to cast/convert the value from Zoho into the expected value for the struct. I expect this to be the case for alot of Zoho services.
 
 I will try to comment the code religously, and will read up on Go Doc so the generated documentation is useful for users.
+
 - [ ] Write a TODO list
 - [ ] Read up on writing Go Doc comments
 - [ ] Comment code religously
@@ -34,6 +36,7 @@ I will try to comment the code religously, and will read up on Go Doc so the gen
 - [ ] Start versioning commits to prevent major breaks
 
 ## A special thanks to Contributors
+
 - Thanks to @ashishsnigam for pull request #7.
 - Thanks to @beatscode for pull requests #10, #11, #12, #13, #18, & #19.
 - Thanks to @meyskens for pull request #14.
