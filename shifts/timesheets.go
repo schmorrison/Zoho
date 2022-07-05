@@ -56,8 +56,8 @@ type GetTimesheetsResponse struct {
 		JobSiteID        string    `json:"job_site_id,omitempty"`
 		JobSite          string    `json:"job_site,omitempty"`
 		Type             string    `json:"type,omitempty"`
-		Duration         float64   `json:"duration,omitempty"`
-		BreakDuration    float64   `json:"break_duration,omitempty"`
+		Duration         float64   `json:"duration,string,omitempty"`
+		BreakDuration    float64   `json:"break_duration,string,omitempty"`
 		Notes            string    `json:"notes,omitempty"`
 		Status           string    `json:"status,omitempty"`
 		TimeoffRequestID string    `json:"timeoff_request_id,omitempty"`
@@ -67,8 +67,8 @@ type GetTimesheetsResponse struct {
 		InLng            float64   `json:"in_lng,omitempty"`
 		OutLat           float64   `json:"out_lat,omitempty"`
 		OutLng           float64   `json:"out_lng,omitempty"`
-		Latitude         float64   `json:"latitude,omitempty"`
-		Longitude        float64   `json:"longitude,omitempty"`
+		Latitude         float64   `json:"latitude,string,omitempty"`
+		Longitude        float64   `json:"longitude,string,omitempty"`
 		ShiftID          string    `json:"shift_id,omitempty"`
 		Breaks           []struct {
 			BreakID      string    `json:"break_id,omitempty"`
@@ -143,8 +143,8 @@ type CreateTimesheetResponse struct {
 	JobSiteID        string    `json:"job_site_id,omitempty"`
 	JobSite          string    `json:"job_site,omitempty"`
 	Type             string    `json:"type,omitempty"`
-	Duration         float64   `json:"duration,omitempty"`
-	BreakDuration    float64   `json:"break_duration,omitempty"`
+	Duration         float64   `json:"duration,string,omitempty"`
+	BreakDuration    float64   `json:"break_duration,string,omitempty"`
 	Notes            string    `json:"notes,omitempty"`
 	Status           string    `json:"status,omitempty"`
 	TimeoffRequestID string    `json:"timeoff_request_id,omitempty"`
@@ -154,8 +154,8 @@ type CreateTimesheetResponse struct {
 	InLng            float64   `json:"in_lng,omitempty"`
 	OutLat           float64   `json:"out_lat,omitempty"`
 	OutLng           float64   `json:"out_lng,omitempty"`
-	Latitude         float64   `json:"latitude,omitempty"`
-	Longitude        float64   `json:"longitude,omitempty"`
+	Latitude         float64   `json:"latitude,string,omitempty"`
+	Longitude        float64   `json:"longitude,string,omitempty"`
 	ShiftID          string    `json:"shift_id,omitempty"`
 	Breaks           []struct {
 		BreakID      string    `json:"break_id,omitempty"`
@@ -202,8 +202,8 @@ type GetTimesheetResponse struct {
 	JobSiteID        string    `json:"job_site_id,omitempty"`
 	JobSite          string    `json:"job_site,omitempty"`
 	Type             string    `json:"type,omitempty"`
-	Duration         float64   `json:"duration,omitempty"`
-	BreakDuration    float64   `json:"break_duration,omitempty"`
+	Duration         float64   `json:"duration,string,omitempty"`
+	BreakDuration    float64   `json:"break_duration,string,omitempty"`
 	Notes            string    `json:"notes,omitempty"`
 	Status           string    `json:"status,omitempty"`
 	TimeoffRequestID string    `json:"timeoff_request_id,omitempty"`
@@ -213,8 +213,8 @@ type GetTimesheetResponse struct {
 	InLng            float64   `json:"in_lng,omitempty"`
 	OutLat           float64   `json:"out_lat,omitempty"`
 	OutLng           float64   `json:"out_lng,omitempty"`
-	Latitude         float64   `json:"latitude,omitempty"`
-	Longitude        float64   `json:"longitude,omitempty"`
+	Latitude         float64   `json:"latitude,string,omitempty"`
+	Longitude        float64   `json:"longitude,string,omitempty"`
 	ShiftID          string    `json:"shift_id,omitempty"`
 	Breaks           []struct {
 		BreakID      string    `json:"break_id,omitempty"`
@@ -279,8 +279,8 @@ type UpdateTimesheetResponse struct {
 	JobSiteID        string    `json:"job_site_id,omitempty"`
 	JobSite          string    `json:"job_site,omitempty"`
 	Type             string    `json:"type,omitempty"`
-	Duration         float64   `json:"duration,omitempty"`
-	BreakDuration    float64   `json:"break_duration,omitempty"`
+	Duration         float64   `json:"duration,string,omitempty"`
+	BreakDuration    float64   `json:"break_duration,string,omitempty"`
 	Notes            string    `json:"notes,omitempty"`
 	Status           string    `json:"status,omitempty"`
 	TimeoffRequestID string    `json:"timeoff_request_id,omitempty"`
@@ -290,8 +290,8 @@ type UpdateTimesheetResponse struct {
 	InLng            float64   `json:"in_lng,omitempty"`
 	OutLat           float64   `json:"out_lat,omitempty"`
 	OutLng           float64   `json:"out_lng,omitempty"`
-	Latitude         float64   `json:"latitude,omitempty"`
-	Longitude        float64   `json:"longitude,omitempty"`
+	Latitude         float64   `json:"latitude,string,omitempty"`
+	Longitude        float64   `json:"longitude,string,omitempty"`
 	ShiftID          string    `json:"shift_id,omitempty"`
 	Breaks           []struct {
 		BreakID      string    `json:"break_id,omitempty"`

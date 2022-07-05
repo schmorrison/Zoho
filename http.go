@@ -81,8 +81,8 @@ func (z *Zoho) HTTPRequest(endpoint *Endpoint) (err error) {
 			}
 
 			reqBody = bytes.NewReader(marshalledBody)
-			contentType = "application/x-www-form-urlencoded; charset=UTF-8"
 		}
+		contentType = "application/json; charset=UTF-8"
 	}
 
 	if endpoint.BodyFormat == JSON_STRING || endpoint.BodyFormat == FILE {
