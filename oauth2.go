@@ -24,15 +24,19 @@ func (z *Zoho) SetClientSecret(clientSecret string) {
 	z.oauth.clientSecret = clientSecret
 }
 
-// RefreshTokenRequest is used to refresh the oAuth2 access token
-func (z *Zoho) RefreshTokenRequest() (err error) {
+func (z *Zoho) RefreshTokenURL() string {
 	q := url.Values{}
 	q.Set("client_id", z.oauth.clientID)
 	q.Set("client_secret", z.oauth.clientSecret)
 	q.Set("refresh_token", z.oauth.token.RefreshToken)
 	q.Set("grant_type", "refresh_token")
 
-	tokenURL := fmt.Sprintf("%s%s?%s", z.oauth.baseURL, oauthGenerateTokenRequestSlug, q.Encode())
+	return fmt.Sprintf("%s%s?%s", z.oauth.baseURL, oauthGenerateTokenRequestSlug, q.Encode())
+}
+
+// RefreshTokenRequest is used to refresh the oAuth2 access token
+func (z *Zoho) RefreshTokenRequest() (err error) {
+	tokenURL := z.RefreshTokenURL()
 	resp, err := z.client.Post(tokenURL, "application/x-www-form-urlencoded", nil)
 	if err != nil {
 		return fmt.Errorf("Failed while requesting refresh token: %s", err)
@@ -81,6 +85,17 @@ func (z *Zoho) RefreshTokenRequest() (err error) {
 	return nil
 }
 
+func (z *Zoho) GenerateTokenURL(code string) string {
+	q := url.Values{}
+	q.Set("client_id", z.oauth.clientID)
+	q.Set("client_secret", z.oauth.clientSecret)
+	q.Set("code", code)
+	q.Set("redirect_uri", z.oauth.redirectURI)
+	q.Set("grant_type", "authorization_code")
+
+	return fmt.Sprintf("%s%s?%s", z.oauth.baseURL, oauthGenerateTokenRequestSlug, q.Encode())
+}
+
 // GenerateTokenRequest will get the Access token and Refresh token and hold them in the Zoho struct. This function can be used rather than
 // AuthorizationCodeRequest is you do not want to click on a link and redirect to a consent screen. Instead you can go to, https://accounts.zoho.com/developerconsole
 // and click the kebab icon beside your clientID, and click 'Self-Client'; then you can define you scopes and an expiry, then provide the generated authorization code
@@ -96,14 +111,15 @@ func (z *Zoho) GenerateTokenRequest(clientID, clientSecret, code, redirectURI st
 		return z.RefreshTokenRequest()
 	}
 
-	q := url.Values{}
-	q.Set("client_id", clientID)
-	q.Set("client_secret", clientSecret)
-	q.Set("code", code)
-	q.Set("redirect_uri", redirectURI)
-	q.Set("grant_type", "authorization_code")
+	// q := url.Values{}
+	// q.Set("client_id", clientID)
+	// q.Set("client_secret", clientSecret)
+	// q.Set("code", code)
+	// q.Set("redirect_uri", redirectURI)
+	// q.Set("grant_type", "authorization_code")
 
-	tokenURL := fmt.Sprintf("%s%s?%s", z.oauth.baseURL, oauthGenerateTokenRequestSlug, q.Encode())
+	// tokenURL := fmt.Sprintf("%s%s?%s", z.oauth.baseURL, oauthGenerateTokenRequestSlug, q.Encode())
+	tokenURL := z.GenerateTokenURL(code)
 	resp, err := z.client.Post(tokenURL, "application/x-www-form-urlencoded", nil)
 	if err != nil {
 		return fmt.Errorf("Failed while requesting generate token: %s", err)
@@ -153,6 +169,17 @@ func (z *Zoho) GenerateTokenRequest(clientID, clientSecret, code, redirectURI st
 	return nil
 }
 
+func (z *Zoho) AuthorizationCodeURL(scopes string) string {
+	q := url.Values{}
+	q.Set("scope", scopes)
+	q.Set("client_id", z.oauth.clientID)
+	q.Set("redirect_uri", z.oauth.redirectURI)
+	q.Set("response_type", "code")
+	q.Set("access_type", "offline")
+
+	return fmt.Sprintf("%s%s?%s", z.oauth.baseURL, oauthAuthorizationRequestSlug, q.Encode())
+}
+
 // AuthorizationCodeRequest will request an authorization code from Zoho. This authorization code is then used to generate access and refresh tokens.
 // This function will print a link that needs to be pasted into a browser to continue the oAuth2 flow. Then it will redirect to the redirectURL, it
 // must be the same as the redirect URL that was provided to Zoho when generating your client ID and client secret. If the redirect URL was a localhost
@@ -180,12 +207,15 @@ func (z *Zoho) AuthorizationCodeRequest(clientID, clientSecret string, scopes []
 
 	z.oauth.scopes = scopes
 
-	q := url.Values{}
-	q.Set("scope", scopeStr)
-	q.Set("client_id", clientID)
-	q.Set("redirect_uri", redirectURI)
-	q.Set("response_type", "code")
-	q.Set("access_type", "offline")
+	// q := url.Values{}
+	// q.Set("scope", scopeStr)
+	// q.Set("client_id", clientID)
+	// q.Set("redirect_uri", redirectURI)
+	// q.Set("response_type", "code")
+	// q.Set("access_type", "offline")
+
+	// authURL := fmt.Sprintf("%s%s?%s", z.oauth.baseURL, oauthAuthorizationRequestSlug, q.Encode())
+	authURL := z.AuthorizationCodeURL(scopeStr)
 
 	srvChan := make(chan int)
 	codeChan := make(chan string)
@@ -221,7 +251,6 @@ func (z *Zoho) AuthorizationCodeRequest(clientID, clientSecret string, scopes []
 		<-srvChan
 	}
 
-	authURL := fmt.Sprintf("%s%s?%s", z.oauth.baseURL, oauthAuthorizationRequestSlug, q.Encode())
 	fmt.Printf("Go to the following authentication URL to begin oAuth2 flow:\n %s\n\n", authURL)
 
 	code := ""
