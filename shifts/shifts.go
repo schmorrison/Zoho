@@ -77,8 +77,8 @@ func (t *Time) UnmarshalJSON(b []byte) (err error) {
 	return nil
 }
 
-func (t *Time) String() string {
-	tm := time.Time(*t)
+func (t Time) String() string {
+	tm := time.Time(t)
 	return fmt.Sprintf("%q", tm.Format(timeLayout))
 }
 
@@ -106,8 +106,8 @@ func (d *Date) UnmarshalJSON(b []byte) (err error) {
 	return nil
 }
 
-func (d *Date) String() string {
-	tm := time.Time(*d)
+func (d Date) String() string {
+	tm := time.Time(d)
 	return fmt.Sprintf("%q", tm.Format(dateLayout))
 }
 
