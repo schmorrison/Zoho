@@ -2,7 +2,6 @@ package shifts
 
 import (
 	"fmt"
-	"time"
 
 	zoho "github.com/schmorrison/Zoho"
 )
@@ -114,14 +113,14 @@ func (s *API) CreateTimesheet(request CreateTimesheetRequest) (data CreateTimesh
 }
 
 type CreateTimesheetRequest struct {
-	StartTime  time.Time `json:"start_time"` // required
-	EndTime    time.Time `json:"end_time,omitempty"`
-	EmployeeID string    `json:"employee_id"` // required
-	ScheduleID string    `json:"schedule_id"` // required
-	PositionID string    `json:"position_id"` // required
-	JobSiteID  string    `json:"job_site_id,omitempty"`
-	Notes      string    `json:"notes,omitempty"`
-	ShiftID    string    `json:"shift_id,omitempty"`
+	StartTime  Time   `json:"start_time"` // required
+	EndTime    Time   `json:"end_time,omitempty"`
+	EmployeeID string `json:"employee_id"` // required
+	ScheduleID string `json:"schedule_id"` // required
+	PositionID string `json:"position_id"` // required
+	JobSiteID  string `json:"job_site_id,omitempty"`
+	Notes      string `json:"notes,omitempty"`
+	ShiftID    string `json:"shift_id,omitempty"`
 	Breaks     []struct {
 		BreakID      string `json:"break_id,omitempty"`
 		DurationMins int    `json:"duration_mins,omitempty"`
