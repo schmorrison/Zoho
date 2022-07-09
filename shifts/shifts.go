@@ -61,7 +61,7 @@ type Time time.Time
 
 func (t Time) MarshalJSON() (b []byte, err error) {
 	if t.IsZero() {
-		return []byte{}, nil
+		return []byte{'"', '"'}, nil
 	}
 
 	return []byte(t.String()), nil
@@ -90,7 +90,7 @@ type Date time.Time
 
 func (d Date) MarshalJSON() (b []byte, err error) {
 	if d.IsZero() {
-		return []byte{}, nil
+		return []byte{'"', '"'}, nil
 	}
 
 	return []byte(d.String()), nil
