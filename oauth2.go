@@ -169,11 +169,11 @@ func (z *Zoho) GenerateTokenRequest(clientID, clientSecret, code, redirectURI st
 	return nil
 }
 
-func (z *Zoho) AuthorizationCodeURL(scopes string) string {
+func (z *Zoho) AuthorizationCodeURL(scopes, clientID, redirectURI string) string {
 	q := url.Values{}
 	q.Set("scope", scopes)
-	q.Set("client_id", z.oauth.clientID)
-	q.Set("redirect_uri", z.oauth.redirectURI)
+	q.Set("client_id", clientID)
+	q.Set("redirect_uri", redirectURI)
 	q.Set("response_type", "code")
 	q.Set("access_type", "offline")
 
@@ -215,7 +215,7 @@ func (z *Zoho) AuthorizationCodeRequest(clientID, clientSecret string, scopes []
 	// q.Set("access_type", "offline")
 
 	// authURL := fmt.Sprintf("%s%s?%s", z.oauth.baseURL, oauthAuthorizationRequestSlug, q.Encode())
-	authURL := z.AuthorizationCodeURL(scopeStr)
+	authURL := z.AuthorizationCodeURL(scopeStr, clientID, redirectURI)
 
 	srvChan := make(chan int)
 	codeChan := make(chan string)
