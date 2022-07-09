@@ -77,7 +77,7 @@ func (z *Zoho) HTTPRequest(endpoint *Endpoint) (err error) {
 			// JSON Marshal the body
 			marshalledBody, err := json.Marshal(endpoint.RequestBody)
 			if err != nil {
-				return fmt.Errorf("Failed to create json from request body")
+				return fmt.Errorf("Failed to create json from request body: %s", err)
 			}
 
 			reqBody = bytes.NewReader(marshalledBody)
