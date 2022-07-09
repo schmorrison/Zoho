@@ -53,7 +53,7 @@ func New(z *zoho.Zoho) *API {
 }
 
 const (
-	timeLayout = ""
+	timeLayout = "2006-01-02T15:04:05Z"
 	dateLayout = "2006-01-02"
 )
 
