@@ -53,7 +53,7 @@ func New(z *zoho.Zoho) *API {
 }
 
 const (
-	timeLayout = "2006-01-02T15:04:05-06:00"
+	timeLayout = "2006-01-02T15:04:05Z"
 	dateLayout = "2006-01-02"
 )
 
@@ -83,7 +83,7 @@ func (t *Time) UnmarshalJSON(b []byte) (err error) {
 
 func (t Time) String() string {
 	tm := time.Time(t)
-	return fmt.Sprintf("%q", tm.Format(timeLayout))
+	return fmt.Sprintf("%q", tm.In(time.UTC).Format(timeLayout))
 }
 
 func (t Time) IsZero() bool {
@@ -112,7 +112,7 @@ func (d *Date) UnmarshalJSON(b []byte) (err error) {
 
 func (d Date) String() string {
 	tm := time.Time(d)
-	return fmt.Sprintf("%q", tm.Format(dateLayout))
+	return fmt.Sprintf("%q", tm.In(time.UTC).Format(dateLayout))
 }
 
 func (d Date) IsZero() bool {
