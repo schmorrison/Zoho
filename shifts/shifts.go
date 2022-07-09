@@ -69,6 +69,10 @@ func (t Time) MarshalJSON() (b []byte, err error) {
 
 func (t *Time) UnmarshalJSON(b []byte) (err error) {
 	s := strings.Trim(string(b), `"`)
+	if s == "null" || s == "\"null\"" || s == "" {
+		return nil
+	}
+
 	tm, err := time.Parse(timeLayout, s)
 	if err != nil {
 		return fmt.Errorf("failed to parse shifts.Time from JSON: %s", err)
