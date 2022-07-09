@@ -44,8 +44,8 @@ func (s *API) GetAllTimeoffRequests(params map[string]zoho.Parameter) (data GetT
 type GetTimeoffsResponse struct {
 	TimeOffRequests []struct {
 		ID            string  `json:"id,omitempty"`
-		StartDate     Time    `json:"start_date,omitempty"`
-		EndDate       Time    `json:"end_date,omitempty"`
+		StartDate     *Time   `json:"start_date,omitempty"`
+		EndDate       *Time   `json:"end_date,omitempty"`
 		EmployeeID    string  `json:"employee_id,omitempty"`
 		Employee      string  `json:"employee,omitempty"`
 		RequestedByID string  `json:"requested_by_id,omitempty"`
@@ -55,7 +55,7 @@ type GetTimeoffsResponse struct {
 		DayType       string  `json:"day_type,omitempty"`
 		Duration      float64 `json:"duration,omitempty"`
 		Status        string  `json:"status,omitempty"`
-		CreatedAt     Time    `json:"created_at,omitempty"`
+		CreatedAt     *Time   `json:"created_at,omitempty"`
 	} `json:"time_off_requests,omitempty"`
 	Meta struct {
 		Count int `json:"count,omitempty"`
@@ -93,8 +93,8 @@ func (s *API) CreateTimeoffRequest(request CreateTimeoffRequest) (data CreateTim
 
 type CreateTimeoffRequest struct {
 	EmployeeID string `json:"employee_id,omitempty"`
-	StartDate  Time   `json:"start_date"` // required
-	EndDate    Time   `json:"end_date"`   // required
+	StartDate  *Time  `json:"start_date"` // required
+	EndDate    *Time  `json:"end_date"`   // required
 	TypeID     string `json:"type_id"`    // required
 	DayType    string `json:"day_type"`   // required: all_day, partial
 	Reason     string `json:"reason,omitempty"`
@@ -102,8 +102,8 @@ type CreateTimeoffRequest struct {
 
 type CreateTimeoffResponse struct {
 	ID             string  `json:"id,omitempty"`
-	StartDate      Time    `json:"start_date,omitempty"`
-	EndDate        Time    `json:"end_date,omitempty"`
+	StartDate      *Time   `json:"start_date,omitempty"`
+	EndDate        *Time   `json:"end_date,omitempty"`
 	EmployeeID     string  `json:"employee_id,omitempty"`
 	Employee       string  `json:"employee,omitempty"`
 	RequestedByID  string  `json:"requested_by_id,omitempty"`
@@ -113,20 +113,20 @@ type CreateTimeoffResponse struct {
 	DayType        string  `json:"day_type,omitempty"`
 	Duration       float64 `json:"duration,omitempty"`
 	Status         string  `json:"status,omitempty"`
-	CreatedAt      Time    `json:"created_at,omitempty"`
+	CreatedAt      *Time   `json:"created_at,omitempty"`
 	IsPaid         bool    `json:"is_paid,omitempty"`
 	Reason         string  `json:"reason,omitempty"`
 	ApproverID     string  `json:"approver_id,omitempty"`
 	Approver       string  `json:"approver,omitempty"`
-	ApprovalRespAt Time    `json:"approval_resp_at,omitempty"`
-	CancelledAt    Time    `json:"cancelled_at,omitempty"`
-	UpdatedAt      Time    `json:"updated_at,omitempty"`
+	ApprovalRespAt *Time   `json:"approval_resp_at,omitempty"`
+	CancelledAt    *Time   `json:"cancelled_at,omitempty"`
+	UpdatedAt      *Time   `json:"updated_at,omitempty"`
 	Comments       []struct {
 		CommentID   string `json:"comment_id,omitempty"`
 		Comment     string `json:"comment,omitempty"`
 		CommenterID string `json:"commenter_id,omitempty"`
 		Commenter   string `json:"commenter,omitempty"`
-		CreatedAt   Time   `json:"created_at,omitempty"`
+		CreatedAt   *Time  `json:"created_at,omitempty"`
 	} `json:"comments,omitempty"`
 }
 
@@ -154,8 +154,8 @@ func (s *API) GetTimeoffRequest(id string) (data GetTimeoffResponse, err error) 
 
 type GetTimeoffResponse struct {
 	ID             string  `json:"id,omitempty"`
-	StartDate      Time    `json:"start_date,omitempty"`
-	EndDate        Time    `json:"end_date,omitempty"`
+	StartDate      *Time   `json:"start_date,omitempty"`
+	EndDate        *Time   `json:"end_date,omitempty"`
 	EmployeeID     string  `json:"employee_id,omitempty"`
 	Employee       string  `json:"employee,omitempty"`
 	RequestedByID  string  `json:"requested_by_id,omitempty"`
@@ -165,20 +165,20 @@ type GetTimeoffResponse struct {
 	DayType        string  `json:"day_type,omitempty"`
 	Duration       float64 `json:"duration,omitempty"`
 	Status         string  `json:"status,omitempty"`
-	CreatedAt      Time    `json:"created_at,omitempty"`
+	CreatedAt      *Time   `json:"created_at,omitempty"`
 	IsPaid         bool    `json:"is_paid,omitempty"`
 	Reason         string  `json:"reason,omitempty"`
 	ApproverID     string  `json:"approver_id,omitempty"`
 	Approver       string  `json:"approver,omitempty"`
-	ApprovalRespAt Time    `json:"approval_resp_at,omitempty"`
-	CancelledAt    Time    `json:"cancelled_at,omitempty"`
-	UpdatedAt      Time    `json:"updated_at,omitempty"`
+	ApprovalRespAt *Time   `json:"approval_resp_at,omitempty"`
+	CancelledAt    *Time   `json:"cancelled_at,omitempty"`
+	UpdatedAt      *Time   `json:"updated_at,omitempty"`
 	Comments       []struct {
 		CommentID   string `json:"comment_id,omitempty"`
 		Comment     string `json:"comment,omitempty"`
 		CommenterID string `json:"commenter_id,omitempty"`
 		Commenter   string `json:"commenter,omitempty"`
-		CreatedAt   Time   `json:"created_at,omitempty"`
+		CreatedAt   *Time  `json:"created_at,omitempty"`
 	} `json:"comments,omitempty"`
 }
 
@@ -206,8 +206,8 @@ func (s *API) UpdateTimeoff(id string, request UpdateTimeoffRequest) (data Updat
 }
 
 type UpdateTimeoffRequest struct {
-	StartDate Time   `json:"start_date,omitempty"`
-	EndDate   Time   `json:"end_date,omitempty"`
+	StartDate *Time  `json:"start_date,omitempty"`
+	EndDate   *Time  `json:"end_date,omitempty"`
 	TypeID    string `json:"type_id,omitempty"`
 	DayType   string `json:"day_type,omitempty"` // all_day, partial
 	Reason    string `json:"reason,omitempty"`
@@ -215,8 +215,8 @@ type UpdateTimeoffRequest struct {
 
 type UpdateTimeoffResponse struct {
 	ID             string  `json:"id,omitempty"`
-	StartDate      Time    `json:"start_date,omitempty"`
-	EndDate        Time    `json:"end_date,omitempty"`
+	StartDate      *Time   `json:"start_date,omitempty"`
+	EndDate        *Time   `json:"end_date,omitempty"`
 	EmployeeID     string  `json:"employee_id,omitempty"`
 	Employee       string  `json:"employee,omitempty"`
 	RequestedByID  string  `json:"requested_by_id,omitempty"`
@@ -226,20 +226,20 @@ type UpdateTimeoffResponse struct {
 	DayType        string  `json:"day_type,omitempty"`
 	Duration       float64 `json:"duration,omitempty"`
 	Status         string  `json:"status,omitempty"`
-	CreatedAt      Time    `json:"created_at,omitempty"`
+	CreatedAt      *Time   `json:"created_at,omitempty"`
 	IsPaid         bool    `json:"is_paid,omitempty"`
 	Reason         string  `json:"reason,omitempty"`
 	ApproverID     string  `json:"approver_id,omitempty"`
 	Approver       string  `json:"approver,omitempty"`
-	ApprovalRespAt Time    `json:"approval_resp_at,omitempty"`
-	CancelledAt    Time    `json:"cancelled_at,omitempty"`
-	UpdatedAt      Time    `json:"updated_at,omitempty"`
+	ApprovalRespAt *Time   `json:"approval_resp_at,omitempty"`
+	CancelledAt    *Time   `json:"cancelled_at,omitempty"`
+	UpdatedAt      *Time   `json:"updated_at,omitempty"`
 	Comments       []struct {
 		CommentID   string `json:"comment_id,omitempty"`
 		Comment     string `json:"comment,omitempty"`
 		CommenterID string `json:"commenter_id,omitempty"`
 		Commenter   string `json:"commenter,omitempty"`
-		CreatedAt   Time   `json:"created_at,omitempty"`
+		CreatedAt   *Time  `json:"created_at,omitempty"`
 	} `json:"comments,omitempty"`
 }
 
@@ -293,8 +293,8 @@ func (s *API) CancelTimeoffRequest(id string) (data CancelTimeoffResponse, err e
 
 type CancelTimeoffResponse struct {
 	ID             string  `json:"id,omitempty"`
-	StartDate      Time    `json:"start_date,omitempty"`
-	EndDate        Time    `json:"end_date,omitempty"`
+	StartDate      *Time   `json:"start_date,omitempty"`
+	EndDate        *Time   `json:"end_date,omitempty"`
 	EmployeeID     string  `json:"employee_id,omitempty"`
 	Employee       string  `json:"employee,omitempty"`
 	RequestedByID  string  `json:"requested_by_id,omitempty"`
@@ -304,20 +304,20 @@ type CancelTimeoffResponse struct {
 	DayType        string  `json:"day_type,omitempty"`
 	Duration       float64 `json:"duration,omitempty"`
 	Status         string  `json:"status,omitempty"`
-	CreatedAt      Time    `json:"created_at,omitempty"`
+	CreatedAt      *Time   `json:"created_at,omitempty"`
 	IsPaid         bool    `json:"is_paid,omitempty"`
 	Reason         string  `json:"reason,omitempty"`
 	ApproverID     string  `json:"approver_id,omitempty"`
 	Approver       string  `json:"approver,omitempty"`
-	ApprovalRespAt Time    `json:"approval_resp_at,omitempty"`
-	CancelledAt    Time    `json:"cancelled_at,omitempty"`
-	UpdatedAt      Time    `json:"updated_at,omitempty"`
+	ApprovalRespAt *Time   `json:"approval_resp_at,omitempty"`
+	CancelledAt    *Time   `json:"cancelled_at,omitempty"`
+	UpdatedAt      *Time   `json:"updated_at,omitempty"`
 	Comments       []struct {
 		CommentID   string `json:"comment_id,omitempty"`
 		Comment     string `json:"comment,omitempty"`
 		CommenterID string `json:"commenter_id,omitempty"`
 		Commenter   string `json:"commenter,omitempty"`
-		CreatedAt   Time   `json:"created_at,omitempty"`
+		CreatedAt   *Time  `json:"created_at,omitempty"`
 	} `json:"comments,omitempty"`
 }
 
@@ -345,8 +345,8 @@ func (s *API) ApproveTimeoffRequest(id string) (data ApproveTimeoffResponse, err
 
 type ApproveTimeoffResponse struct {
 	ID             string  `json:"id,omitempty"`
-	StartDate      Time    `json:"start_date,omitempty"`
-	EndDate        Time    `json:"end_date,omitempty"`
+	StartDate      *Time   `json:"start_date,omitempty"`
+	EndDate        *Time   `json:"end_date,omitempty"`
 	EmployeeID     string  `json:"employee_id,omitempty"`
 	Employee       string  `json:"employee,omitempty"`
 	RequestedByID  string  `json:"requested_by_id,omitempty"`
@@ -356,20 +356,20 @@ type ApproveTimeoffResponse struct {
 	DayType        string  `json:"day_type,omitempty"`
 	Duration       float64 `json:"duration,omitempty"`
 	Status         string  `json:"status,omitempty"`
-	CreatedAt      Time    `json:"created_at,omitempty"`
+	CreatedAt      *Time   `json:"created_at,omitempty"`
 	IsPaid         bool    `json:"is_paid,omitempty"`
 	Reason         string  `json:"reason,omitempty"`
 	ApproverID     string  `json:"approver_id,omitempty"`
 	Approver       string  `json:"approver,omitempty"`
-	ApprovalRespAt Time    `json:"approval_resp_at,omitempty"`
-	CancelledAt    Time    `json:"cancelled_at,omitempty"`
-	UpdatedAt      Time    `json:"updated_at,omitempty"`
+	ApprovalRespAt *Time   `json:"approval_resp_at,omitempty"`
+	CancelledAt    *Time   `json:"cancelled_at,omitempty"`
+	UpdatedAt      *Time   `json:"updated_at,omitempty"`
 	Comments       []struct {
 		CommentID   string `json:"comment_id,omitempty"`
 		Comment     string `json:"comment,omitempty"`
 		CommenterID string `json:"commenter_id,omitempty"`
 		Commenter   string `json:"commenter,omitempty"`
-		CreatedAt   Time   `json:"created_at,omitempty"`
+		CreatedAt   *Time  `json:"created_at,omitempty"`
 	} `json:"comments,omitempty"`
 }
 
@@ -397,8 +397,8 @@ func (s *API) DenyTimeoffRequest(id string) (data DenyTimeoffResponse, err error
 
 type DenyTimeoffResponse struct {
 	ID             string  `json:"id,omitempty"`
-	StartDate      Time    `json:"start_date,omitempty"`
-	EndDate        Time    `json:"end_date,omitempty"`
+	StartDate      *Time   `json:"start_date,omitempty"`
+	EndDate        *Time   `json:"end_date,omitempty"`
 	EmployeeID     string  `json:"employee_id,omitempty"`
 	Employee       string  `json:"employee,omitempty"`
 	RequestedByID  string  `json:"requested_by_id,omitempty"`
@@ -408,19 +408,19 @@ type DenyTimeoffResponse struct {
 	DayType        string  `json:"day_type,omitempty"`
 	Duration       float64 `json:"duration,omitempty"`
 	Status         string  `json:"status,omitempty"`
-	CreatedAt      Time    `json:"created_at,omitempty"`
+	CreatedAt      *Time   `json:"created_at,omitempty"`
 	IsPaid         bool    `json:"is_paid,omitempty"`
 	Reason         string  `json:"reason,omitempty"`
 	ApproverID     string  `json:"approver_id,omitempty"`
 	Approver       string  `json:"approver,omitempty"`
-	ApprovalRespAt Time    `json:"approval_resp_at,omitempty"`
-	CancelledAt    Time    `json:"cancelled_at,omitempty"`
-	UpdatedAt      Time    `json:"updated_at,omitempty"`
+	ApprovalRespAt *Time   `json:"approval_resp_at,omitempty"`
+	CancelledAt    *Time   `json:"cancelled_at,omitempty"`
+	UpdatedAt      *Time   `json:"updated_at,omitempty"`
 	Comments       []struct {
 		CommentID   string `json:"comment_id,omitempty"`
 		Comment     string `json:"comment,omitempty"`
 		CommenterID string `json:"commenter_id,omitempty"`
 		Commenter   string `json:"commenter,omitempty"`
-		CreatedAt   Time   `json:"created_at,omitempty"`
+		CreatedAt   *Time  `json:"created_at,omitempty"`
 	} `json:"comments,omitempty"`
 }

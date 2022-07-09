@@ -50,8 +50,8 @@ func (s *API) GetAllShifts(params map[string]zoho.Parameter) (data GetShiftsResp
 type GetShiftsResponse struct {
 	Shifts []struct {
 		ID            string  `json:"id,omitempty"`
-		StartTime     Time    `json:"start_time,omitempty"`
-		EndTime       Time    `json:"end_time,omitempty"`
+		StartTime     *Time   `json:"start_time,omitempty"`
+		EndTime       *Time   `json:"end_time,omitempty"`
 		EmployeeID    string  `json:"employee_id,omitempty"`
 		Count         int     `json:"count,omitempty"`
 		ScheduleID    string  `json:"schedule_id,omitempty"`
@@ -65,8 +65,8 @@ type GetShiftsResponse struct {
 		Breaks        []struct {
 			BreakID      string `json:"break_id,omitempty"`
 			DurationMins int    `json:"duration_mins,omitempty"`
-			StartTime    Time   `json:"start_time,omitempty"`
-			EndTime      Time   `json:"end_time,omitempty"`
+			StartTime    *Time  `json:"start_time,omitempty"`
+			EndTime      *Time  `json:"end_time,omitempty"`
 			IsPaid       bool   `json:"is_paid,omitempty"`
 		} `json:"breaks,omitempty"`
 	} `json:"shifts,omitempty"`
@@ -100,8 +100,8 @@ func (s *API) CreateShift(request CreateShiftRequest) (data CreateShiftResponse,
 }
 
 type CreateShiftRequest struct {
-	StartTime  Time   `json:"start_time"`            // required
-	EndTime    Time   `json:"end_time"`              // required
+	StartTime  *Time  `json:"start_time"`            // required
+	EndTime    *Time  `json:"end_time"`              // required
 	EmployeeID string `json:"employee_id,omitempty"` // empty creates an open shift
 	Count      int    `json:"count,omitempty"`
 	ScheduleID string `json:"schedule_id"` // required
@@ -111,15 +111,15 @@ type CreateShiftRequest struct {
 	Breaks     []struct {
 		BreakID      string `json:"break_id,omitempty"`
 		DurationMins int    `json:"duration_mins,omitempty"`
-		StartTime    Time   `json:"start_time,omitempty"`
-		EndTime      Time   `json:"end_time,omitempty"`
+		StartTime    *Time  `json:"start_time,omitempty"`
+		EndTime      *Time  `json:"end_time,omitempty"`
 	} `json:"breaks,omitempty"`
 }
 
 type CreateShiftResponse struct {
 	ID            string  `json:"id,omitempty"`
-	StartTime     Time    `json:"start_time,omitempty"`
-	EndTime       Time    `json:"end_time,omitempty"`
+	StartTime     *Time   `json:"start_time,omitempty"`
+	EndTime       *Time   `json:"end_time,omitempty"`
 	EmployeeID    string  `json:"employee_id,omitempty"`
 	Count         int     `json:"count,omitempty"`
 	ScheduleID    string  `json:"schedule_id,omitempty"`
@@ -133,8 +133,8 @@ type CreateShiftResponse struct {
 	Breaks        []struct {
 		BreakID      string `json:"break_id,omitempty"`
 		DurationMins int    `json:"duration_mins,omitempty"`
-		StartTime    Time   `json:"start_time,omitempty"`
-		EndTime      Time   `json:"end_time,omitempty"`
+		StartTime    *Time  `json:"start_time,omitempty"`
+		EndTime      *Time  `json:"end_time,omitempty"`
 		IsPaid       bool   `json:"is_paid,omitempty"`
 	} `json:"breaks,omitempty"`
 }
@@ -163,8 +163,8 @@ func (s *API) GetShift(id string) (data GetShiftResponse, err error) {
 
 type GetShiftResponse struct {
 	ID            string  `json:"id,omitempty"`
-	StartTime     Time    `json:"start_time,omitempty"`
-	EndTime       Time    `json:"end_time,omitempty"`
+	StartTime     *Time   `json:"start_time,omitempty"`
+	EndTime       *Time   `json:"end_time,omitempty"`
 	EmployeeID    string  `json:"employee_id,omitempty"`
 	Count         int     `json:"count,omitempty"`
 	ScheduleID    string  `json:"schedule_id,omitempty"`
@@ -178,8 +178,8 @@ type GetShiftResponse struct {
 	Breaks        []struct {
 		BreakID      string `json:"break_id,omitempty"`
 		DurationMins int    `json:"duration_mins,omitempty"`
-		StartTime    Time   `json:"start_time,omitempty"`
-		EndTime      Time   `json:"end_time,omitempty"`
+		StartTime    *Time  `json:"start_time,omitempty"`
+		EndTime      *Time  `json:"end_time,omitempty"`
 		IsPaid       bool   `json:"is_paid,omitempty"`
 	} `json:"breaks,omitempty"`
 }
@@ -208,8 +208,8 @@ func (s *API) UpdateShift(id string, request UpdateShiftRequest) (data UpdateShi
 }
 
 type UpdateShiftRequest struct {
-	StartTime  Time   `json:"start_time,omitempty"`
-	EndTime    Time   `json:"end_time,omitempty"`
+	StartTime  *Time  `json:"start_time,omitempty"`
+	EndTime    *Time  `json:"end_time,omitempty"`
 	EmployeeID string `json:"employee_id,omitempty"` // empty creates an open shift
 	Count      int    `json:"count,omitempty"`
 	ScheduleID string `json:"schedule_id,omitempty"`
@@ -219,15 +219,15 @@ type UpdateShiftRequest struct {
 	Breaks     []struct {
 		BreakID      string `json:"break_id,omitempty"`
 		DurationMins int    `json:"duration_mins,omitempty"`
-		StartTime    Time   `json:"start_time,omitempty"`
-		EndTime      Time   `json:"end_time,omitempty"`
+		StartTime    *Time  `json:"start_time,omitempty"`
+		EndTime      *Time  `json:"end_time,omitempty"`
 	} `json:"breaks,omitempty"`
 }
 
 type UpdateShiftResponse struct {
 	ID            string  `json:"id,omitempty"`
-	StartTime     Time    `json:"start_time,omitempty"`
-	EndTime       Time    `json:"end_time,omitempty"`
+	StartTime     *Time   `json:"start_time,omitempty"`
+	EndTime       *Time   `json:"end_time,omitempty"`
 	EmployeeID    string  `json:"employee_id,omitempty"`
 	Count         int     `json:"count,omitempty"`
 	ScheduleID    string  `json:"schedule_id,omitempty"`
@@ -241,8 +241,8 @@ type UpdateShiftResponse struct {
 	Breaks        []struct {
 		BreakID      string `json:"break_id,omitempty"`
 		DurationMins int    `json:"duration_mins,omitempty"`
-		StartTime    Time   `json:"start_time,omitempty"`
-		EndTime      Time   `json:"end_time,omitempty"`
+		StartTime    *Time  `json:"start_time,omitempty"`
+		EndTime      *Time  `json:"end_time,omitempty"`
 		IsPaid       bool   `json:"is_paid,omitempty"`
 	} `json:"breaks,omitempty"`
 }
@@ -312,8 +312,8 @@ type GetAvailabilitiesResponse struct {
 	Availabilities []struct {
 		ID         string `json:"id,omitempty"`
 		EmployeeID string `json:"employee_id,omitempty"`
-		StartTime  Time   `json:"start_time"`
-		EndTime    Time   `json:"end_time"`
+		StartTime  *Time  `json:"start_time"`
+		EndTime    *Time  `json:"end_time"`
 		Preference string `json:"preference,omitempty"`
 		Notes      string `json:"notes,omitempty"`
 	} `json:"availabilities,omitempty"`
@@ -348,8 +348,8 @@ func (s *API) CreateAvailability(request CreateAvailabilityRequest) (data Create
 
 type CreateAvailabilityRequest struct {
 	EmployeeID string `json:"employee_id"` // required
-	StartTime  Time   `json:"start_time"`  // required
-	EndTime    Time   `json:"end_time"`    // required
+	StartTime  *Time  `json:"start_time"`  // required
+	EndTime    *Time  `json:"end_time"`    // required
 	Preference string `json:"preference"`  // required: preferred, unavailable
 	Notes      string `json:"notes,omitempty"`
 }
@@ -357,8 +357,8 @@ type CreateAvailabilityRequest struct {
 type CreateAvailabilityResponse struct {
 	ID         string `json:"id,omitempty"`
 	EmployeeID string `json:"employee_id,omitempty"`
-	StartTime  Time   `json:"start_time,omitempty"`
-	EndTime    Time   `json:"end_time,omitempty"`
+	StartTime  *Time  `json:"start_time,omitempty"`
+	EndTime    *Time  `json:"end_time,omitempty"`
 	Preference string `json:"preference,omitempty"`
 	Notes      string `json:"notes,omitempty"`
 }
@@ -389,16 +389,16 @@ func (s *API) UpdateAvailability(id string, request UpdateAvailabilityRequest) (
 type UpdateAvailabilityRequest struct {
 	ID         string `json:"id,omitempty"`
 	EmployeeID string `json:"employee_id,omitempty"`
-	StartTime  Time   `json:"start_time,omitempty"`
-	EndTime    Time   `json:"end_time,omitempty"`
+	StartTime  *Time  `json:"start_time,omitempty"`
+	EndTime    *Time  `json:"end_time,omitempty"`
 	Preference string `json:"preference,omitempty"` // preferred, unavailable
 	Notes      string `json:"notes,omitempty"`
 }
 
 type UpdateAvailabilityResponse struct {
 	EmployeeID string `json:"employee_id,omitempty"`
-	StartTime  Time   `json:"start_time,omitempty"`
-	EndTime    Time   `json:"end_time,omitempty"`
+	StartTime  *Time  `json:"start_time,omitempty"`
+	EndTime    *Time  `json:"end_time,omitempty"`
 	Preference string `json:"preference,omitempty"`
 	Notes      string `json:"notes,omitempty"`
 }

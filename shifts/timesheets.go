@@ -44,8 +44,8 @@ func (s *API) GetAllTimesheets(params map[string]zoho.Parameter) (data GetTimesh
 type GetTimesheetsResponse struct {
 	TimeEntries []struct {
 		ID               string  `json:"id,omitempty"`
-		StartTime        Time    `json:"start_time,omitempty"`
-		EndTime          Time    `json:"end_time,omitempty"`
+		StartTime        *Time   `json:"start_time,omitempty"`
+		EndTime          *Time   `json:"end_time,omitempty"`
 		EmployeeID       string  `json:"employee_id,omitempty"`
 		Employee         string  `json:"employee,omitempty"`
 		ScheduleID       string  `json:"schedule_id,omitempty"`
@@ -73,8 +73,8 @@ type GetTimesheetsResponse struct {
 			BreakID      string `json:"break_id,omitempty"`
 			BreakName    string `json:"break_name,omitempty"`
 			DurationMins int    `json:"duration_mins,omitempty"`
-			StartTime    Time   `json:"start_time,omitempty"`
-			EndTime      Time   `json:"end_time,omitempty"`
+			StartTime    *Time  `json:"start_time,omitempty"`
+			EndTime      *Time  `json:"end_time,omitempty"`
 			IsPaid       bool   `json:"is_paid,omitempty"`
 		} `json:"breaks,omitempty"`
 	} `json:"time_entries,omitempty"`
@@ -113,8 +113,8 @@ func (s *API) CreateTimesheet(request CreateTimesheetRequest) (data CreateTimesh
 }
 
 type CreateTimesheetRequest struct {
-	StartTime  Time   `json:"start_time"` // required
-	EndTime    Time   `json:"end_time,omitempty"`
+	StartTime  *Time  `json:"start_time"` // required
+	EndTime    *Time  `json:"end_time,omitempty"`
 	EmployeeID string `json:"employee_id"` // required
 	ScheduleID string `json:"schedule_id"` // required
 	PositionID string `json:"position_id"` // required
@@ -124,15 +124,15 @@ type CreateTimesheetRequest struct {
 	Breaks     []struct {
 		BreakID      string `json:"break_id,omitempty"`
 		DurationMins int    `json:"duration_mins,omitempty"`
-		StartTime    Time   `json:"start_time,omitempty"`
-		EndTime      Time   `json:"end_time,omitempty"`
+		StartTime    *Time  `json:"start_time,omitempty"`
+		EndTime      *Time  `json:"end_time,omitempty"`
 	} `json:"breaks,omitempty"`
 }
 
 type CreateTimesheetResponse struct {
 	ID               string  `json:"id,omitempty"`
-	StartTime        Time    `json:"start_time,omitempty"`
-	EndTime          Time    `json:"end_time,omitempty"`
+	StartTime        *Time   `json:"start_time,omitempty"`
+	EndTime          *Time   `json:"end_time,omitempty"`
 	EmployeeID       string  `json:"employee_id,omitempty"`
 	Employee         string  `json:"employee,omitempty"`
 	ScheduleID       string  `json:"schedule_id,omitempty"`
@@ -160,8 +160,8 @@ type CreateTimesheetResponse struct {
 		BreakID      string `json:"break_id,omitempty"`
 		BreakName    string `json:"break_name,omitempty"`
 		DurationMins int    `json:"duration_mins,omitempty"`
-		StartTime    Time   `json:"start_time,omitempty"`
-		EndTime      Time   `json:"end_time,omitempty"`
+		StartTime    *Time  `json:"start_time,omitempty"`
+		EndTime      *Time  `json:"end_time,omitempty"`
 		IsPaid       bool   `json:"is_paid,omitempty"`
 	} `json:"breaks,omitempty"`
 }
@@ -190,8 +190,8 @@ func (s *API) GetTimesheet(id string) (data GetTimesheetResponse, err error) {
 
 type GetTimesheetResponse struct {
 	ID               string  `json:"id,omitempty"`
-	StartTime        Time    `json:"start_time,omitempty"`
-	EndTime          Time    `json:"end_time,omitempty"`
+	StartTime        *Time   `json:"start_time,omitempty"`
+	EndTime          *Time   `json:"end_time,omitempty"`
 	EmployeeID       string  `json:"employee_id,omitempty"`
 	Employee         string  `json:"employee,omitempty"`
 	ScheduleID       string  `json:"schedule_id,omitempty"`
@@ -219,8 +219,8 @@ type GetTimesheetResponse struct {
 		BreakID      string `json:"break_id,omitempty"`
 		BreakName    string `json:"break_name,omitempty"`
 		DurationMins int    `json:"duration_mins,omitempty"`
-		StartTime    Time   `json:"start_time,omitempty"`
-		EndTime      Time   `json:"end_time,omitempty"`
+		StartTime    *Time  `json:"start_time,omitempty"`
+		EndTime      *Time  `json:"end_time,omitempty"`
 		IsPaid       bool   `json:"is_paid,omitempty"`
 	} `json:"breaks,omitempty"`
 }
@@ -249,8 +249,8 @@ func (s *API) UpdateTimesheet(id string, request UpdateTimesheetRequest) (data U
 }
 
 type UpdateTimesheetRequest struct {
-	StartTime  Time   `json:"start_time,omitempty"`
-	EndTime    Time   `json:"end_time,omitempty"`
+	StartTime  *Time  `json:"start_time,omitempty"`
+	EndTime    *Time  `json:"end_time,omitempty"`
 	EmployeeID string `json:"employee_id,omitempty"`
 	ScheduleID string `json:"schedule_id,omitempty"`
 	PositionID string `json:"position_id,omitempty"`
@@ -260,15 +260,15 @@ type UpdateTimesheetRequest struct {
 	Breaks     []struct {
 		BreakID      string `json:"break_id,omitempty"`
 		DurationMins int    `json:"duration_mins,omitempty"`
-		StartTime    Time   `json:"start_time,omitempty"`
-		EndTime      Time   `json:"end_time,omitempty"`
+		StartTime    *Time  `json:"start_time,omitempty"`
+		EndTime      *Time  `json:"end_time,omitempty"`
 	} `json:"breaks,omitempty"`
 }
 
 type UpdateTimesheetResponse struct {
 	ID               string  `json:"id,omitempty"`
-	StartTime        Time    `json:"start_time,omitempty"`
-	EndTime          Time    `json:"end_time,omitempty"`
+	StartTime        *Time   `json:"start_time,omitempty"`
+	EndTime          *Time   `json:"end_time,omitempty"`
 	EmployeeID       string  `json:"employee_id,omitempty"`
 	Employee         string  `json:"employee,omitempty"`
 	ScheduleID       string  `json:"schedule_id,omitempty"`
@@ -296,8 +296,8 @@ type UpdateTimesheetResponse struct {
 		BreakID      string `json:"break_id,omitempty"`
 		BreakName    string `json:"break_name,omitempty"`
 		DurationMins int    `json:"duration_mins,omitempty"`
-		StartTime    Time   `json:"start_time,omitempty"`
-		EndTime      Time   `json:"end_time,omitempty"`
+		StartTime    *Time  `json:"start_time,omitempty"`
+		EndTime      *Time  `json:"end_time,omitempty"`
 		IsPaid       bool   `json:"is_paid,omitempty"`
 	} `json:"breaks,omitempty"`
 }

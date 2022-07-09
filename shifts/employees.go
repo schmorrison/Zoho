@@ -107,7 +107,7 @@ type CreateEmployeeRequest struct {
 	AccessLevelID      string `json:"access_level_id,omitempty"`
 	SendInvitation     bool   `json:"send_invitation,omitempty"`
 	HourlyRate         int    `json:"hourly_rate,omitempty"`
-	HireDate           Date   `json:"hire_date,omitempty"`
+	HireDate           *Date  `json:"hire_date,omitempty"`
 	ExternalEmployeeID string `json:"external_employee_id,omitempty"`
 	HideFromSchedule   bool   `json:"hide_from_schedule,omitempty"`
 	OvertimeRuleID     string `json:"overtime_rule_id,omitempty"`
@@ -136,7 +136,7 @@ type CreateEmployeeResponse struct {
 	AccessLevelID      string `json:"access_level_id,omitempty"`
 	Status             string `json:"status,omitempty"`
 	InviteStatus       string `json:"invite_status,omitempty"`
-	HireDate           Date   `json:"hire_date,omitempty"`
+	HireDate           *Date  `json:"hire_date,omitempty"`
 	ExternalEmployeeID string `json:"external_employee_id,omitempty"`
 	HideFromSchedule   bool   `json:"hide_from_schedule,omitempty"`
 	OvertimeRuleID     string `json:"overtime_rule_id,omitempty"`
@@ -187,7 +187,7 @@ type GetEmployeeResponse struct {
 		ID string `json:"id,omitempty"`
 	} `json:"positions,omitempty"`
 	Timezone           string `json:"timezone,omitempty"`
-	HireDate           Date   `json:"hire_date,omitempty"`
+	HireDate           *Date  `json:"hire_date,omitempty"`
 	ExternalEmployeeID string `json:"external_employee_id,omitempty"`
 	HideFromSchedule   bool   `json:"hide_from_schedule,omitempty"`
 	OvertimeRuleID     string `json:"overtime_rule_id,omitempty"`
@@ -237,7 +237,7 @@ type UpdateEmployeeRequest struct {
 	Timezone           string `json:"timezone,omitempty"`
 	AccessLevelID      string `json:"access_level_id,omitempty"`
 	HourlyRate         int    `json:"hourly_rate,omitempty"`
-	HireDate           Date   `json:"hire_date,omitempty"`
+	HireDate           *Date  `json:"hire_date,omitempty"`
 	ExternalEmployeeID string `json:"external_employee_id,omitempty"`
 	HideFromSchedule   bool   `json:"hide_from_schedule,omitempty"`
 	OvertimeRuleID     string `json:"overtime_rule_id,omitempty"`
@@ -266,7 +266,7 @@ type UpdateEmployeeResponse struct {
 		ID string `json:"id,omitempty"`
 	} `json:"positions,omitempty"`
 	Timezone           string `json:"timezone,omitempty"`
-	HireDate           Date   `json:"hire_date,omitempty"`
+	HireDate           *Date  `json:"hire_date,omitempty"`
 	ExternalEmployeeID string `json:"external_employee_id,omitempty"`
 	HideFromSchedule   bool   `json:"hide_from_schedule,omitempty"`
 	OvertimeRuleID     string `json:"overtime_rule_id,omitempty"`
