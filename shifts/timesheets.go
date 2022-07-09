@@ -44,39 +44,39 @@ func (s *API) GetAllTimesheets(params map[string]zoho.Parameter) (data GetTimesh
 
 type GetTimesheetsResponse struct {
 	TimeEntries []struct {
-		ID               string    `json:"id,omitempty"`
-		StartTime        time.Time `json:"start_time,omitempty"`
-		EndTime          time.Time `json:"end_time,omitempty"`
-		EmployeeID       string    `json:"employee_id,omitempty"`
-		Employee         string    `json:"employee,omitempty"`
-		ScheduleID       string    `json:"schedule_id,omitempty"`
-		Schedule         string    `json:"schedule,omitempty"`
-		PositionID       string    `json:"position_id,omitempty"`
-		Position         string    `json:"position,omitempty"`
-		JobSiteID        string    `json:"job_site_id,omitempty"`
-		JobSite          string    `json:"job_site,omitempty"`
-		Type             string    `json:"type,omitempty"`
-		Duration         float64   `json:"duration,string,omitempty"`
-		BreakDuration    float64   `json:"break_duration,string,omitempty"`
-		Notes            string    `json:"notes,omitempty"`
-		Status           string    `json:"status,omitempty"`
-		TimeoffRequestID string    `json:"timeoff_request_id,omitempty"`
-		TimeoffTypeID    string    `json:"timeoff_type_id,omitempty"`
-		TimeoffType      string    `json:"timeoff_type,omitempty"`
-		InLat            float64   `json:"in_lat,omitempty"`
-		InLng            float64   `json:"in_lng,omitempty"`
-		OutLat           float64   `json:"out_lat,omitempty"`
-		OutLng           float64   `json:"out_lng,omitempty"`
-		Latitude         float64   `json:"latitude,string,omitempty"`
-		Longitude        float64   `json:"longitude,string,omitempty"`
-		ShiftID          string    `json:"shift_id,omitempty"`
+		ID               string  `json:"id,omitempty"`
+		StartTime        Time    `json:"start_time,omitempty"`
+		EndTime          Time    `json:"end_time,omitempty"`
+		EmployeeID       string  `json:"employee_id,omitempty"`
+		Employee         string  `json:"employee,omitempty"`
+		ScheduleID       string  `json:"schedule_id,omitempty"`
+		Schedule         string  `json:"schedule,omitempty"`
+		PositionID       string  `json:"position_id,omitempty"`
+		Position         string  `json:"position,omitempty"`
+		JobSiteID        string  `json:"job_site_id,omitempty"`
+		JobSite          string  `json:"job_site,omitempty"`
+		Type             string  `json:"type,omitempty"`
+		Duration         float64 `json:"duration,string,omitempty"`
+		BreakDuration    float64 `json:"break_duration,string,omitempty"`
+		Notes            string  `json:"notes,omitempty"`
+		Status           string  `json:"status,omitempty"`
+		TimeoffRequestID string  `json:"timeoff_request_id,omitempty"`
+		TimeoffTypeID    string  `json:"timeoff_type_id,omitempty"`
+		TimeoffType      string  `json:"timeoff_type,omitempty"`
+		InLat            float64 `json:"in_lat,omitempty"`
+		InLng            float64 `json:"in_lng,omitempty"`
+		OutLat           float64 `json:"out_lat,omitempty"`
+		OutLng           float64 `json:"out_lng,omitempty"`
+		Latitude         float64 `json:"latitude,string,omitempty"`
+		Longitude        float64 `json:"longitude,string,omitempty"`
+		ShiftID          string  `json:"shift_id,omitempty"`
 		Breaks           []struct {
-			BreakID      string    `json:"break_id,omitempty"`
-			BreakName    string    `json:"break_name,omitempty"`
-			DurationMins int       `json:"duration_mins,omitempty"`
-			StartTime    time.Time `json:"start_time,omitempty"`
-			EndTime      time.Time `json:"end_time,omitempty"`
-			IsPaid       bool      `json:"is_paid,omitempty"`
+			BreakID      string `json:"break_id,omitempty"`
+			BreakName    string `json:"break_name,omitempty"`
+			DurationMins int    `json:"duration_mins,omitempty"`
+			StartTime    Time   `json:"start_time,omitempty"`
+			EndTime      Time   `json:"end_time,omitempty"`
+			IsPaid       bool   `json:"is_paid,omitempty"`
 		} `json:"breaks,omitempty"`
 	} `json:"time_entries,omitempty"`
 	Meta struct {
@@ -123,47 +123,47 @@ type CreateTimesheetRequest struct {
 	Notes      string    `json:"notes,omitempty"`
 	ShiftID    string    `json:"shift_id,omitempty"`
 	Breaks     []struct {
-		BreakID      string    `json:"break_id,omitempty"`
-		DurationMins int       `json:"duration_mins,omitempty"`
-		StartTime    time.Time `json:"start_time,omitempty"`
-		EndTime      time.Time `json:"end_time,omitempty"`
+		BreakID      string `json:"break_id,omitempty"`
+		DurationMins int    `json:"duration_mins,omitempty"`
+		StartTime    Time   `json:"start_time,omitempty"`
+		EndTime      Time   `json:"end_time,omitempty"`
 	} `json:"breaks,omitempty"`
 }
 
 type CreateTimesheetResponse struct {
-	ID               string    `json:"id,omitempty"`
-	StartTime        time.Time `json:"start_time,omitempty"`
-	EndTime          time.Time `json:"end_time,omitempty"`
-	EmployeeID       string    `json:"employee_id,omitempty"`
-	Employee         string    `json:"employee,omitempty"`
-	ScheduleID       string    `json:"schedule_id,omitempty"`
-	Schedule         string    `json:"schedule,omitempty"`
-	PositionID       string    `json:"position_id,omitempty"`
-	Position         string    `json:"position,omitempty"`
-	JobSiteID        string    `json:"job_site_id,omitempty"`
-	JobSite          string    `json:"job_site,omitempty"`
-	Type             string    `json:"type,omitempty"`
-	Duration         float64   `json:"duration,string,omitempty"`
-	BreakDuration    float64   `json:"break_duration,string,omitempty"`
-	Notes            string    `json:"notes,omitempty"`
-	Status           string    `json:"status,omitempty"`
-	TimeoffRequestID string    `json:"timeoff_request_id,omitempty"`
-	TimeoffTypeID    string    `json:"timeoff_type_id,omitempty"`
-	TimeoffType      string    `json:"timeoff_type,omitempty"`
-	InLat            float64   `json:"in_lat,omitempty"`
-	InLng            float64   `json:"in_lng,omitempty"`
-	OutLat           float64   `json:"out_lat,omitempty"`
-	OutLng           float64   `json:"out_lng,omitempty"`
-	Latitude         float64   `json:"latitude,string,omitempty"`
-	Longitude        float64   `json:"longitude,string,omitempty"`
-	ShiftID          string    `json:"shift_id,omitempty"`
+	ID               string  `json:"id,omitempty"`
+	StartTime        Time    `json:"start_time,omitempty"`
+	EndTime          Time    `json:"end_time,omitempty"`
+	EmployeeID       string  `json:"employee_id,omitempty"`
+	Employee         string  `json:"employee,omitempty"`
+	ScheduleID       string  `json:"schedule_id,omitempty"`
+	Schedule         string  `json:"schedule,omitempty"`
+	PositionID       string  `json:"position_id,omitempty"`
+	Position         string  `json:"position,omitempty"`
+	JobSiteID        string  `json:"job_site_id,omitempty"`
+	JobSite          string  `json:"job_site,omitempty"`
+	Type             string  `json:"type,omitempty"`
+	Duration         float64 `json:"duration,string,omitempty"`
+	BreakDuration    float64 `json:"break_duration,string,omitempty"`
+	Notes            string  `json:"notes,omitempty"`
+	Status           string  `json:"status,omitempty"`
+	TimeoffRequestID string  `json:"timeoff_request_id,omitempty"`
+	TimeoffTypeID    string  `json:"timeoff_type_id,omitempty"`
+	TimeoffType      string  `json:"timeoff_type,omitempty"`
+	InLat            float64 `json:"in_lat,omitempty"`
+	InLng            float64 `json:"in_lng,omitempty"`
+	OutLat           float64 `json:"out_lat,omitempty"`
+	OutLng           float64 `json:"out_lng,omitempty"`
+	Latitude         float64 `json:"latitude,string,omitempty"`
+	Longitude        float64 `json:"longitude,string,omitempty"`
+	ShiftID          string  `json:"shift_id,omitempty"`
 	Breaks           []struct {
-		BreakID      string    `json:"break_id,omitempty"`
-		BreakName    string    `json:"break_name,omitempty"`
-		DurationMins int       `json:"duration_mins,omitempty"`
-		StartTime    time.Time `json:"start_time,omitempty"`
-		EndTime      time.Time `json:"end_time,omitempty"`
-		IsPaid       bool      `json:"is_paid,omitempty"`
+		BreakID      string `json:"break_id,omitempty"`
+		BreakName    string `json:"break_name,omitempty"`
+		DurationMins int    `json:"duration_mins,omitempty"`
+		StartTime    Time   `json:"start_time,omitempty"`
+		EndTime      Time   `json:"end_time,omitempty"`
+		IsPaid       bool   `json:"is_paid,omitempty"`
 	} `json:"breaks,omitempty"`
 }
 
@@ -190,39 +190,39 @@ func (s *API) GetTimesheet(id string) (data GetTimesheetResponse, err error) {
 }
 
 type GetTimesheetResponse struct {
-	ID               string    `json:"id,omitempty"`
-	StartTime        time.Time `json:"start_time,omitempty"`
-	EndTime          time.Time `json:"end_time,omitempty"`
-	EmployeeID       string    `json:"employee_id,omitempty"`
-	Employee         string    `json:"employee,omitempty"`
-	ScheduleID       string    `json:"schedule_id,omitempty"`
-	Schedule         string    `json:"schedule,omitempty"`
-	PositionID       string    `json:"position_id,omitempty"`
-	Position         string    `json:"position,omitempty"`
-	JobSiteID        string    `json:"job_site_id,omitempty"`
-	JobSite          string    `json:"job_site,omitempty"`
-	Type             string    `json:"type,omitempty"`
-	Duration         float64   `json:"duration,string,omitempty"`
-	BreakDuration    float64   `json:"break_duration,string,omitempty"`
-	Notes            string    `json:"notes,omitempty"`
-	Status           string    `json:"status,omitempty"`
-	TimeoffRequestID string    `json:"timeoff_request_id,omitempty"`
-	TimeoffTypeID    string    `json:"timeoff_type_id,omitempty"`
-	TimeoffType      string    `json:"timeoff_type,omitempty"`
-	InLat            float64   `json:"in_lat,omitempty"`
-	InLng            float64   `json:"in_lng,omitempty"`
-	OutLat           float64   `json:"out_lat,omitempty"`
-	OutLng           float64   `json:"out_lng,omitempty"`
-	Latitude         float64   `json:"latitude,string,omitempty"`
-	Longitude        float64   `json:"longitude,string,omitempty"`
-	ShiftID          string    `json:"shift_id,omitempty"`
+	ID               string  `json:"id,omitempty"`
+	StartTime        Time    `json:"start_time,omitempty"`
+	EndTime          Time    `json:"end_time,omitempty"`
+	EmployeeID       string  `json:"employee_id,omitempty"`
+	Employee         string  `json:"employee,omitempty"`
+	ScheduleID       string  `json:"schedule_id,omitempty"`
+	Schedule         string  `json:"schedule,omitempty"`
+	PositionID       string  `json:"position_id,omitempty"`
+	Position         string  `json:"position,omitempty"`
+	JobSiteID        string  `json:"job_site_id,omitempty"`
+	JobSite          string  `json:"job_site,omitempty"`
+	Type             string  `json:"type,omitempty"`
+	Duration         float64 `json:"duration,string,omitempty"`
+	BreakDuration    float64 `json:"break_duration,string,omitempty"`
+	Notes            string  `json:"notes,omitempty"`
+	Status           string  `json:"status,omitempty"`
+	TimeoffRequestID string  `json:"timeoff_request_id,omitempty"`
+	TimeoffTypeID    string  `json:"timeoff_type_id,omitempty"`
+	TimeoffType      string  `json:"timeoff_type,omitempty"`
+	InLat            float64 `json:"in_lat,omitempty"`
+	InLng            float64 `json:"in_lng,omitempty"`
+	OutLat           float64 `json:"out_lat,omitempty"`
+	OutLng           float64 `json:"out_lng,omitempty"`
+	Latitude         float64 `json:"latitude,string,omitempty"`
+	Longitude        float64 `json:"longitude,string,omitempty"`
+	ShiftID          string  `json:"shift_id,omitempty"`
 	Breaks           []struct {
-		BreakID      string    `json:"break_id,omitempty"`
-		BreakName    string    `json:"break_name,omitempty"`
-		DurationMins int       `json:"duration_mins,omitempty"`
-		StartTime    time.Time `json:"start_time,omitempty"`
-		EndTime      time.Time `json:"end_time,omitempty"`
-		IsPaid       bool      `json:"is_paid,omitempty"`
+		BreakID      string `json:"break_id,omitempty"`
+		BreakName    string `json:"break_name,omitempty"`
+		DurationMins int    `json:"duration_mins,omitempty"`
+		StartTime    Time   `json:"start_time,omitempty"`
+		EndTime      Time   `json:"end_time,omitempty"`
+		IsPaid       bool   `json:"is_paid,omitempty"`
 	} `json:"breaks,omitempty"`
 }
 
@@ -250,56 +250,56 @@ func (s *API) UpdateTimesheet(id string, request UpdateTimesheetRequest) (data U
 }
 
 type UpdateTimesheetRequest struct {
-	StartTime  time.Time `json:"start_time,omitempty"`
-	EndTime    time.Time `json:"end_time,omitempty"`
-	EmployeeID string    `json:"employee_id,omitempty"`
-	ScheduleID string    `json:"schedule_id,omitempty"`
-	PositionID string    `json:"position_id,omitempty"`
-	JobSiteID  string    `json:"job_site_id,omitempty"`
-	Notes      string    `json:"notes,omitempty"`
-	ShiftID    string    `json:"shift_id,omitempty"`
+	StartTime  Time   `json:"start_time,omitempty"`
+	EndTime    Time   `json:"end_time,omitempty"`
+	EmployeeID string `json:"employee_id,omitempty"`
+	ScheduleID string `json:"schedule_id,omitempty"`
+	PositionID string `json:"position_id,omitempty"`
+	JobSiteID  string `json:"job_site_id,omitempty"`
+	Notes      string `json:"notes,omitempty"`
+	ShiftID    string `json:"shift_id,omitempty"`
 	Breaks     []struct {
-		BreakID      string    `json:"break_id,omitempty"`
-		DurationMins int       `json:"duration_mins,omitempty"`
-		StartTime    time.Time `json:"start_time,omitempty"`
-		EndTime      time.Time `json:"end_time,omitempty"`
+		BreakID      string `json:"break_id,omitempty"`
+		DurationMins int    `json:"duration_mins,omitempty"`
+		StartTime    Time   `json:"start_time,omitempty"`
+		EndTime      Time   `json:"end_time,omitempty"`
 	} `json:"breaks,omitempty"`
 }
 
 type UpdateTimesheetResponse struct {
-	ID               string    `json:"id,omitempty"`
-	StartTime        time.Time `json:"start_time,omitempty"`
-	EndTime          time.Time `json:"end_time,omitempty"`
-	EmployeeID       string    `json:"employee_id,omitempty"`
-	Employee         string    `json:"employee,omitempty"`
-	ScheduleID       string    `json:"schedule_id,omitempty"`
-	Schedule         string    `json:"schedule,omitempty"`
-	PositionID       string    `json:"position_id,omitempty"`
-	Position         string    `json:"position,omitempty"`
-	JobSiteID        string    `json:"job_site_id,omitempty"`
-	JobSite          string    `json:"job_site,omitempty"`
-	Type             string    `json:"type,omitempty"`
-	Duration         float64   `json:"duration,string,omitempty"`
-	BreakDuration    float64   `json:"break_duration,string,omitempty"`
-	Notes            string    `json:"notes,omitempty"`
-	Status           string    `json:"status,omitempty"`
-	TimeoffRequestID string    `json:"timeoff_request_id,omitempty"`
-	TimeoffTypeID    string    `json:"timeoff_type_id,omitempty"`
-	TimeoffType      string    `json:"timeoff_type,omitempty"`
-	InLat            float64   `json:"in_lat,omitempty"`
-	InLng            float64   `json:"in_lng,omitempty"`
-	OutLat           float64   `json:"out_lat,omitempty"`
-	OutLng           float64   `json:"out_lng,omitempty"`
-	Latitude         float64   `json:"latitude,string,omitempty"`
-	Longitude        float64   `json:"longitude,string,omitempty"`
-	ShiftID          string    `json:"shift_id,omitempty"`
+	ID               string  `json:"id,omitempty"`
+	StartTime        Time    `json:"start_time,omitempty"`
+	EndTime          Time    `json:"end_time,omitempty"`
+	EmployeeID       string  `json:"employee_id,omitempty"`
+	Employee         string  `json:"employee,omitempty"`
+	ScheduleID       string  `json:"schedule_id,omitempty"`
+	Schedule         string  `json:"schedule,omitempty"`
+	PositionID       string  `json:"position_id,omitempty"`
+	Position         string  `json:"position,omitempty"`
+	JobSiteID        string  `json:"job_site_id,omitempty"`
+	JobSite          string  `json:"job_site,omitempty"`
+	Type             string  `json:"type,omitempty"`
+	Duration         float64 `json:"duration,string,omitempty"`
+	BreakDuration    float64 `json:"break_duration,string,omitempty"`
+	Notes            string  `json:"notes,omitempty"`
+	Status           string  `json:"status,omitempty"`
+	TimeoffRequestID string  `json:"timeoff_request_id,omitempty"`
+	TimeoffTypeID    string  `json:"timeoff_type_id,omitempty"`
+	TimeoffType      string  `json:"timeoff_type,omitempty"`
+	InLat            float64 `json:"in_lat,omitempty"`
+	InLng            float64 `json:"in_lng,omitempty"`
+	OutLat           float64 `json:"out_lat,omitempty"`
+	OutLng           float64 `json:"out_lng,omitempty"`
+	Latitude         float64 `json:"latitude,string,omitempty"`
+	Longitude        float64 `json:"longitude,string,omitempty"`
+	ShiftID          string  `json:"shift_id,omitempty"`
 	Breaks           []struct {
-		BreakID      string    `json:"break_id,omitempty"`
-		BreakName    string    `json:"break_name,omitempty"`
-		DurationMins int       `json:"duration_mins,omitempty"`
-		StartTime    time.Time `json:"start_time,omitempty"`
-		EndTime      time.Time `json:"end_time,omitempty"`
-		IsPaid       bool      `json:"is_paid,omitempty"`
+		BreakID      string `json:"break_id,omitempty"`
+		BreakName    string `json:"break_name,omitempty"`
+		DurationMins int    `json:"duration_mins,omitempty"`
+		StartTime    Time   `json:"start_time,omitempty"`
+		EndTime      Time   `json:"end_time,omitempty"`
+		IsPaid       bool   `json:"is_paid,omitempty"`
 	} `json:"breaks,omitempty"`
 }
 

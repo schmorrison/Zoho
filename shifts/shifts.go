@@ -1,7 +1,9 @@
 package shifts
 
 import (
+	"fmt"
 	"math/rand"
+	"strings"
 	"time"
 
 	zoho "github.com/schmorrison/Zoho"
@@ -48,4 +50,67 @@ func New(z *zoho.Zoho) *API {
 		Zoho: z,
 		id:   id,
 	}
+}
+
+const (
+	timeLayout = ""
+	dateLayout = "2006-01-02"
+)
+
+type Time time.Time
+
+func (t Time) MarshalJSON() (b []byte, err error) {
+	if t.IsZero() {
+		return []byte{}, nil
+	}
+
+	return []byte(t.String()), nil
+}
+
+func (t *Time) UnmarshalJSON(b []byte) (err error) {
+	s := strings.Trim(string(b), `"`)
+	tm, err := time.Parse(timeLayout, s)
+	if err != nil {
+		return fmt.Errorf("failed to parse shifts.Time from JSON: %s", err)
+	}
+	*t = Time(tm)
+	return nil
+}
+
+func (t *Time) String() string {
+	tm := time.Time(*t)
+	return fmt.Sprintf("%q", tm.Format(timeLayout))
+}
+
+func (t Time) IsZero() bool {
+	return time.Time(t).IsZero()
+}
+
+type Date time.Time
+
+func (d Date) MarshalJSON() (b []byte, err error) {
+	if d.IsZero() {
+		return []byte{}, nil
+	}
+
+	return []byte(d.String()), nil
+}
+
+func (d *Date) UnmarshalJSON(b []byte) (err error) {
+	s := strings.Trim(string(b), `"`)
+	dm, err := time.Parse(dateLayout, s)
+	if err != nil {
+		return fmt.Errorf("failed to parse shifts.Time from JSON: %s", err)
+	}
+	*d = Date(dm)
+	return nil
+}
+
+func (d *Date) String() string {
+	tm := time.Time(*d)
+	return fmt.Sprintf("%q", tm.Format(dateLayout))
+}
+
+func (d Date) IsZero() bool {
+	return time.Time(d).IsZero()
 }
