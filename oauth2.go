@@ -85,10 +85,10 @@ func (z *Zoho) RefreshTokenRequest() (err error) {
 	return nil
 }
 
-func (z *Zoho) GenerateTokenURL(code string) string {
+func (z *Zoho) GenerateTokenURL(code, clientID, clientSecret string) string {
 	q := url.Values{}
-	q.Set("client_id", z.oauth.clientID)
-	q.Set("client_secret", z.oauth.clientSecret)
+	q.Set("client_id", clientID)
+	q.Set("client_secret", clientSecret)
 	q.Set("code", code)
 	q.Set("redirect_uri", z.oauth.redirectURI)
 	q.Set("grant_type", "authorization_code")
@@ -119,7 +119,7 @@ func (z *Zoho) GenerateTokenRequest(clientID, clientSecret, code, redirectURI st
 	// q.Set("grant_type", "authorization_code")
 
 	// tokenURL := fmt.Sprintf("%s%s?%s", z.oauth.baseURL, oauthGenerateTokenRequestSlug, q.Encode())
-	tokenURL := z.GenerateTokenURL(code)
+	tokenURL := z.GenerateTokenURL(code, clientID, clientSecret)
 	resp, err := z.client.Post(tokenURL, "application/x-www-form-urlencoded", nil)
 	if err != nil {
 		return fmt.Errorf("Failed while requesting generate token: %s", err)
