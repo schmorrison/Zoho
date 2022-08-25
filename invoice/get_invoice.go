@@ -3,7 +3,7 @@ package invoice
 import (
 	"fmt"
 
-	zoho "github.com/schmorrison/Zoho"
+	zoho "github.com/recap-technologies/Zoho"
 )
 
 //https://www.zoho.com/invoice/api/v3/#Invoices_Get_an_invoice
@@ -11,8 +11,13 @@ import (
 func (c *API) GetInvoice(invoiceId string) (data GetInvoiceResponse, err error) {
 
 	endpoint := zoho.Endpoint{
-		Name:         InvoicesModule,
-		URL:          fmt.Sprintf("https://invoice.zoho.%s/api/v3/%s/%s", c.ZohoTLD, InvoicesModule, invoiceId),
+		Name: InvoicesModule,
+		URL: fmt.Sprintf(
+			"https://invoice.zoho.%s/api/v3/%s/%s",
+			c.ZohoTLD,
+			InvoicesModule,
+			invoiceId,
+		),
 		Method:       zoho.HTTPGet,
 		ResponseData: &GetInvoiceResponse{},
 		URLParameters: map[string]zoho.Parameter{

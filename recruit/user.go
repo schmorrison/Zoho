@@ -3,7 +3,7 @@ package recruit
 import (
 	"fmt"
 
-	zoho "github.com/schmorrison/Zoho"
+	zoho "github.com/recap-technologies/Zoho"
 )
 
 // GetUsers returns a list of users. Users are those who are allowed to access and manage records.

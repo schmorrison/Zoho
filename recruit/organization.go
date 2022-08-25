@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"time"
 
-	zoho "github.com/schmorrison/Zoho"
+	zoho "github.com/recap-technologies/Zoho"
 )
 
 // GetOrganizationDetails returns organization's data

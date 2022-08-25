@@ -1,4 +1,4 @@
-[![](https://godoc.org/github.com/schmorrison/Zoho/recruit?status.svg)](http://godoc.org/github.com/schmorrison/Zoho/recruit)
+[![](https://godoc.org/github.com/recap-technologies/Zoho/recruit?status.svg)](http://godoc.org/github.com/recap-technologies/Zoho/recruit)
 # Zoho RECRUIT V1 API
 
 NOTE: Preatty much stable and tested. PRs welcome.
@@ -12,7 +12,7 @@ Note: These APIs result entire API response in JSON format. It is expected that 
     import (
         "log"
         "fmt"
-        "github.com/schmorrison/Zoho"
+        "github.com/recap-technologies/Zoho"
     )
 
     func main() {

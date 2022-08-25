@@ -3,7 +3,7 @@ package invoice
 import (
 	"fmt"
 
-	zoho "github.com/schmorrison/Zoho"
+	zoho "github.com/recap-technologies/Zoho"
 )
 
 //https://www.zoho.com/invoice/api/v3/#Customer_Payments_Retrieve_a_payment
@@ -11,8 +11,13 @@ import (
 func (c *API) RetrievePayment(paymentId string) (data RetrievePaymentResponse, err error) {
 
 	endpoint := zoho.Endpoint{
-		Name:         CustomerPaymentsModule,
-		URL:          fmt.Sprintf("https://invoice.zoho.%s/api/v3/%s/%s", c.ZohoTLD, CustomerPaymentsModule, paymentId),
+		Name: CustomerPaymentsModule,
+		URL: fmt.Sprintf(
+			"https://invoice.zoho.%s/api/v3/%s/%s",
+			c.ZohoTLD,
+			CustomerPaymentsModule,
+			paymentId,
+		),
 		Method:       zoho.HTTPGet,
 		ResponseData: &RetrievePaymentResponse{},
 		URLParameters: map[string]zoho.Parameter{

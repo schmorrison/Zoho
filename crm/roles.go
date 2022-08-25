@@ -2,7 +2,8 @@ package crm
 
 import (
 	"fmt"
-	zoho "github.com/schmorrison/Zoho"
+
+	zoho "github.com/recap-technologies/Zoho"
 )
 
 // GetRoles will return the list of roles in this CRM organization
@@ -31,8 +32,12 @@ func (c *API) GetRoles() (data RolesResponse, err error) {
 // https://www.zoho.com/crm/help/api/v2/#get-single-role-data
 func (c *API) GetRole(id string) (data RolesResponse, err error) {
 	endpoint := zoho.Endpoint{
-		Name:         "roles",
-		URL:          fmt.Sprintf("https://www.zohoapis.%s/crm/v2/settings/roles/%s", c.ZohoTLD, id),
+		Name: "roles",
+		URL: fmt.Sprintf(
+			"https://www.zohoapis.%s/crm/v2/settings/roles/%s",
+			c.ZohoTLD,
+			id,
+		),
 		Method:       zoho.HTTPGet,
 		ResponseData: &RolesResponse{},
 	}

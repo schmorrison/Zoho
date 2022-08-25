@@ -11,7 +11,7 @@ Note: These APIs result entire API response in JSON format. It is expected that 
     import (
         "log"
         "fmt"
-        "github.com/schmorrison/Zoho"
+        "github.com/recap-technologies/Zoho"
     )
 
     func main() {
