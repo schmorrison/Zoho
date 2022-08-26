@@ -8,7 +8,7 @@ import (
 
 // GetCurrentUser will return the currently authenticated users
 // https://www.zoho.com/books/api/v3/users/#get-current-user
-func (c *API) GetCurrentUser(id string) (data CurrentUserResponse, err error) {
+func (c *API) GetCurrentUser() (data CurrentUserResponse, err error) {
 	endpoint := zoho.Endpoint{
 		Name:         "users",
 		URL:          fmt.Sprintf("https://books.zoho.%s/api/v3/users/me", c.ZohoTLD),
