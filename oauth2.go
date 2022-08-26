@@ -16,6 +16,10 @@ func (z *Zoho) SetRefreshToken(refreshToken string) {
 	z.oauth.token.RefreshToken = refreshToken
 }
 
+func (z *Zoho) GetRefreshToken() string {
+	return z.oauth.token.RefreshToken
+}
+
 func (z *Zoho) SetClientID(clientID string) {
 	z.oauth.clientID = clientID
 }
@@ -50,17 +54,29 @@ func (z *Zoho) RefreshTokenRequest() (err error) {
 
 	body, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
-		return fmt.Errorf("Failed to read request body on request to %s%s: %s", z.oauth.baseURL, oauthGenerateTokenRequestSlug, err)
+		return fmt.Errorf(
+			"Failed to read request body on request to %s%s: %s",
+			z.oauth.baseURL,
+			oauthGenerateTokenRequestSlug,
+			err,
+		)
 	}
 
 	if resp.StatusCode != 200 {
-		return fmt.Errorf("Got non-200 status code from request to refresh token: %s\n%s", resp.Status, string(body))
+		return fmt.Errorf(
+			"Got non-200 status code from request to refresh token: %s\n%s",
+			resp.Status,
+			string(body),
+		)
 	}
 
 	tokenResponse := AccessTokenResponse{}
 	err = json.Unmarshal(body, &tokenResponse)
 	if err != nil {
-		return fmt.Errorf("Failed to unmarshal access token response from request to refresh token: %s", err)
+		return fmt.Errorf(
+			"Failed to unmarshal access token response from request to refresh token: %s",
+			err,
+		)
 	}
 	//If the tokenResponse is not valid it should not update local tokens
 	if tokenResponse.Error == "invalid_code" {
@@ -133,17 +149,29 @@ func (z *Zoho) GenerateTokenRequest(clientID, clientSecret, code, redirectURI st
 
 	body, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
-		return fmt.Errorf("Failed to read request body on request to %s%s: %s", z.oauth.baseURL, oauthGenerateTokenRequestSlug, err)
+		return fmt.Errorf(
+			"Failed to read request body on request to %s%s: %s",
+			z.oauth.baseURL,
+			oauthGenerateTokenRequestSlug,
+			err,
+		)
 	}
 
 	if resp.StatusCode != 200 {
-		return fmt.Errorf("Got non-200 status code from request to generate token: %s\n%s", resp.Status, string(body))
+		return fmt.Errorf(
+			"Got non-200 status code from request to generate token: %s\n%s",
+			resp.Status,
+			string(body),
+		)
 	}
 
 	tokenResponse := AccessTokenResponse{}
 	err = json.Unmarshal(body, &tokenResponse)
 	if err != nil {
-		return fmt.Errorf("Failed to unmarshal access token response from request to generate token: %s", err)
+		return fmt.Errorf(
+			"Failed to unmarshal access token response from request to generate token: %s",
+			err,
+		)
 	}
 
 	//If the tokenResponse is not valid it should not update local tokens
@@ -186,7 +214,11 @@ func (z *Zoho) AuthorizationCodeURL(scopes, clientID, redirectURI string) string
 // domain, the function will start a server that will get the code from the URL when the browser redirects.
 // If the domain is not a localhost, you will be prompted to paste the code from the URL back into the terminal window,
 // eg. https://domain.com/redirect-url?code=xxxxxxxxxx
-func (z *Zoho) AuthorizationCodeRequest(clientID, clientSecret string, scopes []ScopeString, redirectURI string) (err error) {
+func (z *Zoho) AuthorizationCodeRequest(
+	clientID, clientSecret string,
+	scopes []ScopeString,
+	redirectURI string,
+) (err error) {
 	// check for existing tokens
 	err = z.CheckForSavedTokens()
 	if err == nil {
