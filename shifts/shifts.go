@@ -6,7 +6,7 @@ import (
 	"strings"
 	"time"
 
-	zoho "github.com/recap-technologies/Zoho"
+	zoho "github.com/schmorrison/Zoho"
 )
 
 type Module = string

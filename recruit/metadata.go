@@ -3,7 +3,7 @@ package recruit
 import (
 	"fmt"
 
-	zoho "github.com/recap-technologies/Zoho"
+	zoho "github.com/schmorrison/Zoho"
 )
 
 // GetAllMetadata returns the metadata for fields, layouts, and related lists for the specified module.

@@ -4,7 +4,7 @@ import (
 	"math/rand"
 	"time"
 
-	zoho "github.com/recap-technologies/Zoho"
+	zoho "github.com/schmorrison/Zoho"
 )
 
 // API is used for interacting with the Zoho CRM API

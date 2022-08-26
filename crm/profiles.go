@@ -3,7 +3,7 @@ package crm
 import (
 	"fmt"
 
-	zoho "github.com/recap-technologies/Zoho"
+	zoho "github.com/schmorrison/Zoho"
 )
 
 // GetProfiles will return the list of profiles in this CRM organization

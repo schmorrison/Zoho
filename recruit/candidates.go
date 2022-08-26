@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"time"
 
-	zoho "github.com/recap-technologies/Zoho"
+	zoho "github.com/schmorrison/Zoho"
 )
 
 // https://www.zoho.eu/recruit/developer-guide/apiv2/insert-records.html

@@ -6,7 +6,7 @@ import (
 	"strconv"
 	"time"
 
-	zoho "github.com/recap-technologies/Zoho"
+	zoho "github.com/schmorrison/Zoho"
 )
 
 // https://www.zoho.com/recruit/developer-guide/apiv2/get-records.html

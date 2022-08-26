@@ -3,7 +3,7 @@ package invoice
 import (
 	"fmt"
 
-	zoho "github.com/recap-technologies/Zoho"
+	zoho "github.com/schmorrison/Zoho"
 )
 
 //https://www.zoho.com/invoice/api/v3/#Invoices_Create_an_invoice

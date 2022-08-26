@@ -3,7 +3,7 @@ package bookings
 import (
 	"fmt"
 
-	zoho "github.com/recap-technologies/Zoho"
+	zoho "github.com/schmorrison/Zoho"
 )
 
 func (c *API) FetchResources(

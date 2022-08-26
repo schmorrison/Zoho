@@ -1,4 +1,4 @@
-[![](https://godoc.org/github.com/recap-technologies/Zoho?status.svg)](http://godoc.org/github.com/recap-technologies/Zoho)
+[![](https://godoc.org/github.com/schmorrison/Zoho?status.svg)](http://godoc.org/github.com/schmorrison/Zoho)
 
 # Golang API Wrapper for Zoho Services
 
@@ -6,24 +6,24 @@ This repo is an attempt to build a comprehensive API wrapper for Zoho Services.
 
 This will be a long project, with alot of boilerplate code that may benefit from code generation. Pull requests would be appreciated.
 
-- [ ] [Books](https://github.com/recap-technologies/Zoho/tree/master/books)
-- [ ] [Bookings](https://github.com/recap-technologies/Zoho/tree/master/bookings)
+- [ ] [Books](https://github.com/schmorrison/Zoho/tree/master/books)
+- [ ] [Bookings](https://github.com/schmorrison/Zoho/tree/master/bookings)
 - [ ] Campaigns
 - [ ] Cliq
 - [ ] Creator
-- [ ] [CRM](https://github.com/recap-technologies/Zoho/tree/master/crm)
+- [ ] [CRM](https://github.com/schmorrison/Zoho/tree/master/crm)
 - [ ] Desk
 - [ ] Docs
-- [ ] [Expense](https://github.com/recap-technologies/Zoho/tree/master/expense)
+- [ ] [Expense](https://github.com/schmorrison/Zoho/tree/master/expense)
 - [ ] Inventory
-- [ ] [Invoice](https://github.com/recap-technologies/Zoho/tree/master/invoice)
+- [ ] [Invoice](https://github.com/schmorrison/Zoho/tree/master/invoice)
 - [ ] Mail
 - [ ] Meeting
 - [ ] People
-- [ ] [Recruit](https://github.com/recap-technologies/Zoho/tree/master/recruit)
+- [ ] [Recruit](https://github.com/schmorrison/Zoho/tree/master/recruit)
 - [ ] Reports
-- [x] [Shifts](https://github.com/recap-technologies/Zoho/tree/master/shifts)
-- [ ] [Subscriptions](https://github.com/recap-technologies/Zoho/tree/master/subscriptions)
+- [x] [Shifts](https://github.com/schmorrison/Zoho/tree/master/shifts)
+- [ ] [Subscriptions](https://github.com/schmorrison/Zoho/tree/master/subscriptions)
 
 The API's should ideally be useful and obvious. However, as it stands, the Zoho CRM API returns alot of dynamically typed fields which became incredibly difficult to parse, which eventually resulted in an implementation using reflect and a type switch to cast/convert the value from Zoho into the expected value for the struct. I expect this to be the case for alot of Zoho services.
 
@@ -60,7 +60,7 @@ It is reasonable to assume that each API may provide different implementation, h
 ### Getting the Zoho struct and starting oAuth2 flow
 
     import (
-        "github.com/recap-technologies/Zoho"
+        "github.com/schmorrison/Zoho"
         "log"
     )
 
@@ -89,7 +89,7 @@ That code can be used to request Access and Request tokens as so.
 
     import (
         "log"
-        "github.com/recap-technologies/Zoho"
+        "github.com/schmorrison/Zoho"
     )
 
     func main() {

@@ -3,7 +3,7 @@ package recruit
 import (
 	"fmt"
 
-	zoho "github.com/recap-technologies/Zoho"
+	zoho "github.com/schmorrison/Zoho"
 )
 
 // GetContactsRecords returns a list of all records

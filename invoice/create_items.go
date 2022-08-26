@@ -3,7 +3,7 @@ package invoice
 import (
 	"fmt"
 
-	zoho "github.com/recap-technologies/Zoho"
+	zoho "github.com/schmorrison/Zoho"
 )
 
 type CreateItemResponse struct {
