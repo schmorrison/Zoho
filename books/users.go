@@ -1,6 +1,7 @@
 package books
 
 import (
+	"encoding/json"
 	"fmt"
 
 	zoho "github.com/recap-technologies/Zoho"
@@ -28,6 +29,23 @@ func (c *API) GetCurrentUser() (data CurrentUserResponse, err error) {
 	return CurrentUserResponse{}, fmt.Errorf("Data retrieved was not 'UsersResponse'")
 }
 
+func (m *MorePermissions) UnmarshalJSON(data []byte) error {
+	if string(data) == `""` {
+		return nil
+	}
+
+	type tmp MorePermissions
+	return json.Unmarshal(data, (*tmp)(m))
+}
+
+type MorePermissions []Permission
+
+type Permission struct {
+	IsEnabled           bool   `json:"is_enabled,omitempty"`
+	PermissionFormatted string `json:"permission_formatted,omitempty"`
+	Permission          string `json:"permission,omitempty"`
+}
+
 // CurrentUserResponse is the data returned by GetCurrentUser
 type CurrentUserResponse struct {
 	Code    int    `json:"code,omitempty"`
@@ -48,13 +66,9 @@ type CurrentUserResponse struct {
 			Role struct {
 				RoleName    string `json:"role_name,omitempty"`
 				Permissions []struct {
-					FullAccess      bool   `json:"full_access,omitempty"`
-					Entity          string `json:"entity,omitempty"`
-					MorePermissions []struct {
-						IsEnabled           bool   `json:"is_enabled,omitempty"`
-						PermissionFormatted string `json:"permission_formatted,omitempty"`
-						Permission          string `json:"permission,omitempty"`
-					} `json:"more_permissions,string,omitempty"`
+					FullAccess        bool            `json:"full_access,omitempty"`
+					Entity            string          `json:"entity,omitempty"`
+					MorePermissions   MorePermissions `json:"more_permissions,omitempty"`
 					ReportPermissions []struct {
 						Reports []struct {
 							FullAccess          bool   `json:"full_access,omitempty"`
