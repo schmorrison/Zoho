@@ -54,7 +54,7 @@ type CurrentUserResponse struct {
 						IsEnabled           bool   `json:"is_enabled,omitempty"`
 						PermissionFormatted string `json:"permission_formatted,omitempty"`
 						Permission          string `json:"permission,omitempty"`
-					} `json:"more_permissions,omitempty"`
+					} `json:"more_permissions,string,omitempty"`
 					ReportPermissions []struct {
 						Reports []struct {
 							FullAccess          bool   `json:"full_access,omitempty"`
