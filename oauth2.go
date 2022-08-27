@@ -197,13 +197,17 @@ func (z *Zoho) GenerateTokenRequest(clientID, clientSecret, code, redirectURI st
 	return nil
 }
 
-func (z *Zoho) AuthorizationCodeURL(scopes, clientID, redirectURI string) string {
+func (z *Zoho) AuthorizationCodeURL(scopes, clientID, redirectURI string, consent bool) string {
 	q := url.Values{}
 	q.Set("scope", scopes)
 	q.Set("client_id", clientID)
 	q.Set("redirect_uri", redirectURI)
 	q.Set("response_type", "code")
 	q.Set("access_type", "offline")
+
+	if consent {
+		q.Set("prompt", "consent")
+	}
 
 	return fmt.Sprintf("%s%s?%s", z.oauth.baseURL, oauthAuthorizationRequestSlug, q.Encode())
 }
@@ -229,6 +233,14 @@ func (z *Zoho) AuthorizationCodeRequest(
 		return nil
 	}
 
+	// user may be able to issue a refresh if they have a refresh token, but maybe they are trying to get a new token.
+	// a breaking change could be to provide a bool: consent - where the user forces the consent screen otherwise we will try to refresh
+	requiresConsentPrompt := false
+	if err == ErrTokenExpired {
+		// currently we will simply check if the token is expired and if it is we will "prompt=consent"
+		requiresConsentPrompt = true
+	}
+
 	scopeStr := ""
 	for i, a := range scopes {
 		scopeStr += string(a)
@@ -247,7 +259,7 @@ func (z *Zoho) AuthorizationCodeRequest(
 	// q.Set("access_type", "offline")
 
 	// authURL := fmt.Sprintf("%s%s?%s", z.oauth.baseURL, oauthAuthorizationRequestSlug, q.Encode())
-	authURL := z.AuthorizationCodeURL(scopeStr, clientID, redirectURI)
+	authURL := z.AuthorizationCodeURL(scopeStr, clientID, redirectURI, requiresConsentPrompt)
 
 	srvChan := make(chan int)
 	codeChan := make(chan string)
