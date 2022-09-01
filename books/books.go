@@ -7,8 +7,7 @@ import (
 	zoho "github.com/schmorrison/Zoho"
 )
 
-// API is used for interacting with the Zoho CRM API
-// the exposed methods are primarily access to CRM modules which provide access to CRM Methods
+// API is used for interacting with the Zoho Books API
 type API struct {
 	*zoho.Zoho
 	id string
