@@ -47,6 +47,7 @@ I will try to comment the code religously, and will read up on Go Doc so the gen
 - Thanks to @ysahil97 for PR #28, #34, #37 & #40
 - Thanks to @sfunkhouser for PR #39
 - Thanks to @Bibi40k for PR #42
+- Thanks to @ArneZsng for PR #44 & #45
 
 ## Requirements
 
