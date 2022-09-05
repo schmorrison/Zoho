@@ -8,10 +8,16 @@ import (
 )
 
 // https://www.zoho.eu/recruit/developer-guide/apiv2/insert-records.html
-func (c *API) InsertCandidates(request InsertCandidateRequest) (data InsertCandidateResponse, err error) {
+func (c *API) InsertCandidates(
+	request InsertCandidateRequest,
+) (data InsertCandidateResponse, err error) {
 	endpoint := zoho.Endpoint{
-		Name:         "InsertCandidates",
-		URL:          fmt.Sprintf("https://recruit.zoho.%s/recruit/v2/%s", c.ZohoTLD, CandidatesModule),
+		Name: "InsertCandidates",
+		URL: fmt.Sprintf(
+			"https://recruit.zoho.%s/recruit/v2/%s",
+			c.ZohoTLD,
+			CandidatesModule,
+		),
 		Method:       zoho.HTTPPost,
 		ResponseData: &InsertCandidateResponse{},
 		RequestBody:  request,
@@ -19,13 +25,20 @@ func (c *API) InsertCandidates(request InsertCandidateRequest) (data InsertCandi
 
 	err = c.Zoho.HTTPRequest(&endpoint)
 	if err != nil {
-		return InsertCandidateResponse{}, fmt.Errorf("failed to insert Candidate(s): %s", err.Error())
+		return InsertCandidateResponse{}, fmt.Errorf(
+			"failed to insert Candidate(s): %s",
+			err.Error(),
+		)
 	}
 
 	if v, ok := endpoint.ResponseData.(*InsertCandidateResponse); ok {
 		for _, resp := range v.Data {
 			if resp.Code != "SUCCESS" {
-				return InsertCandidateResponse{}, fmt.Errorf("failed to insert Candidate(s): %s: %s", resp.Code, resp.Details)
+				return InsertCandidateResponse{}, fmt.Errorf(
+					"failed to insert Candidate(s): %s: %s",
+					resp.Code,
+					resp.Details,
+				)
 			}
 		}
 		return *v, nil
@@ -80,10 +93,16 @@ type InsertCandidateResponse struct {
 
 // Upsert = Insert or Update
 // https://www.zoho.com/recruit/developer-guide/apiv2/upsert-records.html
-func (c *API) UpsertCandidates(request UpsertCandidateRequest) (data UpsertCandidateResponse, err error) {
+func (c *API) UpsertCandidates(
+	request UpsertCandidateRequest,
+) (data UpsertCandidateResponse, err error) {
 	endpoint := zoho.Endpoint{
-		Name:         "UpsertCandidates",
-		URL:          fmt.Sprintf("https://recruit.zoho.%s/recruit/v2/%s/upsert", c.ZohoTLD, CandidatesModule),
+		Name: "UpsertCandidates",
+		URL: fmt.Sprintf(
+			"https://recruit.zoho.%s/recruit/v2/%s/upsert",
+			c.ZohoTLD,
+			CandidatesModule,
+		),
 		Method:       zoho.HTTPPost,
 		ResponseData: &UpsertCandidateResponse{},
 		RequestBody:  request,
@@ -132,8 +151,12 @@ type UpsertCandidateResponse struct {
 // https://www.zoho.com/recruit/developer-guide/apiv2/get-records.html
 func (c *API) GetCandidates(params map[string]zoho.Parameter) (data CandidatesResponse, err error) {
 	endpoint := zoho.Endpoint{
-		Name:         "GetCandidates",
-		URL:          fmt.Sprintf("https://recruit.zoho.%s/recruit/v2/%s", c.ZohoTLD, CandidatesModule),
+		Name: "GetCandidates",
+		URL: fmt.Sprintf(
+			"https://recruit.zoho.%s/recruit/v2/%s",
+			c.ZohoTLD,
+			CandidatesModule,
+		),
 		Method:       zoho.HTTPGet,
 		ResponseData: &CandidatesResponse{},
 		URLParameters: map[string]zoho.Parameter{
@@ -171,8 +194,13 @@ func (c *API) GetCandidates(params map[string]zoho.Parameter) (data CandidatesRe
 // https://www.zoho.com/recruit/developer-guide/apiv2/get-records.html
 func (c *API) GetCandidateById(id string) (data CandidatesResponse, err error) {
 	endpoint := zoho.Endpoint{
-		Name:         "GetCandidateById",
-		URL:          fmt.Sprintf("https://recruit.zoho.%s/recruit/v2/%s/%s", c.ZohoTLD, CandidatesModule, id),
+		Name: "GetCandidateById",
+		URL: fmt.Sprintf(
+			"https://recruit.zoho.%s/recruit/v2/%s/%s",
+			c.ZohoTLD,
+			CandidatesModule,
+			id,
+		),
 		Method:       zoho.HTTPGet,
 		ResponseData: &CandidatesResponse{},
 	}
@@ -265,10 +293,20 @@ type CandidatesResponse struct {
 }
 
 // https://www.zoho.com/recruit/developer-guide/apiv2/get-related-records.html
-func (c *API) GetCandidateRelatedRecords(params map[string]zoho.Parameter, candidateId string, record RelatedRecord) (data CandidateRelatedRecordsResponse, err error) {
+func (c *API) GetCandidateRelatedRecords(
+	params map[string]zoho.Parameter,
+	candidateId string,
+	record RelatedRecord,
+) (data CandidateRelatedRecordsResponse, err error) {
 	endpoint := zoho.Endpoint{
-		Name:         "GetCandidateRelatedRecords",
-		URL:          fmt.Sprintf("https://recruit.zoho.%s/recruit/v2/%s/%s/%s", c.ZohoTLD, CandidatesModule, candidateId, record),
+		Name: "GetCandidateRelatedRecords",
+		URL: fmt.Sprintf(
+			"https://recruit.zoho.%s/recruit/v2/%s/%s/%s",
+			c.ZohoTLD,
+			CandidatesModule,
+			candidateId,
+			record,
+		),
 		Method:       zoho.HTTPGet,
 		ResponseData: &CandidateRelatedRecordsResponse{},
 		URLParameters: map[string]zoho.Parameter{
@@ -289,14 +327,19 @@ func (c *API) GetCandidateRelatedRecords(params map[string]zoho.Parameter, candi
 
 	err = c.Zoho.HTTPRequest(&endpoint)
 	if err != nil {
-		return CandidateRelatedRecordsResponse{}, fmt.Errorf("failed to retrieve Candidates: %s", err)
+		return CandidateRelatedRecordsResponse{}, fmt.Errorf(
+			"failed to retrieve Candidates: %s",
+			err,
+		)
 	}
 
 	if v, ok := endpoint.ResponseData.(*CandidateRelatedRecordsResponse); ok {
 		return *v, nil
 	}
 
-	return CandidateRelatedRecordsResponse{}, fmt.Errorf("no 'CandidateRelatedRecordsResponse' returned")
+	return CandidateRelatedRecordsResponse{}, fmt.Errorf(
+		"no 'CandidateRelatedRecordsResponse' returned",
+	)
 }
 
 type CandidateRelatedRecordsResponse struct {
@@ -336,8 +379,13 @@ type CandidateRelatedRecordsResponse struct {
 // https://www.zoho.com/recruit/developer-guide/apiv2/delete-records.html
 func (c *API) DeleteCandidateById(ID string) (data DeleteCandidateResponse, err error) {
 	endpoint := zoho.Endpoint{
-		Name:         "DeleteCandidateById",
-		URL:          fmt.Sprintf("https://recruit.zoho.%s/recruit/v2/%s/%s", c.ZohoTLD, CandidatesModule, ID),
+		Name: "DeleteCandidateById",
+		URL: fmt.Sprintf(
+			"https://recruit.zoho.%s/recruit/v2/%s/%s",
+			c.ZohoTLD,
+			CandidatesModule,
+			ID,
+		),
 		Method:       zoho.HTTPDelete,
 		ResponseData: &DeleteCandidateResponse{},
 	}
@@ -357,7 +405,9 @@ func (c *API) DeleteCandidateById(ID string) (data DeleteCandidateResponse, err 
 // https://www.zoho.com/recruit/developer-guide/apiv2/delete-records.html
 func (c *API) DeleteCandidatesByIds(IDs ...string) (data DeleteCandidateResponse, err error) {
 	if len(IDs) == 0 {
-		return DeleteCandidateResponse{}, fmt.Errorf("failed to delete Candidates, must provide at least 1 ID")
+		return DeleteCandidateResponse{}, fmt.Errorf(
+			"failed to delete Candidates, must provide at least 1 ID",
+		)
 	}
 
 	idStr := ""
@@ -369,8 +419,12 @@ func (c *API) DeleteCandidatesByIds(IDs ...string) (data DeleteCandidateResponse
 	}
 
 	endpoint := zoho.Endpoint{
-		Name:         "DeleteCandidatesByIds",
-		URL:          fmt.Sprintf("https://recruit.zoho.%s/recruit/v2/%s", c.ZohoTLD, CandidatesModule),
+		Name: "DeleteCandidatesByIds",
+		URL: fmt.Sprintf(
+			"https://recruit.zoho.%s/recruit/v2/%s",
+			c.ZohoTLD,
+			CandidatesModule,
+		),
 		Method:       zoho.HTTPDelete,
 		ResponseData: &DeleteCandidateResponse{},
 		URLParameters: map[string]zoho.Parameter{
@@ -402,10 +456,16 @@ type DeleteCandidateResponse struct {
 }
 
 // https://www.zoho.com/recruit/developer-guide/apiv2/get-deleted-records.html
-func (c *API) ListDeletedCandidates(params map[string]zoho.Parameter) (data DeletedCandidatesResponse, err error) {
+func (c *API) ListDeletedCandidates(
+	params map[string]zoho.Parameter,
+) (data DeletedCandidatesResponse, err error) {
 	endpoint := zoho.Endpoint{
-		Name:         "ListDeletedCandidates",
-		URL:          fmt.Sprintf("https://recruit.zoho.%s/recruit/v2/%s/deleted", c.ZohoTLD, CandidatesModule),
+		Name: "ListDeletedCandidates",
+		URL: fmt.Sprintf(
+			"https://recruit.zoho.%s/recruit/v2/%s/deleted",
+			c.ZohoTLD,
+			CandidatesModule,
+		),
 		Method:       zoho.HTTPGet,
 		ResponseData: &DeletedCandidatesResponse{},
 		URLParameters: map[string]zoho.Parameter{
@@ -423,7 +483,10 @@ func (c *API) ListDeletedCandidates(params map[string]zoho.Parameter) (data Dele
 
 	err = c.Zoho.HTTPRequest(&endpoint)
 	if err != nil {
-		return DeletedCandidatesResponse{}, fmt.Errorf("failed to retrieve Deleted Candidates: %s", err)
+		return DeletedCandidatesResponse{}, fmt.Errorf(
+			"failed to retrieve Deleted Candidates: %s",
+			err,
+		)
 	}
 
 	if v, ok := endpoint.ResponseData.(*DeletedCandidatesResponse); ok {
@@ -452,10 +515,16 @@ type DeletedCandidatesResponse struct {
 }
 
 // https://www.zoho.com/recruit/developer-guide/apiv2/associate-candidate.html
-func (c *API) AssociateCandidates(request AssociateCandidatesRequest) (data AssociateCandidatesResponse, err error) {
+func (c *API) AssociateCandidates(
+	request AssociateCandidatesRequest,
+) (data AssociateCandidatesResponse, err error) {
 	endpoint := zoho.Endpoint{
-		Name:         "AssociateCandidates",
-		URL:          fmt.Sprintf("https://recruit.zoho.%s/recruit/v2/%s/actions/associate", c.ZohoTLD, CandidatesModule),
+		Name: "AssociateCandidates",
+		URL: fmt.Sprintf(
+			"https://recruit.zoho.%s/recruit/v2/%s/actions/associate",
+			c.ZohoTLD,
+			CandidatesModule,
+		),
 		Method:       zoho.HTTPPut,
 		ResponseData: &AssociateCandidatesResponse{},
 		RequestBody:  request,

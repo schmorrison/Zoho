@@ -8,7 +8,9 @@ import (
 
 //https://www.zoho.com/invoice/api/v3/#Contact_Persons_Delete_a_contact_person
 //func (c *API) DeleteContactPerson(request interface{}, OrganizationID string, params map[string]zoho.Parameter) (data DeleteContactPersonResponse, err error) {
-func (c *API) DeleteContactPerson(contactPersonID string) (data DeleteContactPersonResponse, err error) {
+func (c *API) DeleteContactPerson(
+	contactPersonID string,
+) (data DeleteContactPersonResponse, err error) {
 
 	endpoint := zoho.Endpoint{
 		Name: ContactsModule,
@@ -45,7 +47,9 @@ func (c *API) DeleteContactPerson(contactPersonID string) (data DeleteContactPer
 		}
 		return *v, nil
 	}
-	return DeleteContactPersonResponse{}, fmt.Errorf("Data retrieved was not 'DeleteContactPersonResponse'")
+	return DeleteContactPersonResponse{}, fmt.Errorf(
+		"Data retrieved was not 'DeleteContactPersonResponse'",
+	)
 }
 
 type DeleteContactPersonResponse struct {

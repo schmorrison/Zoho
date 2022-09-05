@@ -16,6 +16,7 @@ func (z *Zoho) SetRefreshToken(refreshToken string) {
 	z.oauth.token.RefreshToken = refreshToken
 }
 
+// GetRefreshToken is used to obtain the oAuth2 refresh token
 func (z *Zoho) GetRefreshToken() string {
 	return z.oauth.token.RefreshToken
 }

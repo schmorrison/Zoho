@@ -8,10 +8,20 @@ import (
 )
 
 // https://www.zoho.com/recruit/developer-guide/apiv2/upload-attachment.html
-func (c *API) UploadAttachment(file string, params map[string]zoho.Parameter, module Module, recordId string) (data UploadAttachmentResponse, err error) {
+func (c *API) UploadAttachment(
+	file string,
+	params map[string]zoho.Parameter,
+	module Module,
+	recordId string,
+) (data UploadAttachmentResponse, err error) {
 	endpoint := zoho.Endpoint{
-		Name:         "UploadAttachment",
-		URL:          fmt.Sprintf("https://recruit.zoho.%s/recruit/v2/%s/%s/Attachments", c.ZohoTLD, module, recordId),
+		Name: "UploadAttachment",
+		URL: fmt.Sprintf(
+			"https://recruit.zoho.%s/recruit/v2/%s/%s/Attachments",
+			c.ZohoTLD,
+			module,
+			recordId,
+		),
 		Method:       zoho.HTTPPost,
 		ResponseData: &UploadAttachmentResponse{},
 		Attachment:   file,

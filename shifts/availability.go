@@ -10,8 +10,13 @@ import (
 // https://www.zoho.com/shifts/api/v1/shifts-api/#get-all-shifts
 func (s *API) GetAllShifts(params map[string]zoho.Parameter) (data GetShiftsResponse, err error) {
 	endpoint := zoho.Endpoint{
-		Name:         "GetAllShifts",
-		URL:          fmt.Sprintf("https://shifts.zoho.%s/api/v1/%s/%s", s.ZohoTLD, s.OrganizationID, shiftsModule),
+		Name: "GetAllShifts",
+		URL: fmt.Sprintf(
+			"https://shifts.zoho.%s/api/v1/%s/%s",
+			s.ZohoTLD,
+			s.OrganizationID,
+			shiftsModule,
+		),
 		Method:       zoho.HTTPGet,
 		ResponseData: &GetShiftsResponse{},
 		URLParameters: map[string]zoho.Parameter{
@@ -32,7 +37,9 @@ func (s *API) GetAllShifts(params map[string]zoho.Parameter) (data GetShiftsResp
 	}
 
 	if endpoint.URLParameters["start_date"] == "" || endpoint.URLParameters["end_date"] == "" {
-		return GetShiftsResponse{}, fmt.Errorf("failed to retrieve shifts: start_date and end_date are required search parameters")
+		return GetShiftsResponse{}, fmt.Errorf(
+			"failed to retrieve shifts: start_date and end_date are required search parameters",
+		)
 	}
 
 	err = s.Zoho.HTTPRequest(&endpoint)
@@ -76,15 +83,23 @@ type GetShiftsResponse struct {
 // https://www.zoho.com/shifts/api/v1/shifts-api/#create-a-shift
 func (s *API) CreateShift(request CreateShiftRequest) (data CreateShiftResponse, err error) {
 	endpoint := zoho.Endpoint{
-		Name:         "CreateShift",
-		URL:          fmt.Sprintf("https://shifts.zoho.%s/api/v1/%s/%s", s.ZohoTLD, s.OrganizationID, shiftsModule),
+		Name: "CreateShift",
+		URL: fmt.Sprintf(
+			"https://shifts.zoho.%s/api/v1/%s/%s",
+			s.ZohoTLD,
+			s.OrganizationID,
+			shiftsModule,
+		),
 		Method:       zoho.HTTPPost,
 		ResponseData: &CreateShiftResponse{},
 		RequestBody:  request,
 	}
 
-	if request.StartTime.IsZero() || request.EndTime.IsZero() || request.ScheduleID == "" || request.PositionID == "" {
-		return CreateShiftResponse{}, fmt.Errorf("failed to create shift: start_time, end_time, schedule_id, and position_id are required fields")
+	if request.StartTime.IsZero() || request.EndTime.IsZero() || request.ScheduleID == "" ||
+		request.PositionID == "" {
+		return CreateShiftResponse{}, fmt.Errorf(
+			"failed to create shift: start_time, end_time, schedule_id, and position_id are required fields",
+		)
 	}
 
 	err = s.Zoho.HTTPRequest(&endpoint)
@@ -143,8 +158,14 @@ type CreateShiftResponse struct {
 // https://www.zoho.com/shifts/api/v1/shifts-api/#get-a-shift
 func (s *API) GetShift(id string) (data GetShiftResponse, err error) {
 	endpoint := zoho.Endpoint{
-		Name:         "GetShift",
-		URL:          fmt.Sprintf("https://shifts.zoho.%s/api/v1/%s/%s/%s", s.ZohoTLD, s.OrganizationID, shiftsModule, id),
+		Name: "GetShift",
+		URL: fmt.Sprintf(
+			"https://shifts.zoho.%s/api/v1/%s/%s/%s",
+			s.ZohoTLD,
+			s.OrganizationID,
+			shiftsModule,
+			id,
+		),
 		Method:       zoho.HTTPGet,
 		ResponseData: &GetShiftResponse{},
 	}
@@ -186,10 +207,19 @@ type GetShiftResponse struct {
 
 // UpdateShift modifies the shift with the given ID
 // https://www.zoho.com/shifts/api/v1/shifts-api/#update-a-shift
-func (s *API) UpdateShift(id string, request UpdateShiftRequest) (data UpdateShiftResponse, err error) {
+func (s *API) UpdateShift(
+	id string,
+	request UpdateShiftRequest,
+) (data UpdateShiftResponse, err error) {
 	endpoint := zoho.Endpoint{
-		Name:         "UpdateShift",
-		URL:          fmt.Sprintf("https://shifts.zoho.%s/api/v1/%s/%s/%s", s.ZohoTLD, s.OrganizationID, shiftsModule, id),
+		Name: "UpdateShift",
+		URL: fmt.Sprintf(
+			"https://shifts.zoho.%s/api/v1/%s/%s/%s",
+			s.ZohoTLD,
+			s.OrganizationID,
+			shiftsModule,
+			id,
+		),
 		Method:       zoho.HTTPPut,
 		ResponseData: &UpdateShiftResponse{},
 		RequestBody:  request,
@@ -251,8 +281,14 @@ type UpdateShiftResponse struct {
 // https://www.zoho.com/shifts/api/v1/shifts-api/#delete-a-shift
 func (s *API) DeleteShift(id string) (data DeleteShiftResponse, err error) {
 	endpoint := zoho.Endpoint{
-		Name:         "DeleteShift",
-		URL:          fmt.Sprintf("https://shifts.zoho.%s/api/v1/%s/%s/%s", s.ZohoTLD, s.OrganizationID, shiftsModule, id),
+		Name: "DeleteShift",
+		URL: fmt.Sprintf(
+			"https://shifts.zoho.%s/api/v1/%s/%s/%s",
+			s.ZohoTLD,
+			s.OrganizationID,
+			shiftsModule,
+			id,
+		),
 		Method:       zoho.HTTPDelete,
 		ResponseData: &DeleteShiftResponse{},
 	}
@@ -275,10 +311,17 @@ type DeleteShiftResponse struct {
 
 // GetAllAvailabilities returns a list of all employee availabilities
 // https://www.zoho.com/shifts/api/v1/availability-api/#get-all-availabilities
-func (s *API) GetAllAvailabilities(params map[string]zoho.Parameter) (data GetAvailabilitiesResponse, err error) {
+func (s *API) GetAllAvailabilities(
+	params map[string]zoho.Parameter,
+) (data GetAvailabilitiesResponse, err error) {
 	endpoint := zoho.Endpoint{
-		Name:         "GetAllAvailabilities",
-		URL:          fmt.Sprintf("https://shifts.zoho.%s/api/v1/%s/%s", s.ZohoTLD, s.OrganizationID, availabilityModule),
+		Name: "GetAllAvailabilities",
+		URL: fmt.Sprintf(
+			"https://shifts.zoho.%s/api/v1/%s/%s",
+			s.ZohoTLD,
+			s.OrganizationID,
+			availabilityModule,
+		),
 		Method:       zoho.HTTPGet,
 		ResponseData: &GetAvailabilitiesResponse{},
 		URLParameters: map[string]zoho.Parameter{
@@ -295,7 +338,9 @@ func (s *API) GetAllAvailabilities(params map[string]zoho.Parameter) (data GetAv
 	}
 
 	if endpoint.URLParameters["start_date"] == "" || endpoint.URLParameters["end_date"] == "" {
-		return GetAvailabilitiesResponse{}, fmt.Errorf("failed to retreive availabilities: start_date and end_date are required fields")
+		return GetAvailabilitiesResponse{}, fmt.Errorf(
+			"failed to retreive availabilities: start_date and end_date are required fields",
+		)
 	}
 
 	err = s.Zoho.HTTPRequest(&endpoint)
@@ -305,7 +350,9 @@ func (s *API) GetAllAvailabilities(params map[string]zoho.Parameter) (data GetAv
 	if v, ok := endpoint.ResponseData.(*GetAvailabilitiesResponse); ok {
 		return *v, nil
 	}
-	return GetAvailabilitiesResponse{}, fmt.Errorf("data retrieved was not 'GetAvailabilitiesResponse'")
+	return GetAvailabilitiesResponse{}, fmt.Errorf(
+		"data retrieved was not 'GetAvailabilitiesResponse'",
+	)
 }
 
 type GetAvailabilitiesResponse struct {
@@ -321,17 +368,27 @@ type GetAvailabilitiesResponse struct {
 
 // CreateAvailability adds a new record to the list of available shifts
 // https://www.zoho.com/shifts/api/v1/availability-api/#create-an-availability
-func (s *API) CreateAvailability(request CreateAvailabilityRequest) (data CreateAvailabilityResponse, err error) {
+func (s *API) CreateAvailability(
+	request CreateAvailabilityRequest,
+) (data CreateAvailabilityResponse, err error) {
 	endpoint := zoho.Endpoint{
-		Name:         "CreateAvailability",
-		URL:          fmt.Sprintf("https://shifts.zoho.%s/api/v1/%s/%s", s.ZohoTLD, s.OrganizationID, availabilityModule),
+		Name: "CreateAvailability",
+		URL: fmt.Sprintf(
+			"https://shifts.zoho.%s/api/v1/%s/%s",
+			s.ZohoTLD,
+			s.OrganizationID,
+			availabilityModule,
+		),
 		Method:       zoho.HTTPPost,
 		ResponseData: &CreateAvailabilityResponse{},
 		RequestBody:  request,
 	}
 
-	if request.StartTime.IsZero() || request.EndTime.IsZero() || request.EmployeeID == "" || request.Preference == "" {
-		return CreateAvailabilityResponse{}, fmt.Errorf("failed to create availability: start_time, end_time, employee_id, and preference are required fields")
+	if request.StartTime.IsZero() || request.EndTime.IsZero() || request.EmployeeID == "" ||
+		request.Preference == "" {
+		return CreateAvailabilityResponse{}, fmt.Errorf(
+			"failed to create availability: start_time, end_time, employee_id, and preference are required fields",
+		)
 	}
 
 	err = s.Zoho.HTTPRequest(&endpoint)
@@ -343,7 +400,9 @@ func (s *API) CreateAvailability(request CreateAvailabilityRequest) (data Create
 		return *v, nil
 	}
 
-	return CreateAvailabilityResponse{}, fmt.Errorf("data retrieved was not 'CreateAvailabilityResponse'")
+	return CreateAvailabilityResponse{}, fmt.Errorf(
+		"data retrieved was not 'CreateAvailabilityResponse'",
+	)
 }
 
 type CreateAvailabilityRequest struct {
@@ -365,10 +424,19 @@ type CreateAvailabilityResponse struct {
 
 // UpdateAvailability modifies the availability with the given ID
 // https://www.zoho.com/shifts/api/v1/availability-api/#update-an-availability
-func (s *API) UpdateAvailability(id string, request UpdateAvailabilityRequest) (data UpdateAvailabilityResponse, err error) {
+func (s *API) UpdateAvailability(
+	id string,
+	request UpdateAvailabilityRequest,
+) (data UpdateAvailabilityResponse, err error) {
 	endpoint := zoho.Endpoint{
-		Name:         "UpdateAvailability",
-		URL:          fmt.Sprintf("https://shifts.zoho.%s/api/v1/%s/%s/%s", s.ZohoTLD, s.OrganizationID, availabilityModule, id),
+		Name: "UpdateAvailability",
+		URL: fmt.Sprintf(
+			"https://shifts.zoho.%s/api/v1/%s/%s/%s",
+			s.ZohoTLD,
+			s.OrganizationID,
+			availabilityModule,
+			id,
+		),
 		Method:       zoho.HTTPPut,
 		ResponseData: &UpdateAvailabilityResponse{},
 		RequestBody:  request,
@@ -383,7 +451,9 @@ func (s *API) UpdateAvailability(id string, request UpdateAvailabilityRequest) (
 		return *v, nil
 	}
 
-	return UpdateAvailabilityResponse{}, fmt.Errorf("data retrieved was not 'UpdateAvailabilityResponse'")
+	return UpdateAvailabilityResponse{}, fmt.Errorf(
+		"data retrieved was not 'UpdateAvailabilityResponse'",
+	)
 }
 
 type UpdateAvailabilityRequest struct {
@@ -407,22 +477,33 @@ type UpdateAvailabilityResponse struct {
 // https://www.zoho.com/shifts/api/v1/availability-api/#delete-an-availability
 func (s *API) DeleteAvailability(id string) (data DeleteAvailabilityResponse, err error) {
 	endpoint := zoho.Endpoint{
-		Name:         "DeleteAvailability",
-		URL:          fmt.Sprintf("https://shifts.zoho.%s/api/v1/%s/%s/%s", s.ZohoTLD, s.OrganizationID, availabilityModule, id),
+		Name: "DeleteAvailability",
+		URL: fmt.Sprintf(
+			"https://shifts.zoho.%s/api/v1/%s/%s/%s",
+			s.ZohoTLD,
+			s.OrganizationID,
+			availabilityModule,
+			id,
+		),
 		Method:       zoho.HTTPDelete,
 		ResponseData: &DeleteAvailabilityResponse{},
 	}
 
 	err = s.Zoho.HTTPRequest(&endpoint)
 	if err != nil {
-		return DeleteAvailabilityResponse{}, fmt.Errorf("failed to delete availability with id: %s", err)
+		return DeleteAvailabilityResponse{}, fmt.Errorf(
+			"failed to delete availability with id: %s",
+			err,
+		)
 	}
 
 	if v, ok := endpoint.ResponseData.(*DeleteAvailabilityResponse); ok {
 		return *v, nil
 	}
 
-	return DeleteAvailabilityResponse{}, fmt.Errorf("data returned was not 'DeletAavailabilityResponse'")
+	return DeleteAvailabilityResponse{}, fmt.Errorf(
+		"data returned was not 'DeletAavailabilityResponse'",
+	)
 }
 
 type DeleteAvailabilityResponse struct {

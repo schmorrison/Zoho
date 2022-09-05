@@ -2,6 +2,7 @@ package crm
 
 import (
 	"fmt"
+
 	zoho "github.com/schmorrison/Zoho"
 )
 
@@ -41,8 +42,13 @@ func (c *API) GetNotes(params map[string]zoho.Parameter) (data NotesResponse, er
 // https://www.zoho.com/crm/help/api/v2/#get-spec-notes-data
 func (c *API) GetNote(module Module, id string) (data NotesResponse, err error) {
 	endpoint := zoho.Endpoint{
-		Name:         "notes",
-		URL:          fmt.Sprintf("https://www.zohoapis.%s/crm/v2/%s/%s/Notes", c.ZohoTLD, module, id),
+		Name: "notes",
+		URL: fmt.Sprintf(
+			"https://www.zohoapis.%s/crm/v2/%s/%s/Notes",
+			c.ZohoTLD,
+			module,
+			id,
+		),
 		Method:       zoho.HTTPGet,
 		ResponseData: &NotesResponse{},
 	}
@@ -150,10 +156,19 @@ type CreateNoteResponse struct {
 
 // CreateRecordNote will create a note on the specified record of the specified module
 // https://www.zoho.com/crm/help/api/v2/#create-spec-notes
-func (c *API) CreateRecordNote(request CreateRecordNoteData, module Module, recordID string) (data CreateRecordNoteResponse, err error) {
+func (c *API) CreateRecordNote(
+	request CreateRecordNoteData,
+	module Module,
+	recordID string,
+) (data CreateRecordNoteResponse, err error) {
 	endpoint := zoho.Endpoint{
-		Name:         "notes",
-		URL:          fmt.Sprintf("https://www.zohoapis.%s/crm/v2/%s/%s/Notes", c.ZohoTLD, module, recordID),
+		Name: "notes",
+		URL: fmt.Sprintf(
+			"https://www.zohoapis.%s/crm/v2/%s/%s/Notes",
+			c.ZohoTLD,
+			module,
+			recordID,
+		),
 		Method:       zoho.HTTPPost,
 		ResponseData: &CreateRecordNoteResponse{},
 		RequestBody:  request,
@@ -168,7 +183,9 @@ func (c *API) CreateRecordNote(request CreateRecordNoteData, module Module, reco
 		return *v, nil
 	}
 
-	return CreateRecordNoteResponse{}, fmt.Errorf("Data returned was not 'CreateRecordNoteResponse'")
+	return CreateRecordNoteResponse{}, fmt.Errorf(
+		"Data returned was not 'CreateRecordNoteResponse'",
+	)
 }
 
 // CreateRecordNoteResponse is the data returned by CreateRecordNote, it is the same as the data returned by CreateNote
@@ -184,10 +201,20 @@ type CreateRecordNoteData struct {
 
 // UpdateNote will update the note data of the specified note on the specified record of the module
 // https://www.zoho.com/crm/help/api/v2/#update-notes
-func (c *API) UpdateNote(request UpdateNoteData, module Module, recordID, noteID string) (data UpdateNoteResponse, err error) {
+func (c *API) UpdateNote(
+	request UpdateNoteData,
+	module Module,
+	recordID, noteID string,
+) (data UpdateNoteResponse, err error) {
 	endpoint := zoho.Endpoint{
-		Name:         "notes",
-		URL:          fmt.Sprintf("https://www.zohoapis.%s/crm/v2/%s/%s/Notes/%s", c.ZohoTLD, module, recordID, noteID),
+		Name: "notes",
+		URL: fmt.Sprintf(
+			"https://www.zohoapis.%s/crm/v2/%s/%s/Notes/%s",
+			c.ZohoTLD,
+			module,
+			recordID,
+			noteID,
+		),
 		Method:       zoho.HTTPPut,
 		ResponseData: &UpdateNoteResponse{},
 		RequestBody:  request,
@@ -213,10 +240,19 @@ type UpdateNoteData = CreateRecordNoteData
 
 // DeleteNote will delete the specified note on the specified record from the module
 // https://www.zoho.com/crm/help/api/v2/#delete-notes
-func (c *API) DeleteNote(module Module, recordID, noteID string) (data DeleteNoteResponse, err error) {
+func (c *API) DeleteNote(
+	module Module,
+	recordID, noteID string,
+) (data DeleteNoteResponse, err error) {
 	endpoint := zoho.Endpoint{
-		Name:         "notes",
-		URL:          fmt.Sprintf("https://www.zohoapis.%s/crm/v2/%s/%s/Notes/%s", c.ZohoTLD, module, recordID, noteID),
+		Name: "notes",
+		URL: fmt.Sprintf(
+			"https://www.zohoapis.%s/crm/v2/%s/%s/Notes/%s",
+			c.ZohoTLD,
+			module,
+			recordID,
+			noteID,
+		),
 		Method:       zoho.HTTPDelete,
 		ResponseData: &DeleteNoteResponse{},
 	}

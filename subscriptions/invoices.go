@@ -25,7 +25,10 @@ const (
 // listInvoicesWithParams will return the list of invoices that match the given invoice status
 // and additional filter defined by parameter name and value (allows to filter by `customer_id` and `subscription_id`)
 // https://www.zoho.com/subscriptions/api/v1/#Invoices_List_all_invoices
-func (s *API) listInvoicesWithParams(status InvoiceStatus, paramName, paramValue string) (data InvoicesResponse, err error) {
+func (s *API) listInvoicesWithParams(
+	status InvoiceStatus,
+	paramName, paramValue string,
+) (data InvoicesResponse, err error) {
 	if status == "" {
 		status = InvoiceStatusAll
 	}
@@ -66,13 +69,19 @@ func (s *API) ListAllInvoices(status InvoiceStatus) (data InvoicesResponse, err 
 
 // ListInvoicesForSubscription will return the list of invoices that match the given invoice status and subscription ID
 // https://www.zoho.com/subscriptions/api/v1/#Invoices_List_all_invoices
-func (s *API) ListInvoicesForSubscription(status InvoiceStatus, subscriptionID string) (data InvoicesResponse, err error) {
+func (s *API) ListInvoicesForSubscription(
+	status InvoiceStatus,
+	subscriptionID string,
+) (data InvoicesResponse, err error) {
 	return s.listInvoicesWithParams(status, "subscription_id", subscriptionID)
 }
 
 // ListInvoicesForSubscription will return the list of invoices that match the given invoice status and customer ID
 // https://www.zoho.com/subscriptions/api/v1/#Invoices_List_all_invoices
-func (s *API) ListInvoicesForCustomer(status InvoiceStatus, customerID string) (data InvoicesResponse, err error) {
+func (s *API) ListInvoicesForCustomer(
+	status InvoiceStatus,
+	customerID string,
+) (data InvoicesResponse, err error) {
 	return s.listInvoicesWithParams(status, "customer_id", customerID)
 }
 
@@ -80,8 +89,12 @@ func (s *API) ListInvoicesForCustomer(status InvoiceStatus, customerID string) (
 // https://www.zoho.com/subscriptions/api/v1/#Invoices_Retrieve_a_subscription
 func (s *API) GetInvoice(id string) (data InvoiceResponse, err error) {
 	endpoint := zoho.Endpoint{
-		Name:         "invoices",
-		URL:          fmt.Sprintf("https://subscriptions.zoho.%s/api/v1/invoices/%s", s.ZohoTLD, id),
+		Name: "invoices",
+		URL: fmt.Sprintf(
+			"https://subscriptions.zoho.%s/api/v1/invoices/%s",
+			s.ZohoTLD,
+			id,
+		),
 		Method:       zoho.HTTPGet,
 		ResponseData: &InvoiceResponse{},
 		Headers: map[string]string{
@@ -103,10 +116,17 @@ func (s *API) GetInvoice(id string) (data InvoiceResponse, err error) {
 
 // AddAttachment attaches a file to an invoice
 // https://www.zoho.com/subscriptions/api/v1/#Invoices_Add_attachment_to_an_invoice
-func (s *API) AddAttachment(id, file string, canSendInEmail bool) (data AttachementResponse, err error) {
+func (s *API) AddAttachment(
+	id, file string,
+	canSendInEmail bool,
+) (data AttachementResponse, err error) {
 	endpoint := zoho.Endpoint{
-		Name:         "invoices",
-		URL:          fmt.Sprintf("https://subscriptions.zoho.%s/api/v1/invoices/%s/attachment", s.ZohoTLD, id),
+		Name: "invoices",
+		URL: fmt.Sprintf(
+			"https://subscriptions.zoho.%s/api/v1/invoices/%s/attachment",
+			s.ZohoTLD,
+			id,
+		),
 		Method:       zoho.HTTPPost,
 		ResponseData: &AttachementResponse{},
 		Attachment:   file,
@@ -121,7 +141,11 @@ func (s *API) AddAttachment(id, file string, canSendInEmail bool) (data Attachem
 
 	err = s.Zoho.HTTPRequest(&endpoint)
 	if err != nil {
-		return AttachementResponse{}, fmt.Errorf("Failed to attach file to invoice (%s): %s", id, err)
+		return AttachementResponse{}, fmt.Errorf(
+			"Failed to attach file to invoice (%s): %s",
+			id,
+			err,
+		)
 	}
 
 	if v, ok := endpoint.ResponseData.(*AttachementResponse); ok {
@@ -133,10 +157,17 @@ func (s *API) AddAttachment(id, file string, canSendInEmail bool) (data Attachem
 
 // EmailInvoice sends an invoice in email
 // https://www.zoho.com/subscriptions/api/v1/#Invoices_Email_an_invoice
-func (s *API) EmailInvoice(id string, request EmailInvoiceRequest) (data EmailInvoiceResponse, err error) {
+func (s *API) EmailInvoice(
+	id string,
+	request EmailInvoiceRequest,
+) (data EmailInvoiceResponse, err error) {
 	endpoint := zoho.Endpoint{
-		Name:         "invoices",
-		URL:          fmt.Sprintf("https://subscriptions.zoho.%s/api/v1/invoices/%s/email", s.ZohoTLD, id),
+		Name: "invoices",
+		URL: fmt.Sprintf(
+			"https://subscriptions.zoho.%s/api/v1/invoices/%s/email",
+			s.ZohoTLD,
+			id,
+		),
 		Method:       zoho.HTTPPost,
 		ResponseData: &EmailInvoiceResponse{},
 		RequestBody:  request,
@@ -161,8 +192,12 @@ func (s *API) EmailInvoice(id string, request EmailInvoiceRequest) (data EmailIn
 // https://www.zoho.com/subscriptions/api/v1/#Invoices_Add_items_to_a_pending_invoice
 func (s *API) AddItems(id string, request AddItemsRequest) (data AddItemsResponse, err error) {
 	endpoint := zoho.Endpoint{
-		Name:         "invoices",
-		URL:          fmt.Sprintf("https://subscriptions.zoho.%s/api/v1/invoices/%s/lineitems", s.ZohoTLD, id),
+		Name: "invoices",
+		URL: fmt.Sprintf(
+			"https://subscriptions.zoho.%s/api/v1/invoices/%s/lineitems",
+			s.ZohoTLD,
+			id,
+		),
 		Method:       zoho.HTTPPost,
 		ResponseData: &AddItemsResponse{},
 		RequestBody:  request,
@@ -189,10 +224,17 @@ func (s *API) AddItems(id string, request AddItemsRequest) (data AddItemsRespons
 // so CollectChargeViaCreditCardResponse was updated to include both top level objects:
 // - 'payment' per documentation
 // - 'invoice' per real life reply
-func (s *API) CollectChargeViaCreditCard(id string, request CollectChargeViaCreditCardRequest) (data CollectChargeViaCreditCardResponse, err error) {
+func (s *API) CollectChargeViaCreditCard(
+	id string,
+	request CollectChargeViaCreditCardRequest,
+) (data CollectChargeViaCreditCardResponse, err error) {
 	endpoint := zoho.Endpoint{
-		Name:         "invoices",
-		URL:          fmt.Sprintf("https://subscriptions.zoho.%s/api/v1/invoices/%s/collect", s.ZohoTLD, id),
+		Name: "invoices",
+		URL: fmt.Sprintf(
+			"https://subscriptions.zoho.%s/api/v1/invoices/%s/collect",
+			s.ZohoTLD,
+			id,
+		),
 		Method:       zoho.HTTPPost,
 		ResponseData: &CollectChargeViaCreditCardResponse{},
 		RequestBody:  request,
@@ -203,22 +245,35 @@ func (s *API) CollectChargeViaCreditCard(id string, request CollectChargeViaCred
 
 	err = s.Zoho.HTTPRequest(&endpoint)
 	if err != nil {
-		return CollectChargeViaCreditCardResponse{}, fmt.Errorf("Failed to collect charge via credit card (%s): %s", id, err)
+		return CollectChargeViaCreditCardResponse{}, fmt.Errorf(
+			"Failed to collect charge via credit card (%s): %s",
+			id,
+			err,
+		)
 	}
 
 	if v, ok := endpoint.ResponseData.(*CollectChargeViaCreditCardResponse); ok {
 		return *v, nil
 	}
 
-	return CollectChargeViaCreditCardResponse{}, fmt.Errorf("Data retrieved was not 'CollectChargeViaCreditCardResponse'")
+	return CollectChargeViaCreditCardResponse{}, fmt.Errorf(
+		"Data retrieved was not 'CollectChargeViaCreditCardResponse'",
+	)
 }
 
 // CollectChargeViaBankAccount collects charge via bank account
 // https://www.zoho.com/subscriptions/api/v1/#Invoices_Collect_charge_via_bank_account
-func (s *API) CollectChargeViaBankAccount(id string, request CollectChargeViaBankAccountRequest) (data CollectChargeViaBankAccountResponse, err error) {
+func (s *API) CollectChargeViaBankAccount(
+	id string,
+	request CollectChargeViaBankAccountRequest,
+) (data CollectChargeViaBankAccountResponse, err error) {
 	endpoint := zoho.Endpoint{
-		Name:         "invoices",
-		URL:          fmt.Sprintf("https://subscriptions.zoho.%s/api/v1/invoices/%s/collect", s.ZohoTLD, id),
+		Name: "invoices",
+		URL: fmt.Sprintf(
+			"https://subscriptions.zoho.%s/api/v1/invoices/%s/collect",
+			s.ZohoTLD,
+			id,
+		),
 		Method:       zoho.HTTPPost,
 		ResponseData: &CollectChargeViaBankAccountResponse{},
 		RequestBody:  request,
@@ -229,14 +284,20 @@ func (s *API) CollectChargeViaBankAccount(id string, request CollectChargeViaBan
 
 	err = s.Zoho.HTTPRequest(&endpoint)
 	if err != nil {
-		return CollectChargeViaBankAccountResponse{}, fmt.Errorf("Failed to collect charge via bank account (%s): %s", id, err)
+		return CollectChargeViaBankAccountResponse{}, fmt.Errorf(
+			"Failed to collect charge via bank account (%s): %s",
+			id,
+			err,
+		)
 	}
 
 	if v, ok := endpoint.ResponseData.(*CollectChargeViaBankAccountResponse); ok {
 		return *v, nil
 	}
 
-	return CollectChargeViaBankAccountResponse{}, fmt.Errorf("Data retrieved was not 'CollectChargeViaBankAccountResponse'")
+	return CollectChargeViaBankAccountResponse{}, fmt.Errorf(
+		"Data retrieved was not 'CollectChargeViaBankAccountResponse'",
+	)
 }
 
 type CollectChargeViaBankAccountRequest struct {

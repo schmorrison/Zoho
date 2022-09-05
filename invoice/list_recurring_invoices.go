@@ -11,8 +11,12 @@ import (
 func (c *API) ListRecurringInvoices() (data ListRecurringInvoicesResponse, err error) {
 
 	endpoint := zoho.Endpoint{
-		Name:          RecurringInvoicesModule,
-		URL:           fmt.Sprintf("https://invoice.zoho.%s/api/v3/%s", c.ZohoTLD, RecurringInvoicesModule),
+		Name: RecurringInvoicesModule,
+		URL: fmt.Sprintf(
+			"https://invoice.zoho.%s/api/v3/%s",
+			c.ZohoTLD,
+			RecurringInvoicesModule,
+		),
 		Method:        zoho.HTTPGet,
 		ResponseData:  &ListRecurringInvoicesResponse{},
 		URLParameters: map[string]zoho.Parameter{
@@ -31,7 +35,10 @@ func (c *API) ListRecurringInvoices() (data ListRecurringInvoicesResponse, err e
 
 	err = c.Zoho.HTTPRequest(&endpoint)
 	if err != nil {
-		return ListRecurringInvoicesResponse{}, fmt.Errorf("Failed to retrieve expense reports: %s", err)
+		return ListRecurringInvoicesResponse{}, fmt.Errorf(
+			"Failed to retrieve expense reports: %s",
+			err,
+		)
 	}
 
 	if v, ok := endpoint.ResponseData.(*ListRecurringInvoicesResponse); ok {
@@ -41,7 +48,9 @@ func (c *API) ListRecurringInvoices() (data ListRecurringInvoicesResponse, err e
 		}
 		return *v, nil
 	}
-	return ListRecurringInvoicesResponse{}, fmt.Errorf("Data retrieved was not 'ListRecurringInvoicesResponse'")
+	return ListRecurringInvoicesResponse{}, fmt.Errorf(
+		"Data retrieved was not 'ListRecurringInvoicesResponse'",
+	)
 }
 
 type ListRecurringInvoicesResponse struct {

@@ -8,11 +8,17 @@ import (
 
 //https://www.zoho.com/invoice/api/v3/#Recurring_Invoices_Create_a_Recurring_Invoice
 //func (c *API) CreateRecurringInvoice(request interface{}, OrganizationID string, params map[string]zoho.Parameter) (data ListContactsResponse, err error) {
-func (c *API) CreateRecurringInvoice(request interface{}) (data CreateRecurringInvoiceResponse, err error) {
+func (c *API) CreateRecurringInvoice(
+	request interface{},
+) (data CreateRecurringInvoiceResponse, err error) {
 
 	endpoint := zoho.Endpoint{
-		Name:         RecurringInvoicesModule,
-		URL:          fmt.Sprintf("https://invoice.zoho.%s/api/v3/%s", c.ZohoTLD, RecurringInvoicesModule),
+		Name: RecurringInvoicesModule,
+		URL: fmt.Sprintf(
+			"https://invoice.zoho.%s/api/v3/%s",
+			c.ZohoTLD,
+			RecurringInvoicesModule,
+		),
 		Method:       zoho.HTTPPost,
 		ResponseData: &CreateRecurringInvoiceResponse{},
 		URLParameters: map[string]zoho.Parameter{
@@ -31,7 +37,10 @@ func (c *API) CreateRecurringInvoice(request interface{}) (data CreateRecurringI
 
 	err = c.Zoho.HTTPRequest(&endpoint)
 	if err != nil {
-		return CreateRecurringInvoiceResponse{}, fmt.Errorf("Failed to create recurring invoice: %s", err)
+		return CreateRecurringInvoiceResponse{}, fmt.Errorf(
+			"Failed to create recurring invoice: %s",
+			err,
+		)
 	}
 
 	if v, ok := endpoint.ResponseData.(*CreateRecurringInvoiceResponse); ok {
@@ -41,7 +50,9 @@ func (c *API) CreateRecurringInvoice(request interface{}) (data CreateRecurringI
 		}
 		return *v, nil
 	}
-	return CreateRecurringInvoiceResponse{}, fmt.Errorf("Data retrieved was not 'CreateRecurringInvoiceResponse'")
+	return CreateRecurringInvoiceResponse{}, fmt.Errorf(
+		"Data retrieved was not 'CreateRecurringInvoiceResponse'",
+	)
 }
 
 type CreateRecurringInvoiceRequest struct {

@@ -65,8 +65,12 @@ func (s *API) ListSubscriptions(status SubscriptionStatus) (data SubscriptionsRe
 // https://www.zoho.com/subscriptions/api/v1/#Subscriptions_Retrieve_a_subscription
 func (s *API) GetSubscription(id string) (data SubscriptionResponse, err error) {
 	endpoint := zoho.Endpoint{
-		Name:         "subscriptions",
-		URL:          fmt.Sprintf("https://subscriptions.zoho.%s/api/v1/subscriptions/%s", s.ZohoTLD, id),
+		Name: "subscriptions",
+		URL: fmt.Sprintf(
+			"https://subscriptions.zoho.%s/api/v1/subscriptions/%s",
+			s.ZohoTLD,
+			id,
+		),
 		Method:       zoho.HTTPGet,
 		ResponseData: &SubscriptionResponse{},
 		Headers: map[string]string{
@@ -76,7 +80,11 @@ func (s *API) GetSubscription(id string) (data SubscriptionResponse, err error) 
 
 	err = s.Zoho.HTTPRequest(&endpoint)
 	if err != nil {
-		return SubscriptionResponse{}, fmt.Errorf("Failed to retrieve subscription (%s): %s", id, err)
+		return SubscriptionResponse{}, fmt.Errorf(
+			"Failed to retrieve subscription (%s): %s",
+			id,
+			err,
+		)
 	}
 
 	if v, ok := endpoint.ResponseData.(*SubscriptionResponse); ok {
@@ -88,10 +96,14 @@ func (s *API) GetSubscription(id string) (data SubscriptionResponse, err error) 
 
 // CreateSubscription creates new subscription
 // https://www.zoho.com/subscriptions/api/v1/#Subscriptions_Create_a_subscription
-func (s *API) CreateSubscription(request SubscriptionCreate) (data SubscriptionResponse, err error) {
+func (s *API) CreateSubscription(
+	request SubscriptionCreate,
+) (data SubscriptionResponse, err error) {
 	if request.CustomerID == "" {
 		if request.Customer.DisplayName == "" || request.Customer.Email == "" {
-			err = fmt.Errorf("CustomerID is a required field if subscription is created for existen customer. For new customer Customer.DisplayName and Customer.Email fields are required")
+			err = fmt.Errorf(
+				"CustomerID is a required field if subscription is created for existen customer. For new customer Customer.DisplayName and Customer.Email fields are required",
+			)
 			return
 		}
 	}
@@ -121,14 +133,21 @@ func (s *API) CreateSubscription(request SubscriptionCreate) (data SubscriptionR
 
 // UpdateSubscription will modify subscription by the data provided to request
 // https://www.zoho.com/subscriptions/api/v1/#Subscriptions_Update_a_subscription
-func (s *API) UpdateSubscription(request SubscriptionUpdate, ID string) (data SubscriptionResponse, err error) {
+func (s *API) UpdateSubscription(
+	request SubscriptionUpdate,
+	ID string,
+) (data SubscriptionResponse, err error) {
 	if request.Plan.PlanCode == "" {
 		return SubscriptionResponse{}, fmt.Errorf("Plan.PlanCode is a required field")
 	}
 
 	endpoint := zoho.Endpoint{
-		Name:         "subscriptions",
-		URL:          fmt.Sprintf("https://subscriptions.zoho.%s/api/v1/subscriptions/%s", s.ZohoTLD, ID),
+		Name: "subscriptions",
+		URL: fmt.Sprintf(
+			"https://subscriptions.zoho.%s/api/v1/subscriptions/%s",
+			s.ZohoTLD,
+			ID,
+		),
 		Method:       zoho.HTTPPut,
 		ResponseData: &SubscriptionResponse{},
 		RequestBody:  request,
@@ -151,10 +170,17 @@ func (s *API) UpdateSubscription(request SubscriptionUpdate, ID string) (data Su
 
 // CancelSubscription will cancel subscription by id
 // https://www.zoho.com/subscriptions/api/v1/#Subscriptions_Cancel_a_subscription
-func (s *API) CancelSubscription(ID string, cancelAtEnd bool) (data SubscriptionCancelResponse, err error) {
+func (s *API) CancelSubscription(
+	ID string,
+	cancelAtEnd bool,
+) (data SubscriptionCancelResponse, err error) {
 	endpoint := zoho.Endpoint{
-		Name:         "subscriptions",
-		URL:          fmt.Sprintf("https://subscriptions.zoho.%s/api/v1/subscriptions/%s/cancel", s.ZohoTLD, ID),
+		Name: "subscriptions",
+		URL: fmt.Sprintf(
+			"https://subscriptions.zoho.%s/api/v1/subscriptions/%s/cancel",
+			s.ZohoTLD,
+			ID,
+		),
 		Method:       zoho.HTTPPost,
 		ResponseData: &SubscriptionCancelResponse{},
 		URLParameters: map[string]zoho.Parameter{
@@ -167,7 +193,11 @@ func (s *API) CancelSubscription(ID string, cancelAtEnd bool) (data Subscription
 
 	err = s.Zoho.HTTPRequest(&endpoint)
 	if err != nil {
-		return SubscriptionCancelResponse{}, fmt.Errorf("Failed to cancel subscription %s: %s", ID, err)
+		return SubscriptionCancelResponse{}, fmt.Errorf(
+			"Failed to cancel subscription %s: %s",
+			ID,
+			err,
+		)
 	}
 
 	if v, ok := endpoint.ResponseData.(*SubscriptionCancelResponse); ok {
@@ -181,8 +211,12 @@ func (s *API) CancelSubscription(ID string, cancelAtEnd bool) (data Subscription
 // https://www.zoho.com/subscriptions/api/v1/#Subscriptions_Delete_a_subscription
 func (s *API) DeleteSubscription(ID string) (data SubscriptionDeleteResponse, err error) {
 	endpoint := zoho.Endpoint{
-		Name:         "subscriptions",
-		URL:          fmt.Sprintf("https://subscriptions.zoho.%s/api/v1/subscriptions/%s", s.ZohoTLD, ID),
+		Name: "subscriptions",
+		URL: fmt.Sprintf(
+			"https://subscriptions.zoho.%s/api/v1/subscriptions/%s",
+			s.ZohoTLD,
+			ID,
+		),
 		Method:       zoho.HTTPDelete,
 		ResponseData: &SubscriptionDeleteResponse{},
 		Headers: map[string]string{
@@ -192,7 +226,11 @@ func (s *API) DeleteSubscription(ID string) (data SubscriptionDeleteResponse, er
 
 	err = s.Zoho.HTTPRequest(&endpoint)
 	if err != nil {
-		return SubscriptionDeleteResponse{}, fmt.Errorf("Failed to delete subscription %s: %s", ID, err)
+		return SubscriptionDeleteResponse{}, fmt.Errorf(
+			"Failed to delete subscription %s: %s",
+			ID,
+			err,
+		)
 	}
 
 	if v, ok := endpoint.ResponseData.(*SubscriptionDeleteResponse); ok {
@@ -204,10 +242,17 @@ func (s *API) DeleteSubscription(ID string) (data SubscriptionDeleteResponse, er
 
 // AddChargeToSubscription charges a one-time amount for the subscription
 // https://www.zoho.com/subscriptions/api/v1/#Subscriptions_Update_a_subscription
-func (s *API) AddChargeToSubscription(request SubscriptionAddCharge, ID string) (data AddChargeResponse, err error) {
+func (s *API) AddChargeToSubscription(
+	request SubscriptionAddCharge,
+	ID string,
+) (data AddChargeResponse, err error) {
 	endpoint := zoho.Endpoint{
-		Name:         "subscriptions",
-		URL:          fmt.Sprintf("https://subscriptions.zoho.%s/api/v1/subscriptions/%s/charge", s.ZohoTLD, ID),
+		Name: "subscriptions",
+		URL: fmt.Sprintf(
+			"https://subscriptions.zoho.%s/api/v1/subscriptions/%s/charge",
+			s.ZohoTLD,
+			ID,
+		),
 		Method:       zoho.HTTPPost,
 		ResponseData: &AddChargeResponse{},
 		RequestBody:  request,

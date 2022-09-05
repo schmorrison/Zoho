@@ -2,6 +2,7 @@ package crm
 
 import (
 	"fmt"
+
 	zoho "github.com/schmorrison/Zoho"
 )
 
@@ -9,8 +10,13 @@ import (
 // https://www.zoho.com/crm/help/api/v2/#blueprint-api
 func (c *API) GetBlueprint(module Module, id string) (data BlueprintResponse, err error) {
 	endpoint := zoho.Endpoint{
-		Name:         "blueprints",
-		URL:          fmt.Sprintf("https://www.zohoapis.%s/crm/v2/%s/%s/actions/blueprint", c.ZohoTLD, module, id),
+		Name: "blueprints",
+		URL: fmt.Sprintf(
+			"https://www.zohoapis.%s/crm/v2/%s/%s/actions/blueprint",
+			c.ZohoTLD,
+			module,
+			id,
+		),
 		Method:       zoho.HTTPGet,
 		ResponseData: &BlueprintResponse{},
 	}
@@ -70,10 +76,19 @@ type BlueprintResponse struct {
 
 // UpdateBlueprint updates the blueprint specified by ID in the specified module
 // https://www.zoho.com/crm/help/api/v2/#update-blueprint
-func (c *API) UpdateBlueprint(request UpdateBlueprintData, module Module, id string) (data UpdateBlueprintResponse, err error) {
+func (c *API) UpdateBlueprint(
+	request UpdateBlueprintData,
+	module Module,
+	id string,
+) (data UpdateBlueprintResponse, err error) {
 	endpoint := zoho.Endpoint{
-		Name:         "blueprints",
-		URL:          fmt.Sprintf("https://www.zohoapis.%s/crm/v2/%s/%s/actions/blueprint", c.ZohoTLD, module, id),
+		Name: "blueprints",
+		URL: fmt.Sprintf(
+			"https://www.zohoapis.%s/crm/v2/%s/%s/actions/blueprint",
+			c.ZohoTLD,
+			module,
+			id,
+		),
 		Method:       zoho.HTTPPost,
 		ResponseData: &UpdateBlueprintResponse{},
 		RequestBody:  request,

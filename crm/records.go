@@ -2,13 +2,18 @@ package crm
 
 import (
 	"fmt"
-	zoho "github.com/schmorrison/Zoho"
 	"time"
+
+	zoho "github.com/schmorrison/Zoho"
 )
 
 // ListRecords will return a list of the records provided in the request field, and specified by the module
 // https://www.zoho.com/crm/help/api/v2/#record-api
-func (c *API) ListRecords(request interface{}, module Module, params map[string]zoho.Parameter) (data interface{}, err error) {
+func (c *API) ListRecords(
+	request interface{},
+	module Module,
+	params map[string]zoho.Parameter,
+) (data interface{}, err error) {
 	endpoint := zoho.Endpoint{
 		Name:         "records",
 		URL:          fmt.Sprintf("https://www.zohoapis.%s/crm/v2/%s", c.ZohoTLD, module),
@@ -44,7 +49,10 @@ func (c *API) ListRecords(request interface{}, module Module, params map[string]
 
 // InsertRecords will add records in request to the specified module
 // https://www.zoho.com/crm/help/api/v2/#ra-insert-records
-func (c *API) InsertRecords(request InsertRecordsData, module Module) (data InsertRecordsResponse, err error) {
+func (c *API) InsertRecords(
+	request InsertRecordsData,
+	module Module,
+) (data InsertRecordsResponse, err error) {
 	endpoint := zoho.Endpoint{
 		Name:         "records",
 		URL:          fmt.Sprintf("https://www.zohoapis.%s/crm/v2/%s", c.ZohoTLD, module),
@@ -55,7 +63,11 @@ func (c *API) InsertRecords(request InsertRecordsData, module Module) (data Inse
 
 	err = c.Zoho.HTTPRequest(&endpoint)
 	if err != nil {
-		return InsertRecordsResponse{}, fmt.Errorf("Failed to insert records of %s: %s", module, err)
+		return InsertRecordsResponse{}, fmt.Errorf(
+			"Failed to insert records of %s: %s",
+			module,
+			err,
+		)
 	}
 
 	if v, ok := endpoint.ResponseData.(*InsertRecordsResponse); ok {
@@ -116,7 +128,10 @@ type InsertRecordsResponse struct {
 //        crm.Account
 //        CustomField string `json:"Custom_Field"`
 //     }
-func (c *API) UpdateRecords(request UpdateRecordsData, module Module) (data UpdateRecordsResponse, err error) {
+func (c *API) UpdateRecords(
+	request UpdateRecordsData,
+	module Module,
+) (data UpdateRecordsResponse, err error) {
 	endpoint := zoho.Endpoint{
 		Name:         "records",
 		URL:          fmt.Sprintf("https://www.zohoapis.%s/crm/v2/%s", c.ZohoTLD, module),
@@ -127,7 +142,11 @@ func (c *API) UpdateRecords(request UpdateRecordsData, module Module) (data Upda
 
 	err = c.Zoho.HTTPRequest(&endpoint)
 	if err != nil {
-		return UpdateRecordsResponse{}, fmt.Errorf("Failed to insert records of %s: %s", module, err)
+		return UpdateRecordsResponse{}, fmt.Errorf(
+			"Failed to insert records of %s: %s",
+			module,
+			err,
+		)
 	}
 
 	if v, ok := endpoint.ResponseData.(*UpdateRecordsResponse); ok {
@@ -156,7 +175,11 @@ type UpdateRecordsResponse struct {
 //        crm.Account
 //        CustomField string `json:"Custom_Field"`
 //     }
-func (c *API) UpsertRecords(request UpsertRecordsData, module Module, duplicateFieldsCheck []string) (data UpsertRecordsResponse, err error) {
+func (c *API) UpsertRecords(
+	request UpsertRecordsData,
+	module Module,
+	duplicateFieldsCheck []string,
+) (data UpsertRecordsResponse, err error) {
 	endpoint := zoho.Endpoint{
 		Name:         "records",
 		URL:          fmt.Sprintf("https://www.zohoapis.%s/crm/v2/%s/upsert", c.ZohoTLD, module),
@@ -182,7 +205,11 @@ func (c *API) UpsertRecords(request UpsertRecordsData, module Module, duplicateF
 
 	err = c.Zoho.HTTPRequest(&endpoint)
 	if err != nil {
-		return UpsertRecordsResponse{}, fmt.Errorf("Failed to insert records of %s: %s", module, err)
+		return UpsertRecordsResponse{}, fmt.Errorf(
+			"Failed to insert records of %s: %s",
+			module,
+			err,
+		)
 	}
 
 	if v, ok := endpoint.ResponseData.(*UpsertRecordsResponse); ok {
@@ -226,7 +253,9 @@ type UpsertRecordsResponse struct {
 // https://www.zoho.com/crm/help/api/v2/#delete-bulk-records
 func (c *API) DeleteRecords(module Module, ids []string) (data DeleteRecordsResponse, err error) {
 	if len(ids) == 0 {
-		return DeleteRecordsResponse{}, fmt.Errorf("Failed to delete records, must provide at least 1 ID")
+		return DeleteRecordsResponse{}, fmt.Errorf(
+			"Failed to delete records, must provide at least 1 ID",
+		)
 	}
 
 	endpoint := zoho.Endpoint{
@@ -250,7 +279,11 @@ func (c *API) DeleteRecords(module Module, ids []string) (data DeleteRecordsResp
 
 	err = c.Zoho.HTTPRequest(&endpoint)
 	if err != nil {
-		return DeleteRecordsResponse{}, fmt.Errorf("Failed to insert records of %s: %s", module, err)
+		return DeleteRecordsResponse{}, fmt.Errorf(
+			"Failed to insert records of %s: %s",
+			module,
+			err,
+		)
 	}
 
 	if v, ok := endpoint.ResponseData.(*DeleteRecordsResponse); ok {
@@ -274,7 +307,11 @@ type DeleteRecordsResponse struct {
 
 // ListDeletedRecords will return a list of all records that have been deleted in the specified module. The records can be filtered by the kind parameter.
 // https://www.zoho.com/crm/help/api/v2/#ra-deleted-records
-func (c *API) ListDeletedRecords(module Module, kind DeletedRecordsType, params map[string]zoho.Parameter) (data ListDeletedRecordsResponse, err error) {
+func (c *API) ListDeletedRecords(
+	module Module,
+	kind DeletedRecordsType,
+	params map[string]zoho.Parameter,
+) (data ListDeletedRecordsResponse, err error) {
 	endpoint := zoho.Endpoint{
 		Name:         "records",
 		URL:          fmt.Sprintf("https://www.zohoapis.%s/crm/v2/%s/deleted", c.ZohoTLD, module),
@@ -293,7 +330,11 @@ func (c *API) ListDeletedRecords(module Module, kind DeletedRecordsType, params 
 
 	err = c.Zoho.HTTPRequest(&endpoint)
 	if err != nil {
-		return ListDeletedRecordsResponse{}, fmt.Errorf("Failed to insert records of %s: %s", module, err)
+		return ListDeletedRecordsResponse{}, fmt.Errorf(
+			"Failed to insert records of %s: %s",
+			module,
+			err,
+		)
 	}
 
 	if v, ok := endpoint.ResponseData.(*ListDeletedRecordsResponse); ok {
@@ -337,7 +378,11 @@ type ListDeletedRecordsResponse struct {
 // SearchRecords is used for searching records in the specified module using the parameters.
 // Parameters are 'criteria', 'email', 'phone', and 'word'
 // https://www.zoho.com/crm/help/api/v2/#ra-search-records
-func (c *API) SearchRecords(response interface{}, module Module, params map[string]zoho.Parameter) (data interface{}, err error) {
+func (c *API) SearchRecords(
+	response interface{},
+	module Module,
+	params map[string]zoho.Parameter,
+) (data interface{}, err error) {
 	endpoint := zoho.Endpoint{
 		Name:         "records",
 		URL:          fmt.Sprintf("https://www.zohoapis.%s/crm/v2/%s/search", c.ZohoTLD, module),
@@ -371,7 +416,11 @@ func (c *API) SearchRecords(response interface{}, module Module, params map[stri
 
 // GetRecord will retrieve the specified record by id in the specified module.
 // https://www.zoho.com/crm/help/api/v2/#single-records
-func (c *API) GetRecord(request interface{}, module Module, ID string) (data interface{}, err error) {
+func (c *API) GetRecord(
+	request interface{},
+	module Module,
+	ID string,
+) (data interface{}, err error) {
 	endpoint := zoho.Endpoint{
 		Name:         "records",
 		URL:          fmt.Sprintf("https://www.zohoapis.%s/crm/v2/%s/%s", c.ZohoTLD, module, ID),
@@ -393,7 +442,10 @@ func (c *API) GetRecord(request interface{}, module Module, ID string) (data int
 
 // InsertRecord will insert the specifed record in the module
 // https://www.zoho.com/crm/help/api/v2/#create-specify-records
-func (c *API) InsertRecord(request InsertRecordData, module Module) (data InsertRecordResponse, err error) {
+func (c *API) InsertRecord(
+	request InsertRecordData,
+	module Module,
+) (data InsertRecordResponse, err error) {
 	endpoint := zoho.Endpoint{
 		Name:         "records",
 		URL:          fmt.Sprintf("https://www.zohoapis.%s/crm/v2/%s", c.ZohoTLD, module),
@@ -422,7 +474,11 @@ type InsertRecordResponse = InsertRecordsResponse
 
 // UpdateRecord will update the record specified by ID in the specified module
 // https://www.zoho.com/crm/help/api/v2/#update-specify-records
-func (c *API) UpdateRecord(request UpdateRecordData, module Module, ID string) (data UpdateRecordResponse, err error) {
+func (c *API) UpdateRecord(
+	request UpdateRecordData,
+	module Module,
+	ID string,
+) (data UpdateRecordResponse, err error) {
 	endpoint := zoho.Endpoint{
 		Name:         "records",
 		URL:          fmt.Sprintf("https://www.zohoapis.%s/crm/v2/%s/%s", c.ZohoTLD, module, ID),
@@ -476,10 +532,18 @@ type DeleteRecordResponse = DeleteRecordsResponse
 
 // ConvertLead will modify the Lead record specified by ID and convert it to a Contact/Potential depending on the request data
 // https://www.zoho.com/crm/help/api/v2/#convert-lead
-func (c *API) ConvertLead(request ConvertLeadData, ID string) (data ConvertLeadResponse, err error) {
+func (c *API) ConvertLead(
+	request ConvertLeadData,
+	ID string,
+) (data ConvertLeadResponse, err error) {
 	endpoint := zoho.Endpoint{
-		Name:         "records",
-		URL:          fmt.Sprintf("https://www.zohoapis.%s/crm/v2/%s/%s/actions/convert", c.ZohoTLD, LeadsModule, ID),
+		Name: "records",
+		URL: fmt.Sprintf(
+			"https://www.zohoapis.%s/crm/v2/%s/%s/actions/convert",
+			c.ZohoTLD,
+			LeadsModule,
+			ID,
+		),
 		Method:       zoho.HTTPPost,
 		ResponseData: &ConvertLeadResponse{},
 		RequestBody:  request,
@@ -487,7 +551,11 @@ func (c *API) ConvertLead(request ConvertLeadData, ID string) (data ConvertLeadR
 
 	err = c.Zoho.HTTPRequest(&endpoint)
 	if err != nil {
-		return ConvertLeadResponse{}, fmt.Errorf("Failed to insert records of %s: %s", LeadsModule, err)
+		return ConvertLeadResponse{}, fmt.Errorf(
+			"Failed to insert records of %s: %s",
+			LeadsModule,
+			err,
+		)
 	}
 
 	if v, ok := endpoint.ResponseData.(*ConvertLeadResponse); ok {

@@ -8,11 +8,18 @@ import (
 
 //https://www.zoho.com/invoice/api/v3/#Recurring_Invoices_Get_a_Recurring_Invoice
 //func (c *API) GetRecurringInvoice(request interface{}, OrganizationID string, params map[string]zoho.Parameter) (data ListContactsResponse, err error) {
-func (c *API) GetRecurringInvoice(recurringInvoiceId string) (data RecurringInvoiceResponse, err error) {
+func (c *API) GetRecurringInvoice(
+	recurringInvoiceId string,
+) (data RecurringInvoiceResponse, err error) {
 
 	endpoint := zoho.Endpoint{
-		Name:         RecurringInvoicesModule,
-		URL:          fmt.Sprintf("https://invoice.zoho.%s/api/v3/%s/%s", c.ZohoTLD, RecurringInvoicesModule, recurringInvoiceId),
+		Name: RecurringInvoicesModule,
+		URL: fmt.Sprintf(
+			"https://invoice.zoho.%s/api/v3/%s/%s",
+			c.ZohoTLD,
+			RecurringInvoicesModule,
+			recurringInvoiceId,
+		),
 		Method:       zoho.HTTPGet,
 		ResponseData: &RecurringInvoiceResponse{},
 		URLParameters: map[string]zoho.Parameter{
@@ -31,7 +38,10 @@ func (c *API) GetRecurringInvoice(recurringInvoiceId string) (data RecurringInvo
 
 	err = c.Zoho.HTTPRequest(&endpoint)
 	if err != nil {
-		return RecurringInvoiceResponse{}, fmt.Errorf("Failed to retrieve recurring invoice: %s", err)
+		return RecurringInvoiceResponse{}, fmt.Errorf(
+			"Failed to retrieve recurring invoice: %s",
+			err,
+		)
 	}
 
 	if v, ok := endpoint.ResponseData.(*RecurringInvoiceResponse); ok {
@@ -41,7 +51,9 @@ func (c *API) GetRecurringInvoice(recurringInvoiceId string) (data RecurringInvo
 		}
 		return *v, nil
 	}
-	return RecurringInvoiceResponse{}, fmt.Errorf("Data retrieved was not 'RecurringInvoiceResponse'")
+	return RecurringInvoiceResponse{}, fmt.Errorf(
+		"Data retrieved was not 'RecurringInvoiceResponse'",
+	)
 }
 
 type RecurringInvoiceResponse struct {

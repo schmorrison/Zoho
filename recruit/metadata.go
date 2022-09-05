@@ -57,8 +57,12 @@ type AllMetadataResponse struct {
 // https://recruit.zoho.eu/recruit/v2/settings/modules/{module}
 func (c *API) GetModuleMetadata(module string) (data ModuleMetadataResponse, err error) {
 	endpoint := zoho.Endpoint{
-		Name:         "GetModuleMetadata",
-		URL:          fmt.Sprintf("https://recruit.zoho.%s/recruit/v2/settings/modules/%s", c.ZohoTLD, module),
+		Name: "GetModuleMetadata",
+		URL: fmt.Sprintf(
+			"https://recruit.zoho.%s/recruit/v2/settings/modules/%s",
+			c.ZohoTLD,
+			module,
+		),
 		Method:       zoho.HTTPGet,
 		ResponseData: &ModuleMetadataResponse{},
 	}
@@ -164,7 +168,9 @@ type ModuleMetadataResponse struct {
 // GetFieldsMetadata returns field metadata for the specified module.
 // https://www.zoho.com/recruit/developer-guide/apiv2/field-meta.html
 // https://recruit.zoho.eu/recruit/v2/settings/fields
-func (c *API) GetFieldsMetadata(params map[string]zoho.Parameter) (data FieldsMetadataResponse, err error) {
+func (c *API) GetFieldsMetadata(
+	params map[string]zoho.Parameter,
+) (data FieldsMetadataResponse, err error) {
 	endpoint := zoho.Endpoint{
 		Name:         "GetFieldsMetadata",
 		URL:          fmt.Sprintf("https://recruit.zoho.%s/recruit/v2/settings/fields", c.ZohoTLD),
@@ -242,10 +248,17 @@ type FieldsMetadataResponse struct {
 // GetCustomViewsMetadata returns the custom views data of a particular module.
 // https://www.zoho.com/recruit/developer-guide/apiv2/custom-view-meta.html
 // https://recruit.zoho.eu/recruit/v2/settings/custom_views/{module_id}?module={module}
-func (c *API) GetCustomViewsMetadata(moduleId string, params map[string]zoho.Parameter) (data CustomViewsMetadataResponse, err error) {
+func (c *API) GetCustomViewsMetadata(
+	moduleId string,
+	params map[string]zoho.Parameter,
+) (data CustomViewsMetadataResponse, err error) {
 	endpoint := zoho.Endpoint{
-		Name:         "GetCustomViewsMetadata",
-		URL:          fmt.Sprintf("https://recruit.zoho.%s/recruit/v2/settings/custom_views/%s", c.ZohoTLD, moduleId),
+		Name: "GetCustomViewsMetadata",
+		URL: fmt.Sprintf(
+			"https://recruit.zoho.%s/recruit/v2/settings/custom_views/%s",
+			c.ZohoTLD,
+			moduleId,
+		),
 		Method:       zoho.HTTPGet,
 		ResponseData: &CustomViewsMetadataResponse{},
 		URLParameters: map[string]zoho.Parameter{

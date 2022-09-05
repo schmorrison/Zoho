@@ -8,10 +8,17 @@ import (
 
 // GetAllEmployees returns a list of all employees
 // https://www.zoho.com/shifts/api/v1/employees-api/#get-all-employees
-func (s *API) GetAllEmployees(params map[string]zoho.Parameter) (data GetEmployeesResponse, err error) {
+func (s *API) GetAllEmployees(
+	params map[string]zoho.Parameter,
+) (data GetEmployeesResponse, err error) {
 	endpoint := zoho.Endpoint{
-		Name:         "GetAllEmployees",
-		URL:          fmt.Sprintf("https://shifts.zoho.%s/api/v1/%s/%s", s.ZohoTLD, s.OrganizationID, EmployeesModule),
+		Name: "GetAllEmployees",
+		URL: fmt.Sprintf(
+			"https://shifts.zoho.%s/api/v1/%s/%s",
+			s.ZohoTLD,
+			s.OrganizationID,
+			EmployeesModule,
+		),
 		Method:       zoho.HTTPGet,
 		ResponseData: &GetEmployeesResponse{},
 		URLParameters: map[string]zoho.Parameter{
@@ -66,17 +73,26 @@ type GetEmployeesResponse struct {
 
 // CreateEmployee adds a new record to the list of employees
 // https://www.zoho.com/shifts/api/v1/employees-api/#create-an-employee
-func (s *API) CreateEmployee(request CreateEmployeeRequest) (data CreateEmployeeResponse, err error) {
+func (s *API) CreateEmployee(
+	request CreateEmployeeRequest,
+) (data CreateEmployeeResponse, err error) {
 	endpoint := zoho.Endpoint{
-		Name:         "CreateEmployee",
-		URL:          fmt.Sprintf("https://shifts.zoho.%s/api/v1/%s/%s", s.ZohoTLD, s.OrganizationID, EmployeesModule),
+		Name: "CreateEmployee",
+		URL: fmt.Sprintf(
+			"https://shifts.zoho.%s/api/v1/%s/%s",
+			s.ZohoTLD,
+			s.OrganizationID,
+			EmployeesModule,
+		),
 		Method:       zoho.HTTPPost,
 		ResponseData: &CreateEmployeeResponse{},
 		RequestBody:  request,
 	}
 
 	if request.FirstName == "" || len(request.Schedules) == 0 || request.Timezone == "" {
-		return CreateEmployeeResponse{}, fmt.Errorf("failed to create employee: first_name, schedules, and timezone are required fields")
+		return CreateEmployeeResponse{}, fmt.Errorf(
+			"failed to create employee: first_name, schedules, and timezone are required fields",
+		)
 	}
 
 	err = s.Zoho.HTTPRequest(&endpoint)
@@ -152,8 +168,14 @@ type CreateEmployeeResponse struct {
 // https://www.zoho.com/shifts/api/v1/employees-api/#get-an-employee
 func (s *API) GetEmployee(id string) (data GetEmployeeResponse, err error) {
 	endpoint := zoho.Endpoint{
-		Name:         "GetEmployee",
-		URL:          fmt.Sprintf("https://shifts.zoho.%s/api/v1/%s/%s/%s", s.ZohoTLD, s.OrganizationID, EmployeesModule, id),
+		Name: "GetEmployee",
+		URL: fmt.Sprintf(
+			"https://shifts.zoho.%s/api/v1/%s/%s/%s",
+			s.ZohoTLD,
+			s.OrganizationID,
+			EmployeesModule,
+			id,
+		),
 		Method:       zoho.HTTPGet,
 		ResponseData: &GetEmployeeResponse{},
 	}
@@ -201,10 +223,19 @@ type GetEmployeeResponse struct {
 
 // UpdateEmployee modifies the employee with the given ID
 // https://www.zoho.com/shifts/api/v1/employees-api/#update-an-employee
-func (s *API) UpdateEmployee(id string, request UpdateEmployeeRequest) (data UpdateEmployeeResponse, err error) {
+func (s *API) UpdateEmployee(
+	id string,
+	request UpdateEmployeeRequest,
+) (data UpdateEmployeeResponse, err error) {
 	endpoint := zoho.Endpoint{
-		Name:         "UpdateEmployee",
-		URL:          fmt.Sprintf("https://shifts.zoho.%s/api/v1/%s/%s/%s", s.ZohoTLD, s.OrganizationID, EmployeesModule, id),
+		Name: "UpdateEmployee",
+		URL: fmt.Sprintf(
+			"https://shifts.zoho.%s/api/v1/%s/%s/%s",
+			s.ZohoTLD,
+			s.OrganizationID,
+			EmployeesModule,
+			id,
+		),
 		Method:       zoho.HTTPPut,
 		ResponseData: &UpdateEmployeeResponse{},
 		RequestBody:  request,
@@ -280,10 +311,17 @@ type UpdateEmployeeResponse struct {
 
 // ActivateEmployee activates the employee accounts of the employee IDs provided
 // https://www.zoho.com/shifts/api/v1/employees-api/#activate-employees
-func (s *API) ActivateEmployee(request ActivateEmployeeRequest) (data ActivateEmployeeResponse, err error) {
+func (s *API) ActivateEmployee(
+	request ActivateEmployeeRequest,
+) (data ActivateEmployeeResponse, err error) {
 	endpoint := zoho.Endpoint{
-		Name:         "ActivateEmployee",
-		URL:          fmt.Sprintf("https://shifts.zoho.%s/api/v1/%s/%s/activate", s.ZohoTLD, s.OrganizationID, EmployeesModule),
+		Name: "ActivateEmployee",
+		URL: fmt.Sprintf(
+			"https://shifts.zoho.%s/api/v1/%s/%s/activate",
+			s.ZohoTLD,
+			s.OrganizationID,
+			EmployeesModule,
+		),
 		Method:       zoho.HTTPPost,
 		ResponseData: &ActivateEmployeeResponse{},
 		RequestBody:  request,
@@ -298,7 +336,9 @@ func (s *API) ActivateEmployee(request ActivateEmployeeRequest) (data ActivateEm
 		return *v, nil
 	}
 
-	return ActivateEmployeeResponse{}, fmt.Errorf("data retrieved was not 'ActivateEmployeeResponse'")
+	return ActivateEmployeeResponse{}, fmt.Errorf(
+		"data retrieved was not 'ActivateEmployeeResponse'",
+	)
 }
 
 type ActivateEmployeeRequest struct {
@@ -311,10 +351,17 @@ type ActivateEmployeeResponse struct {
 
 // DeactivateEmployee deactivates the employee accounts of the employee IDs provided
 // https://www.zoho.com/shifts/api/v1/employees-api/#deactivate-employees
-func (s *API) DeactivateEmployee(request DeactivateEmployeeRequest) (data DeactivateEmployeeResponse, err error) {
+func (s *API) DeactivateEmployee(
+	request DeactivateEmployeeRequest,
+) (data DeactivateEmployeeResponse, err error) {
 	endpoint := zoho.Endpoint{
-		Name:         "DeactivateEmployee",
-		URL:          fmt.Sprintf("https://shifts.zoho.%s/api/v1/%s/%s/deactivate", s.ZohoTLD, s.OrganizationID, EmployeesModule),
+		Name: "DeactivateEmployee",
+		URL: fmt.Sprintf(
+			"https://shifts.zoho.%s/api/v1/%s/%s/deactivate",
+			s.ZohoTLD,
+			s.OrganizationID,
+			EmployeesModule,
+		),
 		Method:       zoho.HTTPPost,
 		ResponseData: &DeactivateEmployeeResponse{},
 		RequestBody:  request,
@@ -329,7 +376,9 @@ func (s *API) DeactivateEmployee(request DeactivateEmployeeRequest) (data Deacti
 		return *v, nil
 	}
 
-	return DeactivateEmployeeResponse{}, fmt.Errorf("data retrieved was not 'DeactivateEmployeeResponse'")
+	return DeactivateEmployeeResponse{}, fmt.Errorf(
+		"data retrieved was not 'DeactivateEmployeeResponse'",
+	)
 }
 
 type DeactivateEmployeeRequest struct {
@@ -342,10 +391,17 @@ type DeactivateEmployeeResponse struct {
 
 // InviteEmployee sends an invite to the employee accounts of the employee IDs provided
 // https://www.zoho.com/shifts/api/v1/employees-api/#invite-employees
-func (s *API) InviteEmployee(request InviteEmployeeRequest) (data InviteEmployeeResponse, err error) {
+func (s *API) InviteEmployee(
+	request InviteEmployeeRequest,
+) (data InviteEmployeeResponse, err error) {
 	endpoint := zoho.Endpoint{
-		Name:         "InviteEmployee",
-		URL:          fmt.Sprintf("https://shifts.zoho.%s/api/v1/%s/%s/invite", s.ZohoTLD, s.OrganizationID, EmployeesModule),
+		Name: "InviteEmployee",
+		URL: fmt.Sprintf(
+			"https://shifts.zoho.%s/api/v1/%s/%s/invite",
+			s.ZohoTLD,
+			s.OrganizationID,
+			EmployeesModule,
+		),
 		Method:       zoho.HTTPPost,
 		ResponseData: &InviteEmployeeResponse{},
 		RequestBody:  request,

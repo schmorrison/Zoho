@@ -11,8 +11,13 @@ import (
 func (c *API) ListContactPersons() (data ListContactPersonsResponse, err error) {
 
 	endpoint := zoho.Endpoint{
-		Name:         ContactsModule,
-		URL:          fmt.Sprintf("https://invoice.zoho.%s/api/v3/%s/%s", c.ZohoTLD, ContactsModule, ContactsPersonSubModule),
+		Name: ContactsModule,
+		URL: fmt.Sprintf(
+			"https://invoice.zoho.%s/api/v3/%s/%s",
+			c.ZohoTLD,
+			ContactsModule,
+			ContactsPersonSubModule,
+		),
 		Method:       zoho.HTTPGet,
 		ResponseData: &ListContactPersonsResponse{},
 		URLParameters: map[string]zoho.Parameter{
@@ -30,7 +35,10 @@ func (c *API) ListContactPersons() (data ListContactPersonsResponse, err error) 
 
 	err = c.Zoho.HTTPRequest(&endpoint)
 	if err != nil {
-		return ListContactPersonsResponse{}, fmt.Errorf("Failed to retrieve expense reports: %s", err)
+		return ListContactPersonsResponse{}, fmt.Errorf(
+			"Failed to retrieve expense reports: %s",
+			err,
+		)
 	}
 
 	if v, ok := endpoint.ResponseData.(*ListContactPersonsResponse); ok {
@@ -40,7 +48,9 @@ func (c *API) ListContactPersons() (data ListContactPersonsResponse, err error) 
 		}
 		return *v, nil
 	}
-	return ListContactPersonsResponse{}, fmt.Errorf("Data retrieved was not 'ListContactPersonsResponse'")
+	return ListContactPersonsResponse{}, fmt.Errorf(
+		"Data retrieved was not 'ListContactPersonsResponse'",
+	)
 }
 
 type ListContactPersonsResponse struct {

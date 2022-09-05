@@ -8,7 +8,9 @@ import (
 
 //https://www.zoho.com/invoice/api/v3/#Recurring_Invoices_Stop_a_Recurring_Invoice
 //func (c *API) StopRecurringInvoice(request interface{}, OrganizationID string, params map[string]zoho.Parameter) (data StopRecurringInvoiceResponse, err error) {
-func (c *API) StopRecurringInvoice(recurringInvoiceId string) (data StopRecurringInvoiceResponse, err error) {
+func (c *API) StopRecurringInvoice(
+	recurringInvoiceId string,
+) (data StopRecurringInvoiceResponse, err error) {
 
 	endpoint := zoho.Endpoint{
 		Name: RecurringInvoicesModule,
@@ -32,7 +34,10 @@ func (c *API) StopRecurringInvoice(recurringInvoiceId string) (data StopRecurrin
 
 	err = c.Zoho.HTTPRequest(&endpoint)
 	if err != nil {
-		return StopRecurringInvoiceResponse{}, fmt.Errorf("Failed to stop recurring invoice: %s", err)
+		return StopRecurringInvoiceResponse{}, fmt.Errorf(
+			"Failed to stop recurring invoice: %s",
+			err,
+		)
 	}
 
 	if v, ok := endpoint.ResponseData.(*StopRecurringInvoiceResponse); ok {
@@ -42,7 +47,9 @@ func (c *API) StopRecurringInvoice(recurringInvoiceId string) (data StopRecurrin
 		}
 		return *v, nil
 	}
-	return StopRecurringInvoiceResponse{}, fmt.Errorf("Data retrieved was not 'StopRecurringInvoiceResponse'")
+	return StopRecurringInvoiceResponse{}, fmt.Errorf(
+		"Data retrieved was not 'StopRecurringInvoiceResponse'",
+	)
 }
 
 type StopRecurringInvoiceResponse struct {

@@ -2,12 +2,17 @@ package expense
 
 import (
 	"fmt"
+
 	zoho "github.com/schmorrison/Zoho"
 )
 
 // GetExpenseReports will return a list of all submitted expense reports as specified by
 // https://www.zoho.com/expense/api/v1/#Expense_Reports_List_of_all_expense_reports
-func (c *API) GetExpenseReports(request interface{}, organizationId string, params map[string]zoho.Parameter) (data ExpenseReportResponse, err error) {
+func (c *API) GetExpenseReports(
+	request interface{},
+	organizationId string,
+	params map[string]zoho.Parameter,
+) (data ExpenseReportResponse, err error) {
 	endpoint := zoho.Endpoint{
 		Name:         ExpenseReportModule,
 		URL:          fmt.Sprintf(ExpenseAPIEndpoint+"%s", ExpenseReportModule),

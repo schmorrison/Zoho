@@ -8,11 +8,18 @@ import (
 
 //https://www.zoho.com/invoice/api/v3/#Contact_Persons_Create_a_contact_person
 //func (c *API) CreateContactPerson(request interface{}, OrganizationID string, params map[string]zoho.Parameter) (data CreateContactPersonResponse, err error) {
-func (c *API) CreateContactPerson(request interface{}) (data CreateContactPersonResponse, err error) {
+func (c *API) CreateContactPerson(
+	request interface{},
+) (data CreateContactPersonResponse, err error) {
 
 	endpoint := zoho.Endpoint{
-		Name:         ContactsModule,
-		URL:          fmt.Sprintf("https://invoice.zoho.%s/api/v3/%s/%s", c.ZohoTLD, ContactsModule, ContactsPersonSubModule),
+		Name: ContactsModule,
+		URL: fmt.Sprintf(
+			"https://invoice.zoho.%s/api/v3/%s/%s",
+			c.ZohoTLD,
+			ContactsModule,
+			ContactsPersonSubModule,
+		),
 		Method:       zoho.HTTPPost,
 		ResponseData: &CreateContactPersonResponse{},
 		URLParameters: map[string]zoho.Parameter{
@@ -42,7 +49,9 @@ func (c *API) CreateContactPerson(request interface{}) (data CreateContactPerson
 		}*/
 		return *v, nil
 	}
-	return CreateContactPersonResponse{}, fmt.Errorf("Data retrieved was not 'CreateContactPersonResponse'")
+	return CreateContactPersonResponse{}, fmt.Errorf(
+		"Data retrieved was not 'CreateContactPersonResponse'",
+	)
 }
 
 type CreateContactPersonRequest struct {

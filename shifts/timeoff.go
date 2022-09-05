@@ -8,10 +8,17 @@ import (
 
 // GetAllTimeoffRequests returns a list of all employee timeoff requests
 // https://www.zoho.com/shifts/api/v1/time-off-requests-api/#get-all-time-off-requests
-func (s *API) GetAllTimeoffRequests(params map[string]zoho.Parameter) (data GetTimeoffsResponse, err error) {
+func (s *API) GetAllTimeoffRequests(
+	params map[string]zoho.Parameter,
+) (data GetTimeoffsResponse, err error) {
 	endpoint := zoho.Endpoint{
-		Name:         "GetAllTimeoffRequests",
-		URL:          fmt.Sprintf("https://shifts.zoho.%s/api/v1/%s/%s/requests", s.ZohoTLD, s.OrganizationID, TimeoffModule),
+		Name: "GetAllTimeoffRequests",
+		URL: fmt.Sprintf(
+			"https://shifts.zoho.%s/api/v1/%s/%s/requests",
+			s.ZohoTLD,
+			s.OrganizationID,
+			TimeoffModule,
+		),
 		Method:       zoho.HTTPGet,
 		ResponseData: &GetTimeoffsResponse{},
 		URLParameters: map[string]zoho.Parameter{
@@ -66,17 +73,28 @@ type GetTimeoffsResponse struct {
 
 // CreateTimeoffRequest adds a new record to the list of employee timeoff requests
 // https://www.zoho.com/shifts/api/v1/time-off-requests-api/#create-a-time-off-request
-func (s *API) CreateTimeoffRequest(request CreateTimeoffRequest) (data CreateTimeoffResponse, err error) {
+func (s *API) CreateTimeoffRequest(
+	request CreateTimeoffRequest,
+) (data CreateTimeoffResponse, err error) {
 	endpoint := zoho.Endpoint{
-		Name:         "CreateTimeoffRequest",
-		URL:          fmt.Sprintf("https://shifts.zoho.%s/api/v1/%s/%s/requests", s.ZohoTLD, s.OrganizationID, TimeoffModule),
+		Name: "CreateTimeoffRequest",
+		URL: fmt.Sprintf(
+			"https://shifts.zoho.%s/api/v1/%s/%s/requests",
+			s.ZohoTLD,
+			s.OrganizationID,
+			TimeoffModule,
+		),
 		Method:       zoho.HTTPPost,
 		ResponseData: &CreateTimeoffResponse{},
 		RequestBody:  request,
 	}
 
-	if request.StartDate.IsZero() || request.EndDate.IsZero() || request.EmployeeID == "" || request.TypeID == "" || request.DayType == "" {
-		return CreateTimeoffResponse{}, fmt.Errorf("failed to create employee: start_date, end_date, employee_id, type_id, and day_type are required fields")
+	if request.StartDate.IsZero() || request.EndDate.IsZero() || request.EmployeeID == "" ||
+		request.TypeID == "" ||
+		request.DayType == "" {
+		return CreateTimeoffResponse{}, fmt.Errorf(
+			"failed to create employee: start_date, end_date, employee_id, type_id, and day_type are required fields",
+		)
 	}
 
 	err = s.Zoho.HTTPRequest(&endpoint)
@@ -134,15 +152,24 @@ type CreateTimeoffResponse struct {
 // https://www.zoho.com/shifts/api/v1/time-off-requests-api/#get-a-time-off-request
 func (s *API) GetTimeoffRequest(id string) (data GetTimeoffResponse, err error) {
 	endpoint := zoho.Endpoint{
-		Name:         "GetTimeoffRequest",
-		URL:          fmt.Sprintf("https://shifts.zoho.%s/api/v1/%s/%s/requests/%s", s.ZohoTLD, s.OrganizationID, TimeoffModule, id),
+		Name: "GetTimeoffRequest",
+		URL: fmt.Sprintf(
+			"https://shifts.zoho.%s/api/v1/%s/%s/requests/%s",
+			s.ZohoTLD,
+			s.OrganizationID,
+			TimeoffModule,
+			id,
+		),
 		Method:       zoho.HTTPGet,
 		ResponseData: &GetTimeoffResponse{},
 	}
 
 	err = s.Zoho.HTTPRequest(&endpoint)
 	if err != nil {
-		return GetTimeoffResponse{}, fmt.Errorf("failed to retrieve timeoff request with id: %s", err)
+		return GetTimeoffResponse{}, fmt.Errorf(
+			"failed to retrieve timeoff request with id: %s",
+			err,
+		)
 	}
 
 	if v, ok := endpoint.ResponseData.(*GetTimeoffResponse); ok {
@@ -184,10 +211,19 @@ type GetTimeoffResponse struct {
 
 // UpdateTimeoffRequest modifies the timeoff request with the given ID
 // https://www.zoho.com/shifts/api/v1/time-off-requests-api/#update-a-time-off-request
-func (s *API) UpdateTimeoff(id string, request UpdateTimeoffRequest) (data UpdateTimeoffResponse, err error) {
+func (s *API) UpdateTimeoff(
+	id string,
+	request UpdateTimeoffRequest,
+) (data UpdateTimeoffResponse, err error) {
 	endpoint := zoho.Endpoint{
-		Name:         "UpdateTimeoff",
-		URL:          fmt.Sprintf("https://shifts.zoho.%s/api/v1/%s/%s/requests/%s", s.ZohoTLD, s.OrganizationID, TimeoffModule, id),
+		Name: "UpdateTimeoff",
+		URL: fmt.Sprintf(
+			"https://shifts.zoho.%s/api/v1/%s/%s/requests/%s",
+			s.ZohoTLD,
+			s.OrganizationID,
+			TimeoffModule,
+			id,
+		),
 		Method:       zoho.HTTPPut,
 		ResponseData: &UpdateTimeoffResponse{},
 		RequestBody:  request,
@@ -247,15 +283,24 @@ type UpdateTimeoffResponse struct {
 // https://www.zoho.com/shifts/api/v1/time-off-requests-api/#delete-a-time-off-request
 func (s *API) DeleteTimeoffRequest(id string) (data DeleteTimeoffResponse, err error) {
 	endpoint := zoho.Endpoint{
-		Name:         "DeleteTimeoffRequest",
-		URL:          fmt.Sprintf("https://shifts.zoho.%s/api/v1/%s/%s/requests/%s", s.ZohoTLD, s.OrganizationID, TimeoffModule, id),
+		Name: "DeleteTimeoffRequest",
+		URL: fmt.Sprintf(
+			"https://shifts.zoho.%s/api/v1/%s/%s/requests/%s",
+			s.ZohoTLD,
+			s.OrganizationID,
+			TimeoffModule,
+			id,
+		),
 		Method:       zoho.HTTPDelete,
 		ResponseData: &DeleteTimeoffResponse{},
 	}
 
 	err = s.Zoho.HTTPRequest(&endpoint)
 	if err != nil {
-		return DeleteTimeoffResponse{}, fmt.Errorf("failed to delete timeoff request with id: %s", err)
+		return DeleteTimeoffResponse{}, fmt.Errorf(
+			"failed to delete timeoff request with id: %s",
+			err,
+		)
 	}
 
 	if v, ok := endpoint.ResponseData.(*DeleteTimeoffResponse); ok {
@@ -273,8 +318,14 @@ type DeleteTimeoffResponse struct {
 // https://www.zoho.com/shifts/api/v1/time-off-requests-api/#cancel-a-time-off-request
 func (s *API) CancelTimeoffRequest(id string) (data CancelTimeoffResponse, err error) {
 	endpoint := zoho.Endpoint{
-		Name:         "CancelTimeoffRequest",
-		URL:          fmt.Sprintf("https://shifts.zoho.%s/api/v1/%s/%s/requests/%s/cancel", s.ZohoTLD, s.OrganizationID, TimeoffModule, id),
+		Name: "CancelTimeoffRequest",
+		URL: fmt.Sprintf(
+			"https://shifts.zoho.%s/api/v1/%s/%s/requests/%s/cancel",
+			s.ZohoTLD,
+			s.OrganizationID,
+			TimeoffModule,
+			id,
+		),
 		Method:       zoho.HTTPPost,
 		ResponseData: &CancelTimeoffResponse{},
 	}
@@ -325,8 +376,14 @@ type CancelTimeoffResponse struct {
 // https://www.zoho.com/shifts/api/v1/time-off-requests-api/#approve-a-time-off-request
 func (s *API) ApproveTimeoffRequest(id string) (data ApproveTimeoffResponse, err error) {
 	endpoint := zoho.Endpoint{
-		Name:         "ApproveTimeoffRequest",
-		URL:          fmt.Sprintf("https://shifts.zoho.%s/api/v1/%s/%s/requests/%s/approve", s.ZohoTLD, s.OrganizationID, TimeoffModule, id),
+		Name: "ApproveTimeoffRequest",
+		URL: fmt.Sprintf(
+			"https://shifts.zoho.%s/api/v1/%s/%s/requests/%s/approve",
+			s.ZohoTLD,
+			s.OrganizationID,
+			TimeoffModule,
+			id,
+		),
 		Method:       zoho.HTTPPost,
 		ResponseData: &ApproveTimeoffResponse{},
 	}
@@ -377,8 +434,14 @@ type ApproveTimeoffResponse struct {
 // https://www.zoho.com/shifts/api/v1/time-off-requests-api/#deny-a-time-off-request
 func (s *API) DenyTimeoffRequest(id string) (data DenyTimeoffResponse, err error) {
 	endpoint := zoho.Endpoint{
-		Name:         "DenyTimeoffRequest",
-		URL:          fmt.Sprintf("https://shifts.zoho.%s/api/v1/%s/%s/requests/%s/deny", s.ZohoTLD, s.OrganizationID, TimeoffModule, id),
+		Name: "DenyTimeoffRequest",
+		URL: fmt.Sprintf(
+			"https://shifts.zoho.%s/api/v1/%s/%s/requests/%s/deny",
+			s.ZohoTLD,
+			s.OrganizationID,
+			TimeoffModule,
+			id,
+		),
 		Method:       zoho.HTTPPost,
 		ResponseData: &DenyTimeoffResponse{},
 	}

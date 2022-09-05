@@ -11,8 +11,12 @@ import (
 func (c *API) ListCustomerPayments() (data ListCustomerPaymentsResponse, err error) {
 
 	endpoint := zoho.Endpoint{
-		Name:          CustomerPaymentsModule,
-		URL:           fmt.Sprintf("https://invoice.zoho.%s/api/v3/%s", c.ZohoTLD, CustomerPaymentsModule),
+		Name: CustomerPaymentsModule,
+		URL: fmt.Sprintf(
+			"https://invoice.zoho.%s/api/v3/%s",
+			c.ZohoTLD,
+			CustomerPaymentsModule,
+		),
 		Method:        zoho.HTTPGet,
 		ResponseData:  &ListCustomerPaymentsResponse{},
 		URLParameters: map[string]zoho.Parameter{
@@ -31,7 +35,10 @@ func (c *API) ListCustomerPayments() (data ListCustomerPaymentsResponse, err err
 
 	err = c.Zoho.HTTPRequest(&endpoint)
 	if err != nil {
-		return ListCustomerPaymentsResponse{}, fmt.Errorf("Failed to retrieve expense reports: %s", err)
+		return ListCustomerPaymentsResponse{}, fmt.Errorf(
+			"Failed to retrieve expense reports: %s",
+			err,
+		)
 	}
 
 	if v, ok := endpoint.ResponseData.(*ListCustomerPaymentsResponse); ok {
@@ -41,7 +48,9 @@ func (c *API) ListCustomerPayments() (data ListCustomerPaymentsResponse, err err
 		}
 		return *v, nil
 	}
-	return ListCustomerPaymentsResponse{}, fmt.Errorf("Data retrieved was not 'ListCustomerPaymentsResponse'")
+	return ListCustomerPaymentsResponse{}, fmt.Errorf(
+		"Data retrieved was not 'ListCustomerPaymentsResponse'",
+	)
 }
 
 type ListCustomerPaymentsResponse struct {

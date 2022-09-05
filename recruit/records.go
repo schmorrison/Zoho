@@ -8,10 +8,18 @@ import (
 )
 
 // https://www.zoho.com/recruit/developer-guide/apiv2/search-records.html
-func (c *API) SearchRecords(request interface{}, module Module, params map[string]zoho.Parameter) (data interface{}, err error) {
+func (c *API) SearchRecords(
+	request interface{},
+	module Module,
+	params map[string]zoho.Parameter,
+) (data interface{}, err error) {
 	endpoint := zoho.Endpoint{
-		Name:         "SearchRecords",
-		URL:          fmt.Sprintf("https://recruit.zoho.%s/recruit/v2/%s/search", c.ZohoTLD, module),
+		Name: "SearchRecords",
+		URL: fmt.Sprintf(
+			"https://recruit.zoho.%s/recruit/v2/%s/search",
+			c.ZohoTLD,
+			module,
+		),
 		Method:       zoho.HTTPGet,
 		ResponseData: request,
 		URLParameters: map[string]zoho.Parameter{
@@ -43,7 +51,10 @@ func (c *API) SearchRecords(request interface{}, module Module, params map[strin
 }
 
 // https://www.zoho.com/recruit/developer-guide/apiv2/insert-records.html
-func (c *API) InsertRecords(request InsertRecords, module Module) (data InsertRecordsResponse, err error) {
+func (c *API) InsertRecords(
+	request InsertRecords,
+	module Module,
+) (data InsertRecordsResponse, err error) {
 	endpoint := zoho.Endpoint{
 		Name:         "InsertRecords",
 		URL:          fmt.Sprintf("https://recruit.zoho.%s/recruit/v2/%s", c.ZohoTLD, module),
@@ -54,7 +65,11 @@ func (c *API) InsertRecords(request InsertRecords, module Module) (data InsertRe
 
 	err = c.Zoho.HTTPRequest(&endpoint)
 	if err != nil {
-		return InsertRecordsResponse{}, fmt.Errorf("failed to insert records of %s: %s", module, err)
+		return InsertRecordsResponse{}, fmt.Errorf(
+			"failed to insert records of %s: %s",
+			module,
+			err,
+		)
 	}
 
 	if v, ok := endpoint.ResponseData.(*InsertRecordsResponse); ok {
@@ -112,10 +127,17 @@ type InsertRecordsResponse struct {
 //        zohorecruit.Candidate
 //        CustomField string `json:"Custom_Field"`
 //     }
-func (c *API) UpsertRecords(request UpsertRecords, module Module) (data InsertRecordsResponse, err error) {
+func (c *API) UpsertRecords(
+	request UpsertRecords,
+	module Module,
+) (data InsertRecordsResponse, err error) {
 	endpoint := zoho.Endpoint{
-		Name:         "UpsertRecords",
-		URL:          fmt.Sprintf("https://recruit.zoho.%s/recruit/v2/%s/upsert", c.ZohoTLD, module),
+		Name: "UpsertRecords",
+		URL: fmt.Sprintf(
+			"https://recruit.zoho.%s/recruit/v2/%s/upsert",
+			c.ZohoTLD,
+			module,
+		),
 		Method:       zoho.HTTPPost,
 		ResponseData: &InsertRecordsResponse{},
 		RequestBody:  request,
@@ -123,7 +145,11 @@ func (c *API) UpsertRecords(request UpsertRecords, module Module) (data InsertRe
 
 	err = c.Zoho.HTTPRequest(&endpoint)
 	if err != nil {
-		return InsertRecordsResponse{}, fmt.Errorf("failed to insert records of %s: %s", module, err)
+		return InsertRecordsResponse{}, fmt.Errorf(
+			"failed to insert records of %s: %s",
+			module,
+			err,
+		)
 	}
 
 	if v, ok := endpoint.ResponseData.(*InsertRecordsResponse); ok {
@@ -140,10 +166,18 @@ type UpsertRecords struct {
 }
 
 // https://www.zoho.com/recruit/developer-guide/apiv2/get-associated-records.html
-func (c *API) GetAssociatedRecords(module Module, recordId string) (data AssociateRecordsResponse, err error) {
+func (c *API) GetAssociatedRecords(
+	module Module,
+	recordId string,
+) (data AssociateRecordsResponse, err error) {
 	endpoint := zoho.Endpoint{
-		Name:         "GetAssociatedRecords",
-		URL:          fmt.Sprintf("https://recruit.zoho.%s/recruit/v2/%s/%s/associate", c.ZohoTLD, module, recordId),
+		Name: "GetAssociatedRecords",
+		URL: fmt.Sprintf(
+			"https://recruit.zoho.%s/recruit/v2/%s/%s/associate",
+			c.ZohoTLD,
+			module,
+			recordId,
+		),
 		Method:       zoho.HTTPGet,
 		ResponseData: &AssociateRecordsResponse{},
 		URLParameters: map[string]zoho.Parameter{
@@ -156,7 +190,11 @@ func (c *API) GetAssociatedRecords(module Module, recordId string) (data Associa
 
 	err = c.Zoho.HTTPRequest(&endpoint)
 	if err != nil {
-		return AssociateRecordsResponse{}, fmt.Errorf("failed to insert records of %s: %s", module, err)
+		return AssociateRecordsResponse{}, fmt.Errorf(
+			"failed to insert records of %s: %s",
+			module,
+			err,
+		)
 	}
 
 	if v, ok := endpoint.ResponseData.(*AssociateRecordsResponse); ok {

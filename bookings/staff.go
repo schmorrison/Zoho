@@ -2,13 +2,21 @@ package bookings
 
 import (
 	"fmt"
+
 	zoho "github.com/schmorrison/Zoho"
 )
 
-func (c *API) FetchStaff(serviceID zoho.Parameter, staffID zoho.Parameter) (data StaffResponse, err error) {
+func (c *API) FetchStaff(
+	serviceID zoho.Parameter,
+	staffID zoho.Parameter,
+) (data StaffResponse, err error) {
 	endpoint := zoho.Endpoint{
-		Name:         FetchStaffModule,
-		URL:          fmt.Sprintf("https://www.zohoapis.%s/bookings/v1/json/%s", c.ZohoTLD,FetchStaffModule),
+		Name: FetchStaffModule,
+		URL: fmt.Sprintf(
+			"https://www.zohoapis.%s/bookings/v1/json/%s",
+			c.ZohoTLD,
+			FetchStaffModule,
+		),
 		Method:       zoho.HTTPGet,
 		ResponseData: &StaffResponse{},
 		URLParameters: map[string]zoho.Parameter{
@@ -27,7 +35,7 @@ func (c *API) FetchStaff(serviceID zoho.Parameter, staffID zoho.Parameter) (data
 		return StaffResponse{}, fmt.Errorf("Failed to retrieve staffs: %s", err)
 	}
 
-	if v,ok := endpoint.ResponseData.(*StaffResponse); ok {
+	if v, ok := endpoint.ResponseData.(*StaffResponse); ok {
 		return *v, nil
 	}
 	return StaffResponse{}, fmt.Errorf("Data retrieved was not 'Staff Response'")
@@ -38,7 +46,7 @@ type StaffResponse struct {
 		ReturnValue struct {
 			Data []struct {
 				Name string `json:"name"`
-				Id string `json:"id"`
+				Id   string `json:"id"`
 			} `json:"data"`
 		} `json:"returnvalue"`
 		Status string `json:"status"`

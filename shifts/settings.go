@@ -8,10 +8,18 @@ import (
 
 // GetAllSchedules returns a list of all schedules
 // https://www.zoho.com/shifts/api/v1/schedules-api/#get-all-schedules
-func (s *API) GetAllSchedules(params map[string]zoho.Parameter) (data GetSchedulesResponse, err error) {
+func (s *API) GetAllSchedules(
+	params map[string]zoho.Parameter,
+) (data GetSchedulesResponse, err error) {
 	endpoint := zoho.Endpoint{
-		Name:         "GetAllSchedules",
-		URL:          fmt.Sprintf("https://shifts.zoho.%s/api/v1/%s/%s/%s", s.ZohoTLD, s.OrganizationID, SettingsModule, schedulesModule),
+		Name: "GetAllSchedules",
+		URL: fmt.Sprintf(
+			"https://shifts.zoho.%s/api/v1/%s/%s/%s",
+			s.ZohoTLD,
+			s.OrganizationID,
+			SettingsModule,
+			schedulesModule,
+		),
 		Method:       zoho.HTTPGet,
 		ResponseData: &GetSchedulesResponse{},
 	}
@@ -39,17 +47,27 @@ type GetSchedulesResponse struct {
 
 // CreateSchedule adds a new record to the list of schedules
 // https://www.zoho.com/shifts/api/v1/schedules-api/#create-a-schedule
-func (s *API) CreateSchedule(request CreateScheduleRequest) (data CreateScheduleResponse, err error) {
+func (s *API) CreateSchedule(
+	request CreateScheduleRequest,
+) (data CreateScheduleResponse, err error) {
 	endpoint := zoho.Endpoint{
-		Name:         "CreateSchedule",
-		URL:          fmt.Sprintf("https://shifts.zoho.%s/api/v1/%s/%s/%s", s.ZohoTLD, s.OrganizationID, SettingsModule, schedulesModule),
+		Name: "CreateSchedule",
+		URL: fmt.Sprintf(
+			"https://shifts.zoho.%s/api/v1/%s/%s/%s",
+			s.ZohoTLD,
+			s.OrganizationID,
+			SettingsModule,
+			schedulesModule,
+		),
 		Method:       zoho.HTTPPost,
 		ResponseData: &CreateScheduleResponse{},
 		RequestBody:  request,
 	}
 
 	if request.Name == "" {
-		return CreateScheduleResponse{}, fmt.Errorf("failed to create schedule: name is a required field")
+		return CreateScheduleResponse{}, fmt.Errorf(
+			"failed to create schedule: name is a required field",
+		)
 	}
 
 	err = s.Zoho.HTTPRequest(&endpoint)
@@ -82,10 +100,20 @@ type CreateScheduleResponse struct {
 
 // UpdateSchedule modifies the schedule with the given ID
 // https://www.zoho.com/shifts/api/v1/schedules-api/#update-a-schedule
-func (s *API) UpdateSchedule(id string, request UpdateScheduleRequest) (data UpdateScheduleResponse, err error) {
+func (s *API) UpdateSchedule(
+	id string,
+	request UpdateScheduleRequest,
+) (data UpdateScheduleResponse, err error) {
 	endpoint := zoho.Endpoint{
-		Name:         "UpdateSchedule",
-		URL:          fmt.Sprintf("https://shifts.zoho.%s/api/v1/%s/%s/%s/%s", s.ZohoTLD, s.OrganizationID, SettingsModule, schedulesModule, id),
+		Name: "UpdateSchedule",
+		URL: fmt.Sprintf(
+			"https://shifts.zoho.%s/api/v1/%s/%s/%s/%s",
+			s.ZohoTLD,
+			s.OrganizationID,
+			SettingsModule,
+			schedulesModule,
+			id,
+		),
 		Method:       zoho.HTTPPut,
 		ResponseData: &UpdateScheduleResponse{},
 		RequestBody:  request,
@@ -124,8 +152,15 @@ type UpdateScheduleResponse struct {
 // https://www.zoho.com/shifts/api/v1/schedules-api/#delete-a-schedule
 func (s *API) DeleteSchedule(id string) (data DeleteScheduleResponse, err error) {
 	endpoint := zoho.Endpoint{
-		Name:         "DeleteSchedule",
-		URL:          fmt.Sprintf("https://shifts.zoho.%s/api/v1/%s/%s/%s/%s", s.ZohoTLD, s.OrganizationID, SettingsModule, schedulesModule, id),
+		Name: "DeleteSchedule",
+		URL: fmt.Sprintf(
+			"https://shifts.zoho.%s/api/v1/%s/%s/%s/%s",
+			s.ZohoTLD,
+			s.OrganizationID,
+			SettingsModule,
+			schedulesModule,
+			id,
+		),
 		Method:       zoho.HTTPDelete,
 		ResponseData: &DeleteScheduleResponse{},
 	}
@@ -148,10 +183,18 @@ type DeleteScheduleResponse struct {
 
 // GetAllPositions returns a list of all position
 // https://www.zoho.com/shifts/api/v1/positions-api/#get-all-positions
-func (s *API) GetAllPositions(params map[string]zoho.Parameter) (data GetPositionsResponse, err error) {
+func (s *API) GetAllPositions(
+	params map[string]zoho.Parameter,
+) (data GetPositionsResponse, err error) {
 	endpoint := zoho.Endpoint{
-		Name:         "GetAllPositions",
-		URL:          fmt.Sprintf("https://shifts.zoho.%s/api/v1/%s/%s/%s", s.ZohoTLD, s.OrganizationID, SettingsModule, positionsModule),
+		Name: "GetAllPositions",
+		URL: fmt.Sprintf(
+			"https://shifts.zoho.%s/api/v1/%s/%s/%s",
+			s.ZohoTLD,
+			s.OrganizationID,
+			SettingsModule,
+			positionsModule,
+		),
 		Method:       zoho.HTTPGet,
 		ResponseData: &GetPositionsResponse{},
 	}
@@ -180,17 +223,27 @@ type GetPositionsResponse struct {
 
 // CreatePosition adds a new record to the list of positions
 // https://www.zoho.com/shifts/api/v1/positions-api/#create-a-position
-func (s *API) CreatePosition(request CreatePositionRequest) (data CreatePositionResponse, err error) {
+func (s *API) CreatePosition(
+	request CreatePositionRequest,
+) (data CreatePositionResponse, err error) {
 	endpoint := zoho.Endpoint{
-		Name:         "CreatePosition",
-		URL:          fmt.Sprintf("https://shifts.zoho.%s/api/v1/%s/%s/%s", s.ZohoTLD, s.OrganizationID, SettingsModule, positionsModule),
+		Name: "CreatePosition",
+		URL: fmt.Sprintf(
+			"https://shifts.zoho.%s/api/v1/%s/%s/%s",
+			s.ZohoTLD,
+			s.OrganizationID,
+			SettingsModule,
+			positionsModule,
+		),
 		Method:       zoho.HTTPPost,
 		ResponseData: &CreatePositionResponse{},
 		RequestBody:  request,
 	}
 
 	if request.Name == "" {
-		return CreatePositionResponse{}, fmt.Errorf("failed to create position: name is a required field")
+		return CreatePositionResponse{}, fmt.Errorf(
+			"failed to create position: name is a required field",
+		)
 	}
 
 	err = s.Zoho.HTTPRequest(&endpoint)
@@ -225,10 +278,20 @@ type CreatePositionResponse struct {
 
 // UpdatePosition modifies the position with the given ID
 // https://www.zoho.com/shifts/api/v1/positions-api/#update-a-position
-func (s *API) UpdatePosition(id string, request UpdatePositionRequest) (data UpdatePositionResponse, err error) {
+func (s *API) UpdatePosition(
+	id string,
+	request UpdatePositionRequest,
+) (data UpdatePositionResponse, err error) {
 	endpoint := zoho.Endpoint{
-		Name:         "UpdatePosition",
-		URL:          fmt.Sprintf("https://shifts.zoho.%s/api/v1/%s/%s/%s/%s", s.ZohoTLD, s.OrganizationID, SettingsModule, positionsModule, id),
+		Name: "UpdatePosition",
+		URL: fmt.Sprintf(
+			"https://shifts.zoho.%s/api/v1/%s/%s/%s/%s",
+			s.ZohoTLD,
+			s.OrganizationID,
+			SettingsModule,
+			positionsModule,
+			id,
+		),
 		Method:       zoho.HTTPPut,
 		ResponseData: &UpdatePositionResponse{},
 		RequestBody:  request,
@@ -268,8 +331,15 @@ type UpdatePositionResponse struct {
 // https://www.zoho.com/shifts/api/v1/positions-api/#delete-a-position
 func (s *API) DeletePosition(id string) (data DeletePositionResponse, err error) {
 	endpoint := zoho.Endpoint{
-		Name:         "DeletePosition",
-		URL:          fmt.Sprintf("https://shifts.zoho.%s/api/v1/%s/%s/%s/%s", s.ZohoTLD, s.OrganizationID, SettingsModule, positionsModule, id),
+		Name: "DeletePosition",
+		URL: fmt.Sprintf(
+			"https://shifts.zoho.%s/api/v1/%s/%s/%s/%s",
+			s.ZohoTLD,
+			s.OrganizationID,
+			SettingsModule,
+			positionsModule,
+			id,
+		),
 		Method:       zoho.HTTPDelete,
 		ResponseData: &DeletePositionResponse{},
 	}
@@ -292,10 +362,18 @@ type DeletePositionResponse struct {
 
 // GetAllJobsites returns a list of all job sites
 // https://www.zoho.com/shifts/api/v1/job-sites-api/#get-all-job-sites
-func (s *API) GetAllJobsites(params map[string]zoho.Parameter) (data GetJobsitesResponse, err error) {
+func (s *API) GetAllJobsites(
+	params map[string]zoho.Parameter,
+) (data GetJobsitesResponse, err error) {
 	endpoint := zoho.Endpoint{
-		Name:         "GetAllJobsites",
-		URL:          fmt.Sprintf("https://shifts.zoho.%s/api/v1/%s/%s/%s", s.ZohoTLD, s.OrganizationID, SettingsModule, jobSitesModule),
+		Name: "GetAllJobsites",
+		URL: fmt.Sprintf(
+			"https://shifts.zoho.%s/api/v1/%s/%s/%s",
+			s.ZohoTLD,
+			s.OrganizationID,
+			SettingsModule,
+			jobSitesModule,
+		),
 		Method:       zoho.HTTPGet,
 		ResponseData: &GetJobsitesResponse{},
 		URLParameters: map[string]zoho.Parameter{
@@ -338,15 +416,23 @@ type GetJobsitesResponse struct {
 // https://www.zoho.com/shifts/api/v1/job-sites-api/#create-a-job-site
 func (s *API) CreateJobsite(request CreateJobsiteRequest) (data CreateJobsiteResponse, err error) {
 	endpoint := zoho.Endpoint{
-		Name:         "CreateJobsite",
-		URL:          fmt.Sprintf("https://shifts.zoho.%s/api/v1/%s/%s/%s", s.ZohoTLD, s.OrganizationID, SettingsModule, jobSitesModule),
+		Name: "CreateJobsite",
+		URL: fmt.Sprintf(
+			"https://shifts.zoho.%s/api/v1/%s/%s/%s",
+			s.ZohoTLD,
+			s.OrganizationID,
+			SettingsModule,
+			jobSitesModule,
+		),
 		Method:       zoho.HTTPPost,
 		ResponseData: &CreateJobsiteResponse{},
 		RequestBody:  request,
 	}
 
 	if request.Name == "" {
-		return CreateJobsiteResponse{}, fmt.Errorf("failed to create job site: name is a required field")
+		return CreateJobsiteResponse{}, fmt.Errorf(
+			"failed to create job site: name is a required field",
+		)
 	}
 
 	err = s.Zoho.HTTPRequest(&endpoint)
@@ -387,10 +473,20 @@ type CreateJobsiteResponse struct {
 
 // UpdateJobsite modifies the job site with the given ID
 // https://www.zoho.com/shifts/api/v1/job-sites-api/#update-a-job-site
-func (s *API) UpdateJobsite(id string, request UpdateJobsiteRequest) (data UpdateJobsiteResponse, err error) {
+func (s *API) UpdateJobsite(
+	id string,
+	request UpdateJobsiteRequest,
+) (data UpdateJobsiteResponse, err error) {
 	endpoint := zoho.Endpoint{
-		Name:         "UpdateJobsite",
-		URL:          fmt.Sprintf("https://shifts.zoho.%s/api/v1/%s/%s/%s/%s", s.ZohoTLD, s.OrganizationID, SettingsModule, jobSitesModule, id),
+		Name: "UpdateJobsite",
+		URL: fmt.Sprintf(
+			"https://shifts.zoho.%s/api/v1/%s/%s/%s/%s",
+			s.ZohoTLD,
+			s.OrganizationID,
+			SettingsModule,
+			jobSitesModule,
+			id,
+		),
 		Method:       zoho.HTTPPut,
 		ResponseData: &UpdateJobsiteResponse{},
 		RequestBody:  request,
@@ -436,8 +532,15 @@ type UpdateJobsiteResponse struct {
 // https://www.zoho.com/shifts/api/v1/job-sites-api/#delete-a-job-site
 func (s *API) DeleteJobsite(id string) (data DeleteJobsiteResponse, err error) {
 	endpoint := zoho.Endpoint{
-		Name:         "DeleteJobsite",
-		URL:          fmt.Sprintf("https://shifts.zoho.%s/api/v1/%s/%s/%s/%s", s.ZohoTLD, s.OrganizationID, SettingsModule, jobSitesModule, id),
+		Name: "DeleteJobsite",
+		URL: fmt.Sprintf(
+			"https://shifts.zoho.%s/api/v1/%s/%s/%s/%s",
+			s.ZohoTLD,
+			s.OrganizationID,
+			SettingsModule,
+			jobSitesModule,
+			id,
+		),
 		Method:       zoho.HTTPDelete,
 		ResponseData: &DeleteJobsiteResponse{},
 	}

@@ -10,8 +10,12 @@ import (
 // https://www.zoho.com/subscriptions/api/v1/#Invoices_Retrieve_a_subscription
 func (s *API) GetCustomer(id string) (data CustomerResponse, err error) {
 	endpoint := zoho.Endpoint{
-		Name:         "customers",
-		URL:          fmt.Sprintf("https://subscriptions.zoho.%s/api/v1/customers/%s", s.ZohoTLD, id),
+		Name: "customers",
+		URL: fmt.Sprintf(
+			"https://subscriptions.zoho.%s/api/v1/customers/%s",
+			s.ZohoTLD,
+			id,
+		),
 		Method:       zoho.HTTPGet,
 		ResponseData: &CustomerResponse{},
 		Headers: map[string]string{

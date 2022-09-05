@@ -10,10 +10,16 @@ import (
 )
 
 // https://www.zoho.com/recruit/developer-guide/apiv2/get-records.html
-func (c *API) GetJobOpenings(params map[string]zoho.Parameter) (data JobOpeningsResponse, err error) {
+func (c *API) GetJobOpenings(
+	params map[string]zoho.Parameter,
+) (data JobOpeningsResponse, err error) {
 	endpoint := zoho.Endpoint{
-		Name:         "GetJobOpenings",
-		URL:          fmt.Sprintf("https://recruit.zoho.%s/recruit/v2/%s", c.ZohoTLD, JobOpeningsModule),
+		Name: "GetJobOpenings",
+		URL: fmt.Sprintf(
+			"https://recruit.zoho.%s/recruit/v2/%s",
+			c.ZohoTLD,
+			JobOpeningsModule,
+		),
 		Method:       zoho.HTTPGet,
 		ResponseData: &JobOpeningsResponse{},
 		URLParameters: map[string]zoho.Parameter{
@@ -51,8 +57,13 @@ func (c *API) GetJobOpenings(params map[string]zoho.Parameter) (data JobOpenings
 // https://www.zoho.com/recruit/developer-guide/apiv2/get-records.html
 func (c *API) GetJobOpeningsById(id string) (data JobOpeningsResponse, err error) {
 	endpoint := zoho.Endpoint{
-		Name:         "GetJobOpeningsById",
-		URL:          fmt.Sprintf("https://recruit.zoho.%s/recruit/v2/%s/%s", c.ZohoTLD, JobOpeningsModule, id),
+		Name: "GetJobOpeningsById",
+		URL: fmt.Sprintf(
+			"https://recruit.zoho.%s/recruit/v2/%s/%s",
+			c.ZohoTLD,
+			JobOpeningsModule,
+			id,
+		),
 		Method:       zoho.HTTPGet,
 		ResponseData: &JobOpeningsResponse{},
 	}
@@ -70,10 +81,16 @@ func (c *API) GetJobOpeningsById(id string) (data JobOpeningsResponse, err error
 }
 
 // https://www.zoho.com/recruit/developer-guide/apiv2/search-records.html
-func (c *API) SearchJobOpenings(params map[string]zoho.Parameter) (data JobOpeningsResponse, err error) {
+func (c *API) SearchJobOpenings(
+	params map[string]zoho.Parameter,
+) (data JobOpeningsResponse, err error) {
 	endpoint := zoho.Endpoint{
-		Name:         "SearchJobOpenings",
-		URL:          fmt.Sprintf("https://recruit.zoho.%s/recruit/v2/%s/search", c.ZohoTLD, JobOpeningsModule),
+		Name: "SearchJobOpenings",
+		URL: fmt.Sprintf(
+			"https://recruit.zoho.%s/recruit/v2/%s/search",
+			c.ZohoTLD,
+			JobOpeningsModule,
+		),
 		Method:       zoho.HTTPGet,
 		ResponseData: &JobOpeningsResponse{},
 		URLParameters: map[string]zoho.Parameter{
@@ -91,7 +108,11 @@ func (c *API) SearchJobOpenings(params map[string]zoho.Parameter) (data JobOpeni
 
 	err = c.Zoho.HTTPRequest(&endpoint)
 	if err != nil {
-		return JobOpeningsResponse{}, fmt.Errorf("failed to retrieve searched %s: %s", JobOpeningsModule, err.Error())
+		return JobOpeningsResponse{}, fmt.Errorf(
+			"failed to retrieve searched %s: %s",
+			JobOpeningsModule,
+			err.Error(),
+		)
 	}
 
 	if v, ok := endpoint.ResponseData.(*JobOpeningsResponse); ok {
@@ -181,17 +202,28 @@ type JobOpeningsResponse struct {
 }
 
 // https://www.zoho.com/recruit/developer-guide/apiv2/get-associated-records.html
-func (c *API) GetAssociatedCandidates(recordId string) (data AssociatedCandidatesResponse, err error) {
+func (c *API) GetAssociatedCandidates(
+	recordId string,
+) (data AssociatedCandidatesResponse, err error) {
 	endpoint := zoho.Endpoint{
-		Name:         "GetAssociatedCandidates",
-		URL:          fmt.Sprintf("https://recruit.zoho.%s/recruit/v2/%s/%s/associate", c.ZohoTLD, Job_OpeningsModule, recordId),
+		Name: "GetAssociatedCandidates",
+		URL: fmt.Sprintf(
+			"https://recruit.zoho.%s/recruit/v2/%s/%s/associate",
+			c.ZohoTLD,
+			Job_OpeningsModule,
+			recordId,
+		),
 		Method:       zoho.HTTPGet,
 		ResponseData: &AssociatedCandidatesResponse{},
 	}
 
 	err = c.Zoho.HTTPRequest(&endpoint)
 	if err != nil {
-		return AssociatedCandidatesResponse{}, fmt.Errorf("failed to get associated candidates of %s: %s", JobOpeningsModule, err.Error())
+		return AssociatedCandidatesResponse{}, fmt.Errorf(
+			"failed to get associated candidates of %s: %s",
+			JobOpeningsModule,
+			err.Error(),
+		)
 	}
 
 	if v, ok := endpoint.ResponseData.(*AssociatedCandidatesResponse); ok {
@@ -278,10 +310,16 @@ type AssociatedCandidatesResponse struct {
 
 // ============================== ABANDONED DUE TO ZOHO API v1 not properly working ==============================
 // https://help.zoho.com/portal/en/kb/recruit/developer-guide/api-methods/articles/getsearchrecords
-func (c *API) XMLSearchJobOpenings(params map[string]zoho.Parameter) (data JobOpeningsResponse, err error) {
+func (c *API) XMLSearchJobOpenings(
+	params map[string]zoho.Parameter,
+) (data JobOpeningsResponse, err error) {
 	endpoint := zoho.Endpoint{
-		Name:         "XMLSearchJobOpenings",
-		URL:          fmt.Sprintf("https://recruit.zoho.%s/recruit/private/xml/%s/getSearchRecords", c.ZohoTLD, JobOpeningsModule),
+		Name: "XMLSearchJobOpenings",
+		URL: fmt.Sprintf(
+			"https://recruit.zoho.%s/recruit/private/xml/%s/getSearchRecords",
+			c.ZohoTLD,
+			JobOpeningsModule,
+		),
 		Method:       zoho.HTTPGet,
 		ResponseData: &XMLJobOpeningsResponse{},
 		URLParameters: map[string]zoho.Parameter{
@@ -304,7 +342,11 @@ func (c *API) XMLSearchJobOpenings(params map[string]zoho.Parameter) (data JobOp
 
 	err = c.Zoho.HTTPRequest(&endpoint)
 	if err != nil {
-		return JobOpeningsResponse{}, fmt.Errorf("failed to retrieve XML searched %s: %s", JobOpeningsModule, err.Error())
+		return JobOpeningsResponse{}, fmt.Errorf(
+			"failed to retrieve XML searched %s: %s",
+			JobOpeningsModule,
+			err.Error(),
+		)
 	}
 
 	if v, ok := endpoint.ResponseData.(*XMLJobOpeningsResponse); ok {
@@ -343,8 +385,12 @@ func (c *API) XMLSearchJobOpenings(params map[string]zoho.Parameter) (data JobOp
 // https://help.zoho.com/portal/en/kb/recruit/developer-guide/api-methods/articles/getrecordbyid#Purpose
 func (c *API) XMLgetRecordById(params map[string]zoho.Parameter) (data JobOpening, err error) {
 	endpoint := zoho.Endpoint{
-		Name:         "XMLgetRecordById",
-		URL:          fmt.Sprintf("https://recruit.zoho.%s/recruit/private/xml/%s/getRecordById", c.ZohoTLD, JobOpeningsModule),
+		Name: "XMLgetRecordById",
+		URL: fmt.Sprintf(
+			"https://recruit.zoho.%s/recruit/private/xml/%s/getRecordById",
+			c.ZohoTLD,
+			JobOpeningsModule,
+		),
 		Method:       zoho.HTTPGet,
 		ResponseData: &XMLJobOpeningsResponse{},
 		URLParameters: map[string]zoho.Parameter{
@@ -364,7 +410,11 @@ func (c *API) XMLgetRecordById(params map[string]zoho.Parameter) (data JobOpenin
 
 	err = c.Zoho.HTTPRequest(&endpoint)
 	if err != nil {
-		return JobOpening{}, fmt.Errorf("failed to retrieve XML searched %s: %s", JobOpeningsModule, err.Error())
+		return JobOpening{}, fmt.Errorf(
+			"failed to retrieve XML searched %s: %s",
+			JobOpeningsModule,
+			err.Error(),
+		)
 	}
 
 	if v, ok := endpoint.ResponseData.(*XMLJobOpeningsResponse); ok {
@@ -405,10 +455,16 @@ type XMLJobOpeningsResponse struct {
 }
 
 // https://help.zoho.com/portal/en/kb/recruit/developer-guide/api-methods/articles/getrecords#Request_Parameters
-func (c *API) XMLGetRecords(params map[string]zoho.Parameter) (data XMLGetRecordsResponse, err error) {
+func (c *API) XMLGetRecords(
+	params map[string]zoho.Parameter,
+) (data XMLGetRecordsResponse, err error) {
 	endpoint := zoho.Endpoint{
-		Name:         "XMLGetRecords",
-		URL:          fmt.Sprintf("https://recruit.zoho.%s/recruit/private/xml/%s/getRecordById", c.ZohoTLD, JobOpeningsModule),
+		Name: "XMLGetRecords",
+		URL: fmt.Sprintf(
+			"https://recruit.zoho.%s/recruit/private/xml/%s/getRecordById",
+			c.ZohoTLD,
+			JobOpeningsModule,
+		),
 		Method:       zoho.HTTPGet,
 		ResponseData: &XMLGetRecordsResponse{},
 		URLParameters: map[string]zoho.Parameter{
@@ -428,7 +484,11 @@ func (c *API) XMLGetRecords(params map[string]zoho.Parameter) (data XMLGetRecord
 
 	err = c.Zoho.HTTPRequest(&endpoint)
 	if err != nil {
-		return XMLGetRecordsResponse{}, fmt.Errorf("failed to retrieve XML get %s: %s", JobOpeningsModule, err.Error())
+		return XMLGetRecordsResponse{}, fmt.Errorf(
+			"failed to retrieve XML get %s: %s",
+			JobOpeningsModule,
+			err.Error(),
+		)
 	}
 
 	if v, ok := endpoint.ResponseData.(*XMLGetRecordsResponse); ok {

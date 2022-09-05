@@ -9,10 +9,16 @@ import (
 // GetContactsRecords returns a list of all records
 // https://www.zoho.com/recruit/developer-guide/apiv2/get-records.html
 // https://recruit.zoho.eu/recruit/v2/Contacts
-func (c *API) GetContactsRecords(params map[string]zoho.Parameter) (data ContactsRecordsResponse, err error) {
+func (c *API) GetContactsRecords(
+	params map[string]zoho.Parameter,
+) (data ContactsRecordsResponse, err error) {
 	endpoint := zoho.Endpoint{
-		Name:         "GetContactsRecords",
-		URL:          fmt.Sprintf("https://recruit.zoho.%s/recruit/v2/%s", c.ZohoTLD, ContactsModule),
+		Name: "GetContactsRecords",
+		URL: fmt.Sprintf(
+			"https://recruit.zoho.%s/recruit/v2/%s",
+			c.ZohoTLD,
+			ContactsModule,
+		),
 		Method:       zoho.HTTPGet,
 		ResponseData: &ContactsRecordsResponse{},
 		URLParameters: map[string]zoho.Parameter{
@@ -52,15 +58,23 @@ func (c *API) GetContactsRecords(params map[string]zoho.Parameter) (data Contact
 // https://recruit.zoho.eu/recruit/v2/Contacts/{id}
 func (c *API) GetContactsRecordById(id string) (data ContactsRecordsResponse, err error) {
 	endpoint := zoho.Endpoint{
-		Name:         "GetContactsRecordById",
-		URL:          fmt.Sprintf("https://recruit.zoho.%s/recruit/v2/%s/%s", c.ZohoTLD, ContactsModule, id),
+		Name: "GetContactsRecordById",
+		URL: fmt.Sprintf(
+			"https://recruit.zoho.%s/recruit/v2/%s/%s",
+			c.ZohoTLD,
+			ContactsModule,
+			id,
+		),
 		Method:       zoho.HTTPGet,
 		ResponseData: &ContactsRecordsResponse{},
 	}
 
 	err = c.Zoho.HTTPRequest(&endpoint)
 	if err != nil {
-		return ContactsRecordsResponse{}, fmt.Errorf("failed to retrieve JobOpening with id: %s", err)
+		return ContactsRecordsResponse{}, fmt.Errorf(
+			"failed to retrieve JobOpening with id: %s",
+			err,
+		)
 	}
 
 	if v, ok := endpoint.ResponseData.(*ContactsRecordsResponse); ok {

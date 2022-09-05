@@ -8,7 +8,10 @@ import (
 )
 
 // https://www.zoho.com/recruit/developer-guide/apiv2/create-tag.html
-func (c *API) CreateTags(request CreateTagsRequest, params map[string]zoho.Parameter) (data CreateTagsResponse, err error) {
+func (c *API) CreateTags(
+	request CreateTagsRequest,
+	params map[string]zoho.Parameter,
+) (data CreateTagsResponse, err error) {
 	endpoint := zoho.Endpoint{
 		Name:         "CreateTags",
 		URL:          fmt.Sprintf("https://recruit.zoho.%s/recruit/v2/settings/tags", c.ZohoTLD),
@@ -37,7 +40,11 @@ func (c *API) CreateTags(request CreateTagsRequest, params map[string]zoho.Param
 	if v, ok := endpoint.ResponseData.(*CreateTagsResponse); ok {
 		for _, resp := range v.Tags {
 			if resp.Code != "SUCCESS" {
-				return CreateTagsResponse{}, fmt.Errorf("failed to create Tag(s): %s: %s", resp.Code, resp.Message)
+				return CreateTagsResponse{}, fmt.Errorf(
+					"failed to create Tag(s): %s: %s",
+					resp.Code,
+					resp.Message,
+				)
 			}
 		}
 		return *v, nil
@@ -75,10 +82,17 @@ type CreateTagsResponse struct {
 }
 
 // https://www.zoho.com/recruit/developer-guide/apiv2/add-tags.html
-func (c *API) AddTagsToIDs(module Module, params map[string]zoho.Parameter) (data AddTagsResponse, err error) {
+func (c *API) AddTagsToIDs(
+	module Module,
+	params map[string]zoho.Parameter,
+) (data AddTagsResponse, err error) {
 	endpoint := zoho.Endpoint{
-		Name:         "AddTagsToIDs",
-		URL:          fmt.Sprintf("https://recruit.zoho.%s/recruit/v2/%s/actions/add_tags", c.ZohoTLD, module),
+		Name: "AddTagsToIDs",
+		URL: fmt.Sprintf(
+			"https://recruit.zoho.%s/recruit/v2/%s/actions/add_tags",
+			c.ZohoTLD,
+			module,
+		),
 		Method:       zoho.HTTPPost,
 		ResponseData: &AddTagsResponse{},
 		URLParameters: map[string]zoho.Parameter{
@@ -106,10 +120,19 @@ func (c *API) AddTagsToIDs(module Module, params map[string]zoho.Parameter) (dat
 }
 
 // https://www.zoho.com/recruit/developer-guide/apiv2/add-tags.html
-func (c *API) AddTagsToId(module Module, ID string, params map[string]zoho.Parameter) (data AddTagsResponse, err error) {
+func (c *API) AddTagsToId(
+	module Module,
+	ID string,
+	params map[string]zoho.Parameter,
+) (data AddTagsResponse, err error) {
 	endpoint := zoho.Endpoint{
-		Name:         "AddTagsToId",
-		URL:          fmt.Sprintf("https://recruit.zoho.%s/recruit/v2/%s/%s/actions/add_tags", c.ZohoTLD, module, ID),
+		Name: "AddTagsToId",
+		URL: fmt.Sprintf(
+			"https://recruit.zoho.%s/recruit/v2/%s/%s/actions/add_tags",
+			c.ZohoTLD,
+			module,
+			ID,
+		),
 		Method:       zoho.HTTPPost,
 		ResponseData: &AddTagsResponse{},
 		URLParameters: map[string]zoho.Parameter{
@@ -131,7 +154,11 @@ func (c *API) AddTagsToId(module Module, ID string, params map[string]zoho.Param
 	if v, ok := endpoint.ResponseData.(*AddTagsResponse); ok {
 		for _, resp := range v.Data {
 			if resp.Code != "SUCCESS" {
-				return AddTagsResponse{}, fmt.Errorf("failed to add Tag(s): %s: %s", resp.Code, resp.Message)
+				return AddTagsResponse{}, fmt.Errorf(
+					"failed to add Tag(s): %s: %s",
+					resp.Code,
+					resp.Message,
+				)
 			}
 		}
 		return *v, nil
@@ -159,8 +186,12 @@ func (c *API) DeleteTagById(tagID string) (data DeleteTagResponse, err error) {
 	}
 
 	endpoint := zoho.Endpoint{
-		Name:         "DeleteTagById",
-		URL:          fmt.Sprintf("https://recruit.zoho.%s/recruit/v2/settings/tags/%s", c.ZohoTLD, tagID),
+		Name: "DeleteTagById",
+		URL: fmt.Sprintf(
+			"https://recruit.zoho.%s/recruit/v2/settings/tags/%s",
+			c.ZohoTLD,
+			tagID,
+		),
 		Method:       zoho.HTTPDelete,
 		ResponseData: &DeleteTagResponse{},
 	}
@@ -189,7 +220,10 @@ type DeleteTagResponse struct {
 }
 
 // https://www.zoho.com/recruit/developer-guide/apiv2/get-tag-list.html
-func (c *API) GetTagsList(module Module, params map[string]zoho.Parameter) (data TagsListResponse, err error) {
+func (c *API) GetTagsList(
+	module Module,
+	params map[string]zoho.Parameter,
+) (data TagsListResponse, err error) {
 	if len(module) == 0 {
 		return TagsListResponse{}, fmt.Errorf("failed to list Tags, module name is missing")
 	}
@@ -214,7 +248,11 @@ func (c *API) GetTagsList(module Module, params map[string]zoho.Parameter) (data
 
 	err = c.Zoho.HTTPRequest(&endpoint)
 	if err != nil {
-		return TagsListResponse{}, fmt.Errorf("failed to retrieve %s TagsList: %s", params["module"], err)
+		return TagsListResponse{}, fmt.Errorf(
+			"failed to retrieve %s TagsList: %s",
+			params["module"],
+			err,
+		)
 	}
 
 	if v, ok := endpoint.ResponseData.(*TagsListResponse); ok {
@@ -247,8 +285,12 @@ type TagsListResponse struct {
 // https://www.zoho.com/recruit/developer-guide/apiv2/update-tags.html
 func (c *API) UpdateTag(ID string, request UpdateTagRequest) (data UpdateTagResponse, err error) {
 	endpoint := zoho.Endpoint{
-		Name:         "UpdateTag",
-		URL:          fmt.Sprintf("https://recruit.zoho.%s/recruit/v2/settings/tags/%s", c.ZohoTLD, ID),
+		Name: "UpdateTag",
+		URL: fmt.Sprintf(
+			"https://recruit.zoho.%s/recruit/v2/settings/tags/%s",
+			c.ZohoTLD,
+			ID,
+		),
 		Method:       zoho.HTTPPut,
 		ResponseData: &UpdateTagResponse{},
 		RequestBody:  request,
@@ -295,10 +337,17 @@ type UpdateTagResponse struct {
 }
 
 // https://www.zoho.com/recruit/developer-guide/apiv2/remove-tags.html
-func (c *API) RemoveTagsFromIDs(module Module, params map[string]zoho.Parameter) (data RemoveTagsResponse, err error) {
+func (c *API) RemoveTagsFromIDs(
+	module Module,
+	params map[string]zoho.Parameter,
+) (data RemoveTagsResponse, err error) {
 	endpoint := zoho.Endpoint{
-		Name:         "RemoveTagsFromIDs",
-		URL:          fmt.Sprintf("https://recruit.zoho.%s/recruit/v2/%s/actions/remove_tags", c.ZohoTLD, module),
+		Name: "RemoveTagsFromIDs",
+		URL: fmt.Sprintf(
+			"https://recruit.zoho.%s/recruit/v2/%s/actions/remove_tags",
+			c.ZohoTLD,
+			module,
+		),
 		Method:       zoho.HTTPPost,
 		ResponseData: &RemoveTagsResponse{},
 		URLParameters: map[string]zoho.Parameter{
@@ -326,10 +375,19 @@ func (c *API) RemoveTagsFromIDs(module Module, params map[string]zoho.Parameter)
 }
 
 // https://www.zoho.com/recruit/developer-guide/apiv2/remove-tags.html
-func (c *API) RemoveTagsFromId(module Module, ID string, params map[string]zoho.Parameter) (data RemoveTagsResponse, err error) {
+func (c *API) RemoveTagsFromId(
+	module Module,
+	ID string,
+	params map[string]zoho.Parameter,
+) (data RemoveTagsResponse, err error) {
 	endpoint := zoho.Endpoint{
-		Name:         "RemoveTagsFromId",
-		URL:          fmt.Sprintf("https://recruit.zoho.%s/recruit/v2/%s/%s/actions/remove_tags", c.ZohoTLD, module, ID),
+		Name: "RemoveTagsFromId",
+		URL: fmt.Sprintf(
+			"https://recruit.zoho.%s/recruit/v2/%s/%s/actions/remove_tags",
+			c.ZohoTLD,
+			module,
+			ID,
+		),
 		Method:       zoho.HTTPPost,
 		ResponseData: &RemoveTagsResponse{},
 		URLParameters: map[string]zoho.Parameter{
@@ -351,7 +409,11 @@ func (c *API) RemoveTagsFromId(module Module, ID string, params map[string]zoho.
 	if v, ok := endpoint.ResponseData.(*RemoveTagsResponse); ok {
 		for _, resp := range v.Data {
 			if resp.Code != "SUCCESS" {
-				return RemoveTagsResponse{}, fmt.Errorf("failed to remove Tag(s): %s: %s", resp.Code, resp.Message)
+				return RemoveTagsResponse{}, fmt.Errorf(
+					"failed to remove Tag(s): %s: %s",
+					resp.Code,
+					resp.Message,
+				)
 			}
 		}
 		return *v, nil

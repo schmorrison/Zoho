@@ -3,22 +3,23 @@
 package bookings
 
 import (
-	zoho "github.com/schmorrison/Zoho"
 	"math/rand"
+
+	zoho "github.com/schmorrison/Zoho"
 )
 
 type BookingsModule = string
 
 const (
-	GetAppointmentModule BookingsModule = "getappointment"
-	GetAvailabilityModule BookingsModule = "availableslots"
-	FetchWorkspacesModule BookingsModule = "workspaces"
-	FetchServicesModule BookingsModule = "services"
-	FetchStaffModule BookingsModule = "staffs"
-	FetchResourceModule BookingsModule = "resources"
-	BookAppointmentModule BookingsModule = "appointment"
+	GetAppointmentModule        BookingsModule = "getappointment"
+	GetAvailabilityModule       BookingsModule = "availableslots"
+	FetchWorkspacesModule       BookingsModule = "workspaces"
+	FetchServicesModule         BookingsModule = "services"
+	FetchStaffModule            BookingsModule = "staffs"
+	FetchResourceModule         BookingsModule = "resources"
+	BookAppointmentModule       BookingsModule = "appointment"
 	RescheduleAppointmentModule BookingsModule = "rescheduleappointment"
-	UpdateAppointmentModule BookingsModule = "updateappointment"
+	UpdateAppointmentModule     BookingsModule = "updateappointment"
 )
 
 // API is used for interacting with the Zoho expense API

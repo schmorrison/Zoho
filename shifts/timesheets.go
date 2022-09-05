@@ -8,10 +8,17 @@ import (
 
 // GetAllTimesheets returns a list of all employee timesheets
 // https://www.zoho.com/shifts/api/v1/timesheets-api/#get-all-time-entries
-func (s *API) GetAllTimesheets(params map[string]zoho.Parameter) (data GetTimesheetsResponse, err error) {
+func (s *API) GetAllTimesheets(
+	params map[string]zoho.Parameter,
+) (data GetTimesheetsResponse, err error) {
 	endpoint := zoho.Endpoint{
-		Name:         "GetAllTimesheets",
-		URL:          fmt.Sprintf("https://shifts.zoho.%s/api/v1/%s/%s", s.ZohoTLD, s.OrganizationID, TimesheetsModule),
+		Name: "GetAllTimesheets",
+		URL: fmt.Sprintf(
+			"https://shifts.zoho.%s/api/v1/%s/%s",
+			s.ZohoTLD,
+			s.OrganizationID,
+			TimesheetsModule,
+		),
 		Method:       zoho.HTTPGet,
 		ResponseData: &GetTimesheetsResponse{},
 		URLParameters: map[string]zoho.Parameter{
@@ -87,17 +94,27 @@ type GetTimesheetsResponse struct {
 
 // CreateTimesheet adds a new record to the list of employee timesheets
 // https://www.zoho.com/shifts/api/v1/timesheets-api/#create-a-time-entry
-func (s *API) CreateTimesheet(request CreateTimesheetRequest) (data CreateTimesheetResponse, err error) {
+func (s *API) CreateTimesheet(
+	request CreateTimesheetRequest,
+) (data CreateTimesheetResponse, err error) {
 	endpoint := zoho.Endpoint{
-		Name:         "CreateTimesheet",
-		URL:          fmt.Sprintf("https://shifts.zoho.%s/api/v1/%s/%s", s.ZohoTLD, s.OrganizationID, TimesheetsModule),
+		Name: "CreateTimesheet",
+		URL: fmt.Sprintf(
+			"https://shifts.zoho.%s/api/v1/%s/%s",
+			s.ZohoTLD,
+			s.OrganizationID,
+			TimesheetsModule,
+		),
 		Method:       zoho.HTTPPost,
 		ResponseData: &CreateTimesheetResponse{},
 		RequestBody:  request,
 	}
 
-	if request.StartTime.IsZero() || request.EmployeeID == "" || request.ScheduleID == "" || request.PositionID == "" {
-		return CreateTimesheetResponse{}, fmt.Errorf("failed to create timesheet: start_time, employee_id, schedule_id, and position_id are required fields")
+	if request.StartTime.IsZero() || request.EmployeeID == "" || request.ScheduleID == "" ||
+		request.PositionID == "" {
+		return CreateTimesheetResponse{}, fmt.Errorf(
+			"failed to create timesheet: start_time, employee_id, schedule_id, and position_id are required fields",
+		)
 	}
 
 	err = s.Zoho.HTTPRequest(&endpoint)
@@ -170,8 +187,14 @@ type CreateTimesheetResponse struct {
 // https://www.zoho.com/shifts/api/v1/timesheets-api/#get-a-time-entry
 func (s *API) GetTimesheet(id string) (data GetTimesheetResponse, err error) {
 	endpoint := zoho.Endpoint{
-		Name:         "GetTimesheet",
-		URL:          fmt.Sprintf("https://shifts.zoho.%s/api/v1/%s/%s/%s", s.ZohoTLD, s.OrganizationID, TimesheetsModule, id),
+		Name: "GetTimesheet",
+		URL: fmt.Sprintf(
+			"https://shifts.zoho.%s/api/v1/%s/%s/%s",
+			s.ZohoTLD,
+			s.OrganizationID,
+			TimesheetsModule,
+			id,
+		),
 		Method:       zoho.HTTPGet,
 		ResponseData: &GetTimesheetResponse{},
 	}
@@ -227,10 +250,19 @@ type GetTimesheetResponse struct {
 
 // UpdateTimesheet modifies the timesheet with the given ID
 // https://www.zoho.com/shifts/api/v1/timesheets-api/#update-a-time-entry
-func (s *API) UpdateTimesheet(id string, request UpdateTimesheetRequest) (data UpdateTimesheetResponse, err error) {
+func (s *API) UpdateTimesheet(
+	id string,
+	request UpdateTimesheetRequest,
+) (data UpdateTimesheetResponse, err error) {
 	endpoint := zoho.Endpoint{
-		Name:         "UpdateTimesheet",
-		URL:          fmt.Sprintf("https://shifts.zoho.%s/api/v1/%s/%s/%s", s.ZohoTLD, s.OrganizationID, TimesheetsModule, id),
+		Name: "UpdateTimesheet",
+		URL: fmt.Sprintf(
+			"https://shifts.zoho.%s/api/v1/%s/%s/%s",
+			s.ZohoTLD,
+			s.OrganizationID,
+			TimesheetsModule,
+			id,
+		),
 		Method:       zoho.HTTPPut,
 		ResponseData: &UpdateTimesheetResponse{},
 		RequestBody:  request,
@@ -306,8 +338,14 @@ type UpdateTimesheetResponse struct {
 // https://www.zoho.com/shifts/api/v1/timesheets-api/#delete-a-time-entry
 func (s *API) DeleteTimesheet(id string) (data DeleteTimesheetResponse, err error) {
 	endpoint := zoho.Endpoint{
-		Name:         "DeleteTimesheet",
-		URL:          fmt.Sprintf("https://shifts.zoho.%s/api/v1/%s/%s/%s", s.ZohoTLD, s.OrganizationID, TimesheetsModule, id),
+		Name: "DeleteTimesheet",
+		URL: fmt.Sprintf(
+			"https://shifts.zoho.%s/api/v1/%s/%s/%s",
+			s.ZohoTLD,
+			s.OrganizationID,
+			TimesheetsModule,
+			id,
+		),
 		Method:       zoho.HTTPDelete,
 		ResponseData: &DeleteTimesheetResponse{},
 	}

@@ -41,8 +41,13 @@ func (c *API) CreateInvoice(request interface{}) (data CreateInvoiceResponse, er
 			return *v, fmt.Errorf("Failed to create invoice: %s", v.Message)
 		}
 		endpointSent := zoho.Endpoint{
-			Name:         InvoicesModule,
-			URL:          fmt.Sprintf("https://invoice.zoho.%s/api/v3/%s/%s/status/sent", c.ZohoTLD, InvoicesModule, v.Invoice.InvoiceId),
+			Name: InvoicesModule,
+			URL: fmt.Sprintf(
+				"https://invoice.zoho.%s/api/v3/%s/%s/status/sent",
+				c.ZohoTLD,
+				InvoicesModule,
+				v.Invoice.InvoiceId,
+			),
 			Method:       zoho.HTTPPost,
 			ResponseData: &InvoiceSent{},
 			BodyFormat:   zoho.JSON_STRING,

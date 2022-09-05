@@ -8,7 +8,10 @@ import (
 
 //https://www.zoho.com/invoice/api/v3/#Contacts_Create_a_Contact
 //func (c *API) CreateContact(request interface{}, OrganizationID string, params map[string]zoho.Parameter) (data ListContactsResponse, err error) {
-func (c *API) CreateContact(request interface{}, enablePortal bool) (data CreateContactResponse, err error) {
+func (c *API) CreateContact(
+	request interface{},
+	enablePortal bool,
+) (data CreateContactResponse, err error) {
 
 	endpoint := zoho.Endpoint{
 		Name:         ContactsModule,
@@ -42,8 +45,13 @@ func (c *API) CreateContact(request interface{}, enablePortal bool) (data Create
 		// Enable portal if requested
 		if enablePortal {
 			endpoint := zoho.Endpoint{
-				Name:         ContactsModule,
-				URL:          fmt.Sprintf("https://invoice.zoho.%s/api/v3/%s/%s/portal/enable", c.ZohoTLD, ContactsModule, v.Contact.ContactID),
+				Name: ContactsModule,
+				URL: fmt.Sprintf(
+					"https://invoice.zoho.%s/api/v3/%s/%s/portal/enable",
+					c.ZohoTLD,
+					ContactsModule,
+					v.Contact.ContactID,
+				),
 				Method:       zoho.HTTPPost,
 				ResponseData: &EnableContactDashboardResponse{},
 				URLParameters: map[string]zoho.Parameter{
@@ -60,7 +68,10 @@ func (c *API) CreateContact(request interface{}, enablePortal bool) (data Create
 			}
 			err = c.Zoho.HTTPRequest(&endpoint)
 			if err != nil {
-				return CreateContactResponse{}, fmt.Errorf("Failed to enable main person portal: %s", err)
+				return CreateContactResponse{}, fmt.Errorf(
+					"Failed to enable main person portal: %s",
+					err,
+				)
 			}
 		}
 		return *v, nil
