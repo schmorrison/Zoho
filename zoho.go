@@ -12,6 +12,7 @@ import (
 // New initializes a Zoho structure
 func New() *Zoho {
 	retryClient := retryablehttp.NewClient()
+	retryClient.Logger = nil
 	retryClient.RetryMax = 1
 	retryClient.HTTPClient = &http.Client{
 		Timeout: time.Second * 10,
